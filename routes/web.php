@@ -416,6 +416,7 @@ Route::group(['middleware' => 'maintainance'], function () {
 
 
         // ************************************ FRONTEND **********************************************
+        
 
         //------------ FRONT ------------
         Route::get('/', 'Front\FrontendController@index')->name('front.index');
