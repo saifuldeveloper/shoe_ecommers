@@ -20,7 +20,7 @@ class BrandRepository
     public function store($request)
     {
         $input = $request->all();
-        $input['photo'] = ImageHelper::handleUploadedImage($request->file('photo'),'images');
+        $input['photo'] = ImageHelper::handleUploadedImage($request->file('photo'),'brands');
         Brand::create($input);
     }
 
@@ -35,7 +35,7 @@ class BrandRepository
     {
         $input = $request->all();
         if ($file = $request->file('photo')) {
-            $input['photo'] = ImageHelper::handleUpdatedUploadedImage($file,'images',$brand,'images/','photo');
+            $input['photo'] = ImageHelper::handleUpdatedUploadedImage($file,'brands',$brand,'brands/','photo');
 
         }
         $brand->update($input);
@@ -50,7 +50,7 @@ class BrandRepository
 
     public function delete($brand)
     {
-        ImageHelper::handleDeletedImage($brand,'photo','images');
+        ImageHelper::handleDeletedImage($brand,'photo','brands');
         $brand->delete();
     }
 

@@ -2,7 +2,7 @@
 <tr>
     <td>
         <img class="admin-img"
-        src="{{ $data->photo ? url('/core/public/storage/images/'.$data->photo) : url('/core/public/storage/images/placeholder.png') }}"
+        src="{{ $data->photo ? url('/core/public/storage/images/'.$data->photo) : url('/assets/images/placeholder.png') }}"
         alt="No Image Found">
     </td>
     <td>

@@ -1,8 +1,6 @@
 @foreach($datas as $data)
 <tr>
     <td>
-        {{-- <img src="{{ $data->photo ? url('/core/public/storage/images/'.$data->photo) : url('/core/public/storage/images/placeholder.png') }}" alt="Image Not Found">
-         --}}
   <img src="{{ asset('storage/category/' . $data->photo) }}" alt="Category Image">
     </td>
     <td>

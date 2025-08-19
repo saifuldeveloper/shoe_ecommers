@@ -36,9 +36,7 @@
 									<div class="form-group">
 										<label for="name">{{ __('Current Image') }} *</label>
 										<br>
-											<img class="admin-img"
-												src="{{ $category->photo ? url('/core/public/storage/images/'.$category->photo) : url('/core/public/storage/images/placeholder.png') }}"
-												alt="No Image Found">
+											<img src="{{ asset('storage/category/' . $category->photo) }}" alt="Category Image">
                                         <br>
 										<span class="mt-1">{{ __('Image Size Should Be 60 x 60.') }}</span>
 									</div>

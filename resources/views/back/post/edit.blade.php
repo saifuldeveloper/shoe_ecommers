@@ -52,9 +52,9 @@
 												@endif
                                              
                                                 <a class="popup-link"
-                                                    href="{{ $photo ? url('/core/public/storage/images/' . $photo) : url('/core/public/storage/images/placeholder.png') }}">
+                                                    href="{{ $photo ? url('/core/public/storage/images/' . $photo) : url('/assets/images/placeholder.png') }}">
                                                     <img class="admin-gallery-img"
-                                                        src="{{ $photo ? url('/core/public/storage/images/' . $photo) : url('/core/public/storage/images/placeholder.png') }}"
+                                                        src="{{ $photo ? url('/core/public/storage/images/' . $photo) : url('/assets/images/placeholder.png') }}"
                                                         alt="No Image Found">
                                                 </a>
                                             </div>
