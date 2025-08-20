@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (Schema::hasColumn('settings', 'is_queue_enabled')) {
-            return;
-        }
-        Schema::table('settings', function (Blueprint $table) {
-            $table->tinyInteger("is_queue_enabled")->default(0);
+        Schema::create('roles', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('section')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -24,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('settings', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('roles');
     }
 };
