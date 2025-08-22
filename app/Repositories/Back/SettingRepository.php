@@ -27,7 +27,7 @@ class SettingRepository
 
         foreach ($image_files as $image_file) {
             if ($file = $request->file($image_file)) {
-                $input[$image_file] = ImageHelper::handleUpdatedUploadedImage($file, 'images', $data, 'images/', $image_file);
+                $input[$image_file] = ImageHelper::handleUpdatedUploadedImage($file, 'announcement', $data, 'announcement', $image_file);
             }
         }
 
