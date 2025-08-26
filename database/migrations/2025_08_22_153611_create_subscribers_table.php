@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (Schema::hasColumn('settings', 'is_show_category')) {
-            return;
-        }
-        Schema::table('settings', function (Blueprint $table) {
-            $table->string("is_show_category")->default(1);
+        Schema::create('subscribers', function (Blueprint $table) {
+            $table->id();
+            $table->string('email')->unique();
+            $table->timestamps();
+            
+            // Index for better performance
+            $table->index('email');
         });
     }
 
@@ -24,8 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('settings', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('subscribers');
     }
 };

@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (Schema::hasColumn('settings', 'is_single_checkout')) {
-            return;
-        }
-        Schema::table('settings', function (Blueprint $table) {
-            $table->tinyInteger("is_single_checkout")->default(0);
+        Schema::create('taxs', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->decimal('value', 5, 2); // e.g., 18.50 for 18.5%
+            $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->timestamps();
         });
     }
 
@@ -24,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('settings', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('taxs');
     }
 };

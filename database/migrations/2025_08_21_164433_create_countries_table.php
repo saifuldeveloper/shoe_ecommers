@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (Schema::hasColumn('settings', 'working_days_from_to')) {
-            return;
-        }
-        Schema::table('settings', function (Blueprint $table) {
-            $table->string("working_days_from_to")->default("Saturday-Sunday :");
+        Schema::create('countries', function (Blueprint $table) {
+             $table->id();
+            $table->string('name');
+            $table->timestamps();
+            
+            // Index for better performance
+            $table->index('name');
         });
     }
 
@@ -24,8 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('settings', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('countries');
     }
 };
