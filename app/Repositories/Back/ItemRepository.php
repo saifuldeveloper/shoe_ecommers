@@ -24,7 +24,7 @@ class ItemRepository
         
         $input = $request->all();
         if ($file = $request->file('photo')) {
-            $images_name = ImageHelper::ItemhandleUploadedImage($request->file('photo'),'images');
+            $images_name = ImageHelper::ItemhandleUploadedImage($request->file('photo'),'items');
 
             $input['photo'] = $images_name[0];
             $input['thumbnail'] = $images_name[1];
@@ -113,7 +113,7 @@ class ItemRepository
 
         if ( $request->file('photo')) {
 
-            $images_name = ImageHelper::ItemhandleUpdatedUploadedImage($request->photo,'images',$item,'images','photo');
+            $images_name = ImageHelper::ItemhandleUpdatedUploadedImage($request->photo,'items',$item,'items','photo');
             $input['photo'] = $images_name[0];
             $input['thumbnail'] = $images_name[1];
         }
@@ -230,10 +230,10 @@ class ItemRepository
             $item->attributes()->delete();
         }
 
-        ImageHelper::handleDeletedImage($item,'photo','images');
-        ImageHelper::handleDeletedImage($item,'thumbnail','images');
+        ImageHelper::handleDeletedImage($item,'photo','items');
+        ImageHelper::handleDeletedImage($item,'thumbnail','items');
         if($item->item_type == 'digital' && $item->file){
-            ImageHelper::handleDeletedImage($item,'file','images');
+            ImageHelper::handleDeletedImage($item,'file','items');
         }
         $item->delete();
     }
@@ -259,7 +259,7 @@ class ItemRepository
 
     public function galleryDelete($gallery)
     {
-        ImageHelper::handleDeletedImage($gallery,'photo','images');
+        ImageHelper::handleDeletedImage($gallery,'photo','items');
         $gallery->delete();
     }
 
@@ -274,7 +274,7 @@ class ItemRepository
         if ($galleries = $request->file('galleries')) {
             foreach($galleries as $key => $gallery){
                 $storeData[$key] = [
-                    'photo'=>  ImageHelper::handleUploadedImage($gallery,'images'),
+                    'photo'=>  ImageHelper::handleUploadedImage($gallery,'items'),
                     'item_id' => $item_id ? $item_id : $request['item_id'],
                 ];
             }

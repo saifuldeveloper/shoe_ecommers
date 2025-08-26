@@ -39,7 +39,7 @@ class AccountRepository
         $input = $request->all();
         $data = Auth::guard('admin')->user();
         if ($file = $request->file('photo')) {
-            $input['photo'] = ImageHelper::handleUpdatedUploadedImage($file,'images',$data,'images/','photo');
+            $input['photo'] = ImageHelper::handleUpdatedUploadedImage($file,'profile',$data,'profile','photo');
         }
         $data->update($input);
     }

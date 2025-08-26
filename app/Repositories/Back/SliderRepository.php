@@ -20,8 +20,8 @@ class SliderRepository
     public function store($request)
     {
         $input = $request->all();
-        $input['photo'] = ImageHelper::handleUploadedImage($request->file('photo'),'images');
-        $input['logo'] = ImageHelper::handleUploadedImage($request->file('logo'),'images');
+        $input['photo'] = ImageHelper::handleUploadedImage($request->file('photo'),'slider');
+        $input['logo'] = ImageHelper::handleUploadedImage($request->file('logo'),'slider');
         Slider::create($input);
     }
 
@@ -36,10 +36,10 @@ class SliderRepository
     {
         $input = $request->all();
         if ($file = $request->file('photo')) {
-            $input['photo'] = ImageHelper::handleUpdatedUploadedImage($file,'images/',$slider,'images/','photo');
+            $input['photo'] = ImageHelper::handleUpdatedUploadedImage($file,'slider',$slider,'slider','photo');
         }
         if ($file = $request->file('logo')) {
-            $input['logo'] = ImageHelper::handleUpdatedUploadedImage($file,'images/',$slider,'images/','logo');
+            $input['logo'] = ImageHelper::handleUpdatedUploadedImage($file,'slider',$slider,'slider','logo');
         }
         $slider->update($input);
     }
@@ -53,8 +53,8 @@ class SliderRepository
 
     public function delete($slider)
     {
-        ImageHelper::handleDeletedImage($slider,'photo','images');
-        ImageHelper::handleDeletedImage($slider,'logo','images');
+        ImageHelper::handleDeletedImage($slider,'photo','slider');
+        ImageHelper::handleDeletedImage($slider,'logo','slider');
         $slider->delete();
     }
 
