@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (Schema::hasColumn('settings', 'attribute_type')) {
-            return;
-        }
-        Schema::table('settings', function (Blueprint $table) {
-            $table->string("attribute_type")->default("selectbox");
+        Schema::create('socials', function (Blueprint $table) {
+            $table->id();
+            $table->string('link');
+            $table->string('icon');
+            $table->timestamps();
+            
+            // Index for better performance
+            $table->index('icon');
         });
     }
 
@@ -24,8 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('settings', function (Blueprint $table) {
-            $table->dropColumn('attribute_type');
-        });
+        Schema::dropIfExists('socials');
     }
 };
