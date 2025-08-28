@@ -61,7 +61,7 @@ class PostRepository
         $storeData = [];
         if ($photos = $request->file('photo')) {
             foreach ($photos as $key => $photo) {
-                $storeData[$key] = ImageHelper::handleUploadedImage($photo, 'images');
+                $storeData[$key] = ImageHelper::handleUploadedImage($photo, 'blog');
             }
         }
         return $storeData;
@@ -74,7 +74,7 @@ class PostRepository
 
         if ($photos = $request->file('photo')) {
             foreach ($photos as $key => $photo) {
-                array_push($storeData, ImageHelper::handleUploadedImage($photo, 'images'));
+                array_push($storeData, ImageHelper::handleUploadedImage($photo, 'blog'));
             }
         }
 
@@ -96,7 +96,7 @@ class PostRepository
             // if (file_exists(base_path('../').'assets/images/'.$image)) {
             //     unlink(base_path('../').'assets/images/'.$image);
             // }
-            Storage::delete("images" . '/' . $image);
+            Storage::delete("blog" . '/' . $image);
         }
         $post->delete();
     }

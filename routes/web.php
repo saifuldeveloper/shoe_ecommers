@@ -41,6 +41,7 @@ use App\Http\Controllers\Back\AttributeController;
 use App\Http\Controllers\Back\BcategoryController;
 use App\Http\Controllers\Back\FcategoryController;
 use App\Http\Controllers\Back\PromoCodeController;
+use App\Http\Controllers\Front\FrontendController;
 use App\Http\Controllers\Auth\Back\LoginController;
 use App\Http\Controllers\Back\BulkDeleteController;
 use App\Http\Controllers\Back\CsvProductController;
@@ -168,7 +169,7 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
             Route::get('category/status/{id}/{status}', [CategoryController::class, 'status'])->name('back.category.status');
             Route::get('category/feature/{id}/{status}', [CategoryController::class, 'feature'])->name('back.category.feature');
 
-            Route:: as('back.')->group(function () {
+            Route::as('back.')->group(function () {
                 Route::resource('category', CategoryController::class)->except(['show']);
             });
             //------------ SUB CATEGORY ------------
@@ -435,28 +436,28 @@ Route::group(['middleware' => 'maintainance'], function () {
 
 
         // ************************************ FRONTEND **********************************************
-        
 
         //------------ FRONT ------------
-        Route::get('/', 'Front\FrontendController@index')->name('front.index');
-        Route::get('/extra-index', 'Front\FrontendController@extraIndex')->name('front.extraindex');
-        Route::get('/product/{slug}', 'Front\FrontendController@product')->name('front.product');
-        Route::get('/campaign/products', 'Front\FrontendController@compaignProduct')->name('front.campaign');
-        Route::get('/blog', 'Front\FrontendController@blog')->name('front.blog');
-        Route::get('/brands', 'Front\FrontendController@brands')->name('front.brand');
-        Route::get('/blog/{slug}', 'Front\FrontendController@blogDetails')->name('front.blog.details');
-        Route::get('/faq', 'Front\FrontendController@faq')->name('front.faq');
-        Route::get('/faq/{slug}', 'Front\FrontendController@show')->name('front.faq.details');
-        Route::get('/contact', 'Front\FrontendController@contact')->name('front.contact');
-        Route::post('/contact/submit', 'Front\FrontendController@contactEmail')->name('front.contact.submit');
-        Route::get('/reviews', 'Front\FrontendController@reviews')->name('front.reviews');
-        Route::get('/review/page', 'Front\FrontendController@review_submit')->name('front.rev.page');
-        Route::get('/review/sub', 'Front\FrontendController@slider_o_update')->name('front.rev.subbmit');
-        Route::get('/top-reviews', 'Front\FrontendController@topReviews')->name('front.top.reviews');
-        Route::post('/review/submit', 'Front\FrontendController@reviewSubmit')->name('front.review.submit');
-        Route::post('/subscriber/submit', 'Front\FrontendController@subscribeSubmit')->name('front.subscriber.submit');
-        Route::get('set/currency/{id}', 'Front\FrontendController@currency')->name('front.currency.setup');
-        Route::get('set/language/{id}', 'Front\FrontendController@language')->name('front.language.setup');
+        Route::get('/', [FrontendController::class, 'index'])->name('front.index');
+        Route::get('/extra-index', [FrontendController::class, 'extraIndex'])->name('front.extraindex');
+        Route::get('/product/{slug}', [FrontendController::class, 'product'])->name('front.product');
+        Route::get('/campaign/products', [FrontendController::class, 'compaignProduct'])->name('front.campaign');
+        Route::get('/blog', [FrontendController::class, 'blog'])->name('front.blog');
+        Route::get('/brands', [FrontendController::class, 'brands'])->name('front.brand');
+        Route::get('/blog/{slug}', [FrontendController::class, 'blogDetails'])->name('front.blog.details');
+        Route::get('/faq', [FrontendController::class, 'faq'])->name('front.faq');
+        Route::get('/faq/{slug}', [FrontendController::class, 'show'])->name('front.faq.details');
+        Route::get('/contact', [FrontendController::class, 'contact'])->name('front.contact');
+        Route::post('/contact/submit', [FrontendController::class, 'contactEmail'])->name('front.contact.submit');
+        Route::get('/reviews', [FrontendController::class, 'reviews'])->name('front.reviews');
+        Route::get('/review/page', [FrontendController::class, 'review_submit'])->name('front.rev.page');
+        Route::get('/review/sub', [FrontendController::class, 'slider_o_update'])->name('front.rev.subbmit');
+        Route::get('/top-reviews', [FrontendController::class, 'topReviews'])->name('front.top.reviews');
+        Route::post('/review/submit', [FrontendController::class, 'reviewSubmit'])->name('front.review.submit');
+        Route::post('/subscriber/submit', [FrontendController::class, 'subscribeSubmit'])->name('front.subscriber.submit');
+        Route::get('set/currency/{id}', [FrontendController::class, 'currency'])->name('front.currency.setup');
+        Route::get('set/language/{id}', [FrontendController::class, 'language'])->name('front.language.setup');
+
 
 
         // ---------- EXTRA INDEX ROUTE ----------//
@@ -552,5 +553,3 @@ Route::get('/run/queue', function () {
     Artisan::call('queue:work --stop-when-empty');
     return "Queue is running";
 });
-
-

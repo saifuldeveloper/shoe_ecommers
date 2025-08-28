@@ -61,219 +61,7 @@ class FrontendController extends Controller
 
     public function index()
     {
-
-        $setting = Setting::first();
-
-
-        $home_customize = HomeCutomize::first();
-
-        // feature category
-        $feature_category_ids = json_decode($home_customize->feature_category, true);
-        $feature_category_title = $feature_category_ids['feature_title'];
-        $feature_category = [];
-        for ($i = 1; $i <= 4; $i++) {
-            if (!in_array($feature_category_ids['category_id' . $i], $feature_category)) {
-                if ($feature_category_ids['category_id' . $i]) {
-                    $feature_category[] = $feature_category_ids['category_id' . $i];
-                }
-            }
-        }
-
-        $feature_categories = [];
-        foreach ($feature_category as $key => $cat) {
-            $feature_categories[] = Category::findOrFail($cat);
-        }
-
-        $feature_category_items = [];
-        if (count($feature_categories)) {
-            $index = '';
-            foreach ($feature_categories as $key => $data) {
-                if ($data->id == $feature_category_ids['category_id1']) {
-                    $index = $key;
-                }
-            }
-
-            $category = $feature_categories[$index]->id;
-            $subcategory = $feature_category_ids['subcategory_id1'];
-            $childcategory = $feature_category_ids['childcategory_id1'];
-
-            $feature_category_items = Item::when($category, function ($query, $category) {
-                return $query->where('category_id', $category);
-            })
-                ->when($subcategory, function ($query, $subcategory) {
-                    return $query->where('subcategory_id', $subcategory);
-                })
-                ->when($childcategory, function ($query, $childcategory) {
-                    return $query->where('childcategory_id', $childcategory);
-                })
-                ->whereStatus(1)->take(10)->orderby('id', 'desc')->get();
-        }
-
-
-        // feature category end
-        $home_customize = HomeCutomize::first();
-        // popular category
-
-        $popular_category_ids = json_decode($home_customize->popular_category, true);
-        $popular_category_title = $popular_category_ids['popular_title'];
-
-        $popular_category = [];
-        for ($i = 1; $i <= 4; $i++) {
-            if (!in_array($popular_category_ids['category_id' . $i], $popular_category)) {
-                if ($popular_category_ids['category_id' . $i]) {
-                    $popular_category[] = $popular_category_ids['category_id' . $i];
-                }
-            }
-        }
-        $popular_categories = [];
-        foreach ($popular_category as $key => $cat) {
-            $popular_categories[] = Category::findOrFail($cat);
-        }
-
-        $popular_category_items = [];
-
-        if (count($popular_categories) > 0) {
-            $index = '';
-            foreach ($popular_categories as $key => $data) {
-                if ($data->id == $popular_category_ids['category_id1']) {
-                    $index = $key;
-                }
-            }
-            $pupular_cateogry_home4 = null;
-            if ($setting->theme == 'theme4') {
-                $pupular_cateogries_home4 = json_decode($home_customize->home_4_popular_category, true);
-                $pupular_cateogry_home4 = [];
-                foreach ($pupular_cateogries_home4 as $home4category) {
-                    $pupular_cateogry_home4[] = Category::with('items')->findOrFail($home4category);
-                }
-            }
-
-            // dd($pupular_cateogry_home4);
-            $category = $popular_categories[$index]->id;
-            $subcategory = $popular_category_ids['subcategory_id1'];
-            $childcategory = $popular_category_ids['childcategory_id1'];
-
-            $popular_category_items = Item::when($category, function ($query, $category) {
-                return $query->where('category_id', $category);
-            })
-                ->when($subcategory, function ($query, $subcategory) {
-                    return $query->where('subcategory_id', $subcategory);
-                })
-                ->when($childcategory, function ($query, $childcategory) {
-                    return $query->where('childcategory_id', $childcategory);
-                })
-                ->whereStatus(1)->get();
-        }
-
-
-        // two column category
-        $two_column_category_ids = json_decode($home_customize->two_column_category, true);
-
-        $two_column_category = [];
-        for ($i = 1; $i <= 3; $i++) {
-            if (isset($two_column_category_ids['category_id' . $i]) && !in_array($two_column_category_ids['category_id' . $i], $two_column_category)) {
-                if ($two_column_category_ids['category_id' . $i]) {
-                    $two_column_category[] = $two_column_category_ids['category_id' . $i];
-                }
-            }
-        }
-
-        $two_column_categories = Category::whereStatus(1)->whereIn('id', $two_column_category)->orderby('id', 'desc')->get();
-
-        $two_column_category_items1 = [];
-        if ($two_column_category_ids['category_id1']) {
-            $two_column_category_items1 = Item::where('category_id', $two_column_category_ids['category_id1'])->orderby('id', 'desc')->whereStatus(1)->take(10)->get();
-        }
-        if ($two_column_category_ids['subcategory_id1']) {
-            $two_column_category_items1 = Item::where('subcategory_id', $two_column_category_ids['subcategory_id1'])->whereStatus(1)->where('category_id', $two_column_category_ids['category_id1'])->orderby('id', 'desc')->take(10)->get();
-        }
-        if ($two_column_category_ids['childcategory_id1']) {
-            $two_column_category_items1 = Item::where('childcategory_id', $two_column_category_ids['childcategory_id1'])->whereStatus(1)->where('category_id', $two_column_category_ids['category_id1'])->orderby('id', 'desc')->take(10)->get();
-        }
-
-        $two_column_category_items2 = [];
-        if ($two_column_category_ids['category_id2']) {
-            $two_column_category_items2 = Item::where('category_id', $two_column_category_ids['category_id2'])->orderby('id', 'desc')->whereStatus(1)->take(10)->get();
-        }
-        if ($two_column_category_ids['subcategory_id2']) {
-            $two_column_category_items2 = Item::where('subcategory_id', $two_column_category_ids['subcategory_id2'])->whereStatus(1)->where('category_id', $two_column_category_ids['category_id2'])->orderby('id', 'desc')->take(10)->get();
-        }
-        if ($two_column_category_ids['childcategory_id2']) {
-            $two_column_category_items2 = Item::where('childcategory_id', $two_column_category_ids['childcategory_id2'])->whereStatus(1)->where('category_id', $two_column_category_ids['category_id2'])->orderby('id', 'desc')->take(10)->get();
-        }
-
-        $two_column_category_items3 = [];
-        if (isset($two_column_category_ids['category_id3'])) {
-            if ($two_column_category_ids['category_id3']) {
-                $two_column_category_items3 = Item::where('category_id', $two_column_category_ids['category_id3'])->orderby('id', 'desc')->whereStatus(1)->take(10)->get();
-            }
-            if ($two_column_category_ids['subcategory_id3']) {
-                $two_column_category_items3 = Item::where('subcategory_id', $two_column_category_ids['subcategory_id3'])->whereStatus(1)->where('category_id', $two_column_category_ids['category_id3'])->orderby('id', 'desc')->take(10)->get();
-            }
-            if ($two_column_category_ids['childcategory_id3']) {
-                $two_column_category_items3 = Item::where('childcategory_id', $two_column_category_ids['childcategory_id3'])->whereStatus(1)->where('category_id', $two_column_category_ids['category_id3'])->orderby('id', 'desc')->take(10)->get();
-            }
-        }
-
-
-
-
-        $two_column_categoriess = [];
-        foreach ($two_column_categories as $key => $two_category) {
-            if ($key == 0) {
-                $two_column_categoriess[$key]['name'] = $two_category;
-                $two_column_categoriess[$key]['items'] = $two_column_category_items1;
-            } elseif ($key == 1) {
-                $two_column_categoriess[$key]['name'] = $two_category;
-                $two_column_categoriess[$key]['items'] = $two_column_category_items2;
-            } else {
-                $two_column_categoriess[$key]['name'] = $two_category;
-                $two_column_categoriess[$key]['items'] = $two_column_category_items3;
-            }
-        }
-
-
-        if ($setting->theme == 'theme1') {
-            $sliders = Slider::where('home_page', 'theme1')->get();
-        } elseif ($setting->theme == 'theme2') {
-            $sliders = Slider::where('home_page', 'theme2')->get();
-        } elseif ($setting->theme == 'theme3') {
-            $sliders = Slider::where('home_page', 'theme3')->get();
-        } else {
-            $sliders = Slider::where('home_page', 'theme4')->get();
-        }
-
-
-        // {"title1":"Watchtt","subtitle1":"50% OFF","url1":"#","title2":"Man","subtitle2":"40% OFF","url2":"#","img1":"1637766462banner-h2-4-1.jpeg","img2":"1637766420banner-h2-4-1.jpeg"}
-
-        return view('front.index', [
-            'hero_banner'   => $home_customize->hero_banner != '[]' ? json_decode($home_customize->hero_banner, true) : null,
-            'banner_first'   => json_decode($home_customize->banner_first, true),
-            'sliders'  => $sliders,
-            'campaign_items' => CampaignItem::with('item')->whereStatus(1)->whereIsFeature(1)->orderby('id', 'desc')->get(),
-            'services' => Service::orderby('id', 'desc')->get(),
-            'posts'    => Post::with('category')->orderby('id', 'desc')->take(8)->get(),
-            'brands'   => Brand::whereStatus(1)->get(),
-            'banner_secend'  => json_decode($home_customize->banner_secend, true),
-            'banner_third'   => json_decode($home_customize->banner_third, true),
-            'brands'   => Brand::whereStatus(1)->whereIsPopular(1)->get(),
-            'products' => Item::with('category')->whereStatus(1),
-            'home_page4_banner' => json_decode($home_customize->home_page4, true),
-            'pupular_cateogry_home4' => isset($pupular_cateogry_home4) ? $pupular_cateogry_home4 : [],
-            // feature category
-            'feature_category_items' => $feature_category_items,
-            'feature_categories' => $feature_categories,
-            'feature_category_title' => $feature_category_title,
-
-            // feature category
-            'popular_category_items' => $popular_category_items,
-            'popular_categories' => $popular_categories,
-            'popular_category_title' => $popular_category_title,
-
-            // two column category
-            'two_column_categoriess' => $two_column_categoriess,
-
-        ]);
+        return view('front.pages.home');
     }
 
 
@@ -294,19 +82,8 @@ class FrontendController extends Controller
 
     public function product($slug)
     {
+        return view('front.pages.product_detail');
 
-        $item = Item::with('category')->whereStatus(1)->whereSlug($slug)->firstOrFail();
-        $video = explode('=', $item->video);
-        return view('front.catalog.product', [
-            'item'          => $item,
-            'reviews'       => $item->reviews()->where('status', 1)->paginate(3),
-            'galleries'     => $item->galleries,
-            'video'         => $item->video ? end($video) : '',
-            'sec_name'      => isset($item->specification_name) ? json_decode($item->specification_name, true) : [],
-            'sec_details'   => isset($item->specification_description) ? json_decode($item->specification_description, true) : [],
-            'attributes'    => $item->attributes,
-            'related_items' => $item->category->items()->whereStatus(1)->where('id', '!=', $item->id)->take(8)->get()
-        ]);
     }
 
 
@@ -333,15 +110,17 @@ class FrontendController extends Controller
         }
         $tags = array_unique(explode(',', $tagz));
 
-        if (Setting::first()->is_blog == 0) return back();
+        if (Setting::first()->is_blog == 0)
+            return back();
 
-        if ($request->ajax()) return view('front.blog.list', ['posts' => $this->repository->displayPosts($request)]);
+        if ($request->ajax())
+            return view('front.blog.list', ['posts' => $this->repository->displayPosts($request)]);
 
         return view('front.blog.index', [
             'posts' => $this->repository->displayPosts($request),
-            'recent_posts'       => Post::orderby('id', 'desc')->take(4)->get(),
+            'recent_posts' => Post::orderby('id', 'desc')->take(4)->get(),
             'categories' => \App\Models\Bcategory::withCount('posts')->whereStatus(1)->get(),
-            'tags'       => array_filter($tags)
+            'tags' => array_filter($tags)
         ]);
     }
 
@@ -366,7 +145,7 @@ class FrontendController extends Controller
         if (Setting::first()->is_faq == 0) {
             return back();
         }
-        $fcategories =  Fcategory::whereStatus(1)->withCount('faqs')->latest('id')->get();
+        $fcategories = Fcategory::whereStatus(1)->withCount('faqs')->latest('id')->get();
         return view('front.faq.index', ['fcategories' => $fcategories]);
     }
 
@@ -375,7 +154,7 @@ class FrontendController extends Controller
         if (Setting::first()->is_faq == 0) {
             return back();
         }
-        $category =  Fcategory::whereSlug($slug)->first();
+        $category = Fcategory::whereSlug($slug)->first();
         return view('front.faq.show', ['category' => $category]);
     }
 
@@ -388,7 +167,7 @@ class FrontendController extends Controller
         if (Setting::first()->is_campaign == 0) {
             return back();
         }
-        $compaign_items =  CampaignItem::whereStatus(1)->orderby('id', 'desc')->get();
+        $compaign_items = CampaignItem::whereStatus(1)->orderby('id', 'desc')->get();
         return view('front.campaign', ['campaign_items' => $compaign_items]);
     }
 
@@ -443,15 +222,15 @@ class FrontendController extends Controller
             'email' => 'required|email|max:50',
             'phone' => 'required|max:50',
             'message' => 'required|max:250',
-            'honeypot'   => 'max:0',
+            'honeypot' => 'max:0',
         ]);
-        
+
         $input = $request->all();
 
 
 
-       
-        $name  = $input['first_name'] . ' ' . $input['last_name'];
+
+        $name = $input['first_name'] . ' ' . $input['last_name'];
         $subject = "Email From " . $name;
         $to = $setting->contact_email;
         $phone = $request->phone;
@@ -464,14 +243,14 @@ class FrontendController extends Controller
             'body' => $msg,
         ];
 
-        
+
 
         $setting = Setting::first();
         if ($setting->is_queue_enabled == 1) {
             dispatch(new EmailSendJob($emailData));
         } else {
             $email = new EmailHelper();
-             $email->sendCustomMail($emailData);
+            $email->sendCustomMail($emailData);
         }
 
 
@@ -544,7 +323,7 @@ class FrontendController extends Controller
 
     public function finalize()
     {
-  
+
         Artisan::call('migrate', ['--seed' => true]);
         copy(str_replace('core', '', base_path() . "updater/composer.json"), base_path('composer.json'));
         copy(str_replace('core', '', base_path() . "updater/composer.lock"), base_path('composer.lock'));
@@ -563,8 +342,8 @@ class FrontendController extends Controller
         }
 
 
-        $menu = Menu::where('language_id',1)->exists();
-  
+        $menu = Menu::where('language_id', 1)->exists();
+
         if ($menu == false) {
             $menu = new Menu();
             $menu->language_id = 1;
@@ -581,7 +360,7 @@ class FrontendController extends Controller
         $sourcePath = 'assets/images';
         $destinationPath = storage_path('app/public/images');
 
-        
+
 
         // Ensure the destination exists
         if (!File::exists($destinationPath)) {
@@ -590,9 +369,9 @@ class FrontendController extends Controller
 
         if (File::exists($sourcePath)) {
             // Move files and folders
-        File::moveDirectory($sourcePath, $destinationPath, true);
+            File::moveDirectory($sourcePath, $destinationPath, true);
         }
-        
+
 
         Artisan::call('cache:clear');
         Artisan::call('config:clear');

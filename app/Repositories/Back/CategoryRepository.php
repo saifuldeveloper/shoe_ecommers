@@ -36,7 +36,7 @@ class CategoryRepository
     {
         $input = $request->all();
         if ($file = $request->file('photo')) {
-            $input['photo'] = ImageHelper::handleUpdatedUploadedImage($file,'images',$category,'images','photo');
+            $input['photo'] = ImageHelper::handleUpdatedUploadedImage($file,'category',$category,'category','photo');
         }
         $category->update($input);
     }
@@ -88,7 +88,7 @@ class CategoryRepository
        if($check){
            return ['message' => __('This Category allready used Home page section . Please change this category then delete this category') , 'status' => 0];
        }else{
-        ImageHelper::handleDeletedImage($category,'photo','images');
+        ImageHelper::handleDeletedImage($category,'photo','category');
         $category->delete();
         return ['message' => __('Category Deleted Successfully.'),'status' => 1];
        }

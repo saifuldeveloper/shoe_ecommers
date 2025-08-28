@@ -33,30 +33,17 @@
 
                                     @include('alerts.alerts')
 
-                                    <h5 class="">
-                                        <b>{{ __('Multiple Images Uploading Are Allowed') }}</b>
-                                    </h5>
-
-                                    <br>
-
                                     <div class="d-block">
 
                                         @forelse(json_decode($post->photo,true) as $key => $photo)
                                             <div class="single-g-item d-inline-block m-2">
-												@if ($key !=0)
-												<span data-toggle="modal" data-target="#confirm-delete" href="javascript:;"
-												data-href="{{ route('back.post.photo.delete', [$key, $post->id]) }}"
-												class="remove-gallery-img">
-												<i class="fas fa-trash"></i>
-											</span>
-												@endif
-                                             
-                                                <a class="popup-link"
-                                                    href="{{ $photo ? url('/core/public/storage/images/' . $photo) : url('/core/public/storage/images/placeholder.png') }}">
-                                                    <img class="admin-gallery-img"
-                                                        src="{{ $photo ? url('/core/public/storage/images/' . $photo) : url('/core/public/storage/images/placeholder.png') }}"
-                                                        alt="No Image Found">
-                                                </a>
+                                                    <!-- <a class="popup-link"
+                                                        href="{{ $photo ? url('/storage/blog/' . $photo) : url('/assets/images/placeholder.png') }}">
+                                                        <img class="admin-gallery-img"
+                                                            src="{{ $photo ? url('/storage/blog/' . $photo) : url('/assets/images/placeholder.png') }}"
+                                                            alt="No Image Found">
+                                                    </a> -->
+                                              	<img src="{{ asset('storage/blog/' . $photo) }}" alt="Blog Image">
                                             </div>
                                         @empty
 

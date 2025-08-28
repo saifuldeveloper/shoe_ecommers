@@ -20,7 +20,7 @@ class ServiceRepository
     public function store($request)
     {
         $input = $request->all();
-        $input['photo'] = ImageHelper::handleUploadedImage($request->file('photo'),'images');
+        $input['photo'] = ImageHelper::handleUploadedImage($request->file('photo'),'service');
         Service::create($input);
     }
 
@@ -35,7 +35,7 @@ class ServiceRepository
     {
         $input = $request->all();
         if ($file = $request->file('photo')) {
-            $input['photo'] = ImageHelper::handleUpdatedUploadedImage($file,'images',$service,'images/','photo');
+            $input['photo'] = ImageHelper::handleUpdatedUploadedImage($file,'service',$service,'service','photo');
         }
         $service->update($input);
     }
@@ -50,7 +50,7 @@ class ServiceRepository
     public function delete($service)
     {
         
-        ImageHelper::handleDeletedImage($service,'photo','images');
+        ImageHelper::handleDeletedImage($service,'photo','service');
         $service->delete();
     }
 
