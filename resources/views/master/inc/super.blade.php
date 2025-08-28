@@ -46,6 +46,16 @@
                     </a>
                 </li>
                 <li>
+                    <a class="sub-link" href="{{ route('back.color.index') }}">
+                        <span class="sub-item">{{ __('Colors') }}</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="sub-link" href="{{ route('back.size.index') }}">
+                        <span class="sub-item">{{ __('Sizes') }}</span>
+                    </a>
+                </li>
+                <li>
                     <a class="sub-link" href="{{ route('back.item.add') }}">
                         <span class="sub-item">{{ __('Add Product') }}</span>
                     </a>
@@ -110,6 +120,27 @@
                 <li class="{{request()->input('type') == 'Canceled' ? 'active' : ''}}">
                     <a class="sub-link" href="{{ route('back.order.index').'?type='.'Canceled' }}">
                         <span class="sub-item">{{ __('Canceled Orders') }}</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </li>
+    <li class="nav-item {{ request()->is('orders/*') ? 'submenu' : '' }}">
+        <a data-toggle="collapse" href="#stores">
+            <i class="fab fa-first-order"></i>
+            <p>{{ __('Manage Stores') }} </p>
+            <span class="caret"></span>
+        </a>
+        <div class="collapse" id="stores">
+            <ul class="nav nav-collapse">
+                <li class="{{!request()->input('type') && request()->is('admin/orders')  ? 'active' : ''}}">
+                    <a class="sub-link" href="{{ route('back.districts.index') }}">
+                        <span class="sub-item">{{ __('District') }}</span>
+                    </a>
+                </li>
+                <li class="{{request()->input('type') == 'Pending' ? 'active' : ''}}">
+                    <a class="sub-link" href="{{ route('back.stores.index') }}">
+                        <span class="sub-item">{{ __('Stores') }}</span>
                     </a>
                 </li>
             </ul>

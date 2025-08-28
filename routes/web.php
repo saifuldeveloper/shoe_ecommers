@@ -12,8 +12,10 @@ use App\Http\Controllers\Back\MenuController;
 use App\Http\Controllers\Back\PageController;
 use App\Http\Controllers\Back\PostController;
 use App\Http\Controllers\Back\RoleController;
+use App\Http\Controllers\Back\SizeController;
 use App\Http\Controllers\Back\UserController;
 use App\Http\Controllers\Back\BrandController;
+use App\Http\Controllers\Back\ColorController;
 use App\Http\Controllers\Back\OrderController;
 use App\Http\Controllers\Back\StaffController;
 use App\Http\Controllers\Back\StateController;
@@ -21,6 +23,7 @@ use App\Http\Controllers\Back\BackupController;
 use App\Http\Controllers\Back\ReviewController;
 use App\Http\Controllers\Back\SliderController;
 use App\Http\Controllers\Back\SocialController;
+use App\Http\Controllers\Back\StoresController;
 use App\Http\Controllers\Back\TicketController;
 use App\Http\Controllers\Back\AccountController;
 use App\Http\Controllers\Back\FeatureController;
@@ -30,6 +33,7 @@ use App\Http\Controllers\Back\SitemapController;
 use App\Http\Controllers\Back\CampaignController;
 use App\Http\Controllers\Back\CategoryController;
 use App\Http\Controllers\Back\CurrencyController;
+use App\Http\Controllers\Back\DistrictController;
 use App\Http\Controllers\Back\HomePageController;
 use App\Http\Controllers\Back\LanguageController;
 use App\Http\Controllers\Back\AffiliateController;
@@ -139,6 +143,14 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
             //------------ BRAND ------------
             Route::get('brand/status/{id}/{status}/{type}', [BrandController::class, 'status'])->name('back.brand.status');
             Route::resource('brand', BrandController::class)->except(['show'])->names('back.brand');
+
+             //------------ COLOR ------------
+            Route::get('color/status/{id}/{status}/{type}', [ColorController::class, 'status'])->name('back.color.status');
+            Route::resource('color', ColorController::class)->except(['show'])->names('back.color');
+
+              //------------ SIZE ------------
+            Route::get('size/status/{id}/{status}/{type}', [SizeController::class, 'status'])->name('back.size.status');
+            Route::resource('size', SizeController::class)->except(['show'])->names('back.size');
 
             //------------ REVIEW ----------------//
             Route::get('review/status/{id}/{status}', [ReviewController::class, 'status'])->name('back.review.status');
@@ -341,6 +353,13 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
             Route::get('/subscribers/send-mail', [SubscriberController::class, 'sendMail'])->name('back.subscribers.mail');
             Route::post('/subscribers/send-mail/submit', [SubscriberController::class, 'sendMailSubmit'])->name('back.subscribers.mail.submit');
         });
+
+        //-------------------------------- STORES MANAGEMENT ---------------------------------
+       
+        Route::resource('districts', DistrictController::class)->names('back.districts');
+       
+        Route::resource('stores', StoresController::class)->names('back.stores');
+
     });
 });
 
