@@ -2,55 +2,57 @@
 
 // ************************************ ADMIN PANEL **********************************************
 
-use App\Http\Controllers\Auth\Back\ForgotController;
-use App\Http\Controllers\Auth\Back\LoginController;
-use App\Http\Controllers\Back\AccountController;
-use App\Http\Controllers\Back\AffiliateController;
-use App\Http\Controllers\Back\AttributeController;
-use App\Http\Controllers\Back\AttributeOptionController;
-use App\Http\Controllers\Back\BackupController;
-use App\Http\Controllers\Back\BcategoryController;
-use App\Http\Controllers\Back\BrandController;
-use App\Http\Controllers\Back\BulkDeleteController;
-use App\Http\Controllers\Back\CampaignController;
-use App\Http\Controllers\Back\CategoryController;
-use App\Http\Controllers\Back\ChieldCategoryController;
-use App\Http\Controllers\Back\CsvProductController;
-use App\Http\Controllers\Back\CurrencyController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Back\FaqController;
-use App\Http\Controllers\Back\FcategoryController;
+use App\Http\Controllers\Back\TaxController;
 use App\Http\Controllers\Back\ItemController;
-use App\Http\Controllers\Back\NotificationController;
-use App\Http\Controllers\Back\OrderController;
+use App\Http\Controllers\Back\MenuController;
 use App\Http\Controllers\Back\PageController;
-use App\Http\Controllers\Back\PaymentSettingController;
 use App\Http\Controllers\Back\PostController;
-use App\Http\Controllers\Back\PromoCodeController;
-use App\Http\Controllers\Back\ReviewController;
 use App\Http\Controllers\Back\RoleController;
-use App\Http\Controllers\Back\ShippingServiceController;
-use App\Http\Controllers\Back\SocialController;
+use App\Http\Controllers\Back\SizeController;
+use App\Http\Controllers\Back\UserController;
+use App\Http\Controllers\Back\BrandController;
+use App\Http\Controllers\Back\ColorController;
+use App\Http\Controllers\Back\OrderController;
 use App\Http\Controllers\Back\StaffController;
 use App\Http\Controllers\Back\StateController;
-use App\Http\Controllers\Back\SubCategoryController;
-use App\Http\Controllers\Back\TaxController;
-use App\Http\Controllers\Back\TicketController;
-use App\Http\Controllers\Back\TranactionController;
-use App\Http\Controllers\Back\UserController;
-use App\Http\Controllers\Back\FeatureController;
-use App\Http\Controllers\Back\SettingController;
-use App\Http\Controllers\Back\MenuController;
-use App\Http\Controllers\Back\HomePageController;
-use App\Http\Controllers\Back\EmailSettingController;
-use App\Http\Controllers\Back\SmsSettingController;
-use App\Http\Controllers\Back\LanguageController;
+use App\Http\Controllers\Back\BackupController;
+use App\Http\Controllers\Back\ReviewController;
 use App\Http\Controllers\Back\SliderController;
+use App\Http\Controllers\Back\SocialController;
+use App\Http\Controllers\Back\TicketController;
+use App\Http\Controllers\Back\AccountController;
+use App\Http\Controllers\Back\FeatureController;
 use App\Http\Controllers\Back\ServiceController;
+use App\Http\Controllers\Back\SettingController;
 use App\Http\Controllers\Back\SitemapController;
+use App\Http\Controllers\Back\CampaignController;
+use App\Http\Controllers\Back\CategoryController;
+use App\Http\Controllers\Back\CurrencyController;
+use App\Http\Controllers\Back\HomePageController;
+use App\Http\Controllers\Back\LanguageController;
+use App\Http\Controllers\Back\AffiliateController;
+use App\Http\Controllers\Back\AttributeController;
+use App\Http\Controllers\Back\BcategoryController;
+use App\Http\Controllers\Back\FcategoryController;
+use App\Http\Controllers\Back\PromoCodeController;
+use App\Http\Controllers\Auth\Back\LoginController;
+use App\Http\Controllers\Back\BulkDeleteController;
+use App\Http\Controllers\Back\CsvProductController;
+use App\Http\Controllers\Back\SmsSettingController;
 use App\Http\Controllers\Back\SubscriberController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Back\TranactionController;
+use App\Http\Controllers\Auth\Back\ForgotController;
+use App\Http\Controllers\Back\SubCategoryController;
+use App\Http\Controllers\Back\EmailSettingController;
+use App\Http\Controllers\Back\NotificationController;
+use App\Http\Controllers\Back\ChieldCategoryController;
+use App\Http\Controllers\Back\PaymentSettingController;
+use App\Http\Controllers\Back\AttributeOptionController;
+use App\Http\Controllers\Back\ShippingServiceController;
 
 
 Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
@@ -138,6 +140,14 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
             //------------ BRAND ------------
             Route::get('brand/status/{id}/{status}/{type}', [BrandController::class, 'status'])->name('back.brand.status');
             Route::resource('brand', BrandController::class)->except(['show'])->names('back.brand');
+
+             //------------ COLOR ------------
+            Route::get('color/status/{id}/{status}/{type}', [ColorController::class, 'status'])->name('back.color.status');
+            Route::resource('color', ColorController::class)->except(['show'])->names('back.color');
+
+              //------------ SIZE ------------
+            Route::get('size/status/{id}/{status}/{type}', [SizeController::class, 'status'])->name('back.size.status');
+            Route::resource('size', SizeController::class)->except(['show'])->names('back.size');
 
             //------------ REVIEW ----------------//
             Route::get('review/status/{id}/{status}', [ReviewController::class, 'status'])->name('back.review.status');

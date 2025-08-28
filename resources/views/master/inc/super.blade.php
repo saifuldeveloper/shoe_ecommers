@@ -46,6 +46,16 @@
                     </a>
                 </li>
                 <li>
+                    <a class="sub-link" href="{{ route('back.color.index') }}">
+                        <span class="sub-item">{{ __('Colors') }}</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="sub-link" href="{{ route('back.size.index') }}">
+                        <span class="sub-item">{{ __('Sizes') }}</span>
+                    </a>
+                </li>
+                <li>
                     <a class="sub-link" href="{{ route('back.item.add') }}">
                         <span class="sub-item">{{ __('Add Product') }}</span>
                     </a>
