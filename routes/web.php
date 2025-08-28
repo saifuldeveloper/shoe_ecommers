@@ -23,6 +23,7 @@ use App\Http\Controllers\Back\BackupController;
 use App\Http\Controllers\Back\ReviewController;
 use App\Http\Controllers\Back\SliderController;
 use App\Http\Controllers\Back\SocialController;
+use App\Http\Controllers\Back\StoresController;
 use App\Http\Controllers\Back\TicketController;
 use App\Http\Controllers\Back\AccountController;
 use App\Http\Controllers\Back\FeatureController;
@@ -32,6 +33,7 @@ use App\Http\Controllers\Back\SitemapController;
 use App\Http\Controllers\Back\CampaignController;
 use App\Http\Controllers\Back\CategoryController;
 use App\Http\Controllers\Back\CurrencyController;
+use App\Http\Controllers\Back\DistrictController;
 use App\Http\Controllers\Back\HomePageController;
 use App\Http\Controllers\Back\LanguageController;
 use App\Http\Controllers\Back\AffiliateController;
@@ -350,6 +352,13 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
             Route::get('/subscribers/send-mail', [SubscriberController::class, 'sendMail'])->name('back.subscribers.mail');
             Route::post('/subscribers/send-mail/submit', [SubscriberController::class, 'sendMailSubmit'])->name('back.subscribers.mail.submit');
         });
+
+        //-------------------------------- STORES MANAGEMENT ---------------------------------
+       
+        Route::resource('districts', DistrictController::class)->names('back.districts');
+       
+        Route::resource('stores', StoresController::class)->names('back.stores');
+
     });
 });
 
