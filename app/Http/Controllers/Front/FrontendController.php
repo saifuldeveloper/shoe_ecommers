@@ -85,7 +85,21 @@ class FrontendController extends Controller
         return view('front.pages.product_detail');
 
     }
+     public function wishlist()
+    {
+        return view('front.pages.wishlist');
 
+    }
+       public function cart()
+    {
+        return view('front.pages.wishlist');
+
+    }
+     public function categoryProduct($slug)
+    {
+        return view('front.pages.products');
+
+    }
 
 
     public function brands()

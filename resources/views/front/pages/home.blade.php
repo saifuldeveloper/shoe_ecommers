@@ -196,10 +196,11 @@
 
                         <div class="grid-item kids">
                             <div class="grid-item__content-wrapper">
+                               <a href="{{ route('front.product','product-details') }}">
                                 <div class="ps-shoe mb-30">
                                     <div class="ps-shoe__thumbnail">
                                         <div class="ps-badge"><span>New</span></div>
-
+                                        
                                         <div class="ps-badge ps-badge--sale ps-badge--2nd">
                                             <span>-35%</span>
                                         </div>
@@ -240,12 +241,14 @@
                                         </div>
                                     </div>
                                 </div>
+                               </a>
                             </div>
                         </div>
 
                         <div class="grid-item nike">
                             <div class="grid-item__content-wrapper">
-                                <div class="ps-shoe mb-30">
+                                <a href="{{ route('front.product','product-details') }}">
+                                    <div class="ps-shoe mb-30">
                                     <div class="ps-shoe__thumbnail">
                                         <img alt="" src="{{ asset('assets/frontend/images/shoe/b1.avif') }}" />
                                     </div>
@@ -283,12 +286,14 @@
                                         </div>
                                     </div>
                                 </div>
+                                </a>
                             </div>
                         </div>
 
                         <div class="grid-item adidas">
                             <div class="grid-item__content-wrapper">
-                                <div class="ps-shoe mb-30">
+                                <a href="{{ route('front.product','product-details') }}">
+                                    <div class="ps-shoe mb-30">
                                     <div class="ps-shoe__thumbnail">
                                         <img alt="" src="{{ asset('assets/frontend/images/shoe/c1.avif') }}" />
                                     </div>
@@ -326,12 +331,15 @@
                                         </div>
                                     </div>
                                 </div>
+                                </a>
+                                
                             </div>
                         </div>
 
                         <div class="grid-item kids">
                             <div class="grid-item__content-wrapper">
-                                <div class="ps-shoe mb-30">
+                                <a href="{{ route('front.product','product-details') }}">
+                                    <div class="ps-shoe mb-30">
                                     <div class="ps-shoe__thumbnail">
                                         <div class="ps-badge ps-badge--sale">
                                             <span>-35%</span>
@@ -373,12 +381,15 @@
                                         </div>
                                     </div>
                                 </div>
+                                </a>
+                                
                             </div>
                         </div>
 
                         <div class="grid-item men">
                             <div class="grid-item__content-wrapper">
-                                <div class="ps-shoe mb-30">
+                                <a href="{{ route('front.product','product-details') }}">
+                                     <div class="ps-shoe mb-30">
                                     <div class="ps-shoe__thumbnail">
                                         <img alt="" src="{{ asset('assets/frontend/images/shoe/i1.webp') }}" />
                                     </div>
@@ -416,12 +427,15 @@
                                         </div>
                                     </div>
                                 </div>
+                                </a>
+                               
                             </div>
                         </div>
 
                         <div class="grid-item women">
                             <div class="grid-item__content-wrapper">
-                                <div class="ps-shoe mb-30">
+                                <a href="{{ route('front.product','product-details') }}">
+                                    <div class="ps-shoe mb-30">
                                     <div class="ps-shoe__thumbnail">
                                         <img alt="" src="{{ asset('assets/frontend/images/shoe/j1.webp') }}" />
                                     </div>
@@ -459,11 +473,14 @@
                                         </div>
                                     </div>
                                 </div>
+                                </a>
+                                
                             </div>
                         </div>
 
                         <div class="grid-item kids">
                             <div class="grid-item__content-wrapper">
+                                <a href="{{ route('front.product','product-details') }}">
                                 <div class="ps-shoe mb-30">
                                     <div class="ps-shoe__thumbnail">
                                         <img alt="" src="{{ asset('assets/frontend/images/shoe/k1.avif') }}" />
@@ -502,12 +519,14 @@
                                         </div>
                                     </div>
                                 </div>
+                                </a>
                             </div>
                         </div>
 
                         <div class="grid-item kids">
                             <div class="grid-item__content-wrapper">
-                                <div class="ps-shoe mb-30">
+                                <a href="{{ route('front.product','product-details') }}">
+                                    <div class="ps-shoe mb-30">
                                     <div class="ps-shoe__thumbnail">
                                         <img alt="" src="{{ asset('assets/frontend/images/shoe/l1.avif') }}" />
                                     </div>
@@ -545,6 +564,8 @@
                                         </div>
                                     </div>
                                 </div>
+                                </a>
+                                
                             </div>
                         </div>
                     </div>
@@ -659,7 +680,8 @@
                     data-owl-mousedrag="on" data-owl-nav="false" data-owl-speed="5000">
                     <div class="ps-shoes--carousel">
                         <div class="ps-shoe">
-                            <div class="ps-shoe__thumbnail">
+                           <a href="{{ route('front.product','product-details') }}">
+                             <div class="ps-shoe__thumbnail">
                                 <div class="ps-badge"><span>New</span></div>
                                 <img alt="" src="{{ asset('assets/frontend/images/shoe/e1.avif') }}" />
                             </div>
@@ -694,12 +716,14 @@
                                     <span class="ps-shoe__price"> &pound; 120</span>
                                 </div>
                             </div>
+                           </a>
                         </div>
                     </div>
 
                     <div class="ps-shoes--carousel">
                         <div class="ps-shoe">
-                            <div class="ps-shoe__thumbnail">
+                            <a href="{{ route('front.product','product-details') }}">
+                                <div class="ps-shoe__thumbnail">
                                 <div class="ps-badge"><span>New</span></div>
 
                                 <div class="ps-badge ps-badge--sale ps-badge--2nd">
@@ -739,12 +763,14 @@
                                         <del>&pound;220</del> &pound; 120</span>
                                 </div>
                             </div>
+                            </a>
                         </div>
                     </div>
 
                     <div class="ps-shoes--carousel">
                         <div class="ps-shoe">
-                            <div class="ps-shoe__thumbnail">
+                            <a href="{{ route('front.product','product-details') }}">
+                                <div class="ps-shoe__thumbnail">
                                 <div class="ps-badge"><span>New</span></div>
                                 <img alt="" src="{{ asset('assets/frontend/images/shoe/g1.avif') }}" />
                             </div>
@@ -779,12 +805,15 @@
                                     <span class="ps-shoe__price"> &pound; 120</span>
                                 </div>
                             </div>
+                            </a>
+                            
                         </div>
                     </div>
 
                     <div class="ps-shoes--carousel">
                         <div class="ps-shoe">
-                            <div class="ps-shoe__thumbnail">
+                            <a href="{{ route('front.product','product-details') }}">
+                              <div class="ps-shoe__thumbnail">
                                 <img alt="" src="{{ asset('assets/frontend/images/shoe/h1.avif') }}" />
                             </div>
 
@@ -818,12 +847,15 @@
                                     <span class="ps-shoe__price"> &pound; 120</span>
                                 </div>
                             </div>
+                            </a>
+                          
                         </div>
                     </div>
 
                     <div class="ps-shoes--carousel">
                         <div class="ps-shoe">
-                            <div class="ps-shoe__thumbnail">
+                            <a href="{{ route('front.product','product-details') }}">
+                                     <div class="ps-shoe__thumbnail">
                                 <div class="ps-badge"><span>New</span></div>
                                 <img alt="" src="{{ asset('assets/frontend/images/shoe/e1.avif') }}" />
                             </div>
@@ -858,12 +890,15 @@
                                     <span class="ps-shoe__price"> &pound; 120</span>
                                 </div>
                             </div>
+                            </a>
+                       
                         </div>
                     </div>
 
                     <div class="ps-shoes--carousel">
                         <div class="ps-shoe">
-                            <div class="ps-shoe__thumbnail">
+                            <a href="{{ route('front.product','product-details') }}">
+                                 <div class="ps-shoe__thumbnail">
                                 <img alt="" src="{{ asset('assets/frontend/images/shoe/g1.avif') }}" />
                             </div>
 
@@ -897,6 +932,8 @@
                                     <span class="ps-shoe__price"> &pound; 120</span>
                                 </div>
                             </div>
+                            </a>
+                           
                         </div>
                     </div>
                 </div>
