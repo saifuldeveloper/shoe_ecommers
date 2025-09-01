@@ -9,7 +9,7 @@
                 </div>
                 <div class="col-lg-4 col-md-4">
                     <div class="header__logo text-center">
-                        <a class="ps-logo" href="index.html"><img src="{{ asset('assets/frontend/images/logo/logo.png') }}"
+                        <a class="ps-logo" href="{{ route('front.index') }}"><img src="{{ asset('assets/frontend/images/logo/logo.png') }}"
                                 alt="" style="height: 90px;" /></a>
                     </div>
                 </div>
@@ -21,7 +21,7 @@
                                         class="fa fa-user"></i> </a>
                             </div>
                             <div class="ps-user">
-                                <a class="ps-user__toggle" href="#"><span><i>20</i></span> <i
+                                <a class="ps-user__toggle" href="{{ route('front.wishlist')}}"><span><i>20</i></span> <i
                                         class="ps-icon-heart"></i> </a>
                             </div>
                             <div class="ps-user">
@@ -31,7 +31,7 @@
                                 </a>
                             </div>
                             <div class="ps-cart">
-                                <a class="ps-cart__toggle" href="#"><span><i>20</i></span><i
+                                <a class="ps-cart__toggle" href="{{ route('front.wishlist')}}"><span><i>20</i></span><i
                                         class="ps-icon-shopping-cart"></i></a>
                                 <div class="ps-cart__listing">
                                     <div class="ps-cart__content">
@@ -117,52 +117,38 @@
             <div class="navigation__column center">
                 <ul class="main-menu menu">
                     <li class="menu-item menu-item-has-children dropdown">
-                        <a href="index.html">Mega Deals </a>
+                        <a href="{{ route('front.categories.products','mega-deals') }}">Mega Deals </a>
                     </li>
                     <li class="menu-item menu-item-has-children dropdown">
-                        <a href="index.html">Mega Deals </a>
-                    </li>
-                    <li class="menu-item menu-item-has-children dropdown">
-                        <a href="index.html">Home</a>
-                        <ul class="sub-menu">
-                            <li class="menu-item">
-                                <a href="index.html">Homepage #1</a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="homepage-2.html">Homepage #2</a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="homepage-3.html">Homepage #3</a>
-                            </li>
-                        </ul>
+                        <a href="{{ route('front.categories.products','sneakers') }}">Sneakers </a>
                     </li>
                     <li class="menu-item menu-item-has-children has-mega-menu">
-                        <a href="#">Men</a>
+                        <a href="{{ route('front.categories.products','mens') }}">Men</a>
                         <div class="mega-menu">
                             <div class="mega-wrap">
                                 <div class="mega-column">
                                     <ul class="mega-item mega-features">
                                         <li>
-                                            <a href="product-listing.html">NEW RELEASES</a>
+                                            <a href="{{ route('front.categories.products','mens') }}">NEW RELEASES</a>
                                         </li>
                                         <li>
-                                            <a href="product-listing.html">FEATURES SHOES</a>
+                                            <a href="{{ route('front.categories.products','mens') }}">FEATURES SHOES</a>
                                         </li>
                                         <li>
-                                            <a href="product-listing.html">BEST SELLERS</a>
+                                            <a href="{{ route('front.categories.products','mens') }}">BEST SELLERS</a>
                                         </li>
                                         <li>
-                                            <a href="product-listing.html">NOW TRENDING</a>
+                                            <a href="{{ route('front.categories.products','mens') }}">NOW TRENDING</a>
                                         </li>
                                         <li>
-                                            <a href="product-listing.html">SUMMER ESSENTIALS</a>
+                                            <a href="{{ route('front.categories.products','mens') }}">SUMMER ESSENTIALS</a>
                                         </li>
                                         <li>
-                                            <a href="product-listing.html">MOTHER'S DAY
+                                            <a href="{{ route('front.categories.products','mens') }}">MOTHER'S DAY
                                                 COLLECTION</a>
                                         </li>
                                         <li>
-                                            <a href="product-listing.html">FAN GEAR</a>
+                                            <a href="{{ route('front.categories.products','mens') }}">FAN GEAR</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -170,25 +156,25 @@
                                     <h4 class="mega-heading">Shoes</h4>
                                     <ul class="mega-item">
                                         <li>
-                                            <a href="product-listing.html">All Shoes</a>
+                                            <a href="{{ route('front.categories.products','mens') }}">All Shoes</a>
                                         </li>
                                         <li>
-                                            <a href="product-listing.html">Running</a>
+                                            <a href="{{ route('front.categories.products','mens') }}">Running</a>
                                         </li>
                                         <li>
-                                            <a href="product-listing.html">Training & Gym</a>
+                                            <a href="{{ route('front.categories.products','mens') }}">Training & Gym</a>
                                         </li>
                                         <li>
-                                            <a href="product-listing.html">Basketball</a>
+                                            <a href="{{ route('front.categories.products','mens') }}">Basketball</a>
                                         </li>
                                         <li>
-                                            <a href="product-listing.html">Football</a>
+                                            <a href="{{ route('front.categories.products','mens') }}">Football</a>
                                         </li>
                                         <li>
-                                            <a href="product-listing.html">Soccer</a>
+                                            <a href="{{ route('front.categories.products','mens') }}">Soccer</a>
                                         </li>
                                         <li>
-                                            <a href="product-listing.html">Baseball</a>
+                                            <a href="{{ route('front.categories.products','mens') }}">Baseball</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -198,27 +184,27 @@
                                     </h4>
                                     <ul class="mega-item">
                                         <li>
-                                            <a href="product-listing.html">Compression & Nike
+                                            <a href="{{ route('front.categories.products','mens') }}">Compression & Nike
                                                 Pro</a>
                                         </li>
                                         <li>
-                                            <a href="product-listing.html">Tops & T-Shirts</a>
+                                            <a href="{{ route('front.categories.products','mens') }}">Tops & T-Shirts</a>
                                         </li>
                                         <li>
-                                            <a href="product-listing.html">Polos</a>
+                                            <a href="{{ route('front.categories.products','mens') }}">Polos</a>
                                         </li>
                                         <li>
-                                            <a href="product-listing.html">Hoodies &
+                                            <a href="{{ route('front.categories.products','mens') }}">Hoodies &
                                                 Sweatshirts</a>
                                         </li>
                                         <li>
-                                            <a href="product-listing.html">Jackets & Vests</a>
+                                            <a href="{{ route('front.categories.products','mens') }}">Jackets & Vests</a>
                                         </li>
                                         <li>
-                                            <a href="product-listing.html">Pants & Tights</a>
+                                            <a href="{{ route('front.categories.products','mens') }}">Pants & Tights</a>
                                         </li>
                                         <li>
-                                            <a href="product-listing.html">Shorts</a>
+                                            <a href="{{ route('front.categories.products','mens') }}">Shorts</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -228,27 +214,27 @@
                                     </h4>
                                     <ul class="mega-item">
                                         <li>
-                                            <a href="product-listing.html">Compression & Nike
+                                            <a href="{{ route('front.categories.products','mens') }}">Compression & Nike
                                                 Pro</a>
                                         </li>
                                         <li>
-                                            <a href="product-listing.html">Tops & T-Shirts</a>
+                                            <a href="{{ route('front.categories.products','mens') }}">Tops & T-Shirts</a>
                                         </li>
                                         <li>
-                                            <a href="product-listing.html">Polos</a>
+                                            <a href="{{ route('front.categories.products','mens') }}">Polos</a>
                                         </li>
                                         <li>
-                                            <a href="product-listing.html">Hoodies &
+                                            <a href="{{ route('front.categories.products','mens') }}">Hoodies &
                                                 Sweatshirts</a>
                                         </li>
                                         <li>
-                                            <a href="product-listing.html">Jackets & Vests</a>
+                                            <a href="{{ route('front.categories.products','mens') }}">Jackets & Vests</a>
                                         </li>
                                         <li>
-                                            <a href="product-listing.html">Pants & Tights</a>
+                                            <a href="{{ route('front.categories.products','mens') }}">Pants & Tights</a>
                                         </li>
                                         <li>
-                                            <a href="product-listing.html">Shorts</a>
+                                            <a href="{{ route('front.categories.products','mens') }}">Shorts</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -256,53 +242,29 @@
                                     <h4 class="mega-heading">BRAND</h4>
                                     <ul class="mega-item">
                                         <li>
-                                            <a href="product-listing.html">NIKE</a>
+                                            <a href="{{ route('front.categories.products','mens') }}">NIKE</a>
                                         </li>
                                         <li>
-                                            <a href="product-listing.html">Adidas</a>
+                                            <a href="{{ route('front.categories.products','mens') }}">Adidas</a>
                                         </li>
                                         <li>
-                                            <a href="product-listing.html">Dior</a>
+                                            <a href="{{ route('front.categories.products','mens') }}">Dior</a>
                                         </li>
                                         <li>
-                                            <a href="product-listing.html">B&G</a>
+                                            <a href="{{ route('front.categories.products','mens') }}">B&G</a>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </li>
-                    <li class="menu-item"><a href="#">Women</a></li>
-                    <li class="menu-item"><a href="#">Kids</a></li>
+                    <li class="menu-item"><a href="{{ route('front.categories.products','women') }}">Women</a></li>
+                    <li class="menu-item"><a href="{{ route('front.categories.products','kids') }}">Kids</a></li>
                     <li class="menu-item menu-item-has-children dropdown">
-                        <a href="#">News</a>
-                        <ul class="sub-menu">
-                            <li class="menu-item menu-item-has-children dropdown">
-                                <a href="blog-grid.html">Blog-grid</a>
-                                <ul class="sub-menu">
-                                    <li class="menu-item">
-                                        <a href="blog-grid.html">Blog Grid 1</a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a href="blog-grid-2.html">Blog Grid 2</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="menu-item">
-                                <a href="blog-list.html">Blog List</a>
-                            </li>
-                        </ul>
+                        <a href="{{ route('front.blog') }}">News</a>
                     </li>
                     <li class="menu-item menu-item-has-children dropdown">
-                        <a href="#">Contact</a>
-                        <ul class="sub-menu">
-                            <li class="menu-item">
-                                <a href="contact-us.html">Contact Us #1</a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="contact-us.html">Contact Us #2</a>
-                            </li>
-                        </ul>
+                        <a href="{{ route('front.contact') }}">Contact</a>
                     </li>
                 </ul>
             </div>

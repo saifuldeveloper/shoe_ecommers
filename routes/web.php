@@ -441,10 +441,17 @@ Route::group(['middleware' => 'maintainance'], function () {
         Route::get('/', [FrontendController::class, 'index'])->name('front.index');
         Route::get('/extra-index', [FrontendController::class, 'extraIndex'])->name('front.extraindex');
         Route::get('/product/{slug}', [FrontendController::class, 'product'])->name('front.product');
+
+        Route::get('/category/product/{slug}', [FrontendController::class, 'categoryProduct'])->name('front.categories.products');
         Route::get('/campaign/products', [FrontendController::class, 'compaignProduct'])->name('front.campaign');
+
+        Route::get('/wishlist', [FrontendController::class, 'wishlist'])->name('front.wishlist');
+        Route::get('/cart', [FrontendController::class, 'cart'])->name('frontd.mycarts');
+
         Route::get('/blog', [FrontendController::class, 'blog'])->name('front.blog');
         Route::get('/brands', [FrontendController::class, 'brands'])->name('front.brand');
         Route::get('/blog/{slug}', [FrontendController::class, 'blogDetails'])->name('front.blog.details');
+
         Route::get('/faq', [FrontendController::class, 'faq'])->name('front.faq');
         Route::get('/faq/{slug}', [FrontendController::class, 'show'])->name('front.faq.details');
         Route::get('/contact', [FrontendController::class, 'contact'])->name('front.contact');
