@@ -4,6 +4,7 @@
             <div class="row py-5">
                 <div class="col-lg-4 col-md-4 text-center">
                     <p>
+                     <img src="{{ asset('assets/frontend/images/icon/free-location-icon-2952-thumb.png') }}" height="30" alt="">
                         Find A Store | Customer care: 09666200300
                     </p>
                 </div>
@@ -17,8 +18,8 @@
                     <div class="row d-flex p-4 align-items-center">
                         <div class="header__actions">
                             <div class="ps-user">
-                                <a class="ps-user__toggle" href="#" style="border-right: 1px solid #ddd"> <i
-                                        class="fa fa-user"></i> </a>
+                                <a class="ps-user__toggle" href="#" style="border-right: 1px solid #ddd"> 
+                                    <img src="{{ asset('assets/frontend/images/icon/user-icon.png') }}" height="30"  alt=""></a>
                             </div>
                             <div class="ps-user">
                                 <a class="ps-user__toggle" href="{{ route('front.wishlist')}}"><span><i>20</i></span> <i
