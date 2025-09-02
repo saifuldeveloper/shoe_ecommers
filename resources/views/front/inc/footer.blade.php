@@ -2,7 +2,7 @@
     <div class="ps-footer__content">
         <div class="ps-container">
             <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-6">
                     <aside class="ps-widget--footer ps-widget--info">
                         <header>
                             <a class="ps-logo" href="index.html"><img alt=""
@@ -28,7 +28,7 @@
                     </aside>
                 </div>
 
-                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-6">
                     <aside class="ps-widget--footer ps-widget--info second">
                         <header>
                             <h3 class="ps-widget__title">Address Office 2</h3>
@@ -51,7 +51,7 @@
                     </aside>
                 </div>
 
-                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">
                     <aside class="ps-widget--footer ps-widget--link">
                         <header>
                             <h3 class="ps-widget__title">Find Our store</h3>
@@ -68,7 +68,7 @@
                     </aside>
                 </div>
 
-                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">
                     <aside class="ps-widget--footer ps-widget--link">
                         <header>
                             <h3 class="ps-widget__title">Get Help</h3>
@@ -86,7 +86,7 @@
                     </aside>
                 </div>
 
-                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">
                     <aside class="ps-widget--footer ps-widget--link">
                         <header>
                             <h3 class="ps-widget__title">Products</h3>

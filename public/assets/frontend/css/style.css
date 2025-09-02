@@ -5136,7 +5136,7 @@ button.ps-btn--gray:before {
 .menu > li > a {
   position: relative;
   z-index: 10;
-  display: inline-block;
+  /* display: inline-block; */
   font-family: "Archivo Narrow", sans-serif;
   padding: 5px 20px;
   font-size: 16px;
@@ -5145,7 +5145,7 @@ button.ps-btn--gray:before {
   text-transform: uppercase;
   color: #000;
 }
-.menu > li > a:before {
+/* .menu > li > a:before {
   content: "";
   position: absolute;
   top: 50%;
@@ -5173,9 +5173,24 @@ button.ps-btn--gray:before {
   transform: translate(-50%, -50%) scale(0.5, 0.5);
   visibility: hidden;
   opacity: 0;
+} */
+
+.menu > li > a:before {
+  content: "";
+  position: absolute;
+  bottom: 0; /* underline নিচে আসবে */
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  height: 1px;
+  width: 90%;
+  background-color: #f59b34;
+  border-radius: 30px;
+  transition: all 0.4s ease;
+  visibility: hidden;
+  opacity: 0;
 }
 .menu > li > a:hover {
-  color: #fff;
+  color: #291717;
 }
 .menu > li > a:hover:before {
   visibility: visible;
@@ -5406,6 +5421,7 @@ button.ps-btn--gray:before {
 .navigation {
   position: relative;
   color: #fff;
+  border-bottom: 1px solid #e5e5e5a1;
 }
 .navigation .navigation__column {
   float: left;
@@ -6422,7 +6438,18 @@ button.ps-btn--gray:before {
 }
 @media (max-width: 767px) {
   .header .ps-search--header {
-    max-width: 200px;
+    max-width: 150px;
+  }
+}
+/* by default hide */
+.menu-item.mobile-only {
+  display: none;
+}
+
+/* mobile screen এ show হবে */
+@media (max-width: 768px) {
+  .menu-item.mobile-only {
+    display: block;
   }
 }
 
