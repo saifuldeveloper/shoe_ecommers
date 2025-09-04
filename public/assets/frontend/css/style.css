@@ -8432,17 +8432,6 @@ html .bg--parallax {
   }
 }
 
-.shoe-mobile {
-  display: none;
-}
-
-/* Mobile/Tablet (<992px) show */
-@media (max-width: 991px) {
-  .shoe-mobile {
-    display: block;
-  }
-}
-
 .mobile-hide {
   display: block;
 }
@@ -8466,4 +8455,11 @@ html .bg--parallax {
 .shop-now-button:hover{
   background-color: black;
   color: white;
+}
+
+
+.menu  li {
+    display: inline-block;
+    float: left;
+    margin-right: 0px !important;
 }
