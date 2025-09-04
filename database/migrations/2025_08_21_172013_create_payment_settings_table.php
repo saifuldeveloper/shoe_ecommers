@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('payment_settings', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('information');
+            $table->text('information')->nullable();
             $table->string('unique_keyword')->unique();
             $table->string('photo')->nullable();
             $table->text('text')->nullable();

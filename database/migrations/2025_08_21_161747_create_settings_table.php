@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('settings', function (Blueprint $table) {
-               $table->id();
+            //    $table->id();
+            $table->bigIncrements('id');
             
             // General Settings
             $table->string('title')->nullable();
@@ -73,8 +74,8 @@ return new class extends Migration
             // Business Hours Settings
             $table->string('friday_start')->nullable();
             $table->string('friday_end')->nullable();
-            $table->string('saturday_start')->nullable();
-            $table->string('saturday_end')->nullable();
+            $table->string('satureday_start')->nullable();
+            $table->string('satureday_end')->nullable();
             
             // Homepage Section Visibility
             $table->boolean('is_slider')->default(true);
@@ -133,7 +134,9 @@ return new class extends Migration
             // Recaptcha Settings
             $table->string('google_recaptcha_site_key')->nullable();
             $table->string('google_recaptcha_secret_key')->nullable();
-            $table->boolean('recaptcha')->default(false);
+            $table->tinyInteger('recaptcha')->default(0);
+            $table->tinyInteger('is_privacy_trams')->default(0);
+            $table->tinyInteger('smtp_check')->default(0);
             
             // Currency Settings
             $table->string('currency_direction')->nullable()->default('left');

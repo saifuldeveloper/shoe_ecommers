@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -14,12 +13,14 @@ return new class extends Migration
         Schema::create('chield_categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('slug')->unique();
+            // $table->string('slug')->unique();
+            $table->string('slug')->nullable();
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->foreignId('subcategory_id')->constrained()->onDelete('cascade');
-            $table->enum('status', ['active', 'inactive'])->default('active');
+            // $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
-            
+
             // Indexes for better performance
             $table->index('category_id');
             $table->index('subcategory_id');
