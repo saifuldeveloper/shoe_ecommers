@@ -8374,16 +8374,7 @@ html .bg--parallax {
   }
 }
 
-.shoe-mobile {
-  display: none;
-}
 
-/* Mobile/Tablet (<992px) show */
-@media (max-width: 991px) {
-  .shoe-mobile {
-    display: block;
-  }
-}
 
 .mobile-hide {
   display: block;

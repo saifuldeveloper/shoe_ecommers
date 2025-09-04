@@ -269,11 +269,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="navigation__column right  shoe-mobile">
-                <form class="ps-search--header shoe-mobile" action="do_action" method="post">
-                    <input class="form-control" type="text" placeholder="Search Product…" />
-                    <button><i class="ps-icon-search"></i></button>
-                </form>
+            <div class="navigation__column right ">
                 <div class="ps-cart">
                     <a class="ps-cart__toggle" href="#"><span><i>20</i></span><i
                             class="ps-icon-shopping-cart"></i></a>
