@@ -287,6 +287,56 @@
                     </div>
                 </div>
             </div>
+
+
+            {{-- ==================== ATTRIBUTE OPTIONS ==================== --}}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="mb-3">{{ __('Attribute Options') }}</h5>
+
+                    <div id="attribute-options-wrapper">
+                        <div class="attribute-option border p-3 mb-3 rounded">
+                            <div class="form-group">
+                                <label for="attribute_id">{{ __('Attribute') }} *</label>
+                                <select name="attribute_options[0][attribute_id]" class="form-control">
+                                    <option value="">{{ __('Select Attribute') }}</option>
+                                    <option value="color">{{ __('Color') }}</option>
+                                    <option value="size">{{ __('Size') }}</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>{{ __('Name') }} *</label>
+                                <input type="text" name="attribute_options[0][name]" class="form-control"
+                                    placeholder="{{ __('Enter Name') }}">
+                            </div>
+
+                            <div class="form-group">
+                                <label>{{ __('Stock') }} *</label>
+                                <input type="number" name="attribute_options[0][stock]" class="form-control"
+                                    placeholder="{{ __('Enter Stock') }}">
+                            </div>
+
+                            <div class="form-group">
+                                <label>{{ __('+ Price') }} *</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">{{ $curr->sign }}</span>
+                                    </div>
+                                    <input type="number" step="0.01"
+                                        name="attribute_options[0][price]" class="form-control"
+                                        placeholder="{{ __('Enter Price') }}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Add More Button --}}
+                    <button type="button" class="btn btn-sm btn-outline-primary" id="add-attribute-option">
+                        + {{ __('Add Another Option') }}
+                    </button>
+                </div>
+            </div>
         </div>
 
     </div>
@@ -297,4 +347,62 @@
 
 </div>
 
+@endsection
+
+
+@section('scripts')
+<script>
+    $(document).ready(function () {
+        let optionIndex = 1;
+
+        $('#add-attribute-option').on('click', function () {
+            let newOption = `
+                <div class="attribute-option border p-3 mb-3 rounded">
+                    <button type="button" class="btn btn-sm btn-danger float-right remove-attribute-option">&times;</button>
+                    
+                    <div class="form-group">
+                        <label>{{ __('Attribute') }} *</label>
+                        <select name="attribute_options[${optionIndex}][attribute_id]" class="form-control">
+                            <option value="">{{ __('Select Attribute') }}</option>
+                            <option value="color">{{ __('Color') }}</option>
+                            <option value="size">{{ __('Size') }}</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>{{ __('Name') }} *</label>
+                        <input type="text" name="attribute_options[${optionIndex}][name]" class="form-control"
+                            placeholder="{{ __('Enter Name') }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label>{{ __('Stock') }} *</label>
+                        <input type="number" name="attribute_options[${optionIndex}][stock]" class="form-control"
+                            placeholder="{{ __('Enter Stock') }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label>{{ __('+ Price') }} *</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">{{ $curr->sign }}</span>
+                            </div>
+                            <input type="number" step="0.01"
+                                name="attribute_options[${optionIndex}][price]" class="form-control"
+                                placeholder="{{ __('Enter Price') }}">
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            $('#attribute-options-wrapper').append(newOption);
+            optionIndex++;
+        });
+
+        // remove button
+        $(document).on('click', '.remove-attribute-option', function () {
+            $(this).closest('.attribute-option').remove();
+        });
+    });
+</script>
 @endsection
