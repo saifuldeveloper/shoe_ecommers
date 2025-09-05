@@ -25,7 +25,6 @@ use App\Http\Controllers\Back\SliderController;
 use App\Http\Controllers\Back\SocialController;
 use App\Http\Controllers\Back\StoresController;
 use App\Http\Controllers\Back\TicketController;
-use App\Http\Controllers\Back\AccountController;
 use App\Http\Controllers\Back\FeatureController;
 use App\Http\Controllers\Back\ServiceController;
 use App\Http\Controllers\Back\SettingController;
@@ -36,13 +35,13 @@ use App\Http\Controllers\Back\CurrencyController;
 use App\Http\Controllers\Back\DistrictController;
 use App\Http\Controllers\Back\HomePageController;
 use App\Http\Controllers\Back\LanguageController;
+use App\Http\Controllers\User\WishlistController;
 use App\Http\Controllers\Back\AffiliateController;
 use App\Http\Controllers\Back\AttributeController;
 use App\Http\Controllers\Back\BcategoryController;
 use App\Http\Controllers\Back\FcategoryController;
 use App\Http\Controllers\Back\PromoCodeController;
 use App\Http\Controllers\Front\FrontendController;
-use App\Http\Controllers\Auth\Back\LoginController;
 use App\Http\Controllers\Back\BulkDeleteController;
 use App\Http\Controllers\Back\CsvProductController;
 use App\Http\Controllers\Back\SmsSettingController;
@@ -52,18 +51,23 @@ use App\Http\Controllers\Auth\Back\ForgotController;
 use App\Http\Controllers\Back\SubCategoryController;
 use App\Http\Controllers\Back\EmailSettingController;
 use App\Http\Controllers\Back\NotificationController;
+use App\Http\Controllers\Auth\User\RegisterController;
 use App\Http\Controllers\Back\ChieldCategoryController;
 use App\Http\Controllers\Back\PaymentSettingController;
 use App\Http\Controllers\Back\AttributeOptionController;
 use App\Http\Controllers\Back\ShippingServiceController;
+use App\Http\Controllers\Back\AccountController as BackAccountController;
+use App\Http\Controllers\User\AccountController as UserAccountController;
+use App\Http\Controllers\Auth\User\LoginController as UserLoginController;
+use App\Http\Controllers\Auth\Back\LoginController  as BackLoginController;
 
 
 Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
     Route::prefix('admin')->group(function () {
         //------------ AUTH ------------
-        Route::get('/login', [LoginController::class, 'showForm'])->name('back.login');
-        Route::post('/login-submit', [LoginController::class, 'login'])->name('back.login.submit');
-        Route::get('/logout', [LoginController::class, 'logout'])->name('back.logout');
+        Route::get('/login', [BackLoginController::class, 'showForm'])->name('back.login');
+        Route::post('/login-submit', [BackLoginController::class, 'login'])->name('back.login.submit');
+        Route::get('/logout', [BackLoginController::class, 'logout'])->name('back.logout');
 
         //------------ FORGOT ------------
         Route::get('/forgot', [ForgotController::class, 'showForm'])->name('back.forgot');
@@ -73,11 +77,11 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
 
         //------------ DASHBOARD & PROFILE ------------
 
-        Route::get('/', [AccountController::class, 'index'])->name('back.dashboard');
-        Route::get('/profile', [AccountController::class, 'profileForm'])->name('back.profile');
-        Route::post('/profile/update', [AccountController::class, 'updateProfile'])->name('back.profile.update');
-        Route::get('/password', [AccountController::class, 'passwordResetForm'])->name('back.password');
-        Route::post('/password/update', [AccountController::class, 'updatePassword'])->name('back.password.update');
+        Route::get('/', [BackAccountController::class, 'index'])->name('back.dashboard');
+        Route::get('/profile', [BackAccountController::class, 'profileForm'])->name('back.profile');
+        Route::post('/profile/update', [BackAccountController::class, 'updateProfile'])->name('back.profile.update');
+        Route::get('/password', [BackAccountController::class, 'passwordResetForm'])->name('back.password');
+        Route::post('/password/update', [BackAccountController::class, 'updatePassword'])->name('back.password.update');
         Route::get('bulk/deletes', [BulkDeleteController::class, 'bulkDelete'])->name('back.bulk.delete');
 
         Route::group(['middleware' => 'permissions:Manage Orders'], function () {
@@ -378,53 +382,53 @@ Route::group(['middleware' => 'maintainance'], function () {
         Route::prefix('user')->group(function () {
 
             //------------ AUTH ------------
-            Route::get('/verify', 'Auth\User\LoginController@showVerifyForm')->name('user.verify');
-            Route::post('/email/verify/submit/asdfasdf', 'Auth\User\LoginController@verifySubmit')->name('user.verify.submit');
-            Route::get('/login', 'Auth\User\LoginController@showForm')->name('user.login');
-            Route::post('/login-submit', 'Auth\User\LoginController@login')->name('user.login.submit');
-            Route::get('/logout', 'Auth\User\LoginController@logout')->name('user.logout');
-            Route::get('/remove/account', 'User\AccountController@removeAccount')->name('user.account.remove');
+            Route::get('/verify', [UserLoginController::class, 'showVerifyForm'])->name('user.verify');
+            Route::post('/email/verify/submit/asdfasdf', [UserLoginController::class, 'verifySubmit'])->name('user.verify.submit');
+            Route::get('/login', [UserLoginController::class, 'showForm'])->name('user.login');
+            Route::post('/login-submit', [UserLoginController::class, 'login'])->name('user.login.submit');
+            Route::get('/logout', [UserLoginController::class, 'logout'])->name('user.logout');
+            Route::get('/remove/account', [UserAccountController::class, 'removeAccount'])->name('user.account.remove');
 
             //------------ REGISTER ------------
-            Route::get('/register', 'Auth\User\RegisterController@showForm')->name('user.register');
-            Route::post('/register-submit', 'Auth\User\RegisterController@register')->name('user.register.submit');
-            Route::get('/verify-link/{token}', 'Auth\User\RegisterController@verify')->name('user.account.verify');
+           Route::get('/register', [RegisterController::class, 'showForm'])->name('user.register');
+            Route::post('/register-submit', [RegisterController::class, 'register'])->name('user.register.submit');
+            Route::get('/verify-link/{token}', [RegisterController::class, 'verify'])->name('user.account.verify');
 
             //------------ FORGOT ------------
-            Route::get('/forgot', 'Auth\User\ForgotController@showForm')->name('user.forgot');
-            Route::post('/forgot-submit', 'Auth\User\ForgotController@forgot')->name('user.forgot.submit');
-            Route::get('/change-password/{token}', 'Auth\User\ForgotController@showChangePassForm')->name('user.change.token');
-            Route::post('/change-password-submit', 'Auth\User\ForgotController@changepass')->name('user.change.password');
+            Route::get('/forgot', [ForgotController::class, 'showForm'])->name('user.forgot');
+            Route::post('/forgot-submit', [ForgotController::class, 'forgot'])->name('user.forgot.submit');
+            Route::get('/change-password/{token}', [ForgotController::class, 'showChangePassForm'])->name('user.change.token');
+            Route::post('/change-password-submit', [ForgotController::class, 'changepass'])->name('user.change.password');
 
 
 
             //------------ DASHBOARD ------------
-            Route::get('/dashboard', 'User\AccountController@index')->name('user.dashboard');
-            Route::get('/profile', 'User\AccountController@profile')->name('user.profile');
+            Route::get('/dashboard', [UserAccountController::class, 'index'])->name('user.dashboard');
+            Route::get('/profile', [UserAccountController::class, 'profile'])->name('user.profile');
 
             // ----------- TICKET ---------------//
-            Route::get('/ticket', 'User\TicketController@ticket')->name('user.ticket');
-            Route::get('/ticket/new', 'User\TicketController@ticketNew')->name('user.ticket.create');
-            Route::post('/ticket/store', 'User\TicketController@ticketStore')->name('user.ticket.store');
-            Route::get('/ticket/view/{id}', 'User\TicketController@ticketView')->name('user.ticket.view');
-            Route::post('/ticket/reply/store', 'User\TicketController@ticketReply')->name('user.ticket.reply');
-            Route::get('/ticket/delete/{id}', 'User\TicketController@ticketDelete')->name('user.ticket.delete');
+            Route::get('/ticket', [TicketController::class, 'ticket'])->name('user.ticket');
+            Route::get('/ticket/new', [TicketController::class, 'ticketNew'])->name('user.ticket.create');
+            Route::post('/ticket/store', [TicketController::class, 'ticketStore'])->name('user.ticket.store');
+            Route::get('/ticket/view/{id}', [TicketController::class, 'ticketView'])->name('user.ticket.view');
+            Route::post('/ticket/reply/store', [TicketController::class, 'ticketReply'])->name('user.ticket.reply');
+            Route::get('/ticket/delete/{id}', [TicketController::class, 'ticketDelete'])->name('user.ticket.delete');
 
             //------------ SETTING ------------
-            Route::post('/profile/update', 'User\AccountController@profileUpdate')->name('user.profile.update');
-            Route::get('/addresses', 'User\AccountController@addresses')->name('user.address');
-            Route::post('/billing/addresses', 'User\AccountController@billingSubmit')->name('user.billing.submit');
-            Route::post('/shipping/addresses', 'User\AccountController@shippingSubmit')->name('user.shipping.submit');
+            Route::post('/profile/update', [UserAccountController::class, 'profileUpdate'])->name('user.profile.update');
+            Route::get('/addresses', [UserAccountController::class, 'addresses'])->name('user.address');
+            Route::post('/billing/addresses', [UserAccountController::class, 'billingSubmit'])->name('user.billing.submit');
+            Route::post('/shipping/addresses', [UserAccountController::class, 'shippingSubmit'])->name('user.shipping.submit');
 
             //------------ ORDER ------------
-            Route::get('/orders', 'User\OrderController@index')->name('user.order.index');
-            Route::get('/order/print/{id}', 'User\OrderController@printOrder')->name('user.order.print');
-            Route::get('/order/invoice/{id}', 'User\OrderController@details')->name('user.order.invoice');
+            Route::get('/orders', [OrderController::class, 'index'])->name('user.order.index');
+            Route::get('/order/print/{id}', [OrderController::class, 'printOrder'])->name('user.order.print');
+            Route::get('/order/invoice/{id}', [OrderController::class, 'details'])->name('user.order.invoice');
             //------------ WISHLIST ------------
-            Route::get('/wishlists', 'User\WishlistController@index')->name('user.wishlist.index');
-            Route::get('/wishlist/store/{id}', 'User\WishlistController@store')->name('user.wishlist.store');
-            Route::get('/wishlist/delete/{id}', 'User\WishlistController@delete')->name('user.wishlist.delete');
-            Route::get('/wishlista/delete/all', 'User\WishlistController@alldelete')->name('user.wishlist.delete.all');
+            Route::get('/wishlists', [WishlistController::class, 'index'])->name('user.wishlist.index');
+            Route::get('/wishlist/store/{id}', [WishlistController::class, 'store'])->name('user.wishlist.store');
+            Route::get('/wishlist/delete/{id}', [WishlistController::class, 'delete'])->name('user.wishlist.delete');
+            Route::get('/wishlista/delete/all', [WishlistController::class, 'alldelete'])->name('user.wishlist.delete.all');
         });
 
 

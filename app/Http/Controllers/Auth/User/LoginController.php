@@ -77,8 +77,9 @@ class LoginController extends Controller
     }
 
     // if unsuccessful, then redirect back to the login with the form data
-    Session::flash('error', __('Email Or Password Doesn\'t Match !'));
-    return redirect()->back();
+    return redirect()->back()
+        ->withErrors(['credentials' => __("Email or password doesn't match!")])
+        ->withInput();
   }
 
   public function showVerifyForm()
