@@ -18,8 +18,8 @@ class DatabaseSeeder extends Seeder
     $this->call([
          RolesTableSeeder::class,
         AdminsTableSeeder::class,
-        AttributesTableSeeder::class,
-        AttributeOptionsTableSeeder::class,
+        // AttributesTableSeeder::class,
+        // AttributeOptionsTableSeeder::class,
         BannersTableSeeder::class,
         BcategoriesTableSeeder::class,
         BrandsTableSeeder::class,
