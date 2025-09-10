@@ -4,22 +4,6 @@
 @endsection
 @section('content')
 
-    <!-- Page Title-->
-<div class="page-title">
-    <div class="container">
-      <div class="row">
-          <div class="col-lg-12">
-            <ul class="breadcrumbs">
-                <li><a href="{{route('front.index')}}">{{__('Home')}}</a> </li>
-                <li class="separator"></li>
-                <li>{{__('Login')}}</li>
-              </ul>
-          </div>
-      </div>
-    </div>
-  </div>
-  <!-- Page Content-->
-
   <div class="container padding-bottom-3x mb-1">
     <div class="row justify-content-center">
             <div class="col-md-6">
@@ -41,6 +25,10 @@
                   @error('login_password')
                       <p class="text-danger">{{$message}}</p>
                   @enderror
+
+                  @error('credentials')
+                      <p class="text-danger">{{ $message }}</p>
+                  @enderror
   
                   <div class="d-flex flex-wrap justify-content-between padding-bottom-1x">
                     <div class="custom-control custom-checkbox">
@@ -52,18 +40,6 @@
                   <div class="text-center">
                     <button class="btn btn-primary margin-bottom-none" type="submit"><span>{{ __('Login') }}</span></button>
                   </div>
-                  <div class="row">
-                      <div class="col-lg-12 text-center mt-3">
-                      @if($setting->facebook_check == 1)
-                      <a class="facebook-btn mr-2" href="{{route('social.provider','facebook')}}">{{ __('Facebook login') }}
-                      </a>
-                      @endif
-                      @if($setting->google_check == 1)
-                      <a class="google-btn" href="{{route('social.provider','google')}}"> {{ __('Google login') }}
-                      </a>
-                      @endif
-                    </div>
-                    </div>
                 </div>
               </form>
             </div>

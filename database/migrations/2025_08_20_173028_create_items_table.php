@@ -12,20 +12,21 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('items', function (Blueprint $table) {
-             $table->id();
+            $table->id();
             // Foreign keys
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->foreignId('subcategory_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('childcategory_id')->nullable();
             $table->foreignId('tax_id')->nullable();
             $table->foreignId('brand_id')->nullable()->constrained()->onDelete('set null');
-            
+
             // Basic information
             $table->text('name');
             $table->text('slug');
             $table->string('sku')->unique();
+            $table->string('code')->nullable();
             $table->text('tags')->nullable();
-            
+
             // Media
             $table->string('photo')->nullable();
             $table->string('thumbnail')->nullable();
@@ -33,40 +34,45 @@ return new class extends Migration
             $table->string('file')->nullable();
             $table->enum('file_type', ['file', 'link'])->nullable();
             $table->text('link')->nullable();
-            
+
             // Descriptions
             $table->text('sort_details');
             $table->text('details')->nullable();
-            
+
             // Specifications
             $table->text('specification_name')->nullable();
             $table->text('specification_description')->nullable();
             $table->boolean('is_specification')->default(false);
-            
+
             // Pricing and inventory
             $table->double('discount_price')->nullable();
             $table->double('previous_price')->nullable();
             $table->integer('stock')->default(0);
-            
+
             // Digital product fields
             $table->text('license_name')->nullable();
             $table->text('license_key')->nullable();
             $table->string('item_type')->default('physical'); // physical, digital, etc.
-            
+
             // Affiliate
             $table->text('affiliate_link')->nullable();
-            
+
             // SEO
             $table->text('meta_keywords')->nullable();
             $table->text('meta_description')->nullable();
-            
+
+            // variant
+            $table->boolean('is_variant')->nullable();
+            $table->text('variant_option')->nullable();
+            $table->text('variant_value')->nullable();
+
             // Status and dates
             $table->boolean('status')->default(true);
             $table->string('date')->nullable();
             $table->string('is_type')->nullable(); // feature, new, etc.
-            
+
             $table->timestamps();
-            
+
             // Indexes for better performance
             $table->index('category_id');
             $table->index('subcategory_id');

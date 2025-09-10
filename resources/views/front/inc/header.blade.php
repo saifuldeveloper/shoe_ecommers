@@ -20,7 +20,7 @@
                     <div class="row d-flex p-4 align-items-center">
                         <div class="header__actions">
                             <div class="ps-user">
-                                <a class="ps-user__toggle" href="#" style="border-right: 1px solid #ddd">
+                                <a class="ps-user__toggle" href="{{ route('user.login') }}" style="border-right: 1px solid #ddd">
                                     <img src="{{ asset('assets/frontend/images/icon/user-icon.png') }}" height="30"
                                         alt=""></a>
                             </div>
