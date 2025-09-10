@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Back;
 use App\{
     Models\Item,
     Models\Gallery,
-    Models\Attribute,
-    Models\AttributeOption,
     Http\Requests\ItemRequest,
     Http\Controllers\Controller,
     Http\Requests\GalleryRequest,
@@ -18,7 +16,6 @@ use App\Models\ChieldCategory;
 use App\Models\Currency;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class ItemController extends Controller
 {
@@ -147,33 +144,6 @@ class ItemController extends Controller
     public function store(ItemRequest $request)
     {
         $item_id = $this->repository->store($request);
-
-        // Handle attribute options
-        if ($request->has('attribute_options')) {
-            $curr = Currency::where('is_default', 1)->first();
-
-            foreach ($request->attribute_options as $key => $attr) {
-                if (empty($attr['name']) || empty($attr['attribute_id'])) continue;
-
-                // Create Attribute if it doesn't exist for this item
-                $attribute = Attribute::firstOrCreate(
-                    [
-                        'item_id' => $item_id,
-                        'name' => $attr['attribute_id'],
-                        'keyword' => Str::slug($attr['attribute_id'])
-                    ]
-                );
-
-                // Create Attribute Option
-                AttributeOption::create([
-                    'attribute_id' => $attribute->id,
-                    'name' => $attr['name'],
-                    'price' => isset($attr['price']) ? $attr['price'] / $curr->value : 0,
-                    'stock' => $attr['stock'] ?? 0,
-                    'keyword' => Str::slug($attr['name'])
-                ]);
-            }
-        }
 
         if ($request->is_button == 0) {
             return redirect()->route('back.item.index')->withSuccess(__('Product Added Successfully.'));
