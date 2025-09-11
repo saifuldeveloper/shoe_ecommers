@@ -37,16 +37,16 @@
 
 									@if ($slider->home_page != 'theme4')
 									<div class="form-group">
-										<label id="change_label" for="name">{{ $slider->home_page == 'theme3' || $slider->home_page == 'theme4' ? __('Feature Image') : __('Logo') }}</label>
+										{{-- <label id="change_label" for="name">{{ $slider->home_page == 'theme3' || $slider->home_page == 'theme4' ? __('Feature Image') : __('Logo') }}</label>
 										<br>
 											<img class="admin-img"
 												src="{{ $slider->logo ? url('/storage/slider/'.$slider->logo) : url('/assets/images/placeholder.png') }}"
 												alt="No Image Found">
 										<br>
 										<span id="change_message" class="mt-1">{{ $slider->home_page == 'theme3' || $slider->home_page == 'theme4' ? __('Image Size Should Be 435 x 530')  :  __('Image Size Should Be 130 x 40')}}</span>
-									</div>
+									</div> --}}
 
-									<div class="form-group position-relative ">
+									{{-- <div class="form-group position-relative ">
 										<label class="file">
 											<input type="file"  accept="image/*"  class="upload-photo" name="logo" id="file"
 												aria-label="File browser example">
@@ -57,7 +57,7 @@
 										<label for="title">{{ __('Title') }} *</label>
 										<input type="text" name="title" class="form-control" id="title"
 											placeholder="{{ __('Enter Title') }}" value="{{ $slider->title }}" >
-									</div>
+									</div> --}}
 
 									<div class="form-group">
 										<label for="slider-link">{{ __('Link') }} *</label>
@@ -65,13 +65,13 @@
 											placeholder="{{ __('Enter Link') }}" value="{{ $slider->link }}" >
 									</div>
 
-
+{{-- 
 									<div class="form-group">
 										<label for="details">{{ __('Details') }} *</label>
 										<textarea name="details" id="details" class="form-control" rows="5"
 											placeholder="{{ __('Enter Details') }}"
 											>{{ $slider->details }}</textarea>
-									</div>
+									</div> --}}
 
 									<div class="form-group">
 										<label id="slider_text" for="name">{{ $slider->home_page == 'theme3' || $slider->home_page == 'theme4' ? __('Set Background Image') :__('Current Slider Image') }} *</label>

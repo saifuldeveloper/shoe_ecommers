@@ -5,7 +5,7 @@
                 alt="Image Not Found">
         </td>
 
-        <td>
+        {{-- <td>
             @if ($data->home_page != 'theme4')
                 {{ $data->title }}
             @else
@@ -22,7 +22,7 @@
             @else
                 --
             @endif
-        </td>
+        </td> --}}
 
         <td>
             <div class="action-list">

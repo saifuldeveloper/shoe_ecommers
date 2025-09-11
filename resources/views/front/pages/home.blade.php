@@ -3,94 +3,28 @@
     <div class="ps-banner">
         <div class="rev_slider fullscreenbanner" id="home-banner">
             <ul>
-                <li class="ps-banner" data-hideafterloop="0" data-hideslideonmobile="off" data-index="rs-2972" data-rotate="0"
-                    data-slotamount="default" data-transition="random">
-                    <img alt="" class="rev-slidebg" data-bgfit="cover" data-bgparallax="5"
-                        data-bgposition="center center" data-bgrepeat="no-repeat" data-no-retina=""
-                        src="{{ asset('assets/frontend/images/slider/slider1.webp') }}" />
-                    <div class="tp-caption ps-banner__header"
-                        data-frames='[{"delay":1000,"speed":1500,"frame":"0","from":"x:50px;opacity:0;","to":"o:1;","ease":"Power3.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"x:50px;opacity:0;","ease":"Power3.easeInOut"}]'
-                        data-hoffset="['-60','15','15','15']" data-responsive_offset="on" data-type="text"
-                        data-voffset="['-150','-120','-150','-170']" data-width="['none','none','none','400']"
-                        data-x="left" data-y="['middle','middle','middle','middle']" id="layer-1">
-                        <p>
-                            March 2002<br />
-                            Nike SB Dunk Low Pro
-                        </p>
-                    </div>
+                @php $sliders = App\Models\Slider::get(); @endphp
+                @foreach ($sliders as $slider)
+                    <li class="ps-banner {{ $loop->iteration % 2 == 0 ? 'ps-banner--white' : '' }}" data-hideafterloop="0"
+                        data-hideslideonmobile="off" data-index="rs-{{ $loop->iteration }}" data-rotate="0"
+                        data-slotamount="default" data-transition="random">
+                        <img alt="Slider Image" class="rev-slidebg" data-bgfit="cover" data-bgparallax="5"
+                            data-bgposition="center center" data-bgrepeat="no-repeat" data-no-retina=""
+                            src="{{ $slider->photo ? asset('storage/slider/' . $slider->photo) : asset('img/default.png') }}" />
 
-                    <div class="tp-caption ps-banner__title"
-                        data-frames='[{"delay":1200,"speed":1500,"frame":"0","from":"x:50px;opacity:0;","to":"o:1;","ease":"Power3.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"x:50px;opacity:0;","ease":"Power3.easeInOut"}]'
-                        data-hoffset="['-60','15','15','15']" data-responsive_offset="on"
-                        data-textalign="['center','center','center','center']" data-type="text"
-                        data-voffset="['-60','-40','-50','-70']" data-x="['left','left','left','left']"
-                        data-y="['middle','middle','middle','middle']" id="layer21">
-                        <p class="text-uppercase">SUBA</p>
-                    </div>
+                        <div class="tp-caption ps-banner__header"
+                            data-frames='[{"delay":1000,"speed":1500,"frame":"0","from":"x:50px;opacity:0;","to":"o:1;","ease":"Power3.easeInOut"}]'
+                            data-x="left" data-y="middle" id="layer-{{ $loop->iteration }}">
+                            <p>{{ $slider->title }}</p>
+                        </div>
+                        <div class="tp-caption ps-banner__description"
+                            data-frames='[{"delay":1200,"speed":1500,"frame":"0","from":"x:50px;opacity:0;","to":"o:1;","ease":"Power3.easeInOut"}]'
+                            data-x="left" data-y="middle" id="layer-desc-{{ $loop->iteration }}">
+                            <p>{{ $slider->description }}</p>
+                        </div>
 
-                    <div class="tp-caption ps-banner__description"
-                        data-frames='[{"delay":1200,"speed":1500,"frame":"0","from":"x:50px;opacity:0;","to":"o:1;","ease":"Power3.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"x:50px;opacity:0;","ease":"Power3.easeInOut"}]'
-                        data-hoffset="['-60','15','15','15']" data-responsive_offset="on"
-                        data-textalign="['center','center','center','center']" data-type="text"
-                        data-voffset="['30','50','50','50']" data-x="['left','left','left','left']"
-                        data-y="['middle','middle','middle','middle']" id="layer211">
-                        <p>
-                            Supa wanted something that was going to rep his East Coast<br />
-                            roots and, more specifically, his hometown of<br />
-                            New York City in a big way.
-                        </p>
-                    </div>
-                    <a class="tp-caption ps-btn"
-                        data-frames='[{"delay":1500,"speed":1500,"frame":"0","from":"x:50px;opacity:0;","to":"o:1;","ease":"Power3.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"x:50px;opacity:0;","ease":"Power3.easeInOut"}]'
-                        data-hoffset="['-60','15','15','15']" data-responsive_offset="on"
-                        data-textalign="['center','center','center','center']" data-type="text"
-                        data-voffset="['120','140','200','200']" data-x="['left','left','left','left']"
-                        data-y="['middle','middle','middle','middle']" href="#" id="layer31">Purchase Now</a>
-                </li>
-                <li class="ps-banner ps-banner--white" data-hideafterloop="0" data-hideslideonmobile="off"
-                    data-index="rs-100" data-rotate="0" data-slotamount="default" data-transition="random">
-                    <img alt="" class="rev-slidebg" data-bgfit="cover" data-bgparallax="5"
-                        data-bgposition="center center" data-bgrepeat="no-repeat" data-no-retina=""
-                        src="{{ asset('assets/frontend/images/slider/slider2.webp') }}" />
-                    <div class="tp-caption ps-banner__header"
-                        data-frames='[{"delay":1000,"speed":1500,"frame":"0","from":"x:50px;opacity:0;","to":"o:1;","ease":"Power3.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"x:50px;opacity:0;","ease":"Power3.easeInOut"}]'
-                        data-hoffset="['-60','15','15','15']" data-responsive_offset="on" data-type="text"
-                        data-voffset="['-150','-120','-150','-170']" data-width="['none','none','none','400']"
-                        data-x="left" data-y="['middle','middle','middle','middle']" id="layer20">
-                        <p>
-                            BEST ITEM<br />
-                            THIS SUMMER
-                        </p>
-                    </div>
-
-                    <div class="tp-caption ps-banner__title"
-                        data-frames='[{"delay":1200,"speed":1500,"frame":"0","from":"x:50px;opacity:0;","to":"o:1;","ease":"Power3.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"x:50px;opacity:0;","ease":"Power3.easeInOut"}]'
-                        data-hoffset="['-60','15','15','15']" data-responsive_offset="on"
-                        data-textalign="['center','center','center','center']" data-type="text"
-                        data-voffset="['-60','-40','-50','-70']" data-x="['left','left','left','left']"
-                        data-y="['middle','middle','middle','middle']" id="layer339">
-                        <p class="text-uppercase">Recovery</p>
-                    </div>
-
-                    <div class="tp-caption ps-banner__description"
-                        data-frames='[{"delay":1200,"speed":1500,"frame":"0","from":"x:50px;opacity:0;","to":"o:1;","ease":"Power3.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"x:50px;opacity:0;","ease":"Power3.easeInOut"}]'
-                        data-hoffset="['-60','15','15','15']" data-responsive_offset="on"
-                        data-textalign="['center','center','center','center']" data-type="text"
-                        data-voffset="['30','50','50','50']" data-x="['left','left','left','left']"
-                        data-y="['middle','middle','middle','middle']" id="layer2-14">
-                        <p>
-                            Supa wanted something that was going to rep his East Coast<br />
-                            roots and, more specifically, his hometown of<br />
-                            New York City in a big way.
-                        </p>
-                    </div>
-                    <a class="tp-caption ps-btn"
-                        data-frames='[{"delay":1500,"speed":1500,"frame":"0","from":"x:50px;opacity:0;","to":"o:1;","ease":"Power3.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"x:50px;opacity:0;","ease":"Power3.easeInOut"}]'
-                        data-hoffset="['-60','15','15','15']" data-responsive_offset="on"
-                        data-textalign="['center','center','center','center']" data-type="text"
-                        data-voffset="['120','140','200','200']" data-x="['left','left','left','left']"
-                        data-y="['middle','middle','middle','middle']" href="#" id="layer364">Purchase Now</a>
-                </li>
+                    </li>
+                @endforeach
             </ul>
         </div>
     </div>
@@ -206,7 +140,8 @@
                                                 <img class="hover-img"
                                                     src="{{ asset('assets/frontend/images/shoe/a1.avif') }}"
                                                     alt="">
-                                                <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
+                                                <a class="ps-shoe__favorite" href="#"><i
+                                                        class="ps-icon-heart"></i></a>
                                             </div>
                                             <div class="ps-shoe__content">
                                                 <div class="ps-shoe__detail">
@@ -245,7 +180,8 @@
                                                 <img class="hover-img"
                                                     src="{{ asset('assets/frontend/images/shoe/a1.avif') }}"
                                                     alt="">
-                                                 <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
+                                                <a class="ps-shoe__favorite" href="#"><i
+                                                        class="ps-icon-heart"></i></a>
                                             </div>
                                             <div class="ps-shoe__content">
                                                 <div class="ps-shoe__detail">
@@ -284,7 +220,8 @@
                                                 <img class="hover-img"
                                                     src="{{ asset('assets/frontend/images/shoe/a1.avif') }}"
                                                     alt="">
-                                                <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
+                                                <a class="ps-shoe__favorite" href="#"><i
+                                                        class="ps-icon-heart"></i></a>
                                             </div>
                                             <div class="ps-shoe__content">
                                                 <div class="ps-shoe__detail">
@@ -325,7 +262,8 @@
                                                 <img class="hover-img"
                                                     src="{{ asset('assets/frontend/images/shoe/a1.avif') }}"
                                                     alt="">
-                                                <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
+                                                <a class="ps-shoe__favorite" href="#"><i
+                                                        class="ps-icon-heart"></i></a>
                                             </div>
                                             <div class="ps-shoe__content">
                                                 <div class="ps-shoe__detail">
@@ -366,7 +304,8 @@
                                                 <img class="hover-img"
                                                     src="{{ asset('assets/frontend/images/shoe/a1.avif') }}"
                                                     alt="">
-                                                <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
+                                                <a class="ps-shoe__favorite" href="#"><i
+                                                        class="ps-icon-heart"></i></a>
                                             </div>
                                             <div class="ps-shoe__content">
                                                 <div class="ps-shoe__detail">
@@ -408,7 +347,8 @@
                                                 <img class="hover-img"
                                                     src="{{ asset('assets/frontend/images/shoe/a1.avif') }}"
                                                     alt="">
-                                                <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
+                                                <a class="ps-shoe__favorite" href="#"><i
+                                                        class="ps-icon-heart"></i></a>
                                             </div>
                                             <div class="ps-shoe__content">
                                                 <div class="ps-shoe__detail">
@@ -448,7 +388,8 @@
                                                 <img class="hover-img"
                                                     src="{{ asset('assets/frontend/images/shoe/a1.avif') }}"
                                                     alt="">
-                                                <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
+                                                <a class="ps-shoe__favorite" href="#"><i
+                                                        class="ps-icon-heart"></i></a>
                                             </div>
                                             <div class="ps-shoe__content">
                                                 <div class="ps-shoe__detail">
@@ -486,7 +427,8 @@
                                                 <img class="hover-img"
                                                     src="{{ asset('assets/frontend/images/shoe/a1.avif') }}"
                                                     alt="">
-                                                <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
+                                                <a class="ps-shoe__favorite" href="#"><i
+                                                        class="ps-icon-heart"></i></a>
                                             </div>
                                             <div class="ps-shoe__content">
                                                 <div class="ps-shoe__detail">
@@ -872,7 +814,7 @@
                             </div>
                         </div>
                     </div>
-                     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
                         <div class="ps-post">
                             <div class="ps-post__thumbnail">
                                 <img alt="" src="{{ asset('assets/frontend/images/blog/image2.webp') }}" />

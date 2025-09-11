@@ -35,8 +35,8 @@ class SliderController extends Controller
      */
     public function index()
     {
-        return view('back.slider.index',[
-            'datas' => Slider::orderBy('id','desc')->get()
+        return view('back.slider.index', [
+            'datas' => Slider::orderBy('id', 'desc')->get()
         ]);
     }
 
@@ -58,13 +58,13 @@ class SliderController extends Controller
      */
     public function store(Request $request)
     {
-       
+
         $request->validate([
-            'logo' => 'image',
+            // 'logo' => 'image',
             'photo' => 'required|image',
-            'title' => 'required|max:100',
-            'link' => 'required|max:255',
-            'details' => 'required|max:255',
+            // 'title' => 'required|max:100',
+            // 'link' => 'required|max:255',
+            // 'details' => 'required|max:255',
         ]);
         $this->repository->store($request);
         return redirect()->route('back.slider.index')->withSuccess(__('New Slider Added Successfully.'));
@@ -78,7 +78,7 @@ class SliderController extends Controller
      */
     public function edit(Slider $slider)
     {
-        return view('back.slider.edit',compact('slider'));
+        return view('back.slider.edit', compact('slider'));
     }
 
     /**
@@ -91,11 +91,11 @@ class SliderController extends Controller
     public function update(ImageUpdateRequest $request, Slider $slider)
     {
         $request->validate([
-            'title' => 'required|max:100',
-            'link' => 'required|max:255',
-            'logo' => 'image',
+            // 'title' => 'required|max:100',
+            // 'link' => 'required|max:255',
+            // 'logo' => 'image',
             'photo' => 'image',
-            'details' => 'required|max:255',
+            // 'details' => 'required|max:255',
         ]);
         $this->repository->update($slider, $request);
         return redirect()->route('back.slider.index')->withSuccess(__('Slider Updated Successfully.'));

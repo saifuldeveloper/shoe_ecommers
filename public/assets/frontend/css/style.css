@@ -8463,3 +8463,217 @@ html .bg--parallax {
     float: left;
     margin-right: 0px !important;
 }
+
+
+/* =========================
+=========================================
+Login,Register page design
+*/
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    margin: 0;
+}
+
+/* Flex Utilities */
+.flex-r, .flex-c {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.flex-c { flex-direction: column; }
+.flex-r { flex-direction: row; }
+
+/* Registration Container */
+.register-text {
+    margin-top: 30px;
+    width: 60%;
+    min-height: 450px;
+    border-radius: 10px;
+    padding: 25px 20px;
+}
+.flex-r.login-wrapper {
+    padding-bottom:40px;
+    margin-top:-50px
+}
+.register-text h1 { font-size: 25px; }
+.register-text p { font-size: 15px; color: #000; }
+
+/* Form Styles */
+form {
+    width: 100%;
+    margin-top: 15px;
+    align-items: flex-start !important;
+}
+.input-box {
+    margin: 10px 0px;
+    width: 100%;
+}
+.label {
+    font-size: 15px;
+    color: black;
+    font-weight: 600;
+     padding: 0px;
+}
+.input {
+    position: relative;
+    justify-content: flex-start;
+}
+input {
+    border: .0625rem solid #ccc !important;
+    outline: none;
+    padding: 10px 5px;
+    flex: 1;
+    font-family: Montserrat;
+}
+
+/* Buttons */
+.btn {
+    width: 100%;
+    margin: 30px 0 10px;
+    padding: 10px 35px;
+    font-size: 16px;
+    font-family: Montserrat-Regular;
+    background-color: red;
+    color: #fff;
+}
+.btn:hover { transform: translateY(-2px); }
+
+/* Extra Info */
+.extra-line {
+    font-size: 15px;
+    font-weight: 500;
+    text-align: center;
+    padding-top: 3%;
+    width: 100%;
+}
+.extra-line a {
+    font-weight: 600;
+    color: #000;
+    text-decoration: underline;
+}
+
+.main_heading {
+    text-align: center;
+    font-family: Montserrat-Regular;
+    margin-bottom: 0;
+}
+p.main_content {
+    font-family: Montserrat-Regular;
+    text-align: center;
+    font-size: 17px;
+    font-style: italic;
+    line-height: 1.75rem;
+    color: #000;
+    padding-top: 2%;
+}
+.main_content {
+    margin: auto;
+    width: 65%;
+    padding-top: 3%;
+}
+.info { text-align: center; font-size: 14px; }
+.additional_info { padding-top: 2%; }
+
+/* Password Info */
+span.pass_info {
+    color: #919496;
+}
+.show_hide_password input {
+  width: 100%;
+  padding-right: 40px; /* space for eye icon */
+}
+
+.show_hide_password .show-pass {
+  position: absolute;
+  top: 49%;
+  right: 12px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  opacity: 0.7;
+  color: #333;
+  font-size: 18px;
+}
+
+.show_hide_password .show-pass:hover {
+  opacity: 1;
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  background: #EA2626;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+  outline: none;
+  margin-top: 27px;
+}
+.log-small-text{
+  color: #EA2626;
+}
+
+
+    /* Responsive */
+@media only screen and (max-width: 480px) {
+.register-text { width: 100%; margin-top: 0; }
+.main_content { width: 100%; }
+p.main_content { line-height: 2.15rem; padding-top: 5%; }
+.additional_info { padding-top: 5%; }
+.extra-line { font-size: 13px; }
+}
+
+.login-text {
+    margin-top: 30px;
+    /* border: 1px solid black; */
+    /* border-radius: 10px; */
+    padding: 10px 50px 20px 20px;
+    border-right: .0625rem solid #ccc;
+}
+.login-text h1 {
+    font-size: 19px;
+    margin-bottom: 2%;
+}
+.login-submit{
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    background: #EA2626;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+    outline: none;
+    margin-top: 18px;
+    outline: none;
+    border-color: #EA2626;
+}
+
+/* left side login  */
+.login-main-content {
+    display: block;
+    min-height: 500px;
+    padding-bottom: 80px;
+    padding-top: 80px;
+}
+.btn_wrapper {
+    width: 60%;
+    padding-top: 3%;
+}
+.login-info {
+    width: 50%;
+    padding-left: 3%;
+}
+.login-info h2.additional-info {
+    font-size: 19px;
+    margin-bottom: 2%;
+    margin-top: 6%;
+}
+.login-submit a {
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+}
