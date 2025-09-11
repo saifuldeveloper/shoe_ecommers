@@ -13,7 +13,9 @@ use App\{
 use App\Helpers\ImageHelper;
 use App\Models\Category;
 use App\Models\ChieldCategory;
+use App\Models\Color;
 use App\Models\Currency;
+use App\Models\Size;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
 
@@ -131,7 +133,9 @@ class ItemController extends Controller
     public function create()
     {
         return view('back.item.create', [
-            'curr' => Currency::where('is_default', 1)->first()
+            'curr' => Currency::where('is_default', 1)->first(),
+            'colors' => Color::where('status', 1)->latest()->get(),
+            'sizes' => Size::where('status', 1)->latest()->get()
         ]);
     }
 
@@ -141,14 +145,17 @@ class ItemController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ItemRequest $request)
+    // public function store(ItemRequest $request)
+    public function store(Request $request)
     {
-        $item_id = $this->repository->store($request);
+        // return $request->all();
+
+        $item = $this->repository->store($request);
 
         if ($request->is_button == 0) {
             return redirect()->route('back.item.index')->withSuccess(__('Product Added Successfully.'));
         } else {
-            return redirect(route('back.item.edit', $item_id))->withSuccess(__('Product Added Successfully.'));
+            return redirect(route('back.item.edit', $item->id))->withSuccess(__('Product Added Successfully.'));
         }
     }
 

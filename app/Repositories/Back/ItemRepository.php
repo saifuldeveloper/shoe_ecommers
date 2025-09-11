@@ -5,6 +5,8 @@ namespace App\Repositories\Back;
 use App\{
     Models\Item,
     Models\Gallery,
+    Models\Variant,
+    Models\ItemVariant,
     Helpers\ImageHelper
 };
 use App\Models\Currency;
@@ -90,13 +92,57 @@ class ItemRepository
 
         $input['is_type'] = 'undefine';
 
-        $item_id = Item::create($input)->id;
+        // Detect if product has variants
+        $hasVariants = isset($input['variants']) && count($input['variants']) > 0;
 
-        if(isset($input['galleries'])){
-            $this->galleriesUpdate($request,$item_id);
+        if ($hasVariants) {
+            $input['is_variant'] = 1;
+
+            // Store variant option names (Color, Size)
+            $variantOptions = [];
+            if (!empty($input['colors'])) {
+                $variantOptions[] = 'Color';
+            }
+            if (!empty($input['sizes'])) {
+                $variantOptions[] = 'Size';
+            }
+
+            $input['variant_option'] = json_encode($variantOptions);
+
+            // Store variant values (like Red, Blue, 42, 43)
+            $variantValues = array_merge($input['colors'] ?? [], $input['sizes'] ?? []);
+            $input['variant_value'] = json_encode($variantValues);
+        } else {
+            $input['is_variant'] = 0;
+            $input['variant_option'] = null;
+            $input['variant_value'] = null;
         }
 
-        return $item_id;
+        $item = Item::create($input);
+
+        if(isset($input['galleries'])){
+            $this->galleriesUpdate($request,$item->id);
+        }
+
+        // If product has variants
+        if ($hasVariants) {
+            foreach ($input['variants'] as $position => $variant) {
+
+                $variantModel = Variant::firstOrCreate(['name' => $variant['name']]);
+
+                ItemVariant::create([
+                    'item_id'          => $item->id,
+                    'variant_id'       => $variantModel->id,
+                    'position'         => $position + 1,
+                    'item_code'        => $variant['item_code'] ?? ($variant['name'] . '/' . $item->sku),
+                    'additional_cost'  => $variant['additional_cost'] ?? 0,
+                    'additional_price' => $variant['additional_price'] ?? 0,
+                    'qty'              => $variant['qty'] ?? 0,
+                ]);
+            }
+        }
+
+        return $item->id;
 
     }
 
