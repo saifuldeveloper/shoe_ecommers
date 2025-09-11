@@ -15,7 +15,7 @@
         </div>
 
         <div class="flex-r login-wrapper">
-            <div class="login-text">
+            <div class="register-text">
                 <form class="flex-c">
                     <!-- Email -->
                     <div class="input-box">
