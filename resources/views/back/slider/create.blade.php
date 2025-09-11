@@ -28,7 +28,7 @@
 					</div>
                     <div class="row">
                         <div class="col-lg-12">
-                            <ul class="nav nav-pills nav-secondary" id="pills-tab" role="tablist">
+                              {{-- <ul class="nav nav-pills nav-secondary" id="pills-tab" role="tablist">
                                 <li class="nav-item">
                                   <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">{{ __('Home 1') }}</a>
                                 </li>
@@ -41,7 +41,7 @@
                                 <li class="nav-item">
                                   <a class="nav-link" id="pills-home4-tab" data-toggle="pill" href="#pills-home4" role="tab" aria-controls="pills-home4" aria-selected="false">{{ __('Home 4') }}</a>
                                 </li>
-                              </ul>
+                              </ul> --}}
                               <div class="tab-content" id="pills-tabContent">
                                 <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                                     <form  action="{{ route('back.slider.store') }}" method="POST"
@@ -50,7 +50,7 @@
                                         @csrf
                                         <input type="hidden" name="home_page" value="theme1" id="">
                                         @include('alerts.alerts')
-                                        <div class="form-group">
+                                        {{-- <div class="form-group">
                                             <label id="change_label" for="name">{{ __('Brand Logo') }} </label>
                                             <br>
                                                 <img class="admin-img" src="{{  url('/assets/images/placeholder.png') }}"
@@ -71,20 +71,20 @@
                                             <label for="title">{{ __('Title') }} *</label>
                                             <input type="text" name="title" class="form-control" id="title"
                                                 placeholder="{{ __('Enter Title') }}" value="{{ old('title') }}" >
-                                        </div>
+                                        </div> --}}
 
                                         <div class="form-group">
                                             <label for="slider-link">{{ __('Link') }} *</label>
                                             <input type="text" name="link" class="form-control" id="slider-link"
                                                 placeholder="{{ __('Enter Link') }}" value="{{ old('link') }}" >
                                         </div>
-
+{{-- 
                                         <div class="form-group">
                                             <label for="details">{{ __('Details') }} *</label>
                                             <textarea name="details" id="details" class="form-control" rows="5"
                                                 placeholder="{{ __('Enter Details') }}"
                                                 ></textarea>
-                                        </div>
+                                        </div> --}}
 
                                         <div class="form-group">
                                             <label id="slider_text"  for="name">{{ __('Set Slider Image') }} *</label>
