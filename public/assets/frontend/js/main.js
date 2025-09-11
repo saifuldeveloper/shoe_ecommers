@@ -650,7 +650,16 @@
     $(window).on('load resize', function() {
         resizeHeader()
     });
-
+  $(".show_hide_password .show-pass").on('click', function() {
+    let input = $(this).siblings("input");
+    if (input.attr("type") === "password") {
+      input.attr("type", "text");
+      $(this).find("i").removeClass("fa-eye-slash").addClass("fa-eye");
+    } else {
+      input.attr("type", "password");
+      $(this).find("i").removeClass("fa-eye").addClass("fa-eye-slash");
+    }
+  });
 })(jQuery);
 
 //# sourceMappingURL=main.js.map
