@@ -404,11 +404,37 @@
 
     // Remove and reindex
     $(document).on('click', '.remove-variant', function () {
-      $(this).closest('tr').remove();
-      rebuildIndices();
-      if ($('#variant-table-body tr').length === 0) {
+    const tr = $(this).closest('tr');
+
+    // get hidden color/size values from the row
+    const color = tr.find('input[name*="[color]"]').val();
+    const size  = tr.find('input[name*="[size]"]').val();
+
+    // remove row first
+    tr.remove();
+
+    // also unselect from select2 if that color/size is no longer present in any row
+    if (color) {
+        const stillExists = $('#variant-table-body input[name*="[color]"][value="' + color + '"]').length > 0;
+        if (!stillExists) {
+        let colors = $('#colors').val() || [];
+        colors = colors.filter(c => c !== color);
+        $('#colors').val(colors).trigger('change');
+        }
+    }
+    if (size) {
+        const stillExists = $('#variant-table-body input[name*="[size]"][value="' + size + '"]').length > 0;
+        if (!stillExists) {
+        let sizes = $('#sizes').val() || [];
+        sizes = sizes.filter(s => s !== size);
+        $('#sizes').val(sizes).trigger('change');
+        }
+    }
+
+    rebuildIndices();
+    if ($('#variant-table-body tr').length === 0) {
         $('#variant-section').hide();
-      }
+    }
     });
 
     function rebuildIndices() {
