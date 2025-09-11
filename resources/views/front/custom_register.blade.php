@@ -59,6 +59,9 @@
                         </div>
                     </div>
 
+                       <div class="check">
+                        Already Have An Account ? <a class="log-small-text" href="#recover">Login Now</a>
+                        </div>
                     <!-- Submit -->
                      <button type="submit" class="btn-submit" id="submitBtn" >Create an Account</button>
                 </form>
