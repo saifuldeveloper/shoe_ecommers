@@ -441,6 +441,9 @@ Route::group(['middleware' => 'maintainance'], function () {
         Route::get('/custom-register',function(){
              return view('front.custom_register');
         });
+        Route::get('/custom-login',function(){
+            return view('front.custom_login');
+        });
 
         Route::get('/', [FrontendController::class, 'index'])->name('front.index');
         Route::get('/extra-index', [FrontendController::class, 'extraIndex'])->name('front.extraindex');
