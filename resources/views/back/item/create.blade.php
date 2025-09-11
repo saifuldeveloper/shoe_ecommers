@@ -87,6 +87,51 @@
                     </div>
                 </div>
             </div>
+
+
+
+              <div class="card">
+                <div class="card-body">
+                    <div class="form-group pb-0  mb-0">
+                        <label>{{ __('Product Variants') }} </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="colors">{{ __('Select Colors') }}</label>
+                        <select id="colors" name="colors[]" class="form-control select2" multiple="multiple" data-placeholder="Select colors">
+                            @foreach($colors as $color)
+                            <option value="{{ $color->name }}">{{ $color->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sizes">{{ __('Select Sizes') }}</label>
+                        <select id="sizes" name="sizes[]" class="form-control select2" multiple="multiple" data-placeholder="Select sizes">
+                            @foreach($sizes as $size)
+                            <option value="{{ $size->name }}">{{ $size->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div id="variant-section" class="mt-4" style="display:none;">
+                        <h6><b>{{ __('Generated Variants') }}</b></h6>
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>{{ __('Name') }}</th>
+                                <th>{{ __('Item Code') }}</th>
+                                <th>{{ __('Additional Cost') }}</th>
+                                <th>{{ __('Additional Price') }}</th>
+                                <th>{{ __('Action') }}</th>
+                            </tr>
+                            </thead>
+                            <tbody id="variant-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
             <div class="card">
                 <div class="card-body">
                     <div class="form-group">
@@ -301,4 +346,82 @@
 
 
 @section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script>
+  $(function () {
+    // Init Select2
+    $('#colors, #sizes').select2({
+      width: '100%',
+      allowClear: true,
+      // placeholder is taken from data-placeholder on the select
+    });
+
+    // Build variants on change
+    $('#colors, #sizes').on('change', generateVariants);
+
+    function generateVariants() {
+      const colors = $('#colors').val() || [];
+      const sizes = $('#sizes').val() || [];
+      const tbody = $('#variant-table-body');
+      tbody.empty();
+
+      if (colors.length === 0 && sizes.length === 0) {
+        $('#variant-section').hide();
+        return;
+      }
+
+      let variants = [];
+
+      if (colors.length && sizes.length) {
+        colors.forEach(c => sizes.forEach(s => variants.push({name: c + '/' + s, color: c, size: s})));
+      } else if (colors.length) {
+        colors.forEach(c => variants.push({name: c, color: c, size: ''}));
+      } else if (sizes.length) {
+        sizes.forEach(s => variants.push({name: s, color: '', size: s}));
+      }
+
+      variants.forEach((v, idx) => {
+        // Use template literals (backticks) — values come from the selects so safe
+        const row = `
+          <tr>
+            <td>
+              <input type="text" name="variants[${idx}][name]" class="form-control" value="${v.name}" readonly>
+              <input type="hidden" name="variants[${idx}][color]" value="${v.color}">
+              <input type="hidden" name="variants[${idx}][size]" value="${v.size}">
+            </td>
+            <td><input type="text" name="variants[${idx}][item_code]" class="form-control" placeholder="Enter code"></td>
+            <td><input type="number" step="0.01" name="variants[${idx}][additional_cost]" class="form-control" placeholder="0.00"></td>
+            <td><input type="number" step="0.01" name="variants[${idx}][additional_price]" class="form-control" placeholder="0.00"></td>
+            <td><button type="button" class="btn btn-danger btn-sm remove-variant">X</button></td>
+          </tr>
+        `;
+        tbody.append(row);
+      });
+
+      $('#variant-section').show();
+    }
+
+    // Remove and reindex
+    $(document).on('click', '.remove-variant', function () {
+      $(this).closest('tr').remove();
+      rebuildIndices();
+      if ($('#variant-table-body tr').length === 0) {
+        $('#variant-section').hide();
+      }
+    });
+
+    function rebuildIndices() {
+      $('#variant-table-body tr').each(function (i, tr) {
+        $(tr).find('input, select, textarea').each(function () {
+          const name = $(this).attr('name');
+          if (!name) return;
+          // replace the first occurrence of variants[\d+]
+          const newName = name.replace(/variants\[\d+\]/, 'variants[' + i + ']');
+          $(this).attr('name', newName);
+        });
+      });
+    }
+  });
+</script>
 @endsection
