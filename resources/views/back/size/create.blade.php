@@ -33,15 +33,9 @@
 
 
 									<div class="form-group">
-										<label for="name">{{ __('Name') }} *</label>
+										<label for="name">{{ __('Size') }} *</label>
 										<input type="text" name="name" class="form-control item-name" id="name"
-											placeholder="{{ __('Enter Name') }}" value="{{ old('name') }}">
-									</div>
-
-									<div class="form-group">
-										<label for="code">{{ __('Code') }} *</label>
-										<input type="text" name="code" class="form-control" id="code"
-											placeholder="{{ __('Enter Slug') }}" value="{{ old('code') }}">
+											placeholder="{{ __('Enter Size') }}" value="{{ old('name') }}">
 									</div>
 
 								<div class="form-group">

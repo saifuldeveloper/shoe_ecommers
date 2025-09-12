@@ -32,13 +32,11 @@ class SizeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:sizes,name',
-            'code' => 'required|unique:sizes,code',
+            'name' => 'required|unique:sizes,name'
         ]);
 
         $data = new \App\Models\Size();
         $data->name = $request->name;
-        $data->code = $request->code;
         $data->save();
 
         return redirect()->route('back.size.index')->withSuccess(__('New Data Added Successfully.'));
@@ -75,12 +73,10 @@ class SizeController extends Controller
     {
         $request->validate([
             'name' => 'required|unique:sizes,name,'.$id,
-            'code' => 'required|unique:sizes,code,'.$id,
         ]);
 
         $data = \App\Models\Size::find($id);
         $data->name = $request->name;
-        $data->code = $request->code;
         $data->save();
 
         return redirect()->route('back.size.index')->withSuccess(__('Data Updated Successfully.'));

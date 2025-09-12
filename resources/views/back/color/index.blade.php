@@ -38,7 +38,10 @@
                                     {{ $data->name }}
                                 </td>
                                 <td>
-                                    {{ $data->code }}
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div style="width:20px; height:20px; border-radius:3px; border:1px solid #ccc; background-color: {{ $data->code }};"></div>
+                                        <span>{{ $data->code }}</span>
+                                    </div>
                                 </td>
                                 <td>
                                     <div class="dropdown">
