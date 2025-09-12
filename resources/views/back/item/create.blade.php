@@ -115,12 +115,12 @@
                     </div>
 
                     <div id="variant-section" class="mt-4" style="display:none;">
-                        <h6><b>{{ __('Generated Variants') }}</b></h6>
+                        <h6><b>{{ __('Variants Items') }}</b></h6>
                         <table class="table table-bordered">
                             <thead>
                             <tr>
                                 <th>{{ __('Name') }}</th>
-                                <th>{{ __('Item Code') }}</th>
+                                <th>{{ __('SKU') }}*</th>
                                 <th>{{ __('Additional Cost') }}</th>
                                 <th>{{ __('Additional Price') }}</th>
                                 <th>{{ __('Action') }}</th>
@@ -381,7 +381,7 @@
               <input type="hidden" name="variants[${idx}][color]" value="${v.color}">
               <input type="hidden" name="variants[${idx}][size]" value="${v.size}">
             </td>
-            <td><input type="text" name="variants[${idx}][item_code]" class="form-control" placeholder="Enter code"></td>
+            <td><input type="text" name="variants[${idx}][variant_sku]" class="form-control" placeholder="Enter SKU"></td>
             <td><input type="number" step="0.01" name="variants[${idx}][additional_cost]" class="form-control" placeholder="0.00"></td>
             <td><input type="number" step="0.01" name="variants[${idx}][additional_price]" class="form-control" placeholder="0.00"></td>
             <td><button type="button" class="btn btn-danger btn-sm remove-variant">X</button></td>
@@ -439,6 +439,35 @@
         });
       });
     }
+
+
+    // Client-side validation before form submit
+    $('form.admin-form').on('submit', function (e) {
+    let isValid = true;
+    let firstInvalid = null;
+
+    $('#variant-table-body tr').each(function () {
+        const skuInput = $(this).find('input[name*="[variant_sku]"]');
+        if (skuInput.length && !skuInput.val().trim()) {
+        isValid = false;
+        skuInput.addClass('is-invalid');
+        if (!firstInvalid) {
+            firstInvalid = skuInput;
+        }
+        } else {
+        skuInput.removeClass('is-invalid');
+        }
+    });
+
+    if (!isValid) {
+        e.preventDefault();
+        alert('Please fill in SKU for all variant items before submitting.');
+        if (firstInvalid) {
+        firstInvalid.focus();
+        }
+    }
+    });
+
   });
 </script>
 @endsection

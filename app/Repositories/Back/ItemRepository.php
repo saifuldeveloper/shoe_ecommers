@@ -150,6 +150,7 @@ class ItemRepository
 
                 ItemVariant::create([
                     'item_id'          => $item->id,
+                    'variant_sku'      => $variant['variant_sku'],
                     'variant_id'       => $variantModel->id,
                     'position'         => $position + 1,
                     'item_code'        => $variant['item_code'] ?? ($variant['name'] . '/' . $item->sku),
