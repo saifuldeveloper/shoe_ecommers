@@ -301,15 +301,6 @@
             <div class="card">
                 <div class="card-body">
                     <div class="form-group">
-                        <label for="stock">{{ __('Total in stock') }}
-                            *</label>
-                        <div class="input-group mb-3">
-                            <input type="number" id="stock"
-                                name="stock" class="form-control"
-                                placeholder="{{ __('Total in stock') }}" value="{{ old('stock') }}" >
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label for="tax_id">{{ __('Select Tax') }} *</label>
                         <select name="tax_id" id="tax_id" class="form-control">
                             <option value="">{{__('Select One')}}</option>

@@ -60,7 +60,6 @@ class ItemRequest extends FormRequest
             'sort_details'    => 'required',
             'discount_price'  => 'required|max:50',
             'previous_price'  => 'max:50',
-            'stock'           => 'numeric|max:9999999999',
             'tax_id'          => 'required',
             'photo'           => $required, 'mimes:jpeg,jpg,png,svg'
         ];
@@ -84,7 +83,6 @@ class ItemRequest extends FormRequest
             'details.required'         =>  __('Description field is required.'),
             'sort_details.required'    =>  __('Sort Description field is required.'),
             'discount_price.required'  =>  __('Current Price field is required.'),
-            'stock.required'           =>  __('Stock field is required.'),
             'photo.required'           =>  __('Image field is required.'),
             'photo.mimes'              =>  __('Image type must be jpg,jpeg,png,svg.')
         ];
