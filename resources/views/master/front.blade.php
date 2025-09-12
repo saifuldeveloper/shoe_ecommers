@@ -33,6 +33,7 @@
     <link href="{{ asset('assets/frontend/plugins/revolution/css/layers.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/frontend/plugins/revolution/css/navigation.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/frontend/css/style.css') }}" rel="stylesheet" />
+     <link href="{{ asset('assets/frontend/css/custom_style.css') }}" rel="stylesheet" />
 </head>
 
 <body>
