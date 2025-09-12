@@ -4,7 +4,8 @@ namespace App\Repositories\Back;
 
 use App\{
     Models\Item,
-    Models\Gallery,
+    Models\Color,
+    Models\Size,
     Models\Variant,
     Models\ItemVariant,
     Helpers\ImageHelper
@@ -128,7 +129,24 @@ class ItemRepository
         if ($hasVariants) {
             foreach ($input['variants'] as $position => $variant) {
 
-                $variantModel = Variant::firstOrCreate(['name' => $variant['name']]);
+                $colorId = null;
+                $sizeId = null;
+
+                if (!empty($variant['color']) && !empty($input['colors'])) {
+                    $colorId = Color::where('name', $variant['color'])->value('id');
+                }
+
+                if (!empty($variant['size']) && !empty($input['sizes'])) {
+                    $sizeId = Size::where('name', $variant['size'])->value('id');
+                }
+
+                $variantModel = Variant::firstOrCreate(
+                    [
+                        'name' => $variant['name'],
+                        'color_id' => $colorId,
+                        'size_id'  => $sizeId,
+                    ]
+                );
 
                 ItemVariant::create([
                     'item_id'          => $item->id,
