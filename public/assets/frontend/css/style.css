@@ -8656,7 +8656,7 @@ p.main_content { line-height: 2.15rem; padding-top: 5%; }
 .login-main-content {
     display: block;
     min-height: 500px;
-    padding-bottom: 80px;
+    padding-bottom: 126px;
     padding-top: 80px;
 }
 .btn_wrapper {
@@ -8676,4 +8676,40 @@ p.main_content { line-height: 2.15rem; padding-top: 5%; }
     color: white;
     font-size: 15px;
     font-weight: 600;
+}
+.orText{
+    -webkit-tap-highlight-color: transparent;
+    line-height: 4.5;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    color: rgb(0, 0, 0);
+}
+/* Start social login css */
+.social--login-btn {
+  display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 45px;
+    width: 100%;
+    border: 1px solid black;
+    background: white;
+    color: black;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+}
+.social--login-btn svg {
+  height: 26px;
+  width: 20px;
+}
+
+.social--login-btn a {
+  color: inherit;
+  text-decoration: none;
+  text-align: center;
+  line-height: 38px; 
+  margin-left: 5px;
 }
