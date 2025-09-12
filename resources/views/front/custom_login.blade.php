@@ -1,9 +1,6 @@
 @extends('master.front')
 
 @section('content')
-@push('css')
-  
-@endpush
 
 <div class="login-main-content">
 <div class="flex-r">

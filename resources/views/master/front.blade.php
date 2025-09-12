@@ -13,6 +13,7 @@
     <meta name="keywords" content="Default Description" />
     <meta name="description" content="Default keyword" />
     <title>Shoe - Homepage</title>
+          @stack('css')
     <!-- Fonts-->
     <link
         href="https://fonts.googleapis.com/css?family=Archivo+Narrow:300,400,700%7CMontserrat:300,400,500,600,700,800,900"
@@ -34,6 +35,7 @@
     <link href="{{ asset('assets/frontend/plugins/revolution/css/navigation.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/frontend/css/style.css') }}" rel="stylesheet" />
      <link href="{{ asset('assets/frontend/css/custom_style.css') }}" rel="stylesheet" />
+
 </head>
 
 <body>
@@ -113,7 +115,7 @@
             }
         });
     </script>
-
+@stack('js')
 </body>
 
 </html>

@@ -247,3 +247,38 @@ p.main_content { line-height: 2.15rem; padding-top: 5%; }
   line-height: 38px; 
   margin-left: 5px;
 }
+
+/* ========================= */
+/* Dashboard css  */
+/* ========================= */
+.my-accountText{
+    padding-bottom:30px
+}
+.account-sidebar {
+  background: #fff;
+  padding: 20px;
+  border-right: 1px solid #e5e5e5;
+  height: 100vh;
+  text-align: right;
+}
+
+.nav-pills-item .nav-link {
+  color: #6c757d;
+  font-weight: 500;
+  text-align: right; /* এখানে right করা হয়েছে */
+  margin-bottom: 8px;
+}
+
+.nav-pills-item .nav-link.active {
+  color: #000;
+  font-weight: bold;
+  background: none;
+}
+
+.content-area {
+  padding: 30px;
+  background: #fff;
+  color: black;
+  /* height: 100vh;
+  overflow-y: auto; */
+}
