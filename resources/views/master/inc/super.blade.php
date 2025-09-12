@@ -23,7 +23,7 @@
                         <span class="sub-item">{{ __('Sub categories') }}</span>
                     </a>
                 </li>
-                <li>
+                <li class="d-none">
                     <a class="sub-link" href="{{ route('back.childcategory.index') }}">
                         <span class="sub-item">{{ __('Child categories') }}</span>
                     </a>
@@ -55,7 +55,7 @@
                         <span class="sub-item">{{ __('Sizes') }}</span>
                     </a>
                 </li>
-                <li>
+                <li class="d-none">
                     <a class="sub-link" href="{{ route('back.item.create') }}">
                         <span class="sub-item">{{ __('Add Product') }}</span>
                     </a>
