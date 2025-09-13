@@ -12,7 +12,7 @@
             <div class="panel-body">
                 <div class="row">
                    <div class="container my-4">
-    <div class="table-responsive">
+    <div class="table-responsive custom_table-responsive">
         <table class="table table-striped table-bordered">
             <thead class="bg-dark text-white">
                <tr>
@@ -31,30 +31,30 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-            <td class="text-center">10001</td>  
-            <td class="text-center">Sudhir Kumar</td>
-            <td class="text-center">1234567891</td>
-            <td class="text-center">$172.00</td>
-            <td class="text-center">$36.12</td>
-            <td class="text-center">$208.12</td>
-            
-            <td class="text-center">
-                    <span class="badge bg-danger">Canceled</span>
-            </td>
-            <td class="text-center">2024-07-11 00:54:14</td>
-            <td class="text-center">2</td>
-            <td>2024-07-07</td>
-            <td class="text-center">
-                <a href="#">
-                <div class="list-icon-function view-icon">
-                    <div class="item eye">
-                        <i class="fa fa-eye"></i>
-                    </div>                                        
-                </div>
-                </a>
-            </td>
-        </tr>
+                    <tr>
+                    <td class="text-center">10001</td>  
+                    <td class="text-center">Sudhir Kumar</td>
+                    <td class="text-center">1234567891</td>
+                    <td class="text-center">$172.00</td>
+                    <td class="text-center">$36.12</td>
+                    <td class="text-center">$208.12</td>
+                    
+                    <td class="text-center">
+                    <span class="custom_badge bg-danger_custom">Canceled</span>
+                    </td>
+                    <td class="text-center">2024-07-11 00:54:14</td>
+                    <td class="text-center">2</td>
+                    <td>2024-07-07</td>
+                    <td class="text-center">
+                        <a href="#">
+                        <div class="list-icon-function view-icon">
+                            <div class="item eye">
+                                <i class="fa fa-eye"></i>
+                            </div>                                        
+                        </div>
+                        </a>
+                    </td>
+                </tr>
                 <tr>
                     <td class="text-center">10001</td>  
                     <td class="text-center">Sudhir Kumar</td>
@@ -64,7 +64,7 @@
                     <td class="text-center">$208.12</td>
                     
                     <td class="text-center">
-                        <span class="badge bg-warning">Orders</span>
+                        <span class="custom_badge bg-warning_custom">Orders</span>
                 </td>
                     <td class="text-center">2024-07-11 00:54:14</td>
                     <td class="text-center">2</td>

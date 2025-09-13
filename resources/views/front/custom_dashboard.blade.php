@@ -23,9 +23,7 @@
         <li>
           <a href="#v-pills-tracker" role="tab" data-toggle="tab">Order Tracker</a>
         </li>
-        <li>
-          <a href="#v-pills-rewards" role="tab" data-toggle="tab">My Reward Points</a>
-        </li>
+       
         <li>
           <a href="#v-pills-logout" role="tab" data-toggle="tab">Sign Out</a>
         </li>

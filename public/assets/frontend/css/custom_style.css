@@ -331,7 +331,7 @@ p.main_content { line-height: 2.15rem; padding-top: 5%; }
 }
 
 /* ==========================orders table data ============================= */
-thead {
+.table-striped thead {
     background-color: #4e5b56; /* Dark green background */
     color: white; /* White text color */
 }
@@ -348,16 +348,15 @@ thead {
     border-width: 0 0;
 }
 
-.table-responsive {
+.custom_table-responsive {
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
 }
 
-.badge {
+.custom_badge {
     font-size: 14px;
     padding: 0.3rem 0.6rem;
 }
-.badge {
+.custom_badge {
     display: inline-block;
     padding: 0.35em 0.65em;
     font-size: 0.75em;
@@ -369,11 +368,11 @@ thead {
     vertical-align: baseline;
     border-radius: 0.25rem;
 }
-.bg-danger {
+.bg-danger_custom {
     background-color: #dc3545 !important;
 }
 
-.bg-warning {
+.bg-warning_custom {
     background-color: #ffc107 !important;
 }
 
