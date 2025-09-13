@@ -62,6 +62,25 @@ use App\Http\Controllers\Auth\User\LoginController as UserLoginController;
 use App\Http\Controllers\Auth\Back\LoginController  as BackLoginController;
 
 
+//------------ FRONT dashboard ------------
+Route::get('/custom-register',function(){
+    return view('front.custom_register');
+});
+Route::get('/custom-login',function(){
+    return view('front.custom_login');
+});
+Route::get('/custom-dashboard',function(){
+    return view('front.custom_dashboard');
+});
+Route::get('/profile-dashboard',function(){
+    return view('front.user_profile');
+})->name('profile');
+
+Route::get('/user-address',function(){
+    return view('front.address');
+})->name('user-address');
+
+
 Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
     Route::prefix('admin')->group(function () {
         //------------ AUTH ------------
@@ -441,17 +460,7 @@ Route::group(['middleware' => 'maintainance'], function () {
 
         // ************************************ FRONTEND **********************************************
 
-        //------------ FRONT ------------
-        Route::get('/custom-register',function(){
-             return view('front.custom_register');
-        });
-        Route::get('/custom-login',function(){
-            return view('front.custom_login');
-        });
-         Route::get('/custom-dashboard',function(){
-            return view('front.custom_dashboard');
-        });
-
+      
         Route::get('/', [FrontendController::class, 'index'])->name('front.index');
         Route::get('/extra-index', [FrontendController::class, 'extraIndex'])->name('front.extraindex');
         Route::get('/product/{slug}', [FrontendController::class, 'product'])->name('front.product');
