@@ -301,13 +301,11 @@ p.main_content { line-height: 2.15rem; padding-top: 5%; }
     margin: 50px auto;   /* top-bottom 50px gap */
     float: none;         /* center in column */
 }
-.user_profile_main_card{
+.main_card{
     margin-top: 35px!important;
     margin-left: 35px!important;
 }
-.user_profile_card000{
 
-}
 .panel-title {
     font-weight: bold;
     text-transform: uppercase;
@@ -330,4 +328,66 @@ p.main_content { line-height: 2.15rem; padding-top: 5%; }
     margin: 0 0 15px;
     font-size: 13px;
     color: #555;
+}
+
+/* ==========================orders table data ============================= */
+thead {
+    background-color: #4e5b56; /* Dark green background */
+    color: white; /* White text color */
+}
+.table-all-user {
+    margin-left: 12px;
+}
+
+.table-bordered > :not(caption) > tr {
+    border-width: 0 0;
+}
+
+.table-bordered > :not(caption) > tr > th,
+.table-bordered > :not(caption) > tr > td {
+    border-width: 0 0;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.badge {
+    font-size: 14px;
+    padding: 0.3rem 0.6rem;
+}
+.badge {
+    display: inline-block;
+    padding: 0.35em 0.65em;
+    font-size: 0.75em;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+}
+.bg-danger {
+    background-color: #dc3545 !important;
+}
+
+.bg-warning {
+    background-color: #ffc107 !important;
+}
+
+/* Responsive Table */
+@media (max-width: 767.98px) {
+    .table-responsive-md {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+.table-bordered> :not(caption)>tr>th, .table-bordered> :not(caption)>tr>td {
+    border-width: 1px 1px;
+    border-color: #6a6e51;
+}
+.table> :not(caption)>tr>td {
+    padding: 2rem 2rem ;
 }

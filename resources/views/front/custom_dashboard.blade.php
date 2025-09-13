@@ -9,13 +9,13 @@
       <h5 class="fw-bold my-accountText">MY ACCOUNT</h5>
       <ul class="nav nav-pills nav-stacked" role="tablist">
         <li class="active">
-          <a href="{{ route('profile') }}" >My Profile</a>
+          <a href="{{ route('custom.profile') }}" >My Profile</a>
         </li>
         <li>
-          <a href="{{ route('user-address') }}">Address Book</a>
+          <a href="{{ route('custom.address') }}">Address Book</a>
         </li>
         <li>
-          <a href="#v-pills-orders" role="tab" data-toggle="tab">My Orders</a>
+          <a href="{{ route('custom.orders') }}">My Orders</a>
         </li>
         <li>
           <a href="#v-pills-wishlist" role="tab" data-toggle="tab">Wishlist</a>

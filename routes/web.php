@@ -60,7 +60,7 @@ use App\Http\Controllers\Back\AccountController as BackAccountController;
 use App\Http\Controllers\User\AccountController as UserAccountController;
 use App\Http\Controllers\Auth\User\LoginController as UserLoginController;
 use App\Http\Controllers\Auth\Back\LoginController  as BackLoginController;
-
+use App\Http\Controllers\Front\UserDashboardController;
 
 //------------ FRONT dashboard ------------
 Route::get('/custom-register',function(){
@@ -69,16 +69,13 @@ Route::get('/custom-register',function(){
 Route::get('/custom-login',function(){
     return view('front.custom_login');
 });
-Route::get('/custom-dashboard',function(){
-    return view('front.custom_dashboard');
-});
-Route::get('/profile-dashboard',function(){
-    return view('front.user_profile');
-})->name('profile');
 
-Route::get('/user-address',function(){
-    return view('front.address');
-})->name('user-address');
+Route::controller(UserDashboardController::class)->group(function(){
+    Route::get('account/dashboard',action: 'index')->name('custom.dashboard');
+    Route::get('account/profile','userProfile')->name('custom.profile');
+    Route::get('account/address','userAddress')->name('custom.address');
+    Route::get('account/orders','orders')->name('custom.orders');
+});
 
 
 Route::group(['middleware' => ['adminlocalize', 'demo']], function () {

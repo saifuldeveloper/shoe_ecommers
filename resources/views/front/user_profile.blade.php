@@ -3,7 +3,7 @@
 @section('user_content')
 <div class="row">
     <!-- Profile Content -->
-    <div class="col-sm-10 col-sm-offset-0 user_profile_main_card">
+    <div class="col-sm-10 col-sm-offset-0 main_card">
         <div class="user_profile_card000">
             <div class="panel-heading">
                 <h3 class="panel-title">ACCOUNT INFORMATION</h3>
