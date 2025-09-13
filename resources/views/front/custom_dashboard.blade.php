@@ -18,13 +18,6 @@
           <a href="{{ route('custom.orders') }}">My Orders</a>
         </li>
         <li>
-          <a href="#v-pills-wishlist" role="tab" data-toggle="tab">Wishlist</a>
-        </li>
-        <li>
-          <a href="#v-pills-tracker" role="tab" data-toggle="tab">Order Tracker</a>
-        </li>
-       
-        <li>
           <a href="#v-pills-logout" role="tab" data-toggle="tab">Sign Out</a>
         </li>
       </ul>

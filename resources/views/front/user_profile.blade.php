@@ -12,8 +12,8 @@
             <div class="panel-body">
                 <h4>
                     Personal Information 
-                    <button class="btn btn-default btn-xs pull-right">
-                        <span class="glyphicon glyphicon-pencil"></span> Edit
+                    <button class="edit_profile_btn pull-right">
+                        Edit  <span class="glyphicon glyphicon-pencil"></span>
                     </button>
                 </h4>
                 <hr>
