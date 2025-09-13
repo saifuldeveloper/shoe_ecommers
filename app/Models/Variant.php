@@ -9,5 +9,5 @@ class Variant extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'color_id', 'size_id'];
 }

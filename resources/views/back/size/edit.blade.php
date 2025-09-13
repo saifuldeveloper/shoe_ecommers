@@ -33,15 +33,9 @@
 
 									@include('alerts.alerts')
 									<div class="form-group">
-										<label for="name">{{ __('Name') }} *</label>
+										<label for="name">{{ __('Size') }} *</label>
 										<input type="text" name="name" class="form-control item-name" id="name"
-											placeholder="{{ __('Enter Name') }}" value="{{ $size->name }}">
-									</div>
-
-									<div class="form-group">
-										<label for="code">{{ __('Code') }} *</label>
-										<input type="text" name="code" class="form-control" id="code"
-											placeholder="{{ __('Enter Code') }}" value="{{ $size->code }}">
+											placeholder="{{ __('Enter Size') }}" value="{{ $size->name }}">
 									</div>
 
 								<div class="form-group">

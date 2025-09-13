@@ -3,12 +3,45 @@
 namespace App\Models;
 
 use App\Models\Wishlist;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 
 class Item extends Model
 {
 
     protected $fillable = ['category_id','subcategory_id','childcategory_id','brand_id','name','slug','sku', 'code', 'tags','video','sort_details','specification_name','specification_description','is_specification','details','photo','thumbnail','discount_price','previous_price','stock','meta_keywords','meta_description','is_variant', 'variant_option', 'variant_value', 'status','is_type','tax_id','date','item_type','file','link','file_type','license_name','license_key','affiliate_link',"seller_id"];
+
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($item) {
+            $item->slug = static::generateUniqueSlug($item->name);
+        });
+
+        static::updating(function ($item) {
+            if ($item->isDirty('name')) {
+                $item->slug = static::generateUniqueSlug($item->name, $item->id);
+            }
+        });
+    }
+
+    protected static function generateUniqueSlug($name, $ignoreId = null)
+    {
+        $slug = Str::slug($name);
+        $originalSlug = $slug;
+        $count = 1;
+
+        // Keep checking until slug is unique
+        while (static::where('slug', $slug)
+                ->when($ignoreId, fn($q) => $q->where('id', '!=', $ignoreId))
+                ->exists()) {
+            $slug = $originalSlug . '-' . $count++;
+        }
+
+        return $slug;
+    }
 
     public function category()
     {

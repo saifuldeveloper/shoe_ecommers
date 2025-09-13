@@ -24,8 +24,7 @@
 
 					<thead>
 						<tr>
-                            <th>{{ __('Name') }}</th>
-                            <th>{{ __('Code') }}</th>
+                            <th>{{ __('Size') }}</th>
 							<th>{{ __('Status') }}</th>
 							<th>{{ __('Actions') }}</th>
 						</tr>
@@ -36,9 +35,6 @@
                             <tr>
                                 <td>
                                     {{ $data->name }}
-                                </td>
-                                <td>
-                                    {{ $data->code }}
                                 </td>
                                 <td>
                                     <div class="dropdown">

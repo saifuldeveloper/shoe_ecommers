@@ -18,6 +18,7 @@ use App\Models\Currency;
 use App\Models\Size;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ItemController extends Controller
 {
@@ -145,17 +146,22 @@ class ItemController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    // public function store(ItemRequest $request)
-    public function store(Request $request)
+    public function store(ItemRequest $request)
     {
-        // return $request->all();
+        try {
 
-        $item = $this->repository->store($request);
+            DB::beginTransaction();
+            $item = $this->repository->store($request);
+            DB::commit();
 
-        if ($request->is_button == 0) {
-            return redirect()->route('back.item.index')->withSuccess(__('Product Added Successfully.'));
-        } else {
-            return redirect(route('back.item.edit', $item->id))->withSuccess(__('Product Added Successfully.'));
+            if ($request->is_button == 0) {
+                return redirect()->route('back.item.index')->withSuccess(__('Product Added Successfully.'));
+            } else {
+                return redirect(route('back.item.edit', $item->id))->withSuccess(__('Product Added Successfully.'));
+            }
+         } catch (\Throwable $e) {
+            DB::rollBack();
+            return redirect()->back()->withErrors(__('Something went wrong.'))->withInput();
         }
     }
 

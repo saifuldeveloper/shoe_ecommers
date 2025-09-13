@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('sizes', function (Blueprint $table) {
             $table->id();
             $table->string('name');                // e.g., Small, Medium, Large
-            $table->string('code', 10)->nullable(); // e.g., S, M, L
             $table->boolean('status')->default(1); // Active/Inactive
             $table->timestamps();
         });

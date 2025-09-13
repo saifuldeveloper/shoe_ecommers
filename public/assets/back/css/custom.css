@@ -482,3 +482,8 @@ input.btn.btn-primary.note-btn.note-btn-primary.note-video-btn {
 .sortableLists .list-group-item.sortableListsOpen  div.float-right {
   width: auto !important;
 }
+
+.form-group.position-relative.is-invalid .file-custom {
+    border: 1px solid #dc3545; /* Bootstrap red */
+    border-radius: 0.25rem;
+}
