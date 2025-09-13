@@ -286,6 +286,22 @@
                                 @endforeach
                             </select>
                         </div>
+
+                        <div class="form-group">
+                            <label for="is_type">{{ __('Select Item Type') }}</label>
+                            <select name="is_type" id="is_type" class="form-control">
+                                <option value="undefined" 
+                                    {{ old('is_type', 'undefined') == 'undefined' ? 'selected' : '' }}>
+                                    Undefine Product
+                                </option>
+                                <option value="new" {{ old('is_type') == 'new' ? 'selected' : '' }}>New Arrival</option>
+                                <option value="flash_deal" {{ old('is_type') == 'flash_deal' ? 'selected' : '' }}>Flash Deal Product</option>
+                                <option value="feature" {{ old('is_type') == 'feature' ? 'selected' : '' }}>Featured Product</option>
+                                <option value="best" {{ old('is_type') == 'best' ? 'selected' : '' }}>Best Product</option>
+                                <option value="top" {{ old('is_type') == 'top' ? 'selected' : '' }}>Top Product</option>
+                            </select>
+                        </div>
+
                     </div>
                 </div>
                 <div class="card">

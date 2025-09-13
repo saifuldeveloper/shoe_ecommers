@@ -91,7 +91,7 @@ class ItemRepository
         }
 
 
-        $input['is_type'] = 'undefine';
+        $input['is_type'] = $request->is_type;
 
         // Detect if product has variants
         $hasVariants = isset($input['variants']) && count($input['variants']) > 0;
