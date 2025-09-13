@@ -15,9 +15,9 @@
           <a href="{{ route('custom.orders') }}">My Orders</a>
         </li>
         
-        <li>
+        {{-- <li>
           <a href="{{ route('custom.address') }}">Address Book</a>
-        </li>
+        </li> --}}
 
          <li>
           <a href="{{ route('custom.change-password') }}">Change Password</a>

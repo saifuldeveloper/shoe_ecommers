@@ -25,4 +25,7 @@ class UserDashboardController extends Controller
     public function passwordChange(){
         return view('front.password_change');
     }
+    public function orderDetails(){
+        return view('front.order_details');
+    }
 }
