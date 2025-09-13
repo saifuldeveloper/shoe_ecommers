@@ -296,3 +296,38 @@ p.main_content { line-height: 2.15rem; padding-top: 5%; }
 
 
 /* ============================ */
+
+.profile_panel {
+    margin: 50px auto;   /* top-bottom 50px gap */
+    float: none;         /* center in column */
+}
+.user_profile_main_card{
+    margin-top: 35px!important;
+    margin-left: 35px!important;
+}
+.user_profile_card000{
+
+}
+.panel-title {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.panel-heading small {
+    display: block;
+    color: #777;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.panel-body strong {
+    display: block;
+    font-size: 13px;
+    color: #000;
+}
+
+.panel-body p {
+    margin: 0 0 15px;
+    font-size: 13px;
+    color: #555;
+}
