@@ -12,55 +12,55 @@
             <div class="panel-body">
                 <h4>
                     Personal Information 
-                    <button class="edit_profile_btn pull-right">
+                    <a href="{{ route('custom.edit-profile') }}" class="edit_profile_btn pull-right">
                         Edit  <span class="glyphicon glyphicon-pencil"></span>
-                    </button>
+                    </a>
                 </h4>
                 <hr>
                 <div class="row">
                     <div class="col-sm-6">
-                        <strong>First Name</strong>
-                        <p>Alamin</p>
+                        <strong class="accountInfo">First Name</strong>
+                        <p class="accountTitle">Alamin</p>
                     </div>
                     <div class="col-sm-6">
-                        <strong>Last Name</strong>
-                        <p>islam</p>
+                        <strong class="accountInfo">Last Name</strong>
+                        <p class="accountTitle">islam</p>
                     </div>
                     <div class="col-sm-6">
-                        <strong>Email</strong>
-                        <p>alamincsetpi@gmail.com</p>
+                        <strong class="accountInfo">Email</strong>
+                        <p class="accountTitle">alamincsetpi@gmail.com</p>
                     </div>
                     <div class="col-sm-6">
-                        <strong>Phone Number</strong>
-                        <p>01738022592</p>
+                        <strong class="accountInfo">Phone Number</strong>
+                        <p class="accountTitle">01738022592</p>
                     </div>
                     <div class="col-sm-6">
-                        <strong>Gender</strong>
-                        <p>N/A</p>
+                        <strong class="accountInfo">Gender</strong>
+                        <p class="accountTitle">N/A</p>
                     </div>
                     <div class="col-sm-6">
-                        <strong>Date of Birth</strong>
-                        <p>2001-09-12</p>
+                        <strong class="accountInfo">Date of Birth</strong>
+                        <p class="accountTitle">2001-09-12</p>
                     </div>
                     <div class="col-sm-6">
-                        <strong>Anniversary</strong>
-                        <p>N/A</p>
+                        <strong class="accountInfo">Anniversary</strong>
+                        <p class="accountTitle">N/A</p>
                     </div>
                     <div class="col-sm-6">
-                        <strong>Number of Family Members</strong>
-                        <p>N/A</p>
+                        <strong class="accountInfo">Number of Family Members</strong>
+                        <p class="accountTitle">N/A</p>
                     </div>
                     <div class="col-sm-6">
-                        <strong>Number of Kids</strong>
-                        <p>N/A</p>
+                        <strong class="accountInfo">Number of Kids</strong>
+                        <p class="accountTitle">N/A</p>
                     </div>
                     <div class="col-sm-6">
-                        <strong>Preferred Brand</strong>
-                        <p>N/A</p>
+                        <strong class="accountInfo">Preferred Brand</strong>
+                        <p class="accountTitle">N/A</p>
                     </div>
                     <div class="col-sm-6">
-                        <strong>Preferred Apex Store</strong>
-                        <p>N/A</p>
+                        <strong class="accountInfo">Preferred Apex Store</strong>
+                        <p class="accountTitle">N/A</p>
                     </div>
                 </div>
             </div>

@@ -389,9 +389,6 @@ p.main_content { line-height: 2.15rem; padding-top: 5%; }
     -ms-touch-action: manipulation;
     touch-action: manipulation;
     cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
     background-image: none;
     border: 1px solid transparent;
@@ -415,4 +412,80 @@ p.main_content { line-height: 2.15rem; padding-top: 5%; }
 }
 .table> :not(caption)>tr>td {
     padding: 2rem 2rem ;
+}
+/* ===================edit profile  */
+* 
+
+.form-wrapper {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.field {
+  margin-bottom: 20px;
+}
+
+.field label {
+  font-size: 14px;
+  display: block;
+  margin-bottom: 5px;
+}
+strong.accountInfo{
+     font-size: 14px!important;
+}
+p.accountTitle{
+     font-size: 14px!important;
+}
+
+.field input, .field select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.field-group {
+  display: flex;
+  gap: 20px; /* Space between fields */
+}
+
+.field-group .field {
+  flex: 1; /* Make both fields take up equal space */
+}
+
+.footer {
+  margin-top: 5px;
+  text-align: left;
+}
+
+.save-btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.save-btn {
+  background-color: #000;
+  color: white;
+  border: none;
+}
+
+.cancel-btn {
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+  margin-top: 10px;
+}
+
+.save-btn:hover {
+  background-color: #333;
+}
+
+.cancel-btn:hover {
+  background-color: #f2f2f2;
 }

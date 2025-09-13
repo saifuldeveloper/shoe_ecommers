@@ -19,4 +19,7 @@ class UserDashboardController extends Controller
     public function orders(){
         return view('front.orders');
     }
+    public function editProfile(){
+        return view('front.edit_profile');
+    }
 }

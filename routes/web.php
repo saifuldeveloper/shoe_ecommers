@@ -75,6 +75,7 @@ Route::controller(UserDashboardController::class)->group(function(){
     Route::get('account/profile','userProfile')->name('custom.profile');
     Route::get('account/address','userAddress')->name('custom.address');
     Route::get('account/orders','orders')->name('custom.orders');
+    Route::get('account/edit/profile','editProfile')->name('custom.edit-profile');
 });
 
 
