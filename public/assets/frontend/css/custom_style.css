@@ -62,15 +62,15 @@ input {
 
 /* Buttons */
 .btn {
-    width: 100%;
+    /* width: 100%;
     margin: 30px 0 10px;
     padding: 10px 35px;
     font-size: 16px;
     font-family: Montserrat-Regular;
-    background-color: red;
-    color: #fff;
+    /* background-color: red; */
+    color: #fff; */
 }
-.btn:hover { transform: translateY(-2px); }
+/* .btn:hover { transform: translateY(-2px); } */
 
 /* Extra Info */
 .extra-line {
