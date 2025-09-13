@@ -427,15 +427,15 @@ p.main_content { line-height: 2.15rem; padding-top: 5%; }
 }
 
 .field label {
-  font-size: 14px;
+  font-size: 13px;
   display: block;
   margin-bottom: 5px;
 }
 strong.accountInfo{
-     font-size: 14px!important;
+     font-size: 13px!important;
 }
 p.accountTitle{
-     font-size: 14px!important;
+     font-size: 13px!important;
 }
 
 .field input, .field select {
@@ -443,7 +443,7 @@ p.accountTitle{
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .field-group {
@@ -488,4 +488,22 @@ p.accountTitle{
 
 .cancel-btn:hover {
   background-color: #f2f2f2;
+}
+
+.password-tips{
+    margin-bottom: 20px;
+    padding: 12px;
+    border-radius: 6px;
+    background: var(--surface-hover-color, #f8fafc);
+    border-radius: 6px;
+    border: 1px solid var(--border-color, #e2e8f0)
+}
+.tips-title{
+    margin: 0 0 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-color, #1e293b);
+}
+.tips-list ul li {
+    list-style: disc;
 }

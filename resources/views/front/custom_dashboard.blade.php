@@ -11,11 +11,16 @@
         <li class="active">
           <a href="{{ route('custom.profile') }}" >My Profile</a>
         </li>
+         <li>
+          <a href="{{ route('custom.orders') }}">My Orders</a>
+        </li>
+        
         <li>
           <a href="{{ route('custom.address') }}">Address Book</a>
         </li>
-        <li>
-          <a href="{{ route('custom.orders') }}">My Orders</a>
+
+         <li>
+          <a href="{{ route('custom.change-password') }}">Change Password</a>
         </li>
         <li>
           <a href="#v-pills-logout" role="tab" data-toggle="tab">Sign Out</a>
