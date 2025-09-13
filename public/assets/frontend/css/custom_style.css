@@ -68,7 +68,7 @@ input {
     font-size: 16px;
     font-family: Montserrat-Regular;
     /* background-color: red; */
-    color: #fff; */
+    /* color: #fff;  */
 }
 /* .btn:hover { transform: translateY(-2px); } */
 
@@ -252,7 +252,9 @@ p.main_content { line-height: 2.15rem; padding-top: 5%; }
 /* Dashboard css  */
 /* ========================= */
 .my-accountText{
-    padding-bottom:30px
+    padding-bottom:30px;
+     color: #000;
+     font-weight: bold;
 }
 .account-sidebar {
   background: #fff;
@@ -261,11 +263,22 @@ p.main_content { line-height: 2.15rem; padding-top: 5%; }
   height: 100vh;
   text-align: right;
 }
+.account-sidebar .nav > li > a:hover {
+  color: #000 !important;    
+  background: none !important;
+}
+.account-sidebar .nav > li.active > a,
+.account-sidebar .nav > li.active > a:focus,
+.account-sidebar .nav > li.active > a:hover {
+  color: #000 !important;      
+  font-weight: bold;
+  background: none !important; 
+}
 
 .nav-pills-item .nav-link {
   color: #6c757d;
   font-weight: 500;
-  text-align: right; /* এখানে right করা হয়েছে */
+  text-align: right; 
   margin-bottom: 8px;
 }
 
@@ -279,6 +292,265 @@ p.main_content { line-height: 2.15rem; padding-top: 5%; }
   padding: 30px;
   background: #fff;
   color: black;
-  /* height: 100vh;
-  overflow-y: auto; */
+}
+
+
+/* ============================ */
+
+.profile_panel {
+    margin: 50px auto;   /* top-bottom 50px gap */
+    float: none;         /* center in column */
+}
+.main_card{
+    margin-top: 35px!important;
+    margin-left: 35px!important;
+}
+
+.panel-title {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.panel-heading small {
+    display: block;
+    color: #777;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.panel-body strong {
+    display: block;
+    font-size: 13px;
+    color: #000;
+}
+
+.panel-body p {
+    margin: 0 0 15px;
+    font-size: 13px;
+    color: #555;
+}
+
+/* ==========================orders table data ============================= */
+.table-striped thead {
+    background-color: #4e5b56; /* Dark green background */
+    color: white; /* White text color */
+}
+.table-all-user {
+    margin-left: 12px;
+}
+
+.table-bordered > :not(caption) > tr {
+    border-width: 0 0;
+}
+
+.table-bordered > :not(caption) > tr > th,
+.table-bordered > :not(caption) > tr > td {
+    border-width: 0 0;
+}
+
+.custom_table-responsive {
+    overflow-x: auto;
+}
+
+.custom_badge {
+    font-size: 14px;
+    padding: 0.3rem 0.6rem;
+}
+.custom_badge {
+    display: inline-block;
+    padding: 0.35em 0.65em;
+    font-size: 0.75em;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+}
+.bg-danger_custom {
+    background-color: #dc3545 !important;
+}
+.bg_custom_success{
+    background-color: #40c710
+    ;
+}
+.bg-warning_custom {
+    background-color: #ffc107 !important;
+}
+
+.edit_profile_btn{
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background-color: #000;
+    color: white;
+}
+.edit_profile_btn:hover{
+    color: white;
+}
+/* Responsive Table */
+@media (max-width: 767.98px) {
+    .table-responsive-md {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+.table-bordered> :not(caption)>tr>th, .table-bordered> :not(caption)>tr>td {
+    border-width: 1px 1px;
+    border-color: #6a6e51;
+}
+.table> :not(caption)>tr>td {
+    padding: 2rem 2rem ;
+}
+/* ===================edit profile  */
+* 
+
+.form-wrapper {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.field {
+  margin-bottom: 20px;
+}
+
+.field label {
+  font-size: 13px;
+  display: block;
+  margin-bottom: 5px;
+}
+strong.accountInfo{
+     font-size: 13px!important;
+}
+p.accountTitle{
+     font-size: 13px!important;
+}
+
+.field input, .field select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.field-group {
+  display: flex;
+  gap: 20px; /* Space between fields */
+}
+
+.field-group .field {
+  flex: 1; /* Make both fields take up equal space */
+}
+
+.footer {
+  margin-top: 5px;
+  text-align: left;
+}
+
+.save-btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.save-btn {
+  background-color: #000;
+  color: white;
+  border: none;
+}
+
+.cancel-btn {
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+  margin-top: 10px;
+}
+
+.save-btn:hover {
+  background-color: #333;
+}
+
+.cancel-btn:hover {
+  background-color: #f2f2f2;
+}
+
+.password-tips{
+    margin-bottom: 20px;
+    padding: 12px;
+    border-radius: 6px;
+    background: var(--surface-hover-color, #f8fafc);
+    border-radius: 6px;
+    border: 1px solid var(--border-color, #e2e8f0)
+}
+.tips-title{
+    margin: 0 0 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-color, #1e293b);
+}
+.tips-list ul li {
+    list-style: disc;
+}
+
+/* =================order detials  */
+.wg-box {
+    display: flex;
+    padding: 24px;
+    flex-direction: column;
+    gap: 24px;
+    border-radius: 12px;
+    background: white;
+    box-shadow: 0px 4px 24px 2px rgba(20, 25, 38, 0.05);
+}
+.custom_cancelOrder{
+    margin-bottom: 35px;
+}
+
+.btnCancleOrder{
+    color: #ffffff;
+    box-shadow: none;
+    padding: 20px;
+    background-color: #dc3545;
+    font-weight: bold;
+    border: red;
+    outline: none;
+}
+.btnBackOdrer{
+    color: #000;
+    box-shadow: none;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 12px;
+    padding-right: 12px;
+    background-color: #ecc8c5;
+    font-weight: bold;
+    border: #ecc8c5;
+    outline: none;
+}
+.btnBackOdrer:hover{
+    color: #000;
+    background-color: #ecc8c5;
+}
+.btnCancleOrder:hover{
+    color: white;
+    outline: none;
 }
