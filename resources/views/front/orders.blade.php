@@ -70,7 +70,7 @@
                                         <td class="text-center">2</td>
                                         <td>2024-07-07</td>
                                         <td class="text-center">
-                                            <a href="#">
+                                            <a href="{{ route('custom.order-details') }}">
                                             <div class="list-icon-function view-icon">
                                                 <div class="item eye">
                                                     <i class="fa fa-eye"></i>
