@@ -19,51 +19,99 @@
 
         <div class="flex-r login-wrapper">
             <div class="register-text">
-                <form class="flex-c">
+                  <form class="flex-c" action="{{route('user.register.submit')}}" method="POST">
+                        @csrf
                     <!-- Email -->
                     <div class="input-box">
                         <label for="email">E-mail <span style="color:red">*</span></label>
                         <div class="flex-r input">
-                            <input type="text" id="email" class="btn-disable firstEmail">
+                            <input type="email" placeholder="{{__('Enter your email')}}" value="{{old('email')}}" name="email" class="btn-disable firstEmail">
                         </div>
+                          @error('email')
+                          <p class="message-danger">{{$message}}</p>
+                          @endif
                     </div>
 
                     <!-- First Name -->
                     <div class="input-box">
                          <label for="email">First Name <span style="color:red">*</span></label>
                         <div class="flex-r input">
-                            <input type="text" id="firstName">
+                            <input type="text" placeholder="{{__('Enter your first name')}}" value="{{old('first_name')}}" name="first_name">
                         </div>
+                         @error('first_name')
+                          <p class="message-danger">{{$message}}</p>
+                          @endif
                     </div>
 
                     <!-- Last Name -->
                     <div class="input-box">
                         <label class="label">Last Name <span style="color:red">*</span></label>
                         <div class="flex-r input">
-                            <input type="text" id="lastName">
+                            <input type="text" placeholder="{{__('Enter your last name')}}" value="{{old('last_name')}}" name="last_name" id="lastName">
                         </div>
+                         @error('last_name')
+                          <p class="message-danger">{{$message}}</p>
+                          @endif
                     </div>
+                    <div class="input-box">
+                        <label class="label">{{__('Phone Number')}} <span style="color:red">*</span></label>
+                        <div class="flex-r input">
+                            <input type="text" placeholder="{{__('Enter your phone number')}}" value="{{old('phone')}}" name="phone" id="reg-phone" value="{{old('phone')}}">
+                        </div>
+                         @error('phone')
+                          <p class="message-danger">{{$message}}</p>
+                          @endif
+                    </div>
+                    {{-- <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="reg-phone">{{__('Phone Number')}}*</label>
+                            <input class="form-control" name="phone" type="text" placeholder="{{__('Phone Number')}}" id="reg-phone" value="{{old('phone')}}">
+                            @error('phone')
+                            <p class="text-danger">{{$message}}</p>
+                            @endif
+                          </div>
+                        </div> --}}
 
                     <!-- Password -->
                     <div class="input-box">
                          <label for="password">Confirm Password <span style="color:red">*</span></label>
                         <div class="flex-r input show_hide_password">
-                            <input type="password" id="password" required>
-                            <a href="#" class="show-pass"><i class="fa fa-eye-slash"></i></a>
+                            <input type="password" id="password" placeholder="{{__('Enter your password')}}"  name="password" required>
+                            <a class="show-pass"><i class="fa fa-eye-slash"></i></a>
                         </div>
-                        <span class="pass_info">The password should be at least 9 characters long and must contain at least one upper case letter, one lower case letter, a number and a special character (!, @, #, $, %, &, *)</span>
-                    </div>
+                        <span class="pass_info">The password should be at least 6 characters long and must contain at least one upper case letter, one lower case letter, a number and a special character (!, @, #, $, %, &, *)</span>
+                         @error('password')
+                          <p class="message-danger">{{$message}}</p>
+                          @endif
+                      </div>
 
                     <div class="input-box">
                          <label for="password">Confirm Password <span style="color:red">*</span></label>
                         <div class="flex-r input show_hide_password">
-                            <input type="password" id="password" required>
-                            <a href="#" class="show-pass"><i class="fa fa-eye-slash"></i></a>
+                            <input type="password" id="password" name="password_confirmation" placeholder="{{__('Enter your confirm password')}}"   required>
+                            <a class="show-pass"><i class="fa fa-eye-slash"></i></a>
                         </div>
+                         @error('password_confirmation')
+                          <p class="message-danger">{{$message}}</p>
+                          @endif
                     </div>
+                      <input type="text" name="honeypot" id="honeypot" value="" style="display:none;">
+                        @if ($setting->recaptcha == 1)
+                        <div class="col-lg-12">
+                            {!! NoCaptcha::renderJs() !!}
+                            {!! NoCaptcha::display() !!}
+                            @if ($errors->has('g-recaptcha-response'))
+                            @php
+                                $errmsg = $errors->first('g-recaptcha-response');
+                            @endphp
+                            <p class="text-danger mb-0">{{__("$errmsg")}}</p>
+                            @endif
+                        </div>
+                        @endif
+
 
                        <div class="check">
-                        Already Have An Account ? <a class="log-small-text" href="#recover">Login Now</a>
+                        Already Have An Account ? <a  class="log-small-text" href="{{ route('user.login') }}">Login Now</a>
                         </div>
                     <!-- Submit -->
                      <button type="submit" class="btn-submit" id="submitBtn" >Create an Account</button>
