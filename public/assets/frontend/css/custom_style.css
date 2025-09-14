@@ -554,7 +554,9 @@ p.accountTitle{
     color: white;
     outline: none;
 }
-
+p.message-danger{
+    color: red;
+}
 
 /* //mobile device */
 @media (max-width: 768px) {
