@@ -66,10 +66,7 @@
             </svg>
             <a href="#"> Login with Google </a>
           </div>
-
     </div>
-     
-
   </div>
   
   <div class="login-info login_left_info">
@@ -84,7 +81,7 @@
     </ul>
 
     <div class="btn_wrapper btn_createAccount">
-      <button class="login-submit"><a href="{{ route("user.register") }}">CREATE A BATA ACCOUNT</a></button>
+      <button class="login-submit"><a href="{{ route("user.register") }}">CREATE AN AVIJATRY ACCOUNT</a></button>
     </div>
     
   </div>

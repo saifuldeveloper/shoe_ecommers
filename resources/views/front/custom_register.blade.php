@@ -1,6 +1,7 @@
 @extends('master.front')
 
 @section('content')
+
 <div class="main-content">
     <div class="container">
         <div class="main_content">
@@ -100,4 +101,5 @@
         </div>
     </div>
 </div>
+
 @endsection

@@ -1,96 +1,108 @@
 @extends('master.front')
 @section('title')
-    {{__('Login')}}
+    {{__('Register')}}
 @endsection
 @section('content')
 
-  <div class="container padding-bottom-3x mb-1">
-    <div class="row justify-content-center">
-            <div class="col-md-6">
-              <div class="card register-area auth-form-card">
-                  <div class="card-body ">
-                      <h4 class="margin-bottom-1x text-center">{{__('Register')}}</h4>
-                      <form class="row" action="{{route('user.register.submit')}}" method="POST">
-                          @csrf
-                        <div class="col-sm-6">
-                          <div class="form-group">
-                            <label for="reg-fn">{{__('First Name')}}*</label>
-                            <input class="form-control" type="text" name="first_name" placeholder="{{__('First Name')}}" id="reg-fn" value="{{old('first_name')}}">
-                          @error('first_name')
-                          <p class="text-danger">{{$message}}</p>
-                          @endif
-                          </div>
-                        </div>
-                        <div class="col-sm-6">
-                          <div class="form-group">
-                            <label for="reg-ln">{{__('Last Name')}}*</label>
-                            <input class="form-control" type="text" name="last_name" placeholder="{{__('Last Name')}}" id="reg-ln" value="{{old('last_name')}}">
-                            @error('last_name')
-                          <p class="text-danger">{{$message}}</p>
-                          @endif
-                          </div>
-                        </div>
-                        <div class="col-sm-6">
-                          <div class="form-group">
-                            <label for="reg-email">{{__('E-mail Address')}}*</label>
-                            <input class="form-control" type="email" name="email" placeholder="{{__('E-mail Address')}}" id="reg-email" value="{{old('email')}}">
-                            @error('email')
-                            <p class="text-danger">{{$message}}</p>
-                            @endif
-                          </div>
-                        </div>
-                        <div class="col-sm-6">
-                          <div class="form-group">
-                            <label for="reg-phone">{{__('Phone Number')}}*</label>
-                            <input class="form-control" name="phone" type="text" placeholder="{{__('Phone Number')}}" id="reg-phone" value="{{old('phone')}}">
-                            @error('phone')
-                            <p class="text-danger">{{$message}}</p>
-                            @endif
-                          </div>
-                        </div>
-          
-                        <div class="col-sm-6">
-                          <div class="form-group">
-                            <label for="reg-pass">{{__('Password')}}*</label>
-                            <input class="form-control" type="password" name="password" placeholder="{{__('Password')}}" id="reg-pass">
-                            @error('password')
-                            <p class="text-danger">{{$message}}</p>
-                            @endif
-                          </div>
-          
-                        </div>
-                        <div class="col-sm-6">
-                          <div class="form-group">
-                            <label for="reg-pass-confirm">{{__('Confirm Password')}}*</label>
-                            <input class="form-control" type="password" name="password_confirmation" placeholder="{{__('Confirm Password')}}" id="reg-pass-confirm">
-                          </div>
-                        </div>
-                        <input type="text" name="honeypot" id="honeypot" value="" style="display:none;">
-                        @if ($setting->recaptcha == 1)
-                        <div class="col-lg-12">
-                            {!! NoCaptcha::renderJs() !!}
-                            {!! NoCaptcha::display() !!}
-                            @if ($errors->has('g-recaptcha-response'))
-                            @php
-                                $errmsg = $errors->first('g-recaptcha-response');
-                            @endphp
-                            <p class="text-danger mb-0">{{__("$errmsg")}}</p>
-                            @endif
-                        </div>
-                        @endif
+<div class="main-content">
+    <div class="container">
+        <div class="main_content">
+            <h2 class="main_heading">REGISTRATION</h2>
+        </div>
 
-                        <div class="col-lg-12 mb-4">
-                          <p>{{ __("Already have an account ?") }} <a class="text-base-color" href="{{ route("user.login") }}">{{ __('Login now') }}</a></p>
+        <div class="additional_info">
+            <p class="info">
+                <span class="required">*</span>
+                <span class="text">Required fields</span>
+            </p>
+        </div>
+
+        <div class="flex-r login-wrapper">
+            <div class="register-text">
+                <form class="flex-c">
+                    <!-- Email -->
+                    <div class="input-box">
+                        <label for="email">E-mail <span style="color:red">*</span></label>
+                        <div class="flex-r input">
+                            <input type="text" id="email" class="btn-disable firstEmail">
                         </div>
-          
-                        <div class="col-12 text-center">
-                          <button class="btn btn-primary margin-bottom-none" type="submit"><span>{{__('Register')}}</span></button>
+                    </div>
+
+                    <!-- First Name -->
+                    <div class="input-box">
+                         <label for="email">First Name <span style="color:red">*</span></label>
+                        <div class="flex-r input">
+                            <input type="text" id="firstName">
                         </div>
-                      </form>
-                  </div>
-              </div>
+                    </div>
+
+                    <!-- Last Name -->
+                    <div class="input-box">
+                        <label class="label">Last Name <span style="color:red">*</span></label>
+                        <div class="flex-r input">
+                            <input type="text" id="lastName">
+                        </div>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="input-box">
+                         <label for="password">Confirm Password <span style="color:red">*</span></label>
+                        <div class="flex-r input show_hide_password">
+                            <input type="password" id="password" required>
+                            <a href="#" class="show-pass"><i class="fa fa-eye-slash"></i></a>
+                        </div>
+                        <span class="pass_info">The password should be at least 9 characters long and must contain at least one upper case letter, one lower case letter, a number and a special character (!, @, #, $, %, &, *)</span>
+                    </div>
+
+                    <div class="input-box">
+                         <label for="password">Confirm Password <span style="color:red">*</span></label>
+                        <div class="flex-r input show_hide_password">
+                            <input type="password" id="password" required>
+                            <a href="#" class="show-pass"><i class="fa fa-eye-slash"></i></a>
+                        </div>
+                    </div>
+
+                       <div class="check">
+                        Already Have An Account ? <a class="log-small-text" href="#recover">Login Now</a>
+                        </div>
+                    <!-- Submit -->
+                     <button type="submit" class="btn-submit" id="submitBtn" >Create an Account</button>
+                </form>
+                   <div class="mt-6"><div class="orText">Or</div></div>
+                <div class="social--login-btn">
+                <svg
+                transform="scale(0.8)"
+                xmlns="http://www.w3.org/2000/svg"
+                height="90%"
+                width="7%"
+                fit=""
+                preserveAspectRatio="xMidYMid meet"
+                focusable="false"
+                >
+                <path
+                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                    fill="#4285F4"
+                ></path>
+                <path
+                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                    fill="#34A853"
+                ></path>
+                <path
+                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                    fill="#FBBC05"
+                ></path>
+                <path
+                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                    fill="#EA4335"
+                ></path>
+                <path d="M1 1h22v22H1z" fill="none"></path>
+                </svg>
+                <a href="#"> Create Account with Google </a>
             </div>
-          </div>
+            </div>
+        </div>
     </div>
-  <!-- Site Footer-->
+</div>
+
+ 
 @endsection
