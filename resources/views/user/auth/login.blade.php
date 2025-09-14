@@ -4,6 +4,11 @@
 @endsection
 @section('content')
 
+@if(Session::has('success'))
+    <div class="alert alert-success">
+        {{ Session::get('success') }}
+    </div>
+@endif
 <div class="login-main-content">
 <div class="flex-r login_small_device">
   <div class="flex-r">
@@ -13,28 +18,37 @@
       </br>
       If you already registered at store, Kindly create an account at website first.
       </p>
-      <form class="flex-c">
+        <form class="flex-c" method="post" action="{{route('user.login.submit')}}">
+            @csrf
+              @error('credentials')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
         <div class="input-box">
           <label for="email">E-mail <span style="color:red">*</span></label>
           <div class=" flex-r input">
-            <input type="text"  autocomplete="off">
+            <input type="email"  name="login_email" autocomplete="off" placeholder="{{ __('Enter your email') }}" value="{{old('login_email')}}">
           </div>
+          @error('login_email')
+              <p class="message-danger">{{$message}}</p>
+          @enderror
         </div>
-
         <div class="input-box">
           <label for="password">Password <span style="color:red">*</span></label>
           <div class="flex-r input show_hide_password">
-            <input type="password" id="password" autocomplete="off">
-             <a href="#" class="show-pass"><i class="fa fa-eye-slash"></i></a>
+            <input type="password" name="login_password"  id="password" placeholder="{{ __('Enter your password') }}" autocomplete="off">
+             <a  class="show-pass"><i class="fa fa-eye-slash"></i></a>
           </div>
+          @error('login_password')
+              <p class="message-danger">{{$message}}</p>
+          @enderror
         </div>
 
         <div class="check">
           <a href="#recover">Forgot Password?</a>
         </div>
-        
         <input class="login-submit" type="submit" value="Log In">
       </form>
+
       <div class="mt-6"><div class="orText">Or</div></div>
       <div class="social--login-btn">
             <svg
