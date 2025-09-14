@@ -70,6 +70,7 @@ return new class extends Migration
             $table->string('footer_gateway_img')->nullable();
             $table->text('social_link')->nullable();
             $table->text('copy_right')->nullable();
+            $table->text('footer_about')->nullable();
             
             // Business Hours Settings
             $table->string('friday_start')->nullable();
