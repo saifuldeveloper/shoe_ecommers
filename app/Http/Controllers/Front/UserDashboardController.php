@@ -7,25 +7,19 @@ use Illuminate\Http\Request;
 
 class UserDashboardController extends Controller
 {
-    public function index(){
-         return view('front.custom_dashboard');
-    }
     public function userProfile(){
-        return view('front.user_profile');
-    }
-    public function userAddress(){
-        return view('front.address');
+        return view('user.dashboard.user_profile');
     }
     public function orders(){
-        return view('front.orders');
+        return view('user.dashboard.orders');
     }
     public function editProfile(){
-        return view('front.edit_profile');
+        return view('user.dashboard.edit_profile');
     }
     public function passwordChange(){
-        return view('front.password_change');
+        return view('user.dashboard.password_change');
     }
     public function orderDetails(){
-        return view('front.order_details');
+        return view('user.dashboard.order_details');
     }
 }
