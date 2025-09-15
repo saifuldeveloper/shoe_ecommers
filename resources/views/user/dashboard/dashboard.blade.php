@@ -5,24 +5,27 @@
 @section('content')
 
 <!-- Page Title-->
-<div class="page-title">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <ul class="breadcrumbs">
-                    <li><a href="{{__('front.index')}}">{{__('Home')}}</a> </li>
-                    <li class="separator"></li>
-                    <li>{{__('Welcome Back')}} </li>
-                  </ul>
-            </div>
-        </div>
-    </div>
-  </div>
 
-  <!-- Page Content-->
-  <div class="container  padding-bottom-3x mb-1">
+<div class="container-fluid">
   <div class="row">
-         @include('includes.user_sitebar')
+    <!-- Sidebar -->
+    <div class="col-md-2 account-sidebar text-right">
+      <h5 class="fw-bold my-accountText">MY ACCOUNT</h5>
+      <ul class="nav nav-pills nav-stacked" role="tablist">
+        <li><a href="{{ route('user.dashboard') }}">Dashboard</a></li>
+          <li><a href="{{ route('custom.profile') }}">My Profile</a></li>
+        <li><a href="{{ route('custom.orders') }}">My Orders</a></li>
+        <li><a href="{{ route('custom.change-password') }}">Change Password</a></li>
+        <li><a href="{{ route('user.logout') }}">Sign Out</a></li>
+      </ul>
+    </div>
+
+    <!-- Content -->
+    <div class="col-md-9">
+      
+<div class="container  padding-bottom-3x mb-1">
+  <div class="row">
+         {{-- @include('includes.user_sitebar') --}}
           <div class="col-lg-8">
             <div class="padding-top-2x mt-2 hidden-lg-up"></div>
                 <div class="row u-d-d">
@@ -77,4 +80,11 @@
           </div>
         </div>
   </div>
+
+
+
+        @yield('user_content')
+    </div>
+  </div>
+</div>
 @endsection
