@@ -46,8 +46,17 @@
                 @enderror
             </div>
             </div>
+             <div class="col-12">
+                <hr class="mt-2 mb-3">
+                <div class="d-flex flex-wrap justify-content-between align-items-center">
+                <div class="custom-control custom-checkbox d-block">
+                    <input class="custom-control-input" name="newsletter" type="checkbox" id="subscribe_me" {{$check_newsletter ? 'checked' : ''}}>
+                    <label class="custom-control-label" for="subscribe_me">{{__('Subscribe')}}</label>
+                </div>
+                </div>
+            </div>
             <div class="footer">
-              <button type="submit" class="save-btn">Save Changes</button>
+              <button type="submit" class="save-btn">Update Profile</button>
             </div>
           </form>
 
