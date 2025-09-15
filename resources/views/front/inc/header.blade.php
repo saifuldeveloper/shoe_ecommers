@@ -3,10 +3,11 @@
         <div class="container-fluid">
             <div class="row py-5">
                 <div class="col-lg-4 col-md-4 text-center">
+                    
                     <p>
                         <img src="{{ asset('assets/frontend/images/icon/free-location-icon-2952-thumb.png') }}"
                             height="30" alt="">
-                        Find A Store | Customer care: 09666200300
+                        <a href="{{ route('front.findStore') }}" class="storLocator"> Find A Store</a> | Customer care: 09666200300
                     </p>
                 </div>
                 <div class="col-lg-4 col-md-4">

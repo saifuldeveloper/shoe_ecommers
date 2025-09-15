@@ -58,6 +58,11 @@ class FrontendController extends Controller
     }
 
     // -------------------------------- HOME ----------------------------------------
+    public function findStore(){
+         return view('front.pages.store_locator');
+    }
+
+
 
     public function index()
     {
