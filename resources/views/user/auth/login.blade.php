@@ -7,11 +7,11 @@
 
 <div class="flex-r login_small_device">
   <div class="flex-r">
-       @if(Session::has('success'))
+      @if(Session::has('success'))
       <div class="alert alert-success">
             {{ Session::get('success') }}
         </div>
-    @endif
+     @endif
     <div class="login-text">
       <h1>SIGN IN TO YOUR ACCOUNT</h1>
       <p>Welcome back! 

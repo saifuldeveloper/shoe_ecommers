@@ -64,7 +64,7 @@ class AccountController extends Controller
      
         $this->repository->profileUpdate($request);
         Session::flash('success',__('Profile Updated Successfully.'));
-        return redirect()->back();
+       return redirect(route('custom.profile'));
     }
 
     public function addresses()

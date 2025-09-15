@@ -406,7 +406,7 @@ Route::group(['middleware' => 'maintainance'], function () {
             Route::get('/dashboard', [UserAccountController::class, 'index'])->name('user.dashboard');
             Route::get('/profile', [UserAccountController::class, 'profile'])->name('user.profile');
 
-             //user
+             //USER UPDATE
             Route::controller(UserDashboardController::class)->group(function(){
                 Route::get('account/profile','userProfile')->name('custom.profile');
                 Route::get('account/orders','orders')->name('custom.orders');
@@ -414,6 +414,11 @@ Route::group(['middleware' => 'maintainance'], function () {
                 Route::get('account/edit/profile','editProfile')->name('custom.edit-profile');
                 Route::get('account/change/password','passwordChange')->name('custom.change-password');
             });
+            //------------ SETTING ------------
+            Route::post('/profile/update', [UserAccountController::class, 'profileUpdate'])->name('user.profile.update');
+            Route::get('/addresses', [UserAccountController::class, 'addresses'])->name('user.address');
+            Route::post('/billing/addresses', [UserAccountController::class, 'billingSubmit'])->name('user.billing.submit');
+            Route::post('/shipping/addresses', [UserAccountController::class, 'shippingSubmit'])->name('user.shipping.submit');
 
             // ----------- TICKET ---------------//
             Route::get('/ticket', [TicketController::class, 'ticket'])->name('user.ticket');
@@ -423,12 +428,7 @@ Route::group(['middleware' => 'maintainance'], function () {
             Route::post('/ticket/reply/store', [TicketController::class, 'ticketReply'])->name('user.ticket.reply');
             Route::get('/ticket/delete/{id}', [TicketController::class, 'ticketDelete'])->name('user.ticket.delete');
 
-            //------------ SETTING ------------
-            Route::post('/profile/update', [UserAccountController::class, 'profileUpdate'])->name('user.profile.update');
-            Route::get('/addresses', [UserAccountController::class, 'addresses'])->name('user.address');
-            Route::post('/billing/addresses', [UserAccountController::class, 'billingSubmit'])->name('user.billing.submit');
-            Route::post('/shipping/addresses', [UserAccountController::class, 'shippingSubmit'])->name('user.shipping.submit');
-
+         
             //------------ ORDER ------------
             Route::get('/orders', [OrderController::class, 'index'])->name('user.order.index');
             Route::get('/order/print/{id}', [OrderController::class, 'printOrder'])->name('user.order.print');

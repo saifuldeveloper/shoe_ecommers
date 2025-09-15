@@ -8,6 +8,11 @@
             <div class="panel-heading">
                 <h3 class="panel-title">ACCOUNT INFORMATION</h3>
                 <small>This section contains your personal information</small>
+                 @if(Session::has('success'))
+                <div class="alert alert-success">
+                        {{ Session::get('success') }}
+                    </div>
+                @endif
             </div>
             <div class="panel-body">
                 <h4>
