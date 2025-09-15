@@ -1,4 +1,4 @@
-@extends('front.custom_dashboard')
+@extends('user.dashboard.layout')
 
 @section('user_content')
 <div class="row">

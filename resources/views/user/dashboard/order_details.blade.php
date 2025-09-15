@@ -1,4 +1,4 @@
-@extends('front.custom_dashboard')
+@extends('user.dashboard.layout')
 
 @section('user_content')
 <div class="row">
@@ -11,7 +11,7 @@
                 <h5>Ordered Details</h5>
             </div>
             <div class="col-6 text-right">
-                <a class="btnBackOdrer" href="http://localhost:8000/account-orders">Back</a>
+                <a class="btnBackOdrer" href="{{ route('custom.orders') }}">Back</a>
             </div>
             </div>
             <div class="table-responsive">

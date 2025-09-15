@@ -920,6 +920,14 @@
 
                                                                             <div class="form-group">
                                                                                 <label
+                                                                                    for="footer_about">{{ __('About') }}
+                                                                                    *</label>
+                                                                                <textarea name="footer_about" id="footer_about" class="form-control" rows="3"
+                                                                                    placeholder="{{ __('About us') }}">{{ $setting->footer_about }}</textarea>
+                                                                            </div>
+
+                                                                            <div class="form-group">
+                                                                                <label
                                                                                     for="footer_gateway_img">{{ __('Current Gateway Image') }}</label>
                                                                                 <div class="col-lg-12 pb-1">
                                                                                     <img class="admin-setting-img"

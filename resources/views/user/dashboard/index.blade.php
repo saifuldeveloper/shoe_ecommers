@@ -1,8 +1,6 @@
-@extends('master.front')
-@section('title')
-    {{__('Dashboard')}}
-@endsection
-@section('content')
+@extends('user.dashboard.layout')
+
+@section('user_content')
 
 <!-- Page Title-->
 <div class="page-title">

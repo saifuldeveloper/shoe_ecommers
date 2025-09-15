@@ -52,10 +52,6 @@ class UserRepository
         }
     }
 
-
-
-
-
     public function profileUpdate($request)
     {
 
