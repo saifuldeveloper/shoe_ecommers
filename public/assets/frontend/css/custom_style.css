@@ -557,7 +557,9 @@ p.accountTitle{
 p.message-danger{
     color: red;
 }
-
+.storLocator{
+  cursor: pointer;
+}
 /* //mobile device */
 @media (max-width: 768px) {
     .login-main-content{
