@@ -3,18 +3,18 @@
 
 <div class="store_location">
     <div class="container-fluid py-4">
-    <h4 class="mb-3">Find an Avijatry Store</h4>
+    <h4 class="mb-3 titleStorelocate">Find an Avijatry Store</h4>
     <div class="row">
         <!-- Left side -->
         <div class="col-md-4 mb-3">
         <!-- Search -->
         <div class="search-section">
             <input type="text" class="form-control" placeholder="Store Location">
-            <button class="btn btn-dark">Find</button>
+            <button class="btn_storelocation">Find</button>
         </div>
 
         <!-- Dropdown filters -->
-        <div class="filter-section d-flex mb-3">
+        <div class="filter-section d-flex items-right mb-3">
             <select class="form-select me-2">
             <option>Sylhet</option>
             <option>Dhaka</option>
