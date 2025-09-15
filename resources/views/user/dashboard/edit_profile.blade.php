@@ -6,78 +6,52 @@
     <div class="col-sm-11 col-sm-offset-0">
         <div class="user_profile_card000">
             <div class="panel-body">
-                <h4>
-                    Personal Information 
-                </h4>
-                <hr>
-             
-  <div class="form-wrapper">
-   <form>
-  <div class="field-group">
-    <div class="field">
-      <label for="firstName">First Name *</label>
-      <input type="text" id="firstName" value="Alamin" />
-    </div>
-    <div class="field">
-      <label for="lastName">Last Name *</label>
-      <input type="text" id="lastName" value="Islam" />
-    </div>
-  </div>
-  <div class="field-group">
-  <div class="field">
-    <label for="email">Email *</label>
-    <input type="email" id="email" value="alamincsetpi@gmail.com" />
-  </div>
-  <div class="field">
-    <label for="gender">Gender *</label>
-    <select id="gender">
-      <option value="male">Male</option>
-      <option value="female">Female</option>
-    </select>
-  </div>
-   </div>
-   <div class="field-group">
-  <div class="field">
-    <label for="dob">Date of Birth *</label>
-    <input type="date" id="dob" value="2001-09-12" />
-  </div>
-  <div class="field">
-    <label for="anniversary">Anniversary</label>
-    <input type="date" id="anniversary" />
-  </div>
-   </div>
-   <div class="field-group">
-  <div class="field">
-    <label for="familyMembers">Number of Family Members</label>
-    <input type="number" id="familyMembers" value="0" />
-  </div>
-  <div class="field">
-    <label for="kids">Number of Kids</label>
-    <input type="number" id="kids" value="0" />
-  </div>
-   </div>
-   <div class="field-group">
-  <div class="field">
-    <label for="preferredBrand">Preferred Brand</label>
-    <select id="preferredBrand">
-      <option value="brand1">Brand 1</option>
-      <option value="brand2">Brand 2</option>
-    </select>
-  </div>
-  <div class="field">
-    <label for="preferredStore">Preferred Store</label>
-    <select id="preferredStore">
-      <option value="store1">Store 1</option>
-      <option value="store2">Store 2</option>
-    </select>
-  </div>
-   </div>
-  <div class="footer">
-    <button type="submit" class="save-btn">Save Changes</button>
-  </div>
-</form>
+                <h4>  Personal Information </h4>
+                <hr>       
+            <div class="form-wrapper">
+            <form action="{{route('user.profile.update')}}" method="POST" enctype="multipart/form-data">
+              @csrf
+            <div class="field-group">
+              <div class="field">
+                <label for="firstName">First Name <span style="color:red">*</span></label>
+                <input type="text" name="first_name"  value="{{$user->first_name}}" />
+                  @error('first_name')
+                  <p class="message-danger">{{$message}}</p>
+                  @enderror
+              </div>
+              <div class="field">
+                <label for="lastName">Last Name <span style="color:red">*</span></label>
+                <input type="text"  name="last_name" id="account-ln" value="{{$user->last_name}}" />
+                 @error('last_name')
+                  <p class="message-danger">{{$message}}</p>
+                  @enderror
+              </div>
+            </div>
+            <div class="field-group">
+            <div class="field">
+              <label for="email">Email <span style="color:red">*</span></label>
+              <input type="email" name="email" value="{{$user->email}}" />
+                 @error('email')
+                  <p class="message-danger">{{$message}}</p>
+                  @enderror
+            </div>
+          
+            </div>
+            <div class="field-group">
+            <div class="field">
+              <label for="dob">Phone <span style="color:red">*</span></label>
+              <input type="text" name="phone"  value="{{$user->phone}}" />
+              @error('email')
+                <p class="message-danger">{{$phone}}</p>
+                @enderror
+            </div>
+            </div>
+            <div class="footer">
+              <button type="submit" class="save-btn">Save Changes</button>
+            </div>
+          </form>
 
-  </div>
+            </div>
 </div>
 
 

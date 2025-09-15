@@ -19,49 +19,22 @@
                 <hr>
                 <div class="row">
                     <div class="col-sm-6">
-                        <strong class="accountInfo">First Name</strong>
-                        <p class="accountTitle">Alamin</p>
+                        <strong class="accountInfo">{{ __("First Name") }}</strong>
+                        <p class="accountTitle">{{ $user->first_name }}</p>
                     </div>
                     <div class="col-sm-6">
-                        <strong class="accountInfo">Last Name</strong>
-                        <p class="accountTitle">islam</p>
+                        <strong class="accountInfo">{{ __("First Name") }}</strong>
+                        <p class="accountTitle">{{ $user->last_name }}</p>
                     </div>
                     <div class="col-sm-6">
-                        <strong class="accountInfo">Email</strong>
-                        <p class="accountTitle">alamincsetpi@gmail.com</p>
+                        <strong class="accountInfo">{{ __("Email") }}</strong>
+                        <p class="accountTitle">{{ $user->email }}</p>
                     </div>
                     <div class="col-sm-6">
-                        <strong class="accountInfo">Phone Number</strong>
-                        <p class="accountTitle">01738022592</p>
+                        <strong class="accountInfo">{{ __("Phone Number") }}</strong>
+                        <p class="accountTitle">{{ $user->phone }}</p>
                     </div>
-                    <div class="col-sm-6">
-                        <strong class="accountInfo">Gender</strong>
-                        <p class="accountTitle">N/A</p>
-                    </div>
-                    <div class="col-sm-6">
-                        <strong class="accountInfo">Date of Birth</strong>
-                        <p class="accountTitle">2001-09-12</p>
-                    </div>
-                    <div class="col-sm-6">
-                        <strong class="accountInfo">Anniversary</strong>
-                        <p class="accountTitle">N/A</p>
-                    </div>
-                    <div class="col-sm-6">
-                        <strong class="accountInfo">Number of Family Members</strong>
-                        <p class="accountTitle">N/A</p>
-                    </div>
-                    <div class="col-sm-6">
-                        <strong class="accountInfo">Number of Kids</strong>
-                        <p class="accountTitle">N/A</p>
-                    </div>
-                    <div class="col-sm-6">
-                        <strong class="accountInfo">Preferred Brand</strong>
-                        <p class="accountTitle">N/A</p>
-                    </div>
-                    <div class="col-sm-6">
-                        <strong class="accountInfo">Preferred Apex Store</strong>
-                        <p class="accountTitle">N/A</p>
-                    </div>
+                    
                 </div>
             </div>
         </div>
