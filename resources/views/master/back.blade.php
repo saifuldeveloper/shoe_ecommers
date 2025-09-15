@@ -154,9 +154,9 @@
                     @else
                         @include('master.inc.normal')
                     @endif
-                    <div class="sidebar-footer text-primary d-block text-center pt-3">
+                    {{-- <div class="sidebar-footer text-primary d-block text-center pt-3">
                         <span class="d-inline-block"><b>{{ __('Version') }} {{ $setting->version }}</b></span>
-                    </div>
+                    </div> --}}
 
                 </div>
             </div>
