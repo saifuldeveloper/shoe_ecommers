@@ -633,6 +633,29 @@ p.message-danger{
   color: #000000 !important;
   opacity: 1;
 }
+/* //service section  */
+.service_main_content{
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+h3.comon_serviceTitle{
+  margin-top: 19px;
+  margin-bottom: 19px;
+}
+.service_section{
+  display: flex;
+  flex-direction: column;
+  padding: 0 15px;
+}
+.stayConnet{
+  margin-top: 10px;
+}
+.serviceIcon{
+  display: flex;
+  gap: 10px;
+  justify-content: center!important;
+  align-items: center;
+}
 /* //mobile device */
 @media (max-width: 768px) {
     .login-main-content{
