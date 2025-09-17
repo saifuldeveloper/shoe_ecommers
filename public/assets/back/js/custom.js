@@ -787,21 +787,21 @@
 
             const reader = new FileReader();
             reader.onload = function (e) {
-                const html = `
-                    <div class="single-g-item d-inline-block m-2" data-id="${id}">
-                        <span class="remove-gallery-img">
-                            <i class="fas fa-trash reader_file_remove"></i>
-                        </span>
-                        <a class="popup-link" href="${e.target.result}">
-                            <img class="admin-gallery-img" src="${e.target.result}" alt="No Image Found">
-                        </a>
-                    </div>`;
+             const html = `
+                <div class="single-g-item d-inline-block m-2 position-relative" data-id="${id}">
+                    <span class="remove-gallery-img">
+                        <i class="fas fa-trash reader_file_remove"></i>
+                    </span>
+                    <a class="popup-link" href="${e.target.result}">
+                        <img class="admin-gallery-img" src="${e.target.result}" alt="No Image Found">
+                    </a>
+                </div>`;
                 $(".gallery_image_view").append(html);
             };
             reader.readAsDataURL(file);
         });
 
-        // reset visible input so user can select more
+        // Reset file input so user can select again
         $(this).val('');
         updateHiddenFiles();
     });
@@ -811,15 +811,15 @@
         const $item = $(this).closest('.single-g-item');
         const id = $item.data('id');
 
-        // remove from array
+        // Remove from storedFiles array
         storedFiles = storedFiles.filter(obj => obj.id !== id);
 
-        // remove preview
+        // Remove preview
         $item.remove();
 
-        // sync again
+        // Sync hidden input
         updateHiddenFiles();
-    })
+    });
 
 
 

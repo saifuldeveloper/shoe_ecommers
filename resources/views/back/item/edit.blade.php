@@ -40,15 +40,6 @@
                             placeholder="{{ __('Enter Name') }}"
                             value="{{ $item->name }}" >
                     </div>
-
-                    <div class="form-group">
-                        <label for="slug">{{ __('Slug') }} *</label>
-                        <input type="text" name="slug" class="form-control"
-                            id="slug"
-                            placeholder="{{ __('Enter Slug') }}"
-                            value="{{ $item->slug }}" >
-                    </div>
-
                 </div>
             </div>
             <div class="card">
@@ -73,38 +64,51 @@
             </div>
             <div class="card">
                 <div class="card-body">
-                    <div class="form-group pb-0  mb-0">
-                        <label>{{ __('Gallery Images') }} </label>
+                    <div class="form-group pb-0 mb-0">
+                        <label>{{ __('Gallery Images') }}</label>
                     </div>
+
                     <div class="form-group pb-0 pt-0 mt-0 mb-0">
                         <div id="gallery-images">
                             <div class="d-block gallery_image_view">
 
-                                @forelse($item->galleries as $gallery)
-                                    <div class="single-g-item d-inline-block m-2">
+                                {{-- Existing images (edit page) --}}
+                                @if(isset($item) && $item->galleries)
+                                    @forelse($item->galleries as $gallery)
+                                        <div class="single-g-item d-inline-block m-2">
                                             <span data-toggle="modal"
-                                            data-target="#confirm-delete" href="javascript:;"
-                                            data-href="{{ route('back.item.gallery.delete',$gallery->id) }}" class="remove-gallery-img">
+                                                data-target="#confirm-delete"
+                                                href="javascript:;"
+                                                data-href="{{ route('back.item.gallery.delete',$gallery->id) }}"
+                                                class="remove-gallery-img existing-gallery">
                                                 <i class="fas fa-trash"></i>
                                             </span>
-                                            <a class="popup-link" href="{{ $gallery->photo ? url('/storage/items/'.$gallery->photo) : url('/assets/images/placeholder.png') }}">
-                                                <img class="admin-gallery-img" src="{{ $gallery->photo ? url('/storage/items/'.$gallery->photo) : url('/assets/images/placeholder.png') }}"
+                                            <a class="popup-link"
+                                            href="{{ $gallery->photo ? url('/storage/items/'.$gallery->photo) : url('/assets/images/placeholder.png') }}">
+                                                <img class="admin-gallery-img"
+                                                    src="{{ $gallery->photo ? url('/storage/items/'.$gallery->photo) : url('/assets/images/placeholder.png') }}"
                                                     alt="No Image Found">
                                             </a>
-                                    </div>
-                                @empty
-                                    <h6><b>{{ __('No Images Added') }}</b></h6>
-                                @endforelse
+                                        </div>
+                                    @empty
+                                        <h6><b>{{ __('No Images Added') }}</b></h6>
+                                    @endforelse
+                                @endif
+
                             </div>
                         </div>
                     </div>
-                    <div class="form-group position-relative ">
+
+                    <div class="form-group position-relative">
                         <label class="file">
-                            <input type="file"  accept="image/*"   name="galleries[]" id="gallery_file"
-                                    aria-label="File browser example" accept="image/*" multiple>
-                            <span
-                                class="file-custom text-left">{{ __('Upload Image...') }}</span>
+                            <!-- File input for new images -->
+                            <input type="file" accept="image/*" id="gallery_file" aria-label="File browser example" multiple>
+                            <span class="file-custom text-left">{{ __('Upload Image...') }}</span>
                         </label>
+
+                        <!-- Hidden input for new images only -->
+                        <input type="file" name="galleries[]" id="gallery_files_hidden" multiple style="display:none">
+
                         <br>
                         <span class="mt-1 text-info">{{ __('Image Size Should Be 800 x 800. or square size') }}</span>
                     </div>
@@ -227,7 +231,6 @@
                 <div class="card-body">
                     <input type="hidden" class="check_button" name="is_button" value="0">
                     <button type="submit" class="btn btn-secondary mr-2">{{ __('Update') }}</button>
-                    <a class="btn btn-success" href="{{ route('back.attribute.index',$item->id) }}">{{ __('Manage Attributes') }}</a>
                 </div>
             </div>
             <div class="card">
@@ -284,7 +287,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group d-none">
                         <label for="childcategory_id">{{ __('Select Child Category') }} </label>
                         <select name="childcategory_id" id="childcategory_id" class="form-control">
                             <option value="">{{__('Select one')}}</option>
@@ -302,19 +305,40 @@
                             @endforeach
                         </select>
                     </div>
+
+                    <div class="form-group">
+                        <label for="is_type">{{ __('Select Item Type') }}</label>
+                        <select name="is_type" id="is_type" class="form-control">
+                            <option value="undefined" 
+                                {{ old('is_type', $item->is_type) == 'undefined' ? 'selected' : '' }}>
+                                Undefine Product
+                            </option>
+                            <option value="new" 
+                                {{ old('is_type', $item->is_type) == 'new' ? 'selected' : '' }}>
+                                New Arrival
+                            </option>
+                            <option value="flash_deal" 
+                                {{ old('is_type', $item->is_type) == 'flash_deal' ? 'selected' : '' }}>
+                                Flash Deal Product
+                            </option>
+                            <option value="feature" 
+                                {{ old('is_type', $item->is_type) == 'feature' ? 'selected' : '' }}>
+                                Featured Product
+                            </option>
+                            <option value="best" 
+                                {{ old('is_type', $item->is_type) == 'best' ? 'selected' : '' }}>
+                                Best Product
+                            </option>
+                            <option value="top" 
+                                {{ old('is_type', $item->is_type) == 'top' ? 'selected' : '' }}>
+                                Top Product
+                            </option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="card">
                 <div class="card-body">
-                    <div class="form-group">
-                        <label for="stock">{{ __('Total in stock') }}
-                            *</label>
-                        <div class="input-group mb-3">
-                            <input type="number" id="stock"
-                                name="stock" class="form-control"
-                                placeholder="{{ __('Total in stock') }}" value="{{$item->stock}}" >
-                        </div>
-                    </div>
                     <div class="form-group">
                         <label for="tax_id">{{ __('Select Tax') }} *</label>
                         <select name="tax_id" id="tax_id" class="form-control">
