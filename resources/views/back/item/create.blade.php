@@ -61,21 +61,25 @@
                     </div>
                 </div>
                 <div class="card">
-                    <div class="card-body">
-                        <div class="form-group pb-0  mb-0">
-                            <label>{{ __('Gallery Images') }} </label>
+                   <div class="card-body">
+                        <div class="form-group pb-0 mb-0">
+                            <label>{{ __('Gallery Images') }}</label>
                         </div>
                         <div class="form-group pb-0 pt-0 mt-0 mb-0">
-                            <div id="gallery-images" class="">
-                                <div class="d-block gallery_image_view">
-                                </div>
+                            <div id="gallery-images">
+                                <div class="d-block gallery_image_view"></div>
                             </div>
                         </div>
-                        <div class="form-group position-relative ">
+                        <div class="form-group position-relative">
                             <label class="file">
-                                <input type="file" accept="image/*" name="galleries[]" id="gallery_file" aria-label="File browser example" accept="image/*" multiple>
+                                <!-- Visible input just for picking files -->
+                                <input type="file" accept="image/*" id="gallery_file" aria-label="File browser example" multiple>
                                 <span class="file-custom text-left">{{ __('Upload Image...') }}</span>
                             </label>
+
+                            <!-- Hidden input that will actually be submitted -->
+                            <input type="file" name="galleries[]" id="gallery_files_hidden" multiple style="display:none">
+
                             <br>
                             <span class="mt-1 text-info">{{ __('Image Size Should Be 800 x 800. or square size') }}</span>
                         </div>

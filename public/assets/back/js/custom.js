@@ -767,38 +767,58 @@
     })
 
 
+    let storedFiles = [];
+    const $hiddenInput = $('#gallery_files_hidden');
+
+    // function to sync storedFiles -> hidden input
+    function updateHiddenFiles() {
+        const dt = new DataTransfer();
+        storedFiles.forEach(obj => dt.items.add(obj.file));
+        $hiddenInput[0].files = dt.files;
+    }   
+
+   // handle file select
     $(document).on('change', '#gallery_file', function () {
+        const files = Array.from(this.files);
 
+        files.forEach(file => {
+            const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+            storedFiles.push({ id, file });
 
-        for (let i = 0; i < this.files.length; ++i) {
-            let filereader = new FileReader();
-
-            filereader.onload = function () {
-
-                let xxx = `
-                    <div class="single-g-item d-inline-block m-2">
-                            <span 
-                             class="remove-gallery-img">
-                                <i class="fas fa-trash reader_file_remove"></i>
-                            </span>
-                            <a class="popup-link" href="${this.result}">
-                                <img class="admin-gallery-img" src="${this.result}"
-                                    alt="No Image Found">
-                            </a>
-                    </div>
-                
-            `;
-                $(".gallery_image_view").append(xxx);
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const html = `
+                    <div class="single-g-item d-inline-block m-2" data-id="${id}">
+                        <span class="remove-gallery-img">
+                            <i class="fas fa-trash reader_file_remove"></i>
+                        </span>
+                        <a class="popup-link" href="${e.target.result}">
+                            <img class="admin-gallery-img" src="${e.target.result}" alt="No Image Found">
+                        </a>
+                    </div>`;
+                $(".gallery_image_view").append(html);
             };
-            filereader.readAsDataURL(this.files[i]);
-        }
+            reader.readAsDataURL(file);
+        });
 
+        // reset visible input so user can select more
+        $(this).val('');
+        updateHiddenFiles();
+    });
 
-    })
-
-
+    // handle remove
     $(document).on('click', '.reader_file_remove', function () {
-        $(this).parent().parent().remove();
+        const $item = $(this).closest('.single-g-item');
+        const id = $item.data('id');
+
+        // remove from array
+        storedFiles = storedFiles.filter(obj => obj.id !== id);
+
+        // remove preview
+        $item.remove();
+
+        // sync again
+        updateHiddenFiles();
     })
 
 

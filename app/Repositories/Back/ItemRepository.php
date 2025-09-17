@@ -6,6 +6,7 @@ use App\{
     Models\Item,
     Models\Color,
     Models\Size,
+    Models\Gallery,
     Models\Variant,
     Models\ItemVariant,
     Helpers\ImageHelper
