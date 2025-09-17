@@ -16,7 +16,7 @@
                             class="img-fluid border mb-3 image-detail-main-image" alt="Product" />
                         <div class="d-flex">
                                 <div class="owl-slider product-slider" data-owl-auto="true" data-owl-dots="false" data-owl-duration="1000"
-                                    data-owl-gap="10" data-owl-item="6" data-owl-item-lg="6" data-owl-item-md="5" data-owl-item-sm="4"
+                                    data-owl-gap="10" data-owl-item="4" data-owl-item-lg="6" data-owl-item-md="5" data-owl-item-sm="4"
                                     data-owl-item-xs="2" data-owl-loop="true" data-owl-mousedrag="on" data-owl-nav="true"
                                     data-owl-speed="5000">
                                         <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}"   class="img-thumbnail me-2" alt="thumb" />
@@ -30,6 +30,8 @@
                                         <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}"   class="img-thumbnail me-2" alt="thumb" />
                                 </div>
                         </div>
+                        
+                        
                     </div>
 
                     <!-- Product Details -->
@@ -85,14 +87,21 @@
                             <button class="btn btn-dark me-2 add_to_cartbtn">
                                 ADD TO CART
                             </button>
-                            <button class="btn btn-outline-dark buy_now_btn">
+                             
+                            <a> 
+                             <i class="ps-icon-heart love_icon"></i>
+                             </a>
+                          
+                        </div>
+                        <div>
+                             <button class="btn btn-outline-dark buy_now_btn">
                                 BUY IT NOW
                             </button>
-                        </div>
+                        </div> 
                     </div>
 
                     <div class="clearfix"></div>
-                    <div class="ps-product__content mt-50">
+                    <div class="ps-product__content mt-100">
                         <ul class="tab-list" role="tablist">
                             <li class="active">
                                 <a href="#tab_01" aria-controls="tab_01" role="tab" data-toggle="tab">Overview</a>
@@ -494,3 +503,70 @@
     </div>
 @endsection
 
+
+@push('js')
+<script> 
+
+function imageZoom(imgID, resultID) {
+  var img, lens, result, cx, cy;
+  img = document.getElementById(imgID);
+  result = document.getElementById(resultID);
+
+  /* create lens: */
+  lens = document.createElement("DIV");
+  lens.setAttribute("class", "img-zoom-lens");
+  img.parentElement.insertBefore(lens, img);
+
+  /* calculate ratio between result DIV and lens: */
+  cx = result.offsetWidth / lens.offsetWidth;
+  cy = result.offsetHeight / lens.offsetHeight;
+
+  /* set background properties for the result DIV */
+  result.style.backgroundImage = "url('" + img.src + "')";
+  result.style.backgroundSize = (img.width * cx) + "px " + (img.height * cy) + "px";
+
+  /* move lens on mouse move */
+  lens.addEventListener("mousemove", moveLens);
+  img.addEventListener("mousemove", moveLens);
+
+  lens.addEventListener("touchmove", moveLens);
+  img.addEventListener("touchmove", moveLens);
+
+  function moveLens(e) {
+    var pos, x, y;
+    e.preventDefault();
+    pos = getCursorPos(e);
+    x = pos.x - (lens.offsetWidth / 2);
+    y = pos.y - (lens.offsetHeight / 2);
+
+    /* prevent lens from being outside image */
+    if (x > img.width - lens.offsetWidth) {x = img.width - lens.offsetWidth;}
+    if (x < 0) {x = 0;}
+    if (y > img.height - lens.offsetHeight) {y = img.height - lens.offsetHeight;}
+    if (y < 0) {y = 0;}
+
+    /* set lens position */
+    lens.style.left = x + "px";
+    lens.style.top = y + "px";
+
+    /* display what the lens sees */
+    result.style.backgroundPosition = "-" + (x * cx) + "px -" + (y * cy) + "px";
+  }
+
+  function getCursorPos(e) {
+    var a, x = 0, y = 0;
+    e = e || window.event;
+    a = img.getBoundingClientRect();
+    x = e.pageX - a.left;
+    y = e.pageY - a.top;
+    x = x - window.pageXOffset;
+    y = y - window.pageYOffset;
+    return {x : x, y : y};
+  }
+}
+
+/* Initialize */
+imageZoom("myimage", "myresult");
+</script> 
+    
+@endpush

@@ -657,12 +657,26 @@ h3.comon_serviceTitle{
   align-items: center;
 }
 .buy_now_btn{
-   background: #2abbe8;
   padding: 13px 15px;
   width: 225px;
   text-align: center;
   margin-right: 10px;
-  border: 0;
+  color: #000;
+   background: white;
+ padding: 13px 15px;
+  width: 225px;
+  text-align: center;
+  margin-right: 10px;
+  border: 1px solid #000;
+  min-width: 550px;
+  padding: 13px 15px 12px;
+  line-height: 23px;
+  margin-bottom: 16px;
+  font-size: 18px;
+  max-height: 48px;
+}
+.buy_now_btn:hover{
+  background-color: #000;
   color: white;
 }
 .add_to_cartbtn{
@@ -672,7 +686,44 @@ h3.comon_serviceTitle{
   width: 225px;
   text-align: center;
   margin-right: 10px;
+  /* margin-top: 7px; */
   border: 0;
+  min-width: 475px;
+  background: #000;
+  color: #fff;
+  border-color: #000;
+  padding: 13px 15px 12px;
+  line-height: 23px;
+  margin-bottom: 16px;
+  font-size: 18px;
+  max-height: 48px;
+}
+a i.love_icon{
+  justify-content: center;
+  text-align: center;
+  background: #fff;
+  color: #000;
+  border: 1px solid #000;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  min-height: 48px;
+  max-width: 100%;
+  font-size: 25px;
+  min-width: 48px;
+  margin-bottom: 0px;
+  margin-left: 15px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+a i.love_icon:hover{
+  background-color: #000;
+  color:red;
+}
+.add_to_cartbtn:hover{
+  background-color: red;
+  color: white;
 }
 .product-slider .owl-nav {
     position: absolute;
@@ -696,6 +747,27 @@ h3.comon_serviceTitle{
     pointer-events: all;
 }
 
+.cust_wishlist{
+  padding: 12px 10px 10px;
+    min-height: 48px;
+    max-width: 100%;
+    min-width: 48px;
+    margin-bottom: 20px;
+    margin-left: 15px;
+        justify-content: center;
+    text-align: center;
+    background: #fff;
+    color: #000;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: .02em;
+    font-size: 16px;
+    line-height: 22px;
+    outline: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 
 /* //mobile device */
 @media (max-width: 768px) {
