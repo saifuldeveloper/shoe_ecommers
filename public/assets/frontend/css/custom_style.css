@@ -656,6 +656,47 @@ h3.comon_serviceTitle{
   justify-content: center!important;
   align-items: center;
 }
+.buy_now_btn{
+   background: #2abbe8;
+  padding: 13px 15px;
+  width: 225px;
+  text-align: center;
+  margin-right: 10px;
+  border: 0;
+  color: white;
+}
+.add_to_cartbtn{
+  background: #f57224;
+  color: white;
+ padding: 13px 15px;
+  width: 225px;
+  text-align: center;
+  margin-right: 10px;
+  border: 0;
+}
+.product-slider .owl-nav {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.product-slider .owl-nav button.owl-prev,
+.product-slider .owl-nav button.owl-next {
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-size: 24px;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    pointer-events: all;
+}
+
+
 /* //mobile device */
 @media (max-width: 768px) {
     .login-main-content{
