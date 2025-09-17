@@ -317,9 +317,7 @@
                     <div class="ps-shoes--carousel">
                         <div class="ps-shoe">
                             <div class="ps-shoe__thumbnail">
-                                <div class="ps-badge">
-                                    <span>New</span>
-                                </div>
+                              
                                 <div class="ps-badge ps-badge--sale ps-badge--2nd">
                                     <span>-35%</span>
                                 </div>
@@ -358,9 +356,7 @@
                     <div class="ps-shoes--carousel">
                         <div class="ps-shoe">
                             <div class="ps-shoe__thumbnail">
-                                <div class="ps-badge">
-                                    <span>New</span>
-                                </div>
+                                
                                 <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img
                                     src="images/shoe/c1.avif" alt="" /><a class="ps-shoe__overlay"
                                     href="product-detail.html"></a>
@@ -368,7 +364,7 @@
                             <div class="ps-shoe__content">
                                 <div class="ps-shoe__variants">
                                     <div class="ps-shoe__variant normal">
-                                        <img src="images/shoe/2.jpg" alt="" /><img src="images/shoe/3.jpg"
+                                        <img src="{{ asset('assets/frontend/images/shoe/a1.avif') }}" alt="" /><img src="images/shoe/3.jpg"
                                             alt="" /><img src="images/shoe/4.jpg" alt="" /><img
                                             src="images/shoe/5.jpg" alt="" />
                                     </div>
@@ -402,7 +398,7 @@
                             <div class="ps-shoe__content">
                                 <div class="ps-shoe__variants">
                                     <div class="ps-shoe__variant normal">
-                                        <img src="images/shoe/2.jpg" alt="" /><img src="images/shoe/3.jpg"
+                                        <img src="{{ asset('assets/frontend/images/shoe/a1.avif') }}" alt="" /><img src="images/shoe/3.jpg"
                                             alt="" /><img src="images/shoe/4.jpg" alt="" /><img
                                             src="images/shoe/5.jpg" alt="" />
                                     </div>
@@ -429,9 +425,7 @@
                     <div class="ps-shoes--carousel">
                         <div class="ps-shoe">
                             <div class="ps-shoe__thumbnail">
-                                <div class="ps-badge">
-                                    <span>New</span>
-                                </div>
+                             
                                 <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img
                                     src="images/shoe/i1.webp" alt="" /><a class="ps-shoe__overlay"
                                     href="product-detail.html"></a>
@@ -439,7 +433,7 @@
                             <div class="ps-shoe__content">
                                 <div class="ps-shoe__variants">
                                     <div class="ps-shoe__variant normal">
-                                        <img src="images/shoe/2.jpg" alt="" /><img src="images/shoe/3.jpg"
+                                        <img src="{{ asset('assets/frontend/images/shoe/a1.avif') }}" alt="" /><img src="images/shoe/3.jpg"
                                             alt="" /><img src="images/shoe/4.jpg" alt="" /><img
                                             src="images/shoe/5.jpg" alt="" />
                                     </div>
@@ -473,7 +467,7 @@
                             <div class="ps-shoe__content">
                                 <div class="ps-shoe__variants">
                                     <div class="ps-shoe__variant normal">
-                                        <img src="images/shoe/2.jpg" alt="" /><img src="images/shoe/3.jpg"
+                                        <img src="{{ asset('assets/frontend/images/shoe/a1.avif') }}" alt="" /><img src="images/shoe/3.jpg"
                                             alt="" /><img src="images/shoe/4.jpg" alt="" /><img
                                             src="images/shoe/5.jpg" alt="" />
                                     </div>
@@ -501,10 +495,11 @@
             </div>
         </div>
     </div>
-
-     <div class="ps-section ps-section--top-sales ps-owl-root ">
+ 
+    {{-- //recently view products --}}
+     <div class="ps-section">
         <div class="ps-container">
-            <div class="ps-section__header mb-50">
+            <div class="ps-section__header">
                 <div class="row">
                     <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
                         <h3 class="ps-section__title" >
@@ -527,9 +522,7 @@
                     <div class="ps-shoes--carousel">
                         <div class="ps-shoe">
                             <div class="ps-shoe__thumbnail">
-                                <div class="ps-badge">
-                                    <span>New</span>
-                                </div>
+                               
                                 <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img
                                     src="{{ asset('assets/frontend/images/shoe/a1.avif') }}" alt="" /><a
                                     class="ps-shoe__overlay" href="product-detail.html"></a>
@@ -537,9 +530,11 @@
                             <div class="ps-shoe__content">
                                 <div class="ps-shoe__variants">
                                     <div class="ps-shoe__variant normal">
-                                        <img src="{{ asset('assets/frontend/images/shoe/2.jpg') }}" alt="" /><img
+                                        <img 
+                                        src="{{ asset('assets/frontend/images/shoe/2.jpg') }}" alt="" /><img
                                             src="images/shoe/3.jpg" alt="" /><img src=""
-                                            alt="" /><img src="{{ asset('assets/frontend/images/shoe/4.jpg') }}"
+                                            alt="" />
+                                            <img src="{{ asset('assets/frontend/images/shoe/4.jpg') }}"
                                             alt="" />
                                     </div>
                                     <select class="ps-rating ps-shoe__rating">
@@ -562,63 +557,23 @@
                             </div>
                         </div>
                     </div>
-                    <div class="ps-shoes--carousel">
+                     <div class="ps-shoes--carousel">
                         <div class="ps-shoe">
                             <div class="ps-shoe__thumbnail">
-                                <div class="ps-badge">
-                                    <span>New</span>
-                                </div>
-                                <div class="ps-badge ps-badge--sale ps-badge--2nd">
-                                    <span>-35%</span>
-                                </div>
+                              
                                 <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img
-                                    src="images/shoe/b1.avif" alt="" /><a class="ps-shoe__overlay"
-                                    href="product-detail.html"></a>
+                                    src="{{ asset('assets/frontend/images/shoe/a1.avif') }}" alt="" /><a
+                                    class="ps-shoe__overlay" href="product-detail.html"></a>
                             </div>
                             <div class="ps-shoe__content">
                                 <div class="ps-shoe__variants">
                                     <div class="ps-shoe__variant normal">
-                                        <img src="{{ asset('assets/frontend/images/shoe/4.jpg') }}" alt="" /><img
-                                            src="{{ asset('assets/frontend/images/shoe/4.jpg') }}" alt="" /><img
-                                            src="{{ asset('assets/frontend/images/shoe/4.jpg') }}" alt="" /><img
-                                            src="{{ asset('assets/frontend/images/shoe/4.jpg') }}" alt="" />
-                                    </div>
-                                    <select class="ps-rating ps-shoe__rating">
-                                        <option value="1">1</option>
-                                        <option value="1">2</option>
-                                        <option value="1">3</option>
-                                        <option value="1">4</option>
-                                        <option value="2">5</option>
-                                    </select>
-                                </div>
-                                <div class="ps-shoe__detail">
-                                    <a class="ps-shoe__name" href="product-detai.html">Air Jordan 7 Retro</a>
-                                    <p class="ps-shoe__categories">
-                                        <a href="#">Men shoes</a>,<a href="#">
-                                            Nike</a>,<a href="#"> Jordan</a>
-                                    </p>
-                                    <span class="ps-shoe__price">
-                                        <del>£220</del> £ 120</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ps-shoes--carousel">
-                        <div class="ps-shoe">
-                            <div class="ps-shoe__thumbnail">
-                                <div class="ps-badge">
-                                    <span>New</span>
-                                </div>
-                                <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img
-                                    src="images/shoe/c1.avif" alt="" /><a class="ps-shoe__overlay"
-                                    href="product-detail.html"></a>
-                            </div>
-                            <div class="ps-shoe__content">
-                                <div class="ps-shoe__variants">
-                                    <div class="ps-shoe__variant normal">
-                                        <img src="images/shoe/2.jpg" alt="" /><img src="images/shoe/3.jpg"
-                                            alt="" /><img src="images/shoe/4.jpg" alt="" /><img
-                                            src="images/shoe/5.jpg" alt="" />
+                                        <img 
+                                        src="{{ asset('assets/frontend/images/shoe/2.jpg') }}" alt="" /><img
+                                            src="images/shoe/3.jpg" alt="" /><img src=""
+                                            alt="" />
+                                            <img src="{{ asset('assets/frontend/images/shoe/4.jpg') }}"
+                                            alt="" />
                                     </div>
                                     <select class="ps-rating ps-shoe__rating">
                                         <option value="1">1</option>
@@ -640,19 +595,23 @@
                             </div>
                         </div>
                     </div>
-                    <div class="ps-shoes--carousel">
+                     <div class="ps-shoes--carousel">
                         <div class="ps-shoe">
                             <div class="ps-shoe__thumbnail">
+                            
                                 <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img
-                                    src="images/shoe/d1.webp" alt="" /><a class="ps-shoe__overlay"
-                                    href="product-detail.html"></a>
+                                    src="{{ asset('assets/frontend/images/shoe/a1.avif') }}" alt="" /><a
+                                    class="ps-shoe__overlay" href="product-detail.html"></a>
                             </div>
                             <div class="ps-shoe__content">
                                 <div class="ps-shoe__variants">
                                     <div class="ps-shoe__variant normal">
-                                        <img src="images/shoe/2.jpg" alt="" /><img src="images/shoe/3.jpg"
-                                            alt="" /><img src="images/shoe/4.jpg" alt="" /><img
-                                            src="images/shoe/5.jpg" alt="" />
+                                        <img 
+                                        src="{{ asset('assets/frontend/images/shoe/2.jpg') }}" alt="" /><img
+                                            src="images/shoe/3.jpg" alt="" /><img src=""
+                                            alt="" />
+                                            <img src="{{ asset('assets/frontend/images/shoe/4.jpg') }}"
+                                            alt="" />
                                     </div>
                                     <select class="ps-rating ps-shoe__rating">
                                         <option value="1">1</option>
@@ -674,56 +633,23 @@
                             </div>
                         </div>
                     </div>
-                    <div class="ps-shoes--carousel">
+                     <div class="ps-shoes--carousel">
                         <div class="ps-shoe">
                             <div class="ps-shoe__thumbnail">
-                                <div class="ps-badge">
-                                    <span>New</span>
-                                </div>
+                              
                                 <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img
-                                    src="images/shoe/i1.webp" alt="" /><a class="ps-shoe__overlay"
-                                    href="product-detail.html"></a>
+                                    src="{{ asset('assets/frontend/images/shoe/a1.avif') }}" alt="" /><a
+                                    class="ps-shoe__overlay" href="product-detail.html"></a>
                             </div>
                             <div class="ps-shoe__content">
                                 <div class="ps-shoe__variants">
                                     <div class="ps-shoe__variant normal">
-                                        <img src="images/shoe/2.jpg" alt="" /><img src="images/shoe/3.jpg"
-                                            alt="" /><img src="images/shoe/4.jpg" alt="" /><img
-                                            src="images/shoe/5.jpg" alt="" />
-                                    </div>
-                                    <select class="ps-rating ps-shoe__rating">
-                                        <option value="1">1</option>
-                                        <option value="1">2</option>
-                                        <option value="1">3</option>
-                                        <option value="1">4</option>
-                                        <option value="2">5</option>
-                                    </select>
-                                </div>
-                                <div class="ps-shoe__detail">
-                                    <a class="ps-shoe__name" href="product-detai.html">Air Jordan 7 Retro</a>
-                                    <p class="ps-shoe__categories">
-                                        <a href="#">Men shoes</a>,<a href="#">
-                                            Nike</a>,<a href="#"> Jordan</a>
-                                    </p>
-                                    <span class="ps-shoe__price">
-                                        £ 120</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ps-shoes--carousel">
-                        <div class="ps-shoe">
-                            <div class="ps-shoe__thumbnail">
-                                <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img
-                                    src="images/shoe/j1.webp" alt="" /><a class="ps-shoe__overlay"
-                                    href="product-detail.html"></a>
-                            </div>
-                            <div class="ps-shoe__content">
-                                <div class="ps-shoe__variants">
-                                    <div class="ps-shoe__variant normal">
-                                        <img src="images/shoe/2.jpg" alt="" /><img src="images/shoe/3.jpg"
-                                            alt="" /><img src="images/shoe/4.jpg" alt="" /><img
-                                            src="images/shoe/5.jpg" alt="" />
+                                        <img 
+                                        src="{{ asset('assets/frontend/images/shoe/2.jpg') }}" alt="" /><img
+                                            src="images/shoe/3.jpg" alt="" /><img src=""
+                                            alt="" />
+                                            <img src="{{ asset('assets/frontend/images/shoe/4.jpg') }}"
+                                            alt="" />
                                     </div>
                                     <select class="ps-rating ps-shoe__rating">
                                         <option value="1">1</option>
@@ -750,71 +676,3 @@
         </div>
     </div>
 @endsection
-
-
-@push('js')
-<script> 
-
-function imageZoom(imgID, resultID) {
-  var img, lens, result, cx, cy;
-  img = document.getElementById(imgID);
-  result = document.getElementById(resultID);
-
-  /* create lens: */
-  lens = document.createElement("DIV");
-  lens.setAttribute("class", "img-zoom-lens");
-  img.parentElement.insertBefore(lens, img);
-
-  /* calculate ratio between result DIV and lens: */
-  cx = result.offsetWidth / lens.offsetWidth;
-  cy = result.offsetHeight / lens.offsetHeight;
-
-  /* set background properties for the result DIV */
-  result.style.backgroundImage = "url('" + img.src + "')";
-  result.style.backgroundSize = (img.width * cx) + "px " + (img.height * cy) + "px";
-
-  /* move lens on mouse move */
-  lens.addEventListener("mousemove", moveLens);
-  img.addEventListener("mousemove", moveLens);
-
-  lens.addEventListener("touchmove", moveLens);
-  img.addEventListener("touchmove", moveLens);
-
-  function moveLens(e) {
-    var pos, x, y;
-    e.preventDefault();
-    pos = getCursorPos(e);
-    x = pos.x - (lens.offsetWidth / 2);
-    y = pos.y - (lens.offsetHeight / 2);
-
-    /* prevent lens from being outside image */
-    if (x > img.width - lens.offsetWidth) {x = img.width - lens.offsetWidth;}
-    if (x < 0) {x = 0;}
-    if (y > img.height - lens.offsetHeight) {y = img.height - lens.offsetHeight;}
-    if (y < 0) {y = 0;}
-
-    /* set lens position */
-    lens.style.left = x + "px";
-    lens.style.top = y + "px";
-
-    /* display what the lens sees */
-    result.style.backgroundPosition = "-" + (x * cx) + "px -" + (y * cy) + "px";
-  }
-
-  function getCursorPos(e) {
-    var a, x = 0, y = 0;
-    e = e || window.event;
-    a = img.getBoundingClientRect();
-    x = e.pageX - a.left;
-    y = e.pageY - a.top;
-    x = x - window.pageXOffset;
-    y = y - window.pageYOffset;
-    return {x : x, y : y};
-  }
-}
-
-/* Initialize */
-imageZoom("myimage", "myresult");
-</script> 
-    
-@endpush
