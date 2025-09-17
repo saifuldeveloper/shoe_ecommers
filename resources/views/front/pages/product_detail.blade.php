@@ -15,9 +15,20 @@
                         <img src="{{ asset('assets/frontend/images/shoe/a1.avif') }}"
                             class="img-fluid border mb-3 image-detail-main-image" alt="Product" />
                         <div class="d-flex">
-                            <img src="images/shoe/a1.avif" class="img-thumbnail me-2" alt="thumb" />
-                            <img src="images/shoe/a1.avif" class="img-thumbnail me-2" alt="thumb" />
-                            <img src="images/shoe/a1.avif" class="img-thumbnail me-2" alt="thumb" />
+                                <div class="owl-slider product-slider" data-owl-auto="true" data-owl-dots="false" data-owl-duration="1000"
+                                    data-owl-gap="10" data-owl-item="6" data-owl-item-lg="6" data-owl-item-md="5" data-owl-item-sm="4"
+                                    data-owl-item-xs="2" data-owl-loop="true" data-owl-mousedrag="on" data-owl-nav="true"
+                                    data-owl-speed="5000">
+                                        <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}"   class="img-thumbnail me-2" alt="thumb" />
+                                        <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}"  class="img-thumbnail me-2"  alt="thumb" />
+                                        <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}"   class="img-thumbnail me-2" alt="thumb" />
+                                        <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}"   class="img-thumbnail me-2" alt="thumb" />
+                                        <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}"  class="img-thumbnail me-2"  alt="thumb" />
+                                        <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}"   class="img-thumbnail me-2" alt="thumb" />
+                                        <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}"   class="img-thumbnail me-2" alt="thumb" />
+                                        <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}"  class="img-thumbnail me-2"  alt="thumb" />
+                                        <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}"   class="img-thumbnail me-2" alt="thumb" />
+                                </div>
                         </div>
                     </div>
 
@@ -71,10 +82,10 @@
 
                         <!-- Buttons -->
                         <div class="d-flex">
-                            <button class="btn btn-dark me-2">
+                            <button class="btn btn-dark me-2 add_to_cartbtn">
                                 ADD TO CART
                             </button>
-                            <button class="btn btn-outline-dark">
+                            <button class="btn btn-outline-dark buy_now_btn">
                                 BUY IT NOW
                             </button>
                         </div>
@@ -482,3 +493,4 @@
         </div>
     </div>
 @endsection
+

@@ -221,7 +221,7 @@
           </div>
         </div>
       </div>
-      <div class="ps-subscribe">
+      {{-- <div class="ps-subscribe">
         <div class="ps-container">
           <div class="row">
                 <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 ">
@@ -238,7 +238,7 @@
                 </div>
           </div>
         </div>
-      </div>
+      </div> --}}
       <div class="ps-footer bg--cover" data-background="images/background/parallax.jpg">
         <div class="ps-footer__content">
           <div class="ps-container">

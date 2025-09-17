@@ -4,6 +4,8 @@ $pages = \App\Models\Page::where('pos',1)->orWhere('pos', 2)->orderBy('id','DESC
 $brands = \App\Models\Brand::where('status',1)->where('is_popular' , 1)->orderBy('id','DESC')->get();
 
 @endphp
+
+
 <div class="ps-footer bg--cover">
     <div class="ps-footer__content">
         <div class="ps-container">
