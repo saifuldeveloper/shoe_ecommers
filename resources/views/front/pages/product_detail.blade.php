@@ -12,60 +12,32 @@
             <div class="row">
                 <div class="col-lg-10 col-md-12">
                     <div class="col-md-6">
-    <img src="{{ asset('assets/frontend/images/shoe/a1.avif') }}"
-        class="img-fluid border mb-3 image-detail-main-image popup-image"
-        alt="Product" />
-
-    <div class="d-flex">
-        <div class="owl-slider zoom-gallery product-slider" data-owl-auto="true" data-owl-dots="false"
-            data-owl-duration="1000" data-owl-gap="10" data-owl-item="4" data-owl-item-lg="6"
-            data-owl-item-md="5" data-owl-item-sm="4" data-owl-item-xs="2" data-owl-loop="true"
-            data-owl-mousedrag="on" data-owl-nav="true" data-owl-speed="5000">
-
-         	<a href="{{ asset('assets/frontend/images/shoe/a1.avif')}}" data-source="http://500px.com/photo/32736307" title="Into The Blue" style="width:193px;height:125px;">
-		<img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}" width="193" height="125">
-	</a>
-
-          	<a href="{{ asset('assets/frontend/images/shoe/a1.avif')}}" data-source="http://500px.com/photo/32736307" title="Into The Blue" style="width:193px;height:125px;">
-		<img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}" width="193" height="125">
-	</a>
-            	<a href="{{ asset('assets/frontend/images/shoe/a1.avif')}}" data-source="http://500px.com/photo/32736307" title="Into The Blue" style="width:193px;height:125px;">
-		<img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}" width="193" height="125">
-	</a>
-           	<a href="{{ asset('assets/frontend/images/shoe/a1.avif')}}" data-source="http://500px.com/photo/32736307" title="Into The Blue" style="width:193px;height:125px;">
-		<img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}" width="193" height="125">
-	</a>
-        </div>
-    </div> 
-
-
-</div>
-
-
-
-                    {{-- <div class="col-md-6">
                         <img src="{{ asset('assets/frontend/images/shoe/a1.avif') }}"
-                            class="img-fluid border mb-3 image-detail-main-image" alt="Product" />
+                            class="img-fluid border mb-3 image-detail-main-image popup-image"
+                            alt="Product" />
+
                         <div class="d-flex">
-                                <div class="owl-slider product-slider" data-owl-auto="true" data-owl-dots="false" data-owl-duration="1000"
-                                    data-owl-gap="10" data-owl-item="4" data-owl-item-lg="6" data-owl-item-md="5" data-owl-item-sm="4"
-                                    data-owl-item-xs="2" data-owl-loop="true" data-owl-mousedrag="on" data-owl-nav="true"
-                                    data-owl-speed="5000">
-                                        <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}"   class="img-thumbnail me-2" alt="thumb" />
-                                        <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}"  class="img-thumbnail me-2"  alt="thumb" />
-                                        <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}"   class="img-thumbnail me-2" alt="thumb" />
-                                        <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}"   class="img-thumbnail me-2" alt="thumb" />
-                                        <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}"  class="img-thumbnail me-2"  alt="thumb" />
-                                        <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}"   class="img-thumbnail me-2" alt="thumb" />
-                                        <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}"   class="img-thumbnail me-2" alt="thumb" />
-                                        <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}"  class="img-thumbnail me-2"  alt="thumb" />
-                                        <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}"   class="img-thumbnail me-2" alt="thumb" />
-                                </div>
-                        </div>
+                            <div class="owl-slider zoom-gallery product-slider" data-owl-auto="true" data-owl-dots="false"
+                                data-owl-duration="1000" data-owl-gap="10" data-owl-item="4" data-owl-item-lg="6"
+                                data-owl-item-md="5" data-owl-item-sm="4" data-owl-item-xs="2" data-owl-loop="true"
+                                data-owl-mousedrag="on" data-owl-nav="true" data-owl-speed="5000">
+
+                                <a href="{{ asset('assets/frontend/images/shoe/a1.avif')}}" data-source="http://500px.com/photo/32736307" title="Into The Blue" style="width:193px;height:125px;">
+                            <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}" width="193" height="125">
+                        </a>
+
+                                <a href="{{ asset('assets/frontend/images/shoe/a1.avif')}}" data-source="http://500px.com/photo/32736307" title="Into The Blue" style="width:193px;height:125px;">
+                            <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}" width="193" height="125">
+                        </a>
+                                    <a href="{{ asset('assets/frontend/images/shoe/a1.avif')}}" data-source="http://500px.com/photo/32736307" title="Into The Blue" style="width:193px;height:125px;">
+                            <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}" width="193" height="125">
+                        </a>
+                                <a href="{{ asset('assets/frontend/images/shoe/a1.avif')}}" data-source="http://500px.com/photo/32736307" title="Into The Blue" style="width:193px;height:125px;">
+                            <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}" width="193" height="125">
+                        </a>
+                            </div>
+                        </div> 
                     </div>
-
-                     --}}
-
                     <!-- Product Details -->
                     <div class="col-md-6">
                         <h4>BATA (MEN) AP1 MENS CASUAL</h4>
@@ -80,21 +52,25 @@
                             * FREE SHIPPING
                         </p>
                         <!-- Size -->
-                        <div class="mb-3">
-                            <p><strong>Size</strong></p>
-                            <div class="size-option d-flex">
-                                <input type="radio" id="size6" name="size" checked />
-                                <label for="size6">6</label>
-                                <input type="radio" id="size7" name="size" />
-                                <label for="size7">7</label>
-                                <input type="radio" id="size8" name="size" />
-                                <label for="size8">8</label>
-                                <input type="radio" id="size9" name="size" />
-                                <label for="size9">9</label>
-                                <input type="radio" id="size10" name="size" />
-                                <label for="size10">10</label>
+                            <div class="mb-3">
+                                <div class="d-flex size_flex_data">
+                                    <p><strong>Size</strong></p>
+                                    <a data-toggle="modal" data-target="#size_chart"  class="size-chart-open-popup"> <img src="{{ asset('assets/frontend/images/icon_sizechar.png') }}"/> Size Chart</a>
+                                </div>
+
+                                <div class="size-option d-flex mt-2 gap-2">
+                                    <input type="radio" id="size6" name="size" checked />
+                                    <label for="size6">6</label>
+                                    <input type="radio" id="size7" name="size" />
+                                    <label for="size7">7</label>
+                                    <input type="radio" id="size8" name="size" />
+                                    <label for="size8">8</label>
+                                    <input type="radio" id="size9" name="size" />
+                                    <label for="size9">9</label>
+                                    <input type="radio" id="size10" name="size" />
+                                    <label for="size10">10</label>
+                                </div>
                             </div>
-                        </div>
 
                         <!-- Color -->
                         <div class="mb-3">
@@ -114,7 +90,6 @@
                         </div>
                         <p><strong>Subtotal:</strong> Tk 2,499.00</p>
 
-                        <!-- Buttons -->
                         <div class="d-flex">
                             <button class="btn btn-dark me-2 add_to_cartbtn">
                                 ADD TO CART
@@ -707,6 +682,34 @@
             </div>
         </div>
     </div>
+
+    {{-- //size modal   --}}
+    <div class="modal fade halo_modal-custom" id="size_chart" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal_h5_title">
+            <span style="text-align: center">
+            Size Chart
+            </span>
+        </h5>
+        <a data-dismiss="modal" class="close close-modal" title="Close" href="javascript:void(0)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24px" height="24px" class="icon-close">
+        <path style="line-height:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000;text-transform:none;block-progression:tb;isolation:auto;mix-blend-mode:normal" d="M 4.7070312 3.2929688 L 3.2929688 4.7070312 L 10.585938 12 L 3.2929688 19.292969 L 4.7070312 20.707031 L 12 13.414062 L 19.292969 20.707031 L 20.707031 19.292969 L 13.414062 12 L 20.707031 4.7070312 L 19.292969 3.2929688 L 12 10.585938 L 4.7070312 3.2929688 z" font-weight="400" font-family="sans-serif" white-space="normal" overflow="visible"/>
+        </svg>
+        </a>
+        </div>
+
+        <div class="modal-body">
+        <div class="size-chart-img">
+            
+        <img src="//www.batabd.com/cdn/shop/files/size-chart-new_ca42ba2e-41a3-4df9-9c1a-ddfa2e4114e6_1024x1024.jpg?v=1745834022" alt="Size Chart"/>
+                        
+        </div>
+        </div>
+    </div>
+</div>
+</div>
 @endsection
 
 @push('js')

@@ -799,18 +799,37 @@ a i.love_icon:hover{
 	opacity: 0;
 }
 
+.size_flex_data{
+  display: flex;
+  gap: 75%;
+}
+
+.size-chart-open-popup{
+  cursor: pointer;
+}
+h5.modal_h5_title span{
+  text-align: center;
+  margin: 0 auto;
+}
+.halo_modal-custom .modal-title, .halo_modal-custom .title {
+    text-align: center;
+    line-height: 26px;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: #232323;
+}
 /* //mobile device */
 @media (max-width: 768px) {
     .login-main-content{
         padding-bottom: 57px;
         padding-top: 0px;
     }
-.buy_now_btn{
- min-width: 0px;
-  }
-.add_to_cartbtn{
+  .buy_now_btn{
   min-width: 0px;
-} 
+    }
+  .add_to_cartbtn{
+    min-width: 0px;
+  } 
   .login_small_device {
     flex-direction: column;
     align-items: left;
