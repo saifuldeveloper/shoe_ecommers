@@ -172,6 +172,32 @@ class ItemController extends Controller
      */
     public function edit(Item $item)
     {
+        $item->load('itemVariants.variant.color', 'itemVariants.variant.size');
+
+        $selectedColors = $item->itemVariants->map(function ($iv) {
+            return optional(optional($iv->variant)->color)->name;
+        })->filter()->unique()->values()->all();
+
+        $selectedSizes = $item->itemVariants->map(function ($iv) {
+            return optional(optional($iv->variant)->size)->name;
+        })->filter()->unique()->values()->all();
+
+        $variants = $item->itemVariants->map(function ($iv) {
+            return [
+                'id' => $iv->id,
+                'variant_id' => optional($iv->variant)->id,
+                'name' => optional($iv->variant)->name ?? $iv->item_code,
+                'variant_sku' => $iv->variant_sku,
+                'additional_cost' => $iv->additional_cost ?? 0,
+                'additional_price' => $iv->additional_price ?? 0,
+                'qty' => $iv->qty ?? 0,
+                'color' => optional(optional($iv->variant)->color)->name ?? '',
+                'size' => optional(optional($iv->variant)->size)->name ?? '',
+                'item_code' => $iv->item_code ?? '',
+                'position' => $iv->position ?? null,
+            ];
+        })->values()->all();
+
         return view('back.item.edit', [
             'item' => $item,
             'curr' => Currency::where('is_default', 1)->first(),
@@ -179,6 +205,11 @@ class ItemController extends Controller
             'social_links' => json_decode($item->social_links, true),
             'specification_name' => json_decode($item->specification_name, true),
             'specification_description' => json_decode($item->specification_description, true),
+            'colors' => Color::where('status', 1)->latest()->get(),
+            'sizes' => Size::where('status', 1)->latest()->get(),
+            'selectedColors' => $selectedColors,
+            'selectedSizes' => $selectedSizes,
+            'variants' => $variants,
         ]);
     }
 
@@ -190,12 +221,19 @@ class ItemController extends Controller
      */
     public function update(ItemRequest $request, Item $item)
     {
-        $this->repository->update($item, $request);
+        try {
+            DB::beginTransaction();
+            $this->repository->update($item, $request);
+            DB::commit();
 
-        if ($request->is_button == 0) {
-            return redirect()->route('back.item.index')->withSuccess(__('Product Updated Successfully.'));
-        } else {
-            return redirect()->back()->withSuccess(__('Product Updated Successfully.'));
+            if ($request->is_button == 0) {
+                return redirect()->route('back.item.index')->withSuccess(__('Product Updated Successfully.'));
+            } else {
+                return redirect(route('back.item.edit', $item->id))->withSuccess(__('Product Updated Successfully.'));
+            }
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return redirect()->back()->withErrors(__('Something went wrong: ') . $e->getMessage())->withInput();
         }
     }
 
