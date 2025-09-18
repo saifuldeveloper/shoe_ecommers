@@ -116,6 +116,7 @@
         });
         
     </script>
+    
 @stack('js')
 </body>
 

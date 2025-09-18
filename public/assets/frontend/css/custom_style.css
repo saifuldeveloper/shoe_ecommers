@@ -735,6 +735,9 @@ a i.love_icon:hover{
     pointer-events: none;
 }
 
+ .popup-image {
+        cursor: pointer; /* Image ke clickable banabe */
+    }
 .product-slider .owl-nav button.owl-prev,
 .product-slider .owl-nav button.owl-next {
     background: rgba(0, 0, 0, 0.5);
@@ -767,6 +770,33 @@ a i.love_icon:hover{
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+.image-source-link {
+	color: #98C3D1;
+}
+
+.mfp-with-zoom .mfp-container,
+.mfp-with-zoom.mfp-bg {
+	opacity: 0;
+	-webkit-backface-visibility: hidden;
+	/* ideally, transition speed should match zoom duration */
+	-webkit-transition: all 0.3s ease-out; 
+	-moz-transition: all 0.3s ease-out; 
+	-o-transition: all 0.3s ease-out; 
+	transition: all 0.3s ease-out;
+}
+
+.mfp-with-zoom.mfp-ready .mfp-container {
+		opacity: 1;
+}
+.mfp-with-zoom.mfp-ready.mfp-bg {
+		opacity: 0.8;
+}
+
+.mfp-with-zoom.mfp-removing .mfp-container, 
+.mfp-with-zoom.mfp-removing.mfp-bg {
+	opacity: 0;
 }
 
 /* //mobile device */

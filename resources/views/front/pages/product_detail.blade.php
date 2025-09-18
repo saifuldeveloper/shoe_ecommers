@@ -12,6 +12,38 @@
             <div class="row">
                 <div class="col-lg-10 col-md-12">
                     <div class="col-md-6">
+    <img src="{{ asset('assets/frontend/images/shoe/a1.avif') }}"
+        class="img-fluid border mb-3 image-detail-main-image popup-image"
+        alt="Product" />
+
+    <div class="d-flex">
+        <div class="owl-slider zoom-gallery product-slider" data-owl-auto="true" data-owl-dots="false"
+            data-owl-duration="1000" data-owl-gap="10" data-owl-item="4" data-owl-item-lg="6"
+            data-owl-item-md="5" data-owl-item-sm="4" data-owl-item-xs="2" data-owl-loop="true"
+            data-owl-mousedrag="on" data-owl-nav="true" data-owl-speed="5000">
+
+         	<a href="{{ asset('assets/frontend/images/shoe/a1.avif')}}" data-source="http://500px.com/photo/32736307" title="Into The Blue" style="width:193px;height:125px;">
+		<img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}" width="193" height="125">
+	</a>
+
+          	<a href="{{ asset('assets/frontend/images/shoe/a1.avif')}}" data-source="http://500px.com/photo/32736307" title="Into The Blue" style="width:193px;height:125px;">
+		<img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}" width="193" height="125">
+	</a>
+            	<a href="{{ asset('assets/frontend/images/shoe/a1.avif')}}" data-source="http://500px.com/photo/32736307" title="Into The Blue" style="width:193px;height:125px;">
+		<img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}" width="193" height="125">
+	</a>
+           	<a href="{{ asset('assets/frontend/images/shoe/a1.avif')}}" data-source="http://500px.com/photo/32736307" title="Into The Blue" style="width:193px;height:125px;">
+		<img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}" width="193" height="125">
+	</a>
+        </div>
+    </div> 
+
+
+</div>
+
+
+
+                    {{-- <div class="col-md-6">
                         <img src="{{ asset('assets/frontend/images/shoe/a1.avif') }}"
                             class="img-fluid border mb-3 image-detail-main-image" alt="Product" />
                         <div class="d-flex">
@@ -30,9 +62,9 @@
                                         <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}"   class="img-thumbnail me-2" alt="thumb" />
                                 </div>
                         </div>
-                        
-                        
                     </div>
+
+                     --}}
 
                     <!-- Product Details -->
                     <div class="col-md-6">
@@ -676,3 +708,40 @@
         </div>
     </div>
 @endsection
+
+@push('js')
+    <script>
+        $(document).ready(function() {
+	$('.zoom-gallery').magnificPopup({
+		delegate: 'a',
+		type: 'image',
+		closeOnContentClick: false,
+		closeBtnInside: false,
+		mainClass: 'mfp-with-zoom mfp-img-mobile',
+
+		// If you enable allowHTMLInTemplate - 
+		// make sure your HTML attributes are sanitized if they can be created by a non-admin user
+		allowHTMLInTemplate: true,
+		image: {
+			verticalFit: true,
+			titleSrc: function(item) {
+				return item.el.attr('title') + ' &middot; <a class="image-source-link" href="'+item.el.attr('data-source')+'" >image source</a>';
+			}
+		},
+
+		gallery: {
+			enabled: true
+		},
+		zoom: {
+			enabled: true,
+			duration: 300, // don't foget to change the duration also in CSS
+			opener: function(element) {
+				return element.find('img');
+			}
+		}
+		
+	});
+});
+
+</script>
+@endpush
