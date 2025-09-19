@@ -560,20 +560,50 @@ $(function() {
             }));
         }
 
+        // Collect already-entered data so we don’t lose it
+        let currentData = {};
+        $('#variant-table-body tr').each(function() {
+            const color = $(this).find('input[name*="[color]"]').val();
+            const size = $(this).find('input[name*="[size]"]').val();
+            const key = color + '|' + size;
+            currentData[key] = {
+                variant_sku: $(this).find('input[name*="[variant_sku]"]').val(),
+                additional_cost: $(this).find('input[name*="[additional_cost]"]').val(),
+                additional_price: $(this).find('input[name*="[additional_price]"]').val()
+            };
+        });
+
+        // Also merge server-side loaded variants (edit mode)
+        if (existingVariants && existingVariants.length) {
+            existingVariants.forEach(v => {
+                const key = (v.color || '') + '|' + (v.size || '');
+                if (!currentData[key]) {
+                    currentData[key] = {
+                        variant_sku: v.variant_sku || '',
+                        additional_cost: v.additional_cost || 0,
+                        additional_price: v.additional_price || 0
+                    };
+                }
+            });
+        }
+
         variants.forEach((v, idx) => {
+            const key = (v.color || '') + '|' + (v.size || '');
+            const prev = currentData[key] || {};
+
             const row = `
-          <tr>
-            <td>
-              <input type="text" name="variants[${idx}][name]" class="form-control" value="${escapeHtml(v.name)}" readonly>
-              <input type="hidden" name="variants[${idx}][color]" value="${escapeHtml(v.color)}">
-              <input type="hidden" name="variants[${idx}][size]" value="${escapeHtml(v.size)}">
-            </td>
-            <td><input type="text" name="variants[${idx}][variant_sku]" class="form-control" placeholder="Enter SKU"></td>
-            <td><input type="number" step="0.01" name="variants[${idx}][additional_cost]" class="form-control" placeholder="0.00"></td>
-            <td><input type="number" step="0.01" name="variants[${idx}][additional_price]" class="form-control" placeholder="0.00"></td>
-            <td><button type="button" class="btn btn-danger btn-sm remove-variant">X</button></td>
-          </tr>
-        `;
+            <tr>
+                <td>
+                <input type="text" name="variants[${idx}][name]" class="form-control" value="${escapeHtml(v.name)}" readonly>
+                <input type="hidden" name="variants[${idx}][color]" value="${escapeHtml(v.color)}">
+                <input type="hidden" name="variants[${idx}][size]" value="${escapeHtml(v.size)}">
+                </td>
+                <td><input type="text" name="variants[${idx}][variant_sku]" class="form-control" value="${escapeHtml(prev.variant_sku || '')}" placeholder="Enter SKU"></td>
+                <td><input type="number" step="0.01" name="variants[${idx}][additional_cost]" class="form-control" value="${prev.additional_cost || 0}" placeholder="0.00"></td>
+                <td><input type="number" step="0.01" name="variants[${idx}][additional_price]" class="form-control" value="${prev.additional_price || 0}" placeholder="0.00"></td>
+                <td><button type="button" class="btn btn-danger btn-sm remove-variant">X</button></td>
+            </tr>
+            `;
             tbody.append(row);
         });
 
@@ -632,29 +662,111 @@ $(function() {
         });
     }
 
-    // Client-side validation before form submit
+   // Client-side validation before form submit
     $('form.admin-form').on('submit', function(e) {
         let isValid = true;
         let firstInvalid = null;
+        let seenSkus = {};
 
-        // (your existing validations here — kept exactly as before)
-        // ... [omitted for brevity in this snippet; use your existing validation code block]
+        // Validate Name
+        const nameInput = $('input[name="name"]');
+        if (!nameInput.val().trim()) {
+            isValid = false;
+            nameInput.addClass('is-invalid');
+            if (!firstInvalid) firstInvalid = nameInput;
+        } else {
+            nameInput.removeClass('is-invalid');
+        }
+
+        // Validate Short Description
+        const sortDetails = $('textarea[name="sort_details"]');
+        if (!sortDetails.val().trim()) {
+            isValid = false;
+            sortDetails.addClass('is-invalid');
+            if (!firstInvalid) firstInvalid = sortDetails;
+        } else {
+            sortDetails.removeClass('is-invalid');
+        }
+
+        // Validate Description
+        const details = $('textarea[name="details"]');
+        if (!details.val().trim()) {
+            isValid = false;
+            details.addClass('is-invalid');
+            if (!firstInvalid) firstInvalid = details;
+        } else {
+            details.removeClass('is-invalid');
+        }
+
+        // Validate Current Price
+        const discountPrice = $('input[name="discount_price"]');
+        if (!discountPrice.val().trim()) {
+            isValid = false;
+            discountPrice.addClass('is-invalid');
+            if (!firstInvalid) firstInvalid = discountPrice;
+        } else {
+            discountPrice.removeClass('is-invalid');
+        }
+
+        // Validate Category
+        const category = $('select[name="category_id"]');
+        if (!category.val()) {
+            isValid = false;
+            category.addClass('is-invalid');
+            if (!firstInvalid) firstInvalid = category;
+        } else {
+            category.removeClass('is-invalid');
+        }
+
+        // Validate Tax
+        const tax = $('select[name="tax_id"]');
+        if (!tax.val()) {
+            isValid = false;
+            tax.addClass('is-invalid');
+            if (!firstInvalid) firstInvalid = tax;
+        } else {
+            tax.removeClass('is-invalid');
+        }
+
+        // Validate SKU
+        const sku = $('input[name="sku"]');
+        if (!sku.val().trim()) {
+            isValid = false;
+            sku.addClass('is-invalid');
+            if (!firstInvalid) firstInvalid = sku;
+        } else {
+            sku.removeClass('is-invalid');
+        }
 
         // Validate Variant SKUs only if variants exist
         $('#variant-table-body tr').each(function() {
             const variantSku = $(this).find('input[name*="[variant_sku]"]');
-            if (variantSku.length && !variantSku.val().trim()) {
-                isValid = false;
-                variantSku.addClass('is-invalid');
-                if (!firstInvalid) firstInvalid = variantSku;
-            } else {
-                variantSku.removeClass('is-invalid');
+            if (variantSku.length) {
+                const val = variantSku.val().trim();
+
+                // Check required
+                if (!val) {
+                    isValid = false;
+                    variantSku.addClass('is-invalid');
+                    if (!firstInvalid) firstInvalid = variantSku;
+                    return; // skip further checks
+                }
+
+                // Check uniqueness
+                if (seenSkus[val]) {
+                    isValid = false;
+                    variantSku.addClass('is-invalid');
+                    if (!firstInvalid) firstInvalid = variantSku;
+                } else {
+                    seenSkus[val] = true;
+                    variantSku.removeClass('is-invalid');
+                }
             }
         });
 
         if (!isValid) {
             e.preventDefault();
-            alert('Please fill in all required fields before submitting.');
+            alert('Please fill in all required fields and check unique sku when you have variants before submitting.');
             if (firstInvalid) firstInvalid.focus();
         }
     });

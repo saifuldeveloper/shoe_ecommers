@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('item_variants', function (Blueprint $table) {
             $table->id();
             $table->tinyInteger('item_id');
-            $table->string('variant_sku')->unique();
+            $table->string('variant_sku');
             $table->tinyInteger('variant_id');
             $table->tinyInteger('position');
             $table->string('item_code');

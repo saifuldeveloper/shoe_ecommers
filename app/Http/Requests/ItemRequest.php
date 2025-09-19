@@ -60,14 +60,6 @@ class ItemRequest extends FormRequest
             $rules['variants'] = 'array|min:1';
 
             foreach ($this->input('variants', []) as $key => $variant) {
-                $variantId = $variant['item_variant_id'] ?? null;
-
-                $rules["variants.$key.variant_sku"] = [
-                    'required',
-                    'distinct',
-                    Rule::unique('item_variants', 'variant_sku')->ignore($variantId),
-                ];
-
                 $rules["variants.$key.name"] = 'required|string|max:255';
                 $rules["variants.$key.item_code"] = 'nullable|string|max:255';
                 $rules["variants.$key.additional_cost"] = 'nullable|numeric|min:0';
