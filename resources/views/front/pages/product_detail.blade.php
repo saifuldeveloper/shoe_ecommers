@@ -13,25 +13,31 @@
                 <div class="col-lg-10 col-md-12">
                     <div class="col-md-6">
                         <img src="{{ asset('assets/frontend/images/shoe/a1.avif') }}"
-                            class="img-fluid border mb-3 image-detail-main-image" alt="Product" />
-                        <div class="d-flex">
-                                <div class="owl-slider product-slider" data-owl-auto="true" data-owl-dots="false" data-owl-duration="1000"
-                                    data-owl-gap="10" data-owl-item="6" data-owl-item-lg="6" data-owl-item-md="5" data-owl-item-sm="4"
-                                    data-owl-item-xs="2" data-owl-loop="true" data-owl-mousedrag="on" data-owl-nav="true"
-                                    data-owl-speed="5000">
-                                        <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}"   class="img-thumbnail me-2" alt="thumb" />
-                                        <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}"  class="img-thumbnail me-2"  alt="thumb" />
-                                        <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}"   class="img-thumbnail me-2" alt="thumb" />
-                                        <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}"   class="img-thumbnail me-2" alt="thumb" />
-                                        <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}"  class="img-thumbnail me-2"  alt="thumb" />
-                                        <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}"   class="img-thumbnail me-2" alt="thumb" />
-                                        <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}"   class="img-thumbnail me-2" alt="thumb" />
-                                        <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}"  class="img-thumbnail me-2"  alt="thumb" />
-                                        <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}"   class="img-thumbnail me-2" alt="thumb" />
-                                </div>
-                        </div>
-                    </div>
+                            class="img-fluid border mb-3 image-detail-main-image popup-image"
+                            alt="Product" />
 
+                        <div class="d-flex">
+                            <div class="owl-slider zoom-gallery product-slider" data-owl-auto="true" data-owl-dots="false"
+                                data-owl-duration="1000" data-owl-gap="10" data-owl-item="4" data-owl-item-lg="6"
+                                data-owl-item-md="5" data-owl-item-sm="4" data-owl-item-xs="2" data-owl-loop="true"
+                                data-owl-mousedrag="on" data-owl-nav="true" data-owl-speed="5000">
+
+                                <a href="{{ asset('assets/frontend/images/shoe/a1.avif')}}" data-source="http://500px.com/photo/32736307" title="Into The Blue" style="width:193px;height:125px;">
+                            <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}" width="193" height="125">
+                        </a>
+
+                                <a href="{{ asset('assets/frontend/images/shoe/a1.avif')}}" data-source="http://500px.com/photo/32736307" title="Into The Blue" style="width:193px;height:125px;">
+                            <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}" width="193" height="125">
+                        </a>
+                                    <a href="{{ asset('assets/frontend/images/shoe/a1.avif')}}" data-source="http://500px.com/photo/32736307" title="Into The Blue" style="width:193px;height:125px;">
+                            <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}" width="193" height="125">
+                        </a>
+                                <a href="{{ asset('assets/frontend/images/shoe/a1.avif')}}" data-source="http://500px.com/photo/32736307" title="Into The Blue" style="width:193px;height:125px;">
+                            <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}" width="193" height="125">
+                        </a>
+                            </div>
+                        </div> 
+                    </div>
                     <!-- Product Details -->
                     <div class="col-md-6">
                         <h4>BATA (MEN) AP1 MENS CASUAL</h4>
@@ -46,21 +52,25 @@
                             * FREE SHIPPING
                         </p>
                         <!-- Size -->
-                        <div class="mb-3">
-                            <p><strong>Size</strong></p>
-                            <div class="size-option d-flex">
-                                <input type="radio" id="size6" name="size" checked />
-                                <label for="size6">6</label>
-                                <input type="radio" id="size7" name="size" />
-                                <label for="size7">7</label>
-                                <input type="radio" id="size8" name="size" />
-                                <label for="size8">8</label>
-                                <input type="radio" id="size9" name="size" />
-                                <label for="size9">9</label>
-                                <input type="radio" id="size10" name="size" />
-                                <label for="size10">10</label>
+                            <div class="mb-3">
+                                <div class="d-flex size_flex_data">
+                                    <p><strong>Size</strong></p>
+                                    <a data-toggle="modal" data-target="#size_chart"  class="size-chart-open-popup"> <img src="{{ asset('assets/frontend/images/icon_sizechar.png') }}"/> Size Chart</a>
+                                </div>
+
+                                <div class="size-option d-flex mt-2 gap-2">
+                                    <input type="radio" id="size6" name="size" checked />
+                                    <label for="size6">6</label>
+                                    <input type="radio" id="size7" name="size" />
+                                    <label for="size7">7</label>
+                                    <input type="radio" id="size8" name="size" />
+                                    <label for="size8">8</label>
+                                    <input type="radio" id="size9" name="size" />
+                                    <label for="size9">9</label>
+                                    <input type="radio" id="size10" name="size" />
+                                    <label for="size10">10</label>
+                                </div>
                             </div>
-                        </div>
 
                         <!-- Color -->
                         <div class="mb-3">
@@ -80,19 +90,25 @@
                         </div>
                         <p><strong>Subtotal:</strong> Tk 2,499.00</p>
 
-                        <!-- Buttons -->
                         <div class="d-flex">
                             <button class="btn btn-dark me-2 add_to_cartbtn">
                                 ADD TO CART
                             </button>
-                            <button class="btn btn-outline-dark buy_now_btn">
+                             
+                            <a> 
+                             <i class="ps-icon-heart love_icon"></i>
+                             </a>
+                          
+                        </div>
+                        <div>
+                             <button class="btn btn-outline-dark buy_now_btn">
                                 BUY IT NOW
                             </button>
-                        </div>
+                        </div> 
                     </div>
 
                     <div class="clearfix"></div>
-                    <div class="ps-product__content mt-50">
+                    <div class="ps-product__content mt-100">
                         <ul class="tab-list" role="tablist">
                             <li class="active">
                                 <a href="#tab_01" aria-controls="tab_01" role="tab" data-toggle="tab">Overview</a>
@@ -245,6 +261,7 @@
             </div>
         </div>
     </div>
+    {{-- might like image  --}}
     <div class="ps-section ps-section--top-sales ps-owl-root pt-40 pb-80">
         <div class="ps-container">
             <div class="ps-section__header mb-50">
@@ -305,63 +322,23 @@
                             </div>
                         </div>
                     </div>
-                    <div class="ps-shoes--carousel">
-                        <div class="ps-shoe">
-                            <div class="ps-shoe__thumbnail">
-                                <div class="ps-badge">
-                                    <span>New</span>
-                                </div>
-                                <div class="ps-badge ps-badge--sale ps-badge--2nd">
-                                    <span>-35%</span>
-                                </div>
-                                <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img
-                                    src="images/shoe/b1.avif" alt="" /><a class="ps-shoe__overlay"
-                                    href="product-detail.html"></a>
-                            </div>
-                            <div class="ps-shoe__content">
-                                <div class="ps-shoe__variants">
-                                    <div class="ps-shoe__variant normal">
-                                        <img src="{{ asset('assets/frontend/images/shoe/4.jpg') }}" alt="" /><img
-                                            src="{{ asset('assets/frontend/images/shoe/4.jpg') }}" alt="" /><img
-                                            src="{{ asset('assets/frontend/images/shoe/4.jpg') }}" alt="" /><img
-                                            src="{{ asset('assets/frontend/images/shoe/4.jpg') }}" alt="" />
-                                    </div>
-                                    <select class="ps-rating ps-shoe__rating">
-                                        <option value="1">1</option>
-                                        <option value="1">2</option>
-                                        <option value="1">3</option>
-                                        <option value="1">4</option>
-                                        <option value="2">5</option>
-                                    </select>
-                                </div>
-                                <div class="ps-shoe__detail">
-                                    <a class="ps-shoe__name" href="product-detai.html">Air Jordan 7 Retro</a>
-                                    <p class="ps-shoe__categories">
-                                        <a href="#">Men shoes</a>,<a href="#">
-                                            Nike</a>,<a href="#"> Jordan</a>
-                                    </p>
-                                    <span class="ps-shoe__price">
-                                        <del>£220</del> £ 120</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ps-shoes--carousel">
+                     <div class="ps-shoes--carousel">
                         <div class="ps-shoe">
                             <div class="ps-shoe__thumbnail">
                                 <div class="ps-badge">
                                     <span>New</span>
                                 </div>
                                 <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img
-                                    src="images/shoe/c1.avif" alt="" /><a class="ps-shoe__overlay"
-                                    href="product-detail.html"></a>
+                                    src="{{ asset('assets/frontend/images/shoe/a1.avif') }}" alt="" /><a
+                                    class="ps-shoe__overlay" href="product-detail.html"></a>
                             </div>
                             <div class="ps-shoe__content">
                                 <div class="ps-shoe__variants">
                                     <div class="ps-shoe__variant normal">
-                                        <img src="images/shoe/2.jpg" alt="" /><img src="images/shoe/3.jpg"
-                                            alt="" /><img src="images/shoe/4.jpg" alt="" /><img
-                                            src="images/shoe/5.jpg" alt="" />
+                                        <img src="{{ asset('assets/frontend/images/shoe/2.jpg') }}" alt="" /><img
+                                            src="images/shoe/3.jpg" alt="" /><img src=""
+                                            alt="" /><img src="{{ asset('assets/frontend/images/shoe/4.jpg') }}"
+                                            alt="" />
                                     </div>
                                     <select class="ps-rating ps-shoe__rating">
                                         <option value="1">1</option>
@@ -383,56 +360,23 @@
                             </div>
                         </div>
                     </div>
-                    <div class="ps-shoes--carousel">
-                        <div class="ps-shoe">
-                            <div class="ps-shoe__thumbnail">
-                                <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img
-                                    src="images/shoe/d1.webp" alt="" /><a class="ps-shoe__overlay"
-                                    href="product-detail.html"></a>
-                            </div>
-                            <div class="ps-shoe__content">
-                                <div class="ps-shoe__variants">
-                                    <div class="ps-shoe__variant normal">
-                                        <img src="images/shoe/2.jpg" alt="" /><img src="images/shoe/3.jpg"
-                                            alt="" /><img src="images/shoe/4.jpg" alt="" /><img
-                                            src="images/shoe/5.jpg" alt="" />
-                                    </div>
-                                    <select class="ps-rating ps-shoe__rating">
-                                        <option value="1">1</option>
-                                        <option value="1">2</option>
-                                        <option value="1">3</option>
-                                        <option value="1">4</option>
-                                        <option value="2">5</option>
-                                    </select>
-                                </div>
-                                <div class="ps-shoe__detail">
-                                    <a class="ps-shoe__name" href="product-detai.html">Air Jordan 7 Retro</a>
-                                    <p class="ps-shoe__categories">
-                                        <a href="#">Men shoes</a>,<a href="#">
-                                            Nike</a>,<a href="#"> Jordan</a>
-                                    </p>
-                                    <span class="ps-shoe__price">
-                                        £ 120</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ps-shoes--carousel">
+                     <div class="ps-shoes--carousel">
                         <div class="ps-shoe">
                             <div class="ps-shoe__thumbnail">
                                 <div class="ps-badge">
                                     <span>New</span>
                                 </div>
                                 <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img
-                                    src="images/shoe/i1.webp" alt="" /><a class="ps-shoe__overlay"
-                                    href="product-detail.html"></a>
+                                    src="{{ asset('assets/frontend/images/shoe/a1.avif') }}" alt="" /><a
+                                    class="ps-shoe__overlay" href="product-detail.html"></a>
                             </div>
                             <div class="ps-shoe__content">
                                 <div class="ps-shoe__variants">
                                     <div class="ps-shoe__variant normal">
-                                        <img src="images/shoe/2.jpg" alt="" /><img src="images/shoe/3.jpg"
-                                            alt="" /><img src="images/shoe/4.jpg" alt="" /><img
-                                            src="images/shoe/5.jpg" alt="" />
+                                        <img src="{{ asset('assets/frontend/images/shoe/2.jpg') }}" alt="" /><img
+                                            src="images/shoe/3.jpg" alt="" /><img src=""
+                                            alt="" /><img src="{{ asset('assets/frontend/images/shoe/4.jpg') }}"
+                                            alt="" />
                                     </div>
                                     <select class="ps-rating ps-shoe__rating">
                                         <option value="1">1</option>
@@ -454,19 +398,242 @@
                             </div>
                         </div>
                     </div>
-                    <div class="ps-shoes--carousel">
+                     <div class="ps-shoes--carousel">
                         <div class="ps-shoe">
                             <div class="ps-shoe__thumbnail">
+                                <div class="ps-badge">
+                                    <span>New</span>
+                                </div>
                                 <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img
-                                    src="images/shoe/j1.webp" alt="" /><a class="ps-shoe__overlay"
-                                    href="product-detail.html"></a>
+                                    src="{{ asset('assets/frontend/images/shoe/a1.avif') }}" alt="" /><a
+                                    class="ps-shoe__overlay" href="product-detail.html"></a>
                             </div>
                             <div class="ps-shoe__content">
                                 <div class="ps-shoe__variants">
                                     <div class="ps-shoe__variant normal">
-                                        <img src="images/shoe/2.jpg" alt="" /><img src="images/shoe/3.jpg"
-                                            alt="" /><img src="images/shoe/4.jpg" alt="" /><img
-                                            src="images/shoe/5.jpg" alt="" />
+                                        <img src="{{ asset('assets/frontend/images/shoe/2.jpg') }}" alt="" /><img
+                                            src="images/shoe/3.jpg" alt="" /><img src=""
+                                            alt="" /><img src="{{ asset('assets/frontend/images/shoe/4.jpg') }}"
+                                            alt="" />
+                                    </div>
+                                    <select class="ps-rating ps-shoe__rating">
+                                        <option value="1">1</option>
+                                        <option value="1">2</option>
+                                        <option value="1">3</option>
+                                        <option value="1">4</option>
+                                        <option value="2">5</option>
+                                    </select>
+                                </div>
+                                <div class="ps-shoe__detail">
+                                    <a class="ps-shoe__name" href="product-detai.html">Air Jordan 7 Retro</a>
+                                    <p class="ps-shoe__categories">
+                                        <a href="#">Men shoes</a>,<a href="#">
+                                            Nike</a>,<a href="#"> Jordan</a>
+                                    </p>
+                                    <span class="ps-shoe__price">
+                                        £ 120</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="ps-shoes--carousel">
+                        <div class="ps-shoe">
+                            <div class="ps-shoe__thumbnail">
+                                <div class="ps-badge">
+                                    <span>New</span>
+                                </div>
+                                <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img
+                                    src="{{ asset('assets/frontend/images/shoe/a1.avif') }}" alt="" /><a
+                                    class="ps-shoe__overlay" href="product-detail.html"></a>
+                            </div>
+                            <div class="ps-shoe__content">
+                                <div class="ps-shoe__variants">
+                                    <div class="ps-shoe__variant normal">
+                                        <img src="{{ asset('assets/frontend/images/shoe/2.jpg') }}" alt="" /><img
+                                            src="images/shoe/3.jpg" alt="" /><img src=""
+                                            alt="" /><img src="{{ asset('assets/frontend/images/shoe/4.jpg') }}"
+                                            alt="" />
+                                    </div>
+                                    <select class="ps-rating ps-shoe__rating">
+                                        <option value="1">1</option>
+                                        <option value="1">2</option>
+                                        <option value="1">3</option>
+                                        <option value="1">4</option>
+                                        <option value="2">5</option>
+                                    </select>
+                                </div>
+                                <div class="ps-shoe__detail">
+                                    <a class="ps-shoe__name" href="product-detai.html">Air Jordan 7 Retro</a>
+                                    <p class="ps-shoe__categories">
+                                        <a href="#">Men shoes</a>,<a href="#">
+                                            Nike</a>,<a href="#"> Jordan</a>
+                                    </p>
+                                    <span class="ps-shoe__price">
+                                        £ 120</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+    {{-- //recently view products --}}
+     <div class="ps-section">
+        <div class="ps-container">
+            <div class="ps-section__header">
+                <div class="row">
+                    <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                        <h3 class="ps-section__title" >
+                            Recently Viewed Products
+                        </h3>
+                    </div>
+                    {{-- <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <div class="ps-owl-actions">
+                            <a class="ps-prev" href="#"><i class="ps-icon-arrow-right"></i>Prev</a><a
+                                class="ps-next" href="#">Next<i class="ps-icon-arrow-left"></i></a>
+                        </div>
+                    </div> --}}
+                </div>
+            </div>
+            <div class="ps-section__content">
+                <div class="ps-owl--colection owl-slider" data-owl-auto="true" data-owl-loop="true"
+                    data-owl-speed="5000" data-owl-gap="30" data-owl-nav="false" data-owl-dots="false"
+                    data-owl-item="4" data-owl-item-xs="1" data-owl-item-sm="2" data-owl-item-md="3"
+                    data-owl-item-lg="4" data-owl-duration="1000" data-owl-mousedrag="on">
+                    <div class="ps-shoes--carousel">
+                        <div class="ps-shoe">
+                            <div class="ps-shoe__thumbnail">
+                               
+                                <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img
+                                    src="{{ asset('assets/frontend/images/shoe/a1.avif') }}" alt="" /><a
+                                    class="ps-shoe__overlay" href="product-detail.html"></a>
+                            </div>
+                            <div class="ps-shoe__content">
+                                <div class="ps-shoe__variants">
+                                    <div class="ps-shoe__variant normal">
+                                        <img 
+                                        src="{{ asset('assets/frontend/images/shoe/2.jpg') }}" alt="" /><img
+                                            src="images/shoe/3.jpg" alt="" /><img src=""
+                                            alt="" />
+                                            <img src="{{ asset('assets/frontend/images/shoe/4.jpg') }}"
+                                            alt="" />
+                                    </div>
+                                    <select class="ps-rating ps-shoe__rating">
+                                        <option value="1">1</option>
+                                        <option value="1">2</option>
+                                        <option value="1">3</option>
+                                        <option value="1">4</option>
+                                        <option value="2">5</option>
+                                    </select>
+                                </div>
+                                <div class="ps-shoe__detail">
+                                    <a class="ps-shoe__name" href="product-detai.html">Air Jordan 7 Retro</a>
+                                    <p class="ps-shoe__categories">
+                                        <a href="#">Men shoes</a>,<a href="#">
+                                            Nike</a>,<a href="#"> Jordan</a>
+                                    </p>
+                                    <span class="ps-shoe__price">
+                                        £ 120</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="ps-shoes--carousel">
+                        <div class="ps-shoe">
+                            <div class="ps-shoe__thumbnail">
+                              
+                                <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img
+                                    src="{{ asset('assets/frontend/images/shoe/a1.avif') }}" alt="" /><a
+                                    class="ps-shoe__overlay" href="product-detail.html"></a>
+                            </div>
+                            <div class="ps-shoe__content">
+                                <div class="ps-shoe__variants">
+                                    <div class="ps-shoe__variant normal">
+                                        <img 
+                                        src="{{ asset('assets/frontend/images/shoe/2.jpg') }}" alt="" /><img
+                                            src="images/shoe/3.jpg" alt="" /><img src=""
+                                            alt="" />
+                                            <img src="{{ asset('assets/frontend/images/shoe/4.jpg') }}"
+                                            alt="" />
+                                    </div>
+                                    <select class="ps-rating ps-shoe__rating">
+                                        <option value="1">1</option>
+                                        <option value="1">2</option>
+                                        <option value="1">3</option>
+                                        <option value="1">4</option>
+                                        <option value="2">5</option>
+                                    </select>
+                                </div>
+                                <div class="ps-shoe__detail">
+                                    <a class="ps-shoe__name" href="product-detai.html">Air Jordan 7 Retro</a>
+                                    <p class="ps-shoe__categories">
+                                        <a href="#">Men shoes</a>,<a href="#">
+                                            Nike</a>,<a href="#"> Jordan</a>
+                                    </p>
+                                    <span class="ps-shoe__price">
+                                        £ 120</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="ps-shoes--carousel">
+                        <div class="ps-shoe">
+                            <div class="ps-shoe__thumbnail">
+                            
+                                <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img
+                                    src="{{ asset('assets/frontend/images/shoe/a1.avif') }}" alt="" /><a
+                                    class="ps-shoe__overlay" href="product-detail.html"></a>
+                            </div>
+                            <div class="ps-shoe__content">
+                                <div class="ps-shoe__variants">
+                                    <div class="ps-shoe__variant normal">
+                                        <img 
+                                        src="{{ asset('assets/frontend/images/shoe/2.jpg') }}" alt="" /><img
+                                            src="images/shoe/3.jpg" alt="" /><img src=""
+                                            alt="" />
+                                            <img src="{{ asset('assets/frontend/images/shoe/4.jpg') }}"
+                                            alt="" />
+                                    </div>
+                                    <select class="ps-rating ps-shoe__rating">
+                                        <option value="1">1</option>
+                                        <option value="1">2</option>
+                                        <option value="1">3</option>
+                                        <option value="1">4</option>
+                                        <option value="2">5</option>
+                                    </select>
+                                </div>
+                                <div class="ps-shoe__detail">
+                                    <a class="ps-shoe__name" href="product-detai.html">Air Jordan 7 Retro</a>
+                                    <p class="ps-shoe__categories">
+                                        <a href="#">Men shoes</a>,<a href="#">
+                                            Nike</a>,<a href="#"> Jordan</a>
+                                    </p>
+                                    <span class="ps-shoe__price">
+                                        £ 120</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="ps-shoes--carousel">
+                        <div class="ps-shoe">
+                            <div class="ps-shoe__thumbnail">
+                              
+                                <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img
+                                    src="{{ asset('assets/frontend/images/shoe/a1.avif') }}" alt="" /><a
+                                    class="ps-shoe__overlay" href="product-detail.html"></a>
+                            </div>
+                            <div class="ps-shoe__content">
+                                <div class="ps-shoe__variants">
+                                    <div class="ps-shoe__variant normal">
+                                        <img 
+                                        src="{{ asset('assets/frontend/images/shoe/2.jpg') }}" alt="" /><img
+                                            src="images/shoe/3.jpg" alt="" /><img src=""
+                                            alt="" />
+                                            <img src="{{ asset('assets/frontend/images/shoe/4.jpg') }}"
+                                            alt="" />
                                     </div>
                                     <select class="ps-rating ps-shoe__rating">
                                         <option value="1">1</option>
@@ -492,5 +659,69 @@
             </div>
         </div>
     </div>
+
+    {{-- //size modal   --}}
+    <div class="modal fade halo_modal-custom" id="size_chart" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal_h5_title">
+            <span style="text-align: center">
+            Size Chart
+            </span>
+        </h5>
+        <a data-dismiss="modal" class="close close-modal" title="Close" href="javascript:void(0)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24px" height="24px" class="icon-close">
+        <path style="line-height:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000;text-transform:none;block-progression:tb;isolation:auto;mix-blend-mode:normal" d="M 4.7070312 3.2929688 L 3.2929688 4.7070312 L 10.585938 12 L 3.2929688 19.292969 L 4.7070312 20.707031 L 12 13.414062 L 19.292969 20.707031 L 20.707031 19.292969 L 13.414062 12 L 20.707031 4.7070312 L 19.292969 3.2929688 L 12 10.585938 L 4.7070312 3.2929688 z" font-weight="400" font-family="sans-serif" white-space="normal" overflow="visible"/>
+        </svg>
+        </a>
+        </div>
+
+        <div class="modal-body">
+        <div class="size-chart-img">
+            
+        <img src="//www.batabd.com/cdn/shop/files/size-chart-new_ca42ba2e-41a3-4df9-9c1a-ddfa2e4114e6_1024x1024.jpg?v=1745834022" alt="Size Chart"/>
+                        
+        </div>
+        </div>
+    </div>
+</div>
+</div>
 @endsection
 
+@push('js')
+    <script>
+        $(document).ready(function() {
+	$('.zoom-gallery').magnificPopup({
+		delegate: 'a',
+		type: 'image',
+		closeOnContentClick: false,
+		closeBtnInside: false,
+		mainClass: 'mfp-with-zoom mfp-img-mobile',
+
+		// If you enable allowHTMLInTemplate - 
+		// make sure your HTML attributes are sanitized if they can be created by a non-admin user
+		allowHTMLInTemplate: true,
+		image: {
+			verticalFit: true,
+			titleSrc: function(item) {
+				return item.el.attr('title') + ' &middot; <a class="image-source-link" href="'+item.el.attr('data-source')+'" >image source</a>';
+			}
+		},
+
+		gallery: {
+			enabled: true
+		},
+		zoom: {
+			enabled: true,
+			duration: 300, // don't foget to change the duration also in CSS
+			opener: function(element) {
+				return element.find('img');
+			}
+		}
+		
+	});
+});
+
+</script>
+@endpush
