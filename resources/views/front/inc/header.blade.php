@@ -38,7 +38,7 @@
                             <div>
                             {{-- start cart  --}}
                             <div class="cart-container">
-                                 <a class="ps-cart__toggle cart-icon" href="#">
+                                 <a class="ps-cart__toggle cart-icon" href="">
                                     <span><i>20</i></span><i class="ps-icon-shopping-cart"></i>
                                 </a>
                                 <div class="cart-dropdown">
@@ -67,8 +67,8 @@
                                 </div>
 
                                 <div class="cart-actions">
-                                    <a href="#" class="btn btn-checkout">CHECK OUT NOW</a>
-                                    <a href="#" class="btn btn-view">VIEW CART</a>
+                                    <a href="{{ route('front.wishlist') }}" class="btn btn-checkout">CHECK OUT NOW</a>
+                                    <a href="{{ route('front.wishlist') }}" class="btn btn-view">VIEW CART</a>
                                 </div>
                                 </div>
                             </div>
@@ -213,10 +213,10 @@
 
 
             </div>
-            <div class="navigation__column right">
+                <div class="navigation__column right">
                     {{-- start cart  --}}
                             <div class="cart-container">
-                                 <a class="ps-cart__toggle cart-icon" href="#">
+                                 <a class="ps-cart__toggle cart-icon" href="{{ route('front.wishlist') }}">
                                     <span><i>19</i></span><i class="ps-icon-shopping-cart"></i>
                                 </a>
                                 <div class="cart-dropdown">
@@ -245,8 +245,8 @@
                                 </div>
 
                                 <div class="cart-actions">
-                                    <a href="#" class="btn btn-checkout">CHECK OUT NOW</a>
-                                    <a href="#" class="btn btn-view">VIEW CART</a>
+                                    <a href="{{ route('front.wishlist') }}" class="btn btn-checkout">CHECK OUT NOW</a>
+                                    <a href="{{ route('front.wishlist') }}" class="btn btn-view">VIEW CART</a>
                                 </div>
                                 </div>
                             </div>
@@ -271,16 +271,14 @@
     const cartDropdown = container.querySelector('.cart-dropdown');
 
     // Toggle dropdown on click
-    cartIcon.addEventListener('click', (e) => {
+    cartIcon.addEventListener('mouseenter', (e) => {
         e.preventDefault();
         cartDropdown.classList.toggle('active');
     });
-
-    // Close dropdown when clicked outside
-    document.addEventListener('click', (e) => {
-        if (!container.contains(e.target)) {
-            cartDropdown.classList.remove('active');
-        }
+     // Keep it open if hovering inside dropdown
+     // hide dropdown when mouse leaves container
+    container.addEventListener('mouseleave', () => {
+        cartDropdown.classList.remove('active');
     });
 });
 
