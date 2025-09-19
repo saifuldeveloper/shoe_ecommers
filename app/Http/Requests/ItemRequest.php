@@ -59,17 +59,21 @@ class ItemRequest extends FormRequest
         if ($this->has('variants')) {
             $rules['variants'] = 'array|min:1';
 
-            $rules['variants.*.variant_sku'] = [
-                'required',
-                'distinct', // no duplicate in same request
-                Rule::unique('item_variants', 'variant_sku'),
-            ];
+            foreach ($this->input('variants', []) as $key => $variant) {
+                $variantId = $variant['item_variant_id'] ?? null;
 
-            $rules['variants.*.name'] = 'required|string|max:255';
-            $rules['variants.*.item_code'] = 'nullable|string|max:255';
-            $rules['variants.*.additional_cost'] = 'nullable|numeric|min:0';
-            $rules['variants.*.additional_price'] = 'nullable|numeric|min:0';
-            $rules['variants.*.qty'] = 'nullable|integer|min:0';
+                $rules["variants.$key.variant_sku"] = [
+                    'required',
+                    'distinct',
+                    Rule::unique('item_variants', 'variant_sku')->ignore($variantId),
+                ];
+
+                $rules["variants.$key.name"] = 'required|string|max:255';
+                $rules["variants.$key.item_code"] = 'nullable|string|max:255';
+                $rules["variants.$key.additional_cost"] = 'nullable|numeric|min:0';
+                $rules["variants.$key.additional_price"] = 'nullable|numeric|min:0';
+                $rules["variants.$key.qty"] = 'nullable|integer|min:0';
+            }
         }
 
         return $rules;

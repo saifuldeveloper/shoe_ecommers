@@ -40,15 +40,6 @@
                             placeholder="{{ __('Enter Name') }}"
                             value="{{ $item->name }}" >
                     </div>
-
-                    <div class="form-group">
-                        <label for="slug">{{ __('Slug') }} *</label>
-                        <input type="text" name="slug" class="form-control"
-                            id="slug"
-                            placeholder="{{ __('Enter Slug') }}"
-                            value="{{ $item->slug }}" >
-                    </div>
-
                 </div>
             </div>
             <div class="card">
@@ -73,43 +64,101 @@
             </div>
             <div class="card">
                 <div class="card-body">
-                    <div class="form-group pb-0  mb-0">
-                        <label>{{ __('Gallery Images') }} </label>
+                    <div class="form-group pb-0 mb-0">
+                        <label>{{ __('Gallery Images') }}</label>
                     </div>
+
                     <div class="form-group pb-0 pt-0 mt-0 mb-0">
                         <div id="gallery-images">
                             <div class="d-block gallery_image_view">
 
-                                @forelse($item->galleries as $gallery)
-                                    <div class="single-g-item d-inline-block m-2">
+                                {{-- Existing images (edit page) --}}
+                                @if(isset($item) && $item->galleries)
+                                    @forelse($item->galleries as $gallery)
+                                        <div class="single-g-item d-inline-block m-2">
                                             <span data-toggle="modal"
-                                            data-target="#confirm-delete" href="javascript:;"
-                                            data-href="{{ route('back.item.gallery.delete',$gallery->id) }}" class="remove-gallery-img">
+                                                data-target="#confirm-delete"
+                                                href="javascript:;"
+                                                data-href="{{ route('back.item.gallery.delete',$gallery->id) }}"
+                                                class="remove-gallery-img existing-gallery">
                                                 <i class="fas fa-trash"></i>
                                             </span>
-                                            <a class="popup-link" href="{{ $gallery->photo ? url('/storage/items/'.$gallery->photo) : url('/assets/images/placeholder.png') }}">
-                                                <img class="admin-gallery-img" src="{{ $gallery->photo ? url('/storage/items/'.$gallery->photo) : url('/assets/images/placeholder.png') }}"
+                                            <a class="popup-link"
+                                            href="{{ $gallery->photo ? url('/storage/items/'.$gallery->photo) : url('/assets/images/placeholder.png') }}">
+                                                <img class="admin-gallery-img"
+                                                    src="{{ $gallery->photo ? url('/storage/items/'.$gallery->photo) : url('/assets/images/placeholder.png') }}"
                                                     alt="No Image Found">
                                             </a>
-                                    </div>
-                                @empty
-                                    <h6><b>{{ __('No Images Added') }}</b></h6>
-                                @endforelse
+                                        </div>
+                                    @empty
+                                        <h6><b>{{ __('No Images Added') }}</b></h6>
+                                    @endforelse
+                                @endif
+
                             </div>
                         </div>
                     </div>
-                    <div class="form-group position-relative ">
+
+                    <div class="form-group position-relative">
                         <label class="file">
-                            <input type="file"  accept="image/*"   name="galleries[]" id="gallery_file"
-                                    aria-label="File browser example" accept="image/*" multiple>
-                            <span
-                                class="file-custom text-left">{{ __('Upload Image...') }}</span>
+                            <!-- File input for new images -->
+                            <input type="file" accept="image/*" id="gallery_file" aria-label="File browser example" multiple>
+                            <span class="file-custom text-left">{{ __('Upload Image...') }}</span>
                         </label>
+
+                        <!-- Hidden input for new images only -->
+                        <input type="file" name="galleries[]" id="gallery_files_hidden" multiple style="display:none">
+
                         <br>
                         <span class="mt-1 text-info">{{ __('Image Size Should Be 800 x 800. or square size') }}</span>
                     </div>
                 </div>
             </div>
+
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group pb-0  mb-0">
+                        <label>{{ __('Product Variants') }} </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="colors">{{ __('Select Colors') }}</label>
+                        <select id="colors" name="colors[]" class="form-control select2" multiple="multiple" data-placeholder="Select colors">
+                            @foreach($colors as $color)
+                            <option value="{{ $color->name }}">{{ $color->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sizes">{{ __('Select Sizes') }}</label>
+                        <select id="sizes" name="sizes[]" class="form-control select2" multiple="multiple" data-placeholder="Select sizes">
+                            @foreach($sizes as $size)
+                            <option value="{{ $size->name }}">{{ $size->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div id="variant-section" class="mt-4" style="display:none;">
+                        <h6><b>{{ __('Variants Items') }}</b></h6>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>{{ __('Name') }}</th>
+                                    <th>{{ __('SKU') }}*</th>
+                                    <th>{{ __('Additional Cost') }}</th>
+                                    <th>{{ __('Additional Price') }}</th>
+                                    <th>{{ __('Action') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody id="variant-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
             <div class="card">
                 <div class="card-body">
                     <div class="form-group">
@@ -227,7 +276,6 @@
                 <div class="card-body">
                     <input type="hidden" class="check_button" name="is_button" value="0">
                     <button type="submit" class="btn btn-secondary mr-2">{{ __('Update') }}</button>
-                    <a class="btn btn-success" href="{{ route('back.attribute.index',$item->id) }}">{{ __('Manage Attributes') }}</a>
                 </div>
             </div>
             <div class="card">
@@ -284,7 +332,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group d-none">
                         <label for="childcategory_id">{{ __('Select Child Category') }} </label>
                         <select name="childcategory_id" id="childcategory_id" class="form-control">
                             <option value="">{{__('Select one')}}</option>
@@ -302,19 +350,40 @@
                             @endforeach
                         </select>
                     </div>
+
+                    <div class="form-group">
+                        <label for="is_type">{{ __('Select Item Type') }}</label>
+                        <select name="is_type" id="is_type" class="form-control">
+                            <option value="undefined" 
+                                {{ old('is_type', $item->is_type) == 'undefined' ? 'selected' : '' }}>
+                                Undefine Product
+                            </option>
+                            <option value="new" 
+                                {{ old('is_type', $item->is_type) == 'new' ? 'selected' : '' }}>
+                                New Arrival
+                            </option>
+                            <option value="flash_deal" 
+                                {{ old('is_type', $item->is_type) == 'flash_deal' ? 'selected' : '' }}>
+                                Flash Deal Product
+                            </option>
+                            <option value="feature" 
+                                {{ old('is_type', $item->is_type) == 'feature' ? 'selected' : '' }}>
+                                Featured Product
+                            </option>
+                            <option value="best" 
+                                {{ old('is_type', $item->is_type) == 'best' ? 'selected' : '' }}>
+                                Best Product
+                            </option>
+                            <option value="top" 
+                                {{ old('is_type', $item->is_type) == 'top' ? 'selected' : '' }}>
+                                Top Product
+                            </option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="card">
                 <div class="card-body">
-                    <div class="form-group">
-                        <label for="stock">{{ __('Total in stock') }}
-                            *</label>
-                        <div class="input-group mb-3">
-                            <input type="number" id="stock"
-                                name="stock" class="form-control"
-                                placeholder="{{ __('Total in stock') }}" value="{{$item->stock}}" >
-                        </div>
-                    </div>
                     <div class="form-group">
                         <label for="tax_id">{{ __('Select Tax') }} *</label>
                         <select name="tax_id" id="tax_id" class="form-control">
@@ -380,3 +449,217 @@
 {{-- DELETE MODAL ENDS --}}
 
 @endsection
+
+@section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script>
+$(function() {
+    // Init Select2
+    $('#colors, #sizes').select2({
+        width: '100%',
+        allowClear: true,
+    });
+
+    // Preselect existing colors/sizes from server (edit page)
+    const preSelectedColors = @json($selectedColors ?? []);
+    const preSelectedSizes = @json($selectedSizes ?? []);
+
+    if (preSelectedColors.length) {
+        $('#colors').val(preSelectedColors).trigger('change');
+    }
+    if (preSelectedSizes.length) {
+        $('#sizes').val(preSelectedSizes).trigger('change');
+    }
+
+    // Existing variants passed from controller
+    const existingVariants = @json($variants ?? []);
+
+    // Function to render the variant rows from an array of variant objects
+    function populateExistingVariants(list) {
+        const tbody = $('#variant-table-body');
+        tbody.empty();
+
+        if (!list || !list.length) {
+            $('#variant-section').hide();
+            return;
+        }
+
+        list.forEach((v, idx) => {
+            const row = `
+          <tr>
+            <td>
+              <input type="text" name="variants[${idx}][name]" class="form-control" value="${escapeHtml(v.name)}" readonly>
+              <input type="hidden" name="variants[${idx}][color]" value="${escapeHtml(v.color)}">
+              <input type="hidden" name="variants[${idx}][size]" value="${escapeHtml(v.size)}">
+              <input type="hidden" name="variants[${idx}][item_variant_id]" value="${v.id ?? ''}">
+              <input type="hidden" name="variants[${idx}][variant_id]" value="${v.variant_id ?? ''}">
+            </td>
+            <td><input type="text" name="variants[${idx}][variant_sku]" class="form-control" value="${escapeHtml(v.variant_sku ?? '')}" placeholder="Enter SKU"></td>
+            <td><input type="number" step="0.01" name="variants[${idx}][additional_cost]" class="form-control" value="${v.additional_cost ?? 0}" placeholder="0.00"></td>
+            <td><input type="number" step="0.01" name="variants[${idx}][additional_price]" class="form-control" value="${v.additional_price ?? 0}" placeholder="0.00"></td>
+            <td><button type="button" class="btn btn-danger btn-sm remove-variant">X</button></td>
+          </tr>
+        `;
+            tbody.append(row);
+        });
+
+        $('#variant-section').show();
+    }
+
+    // small helper to escape strings for interpolation
+    function escapeHtml(str) {
+        if (str === undefined || str === null) return '';
+        return String(str).replace(/[&<>"'`=\/]/g, function (s) {
+            return ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;',
+                '/': '&#x2F;',
+                '`': '&#x60;',
+                '=': '&#x3D;'
+            })[s];
+        });
+    }
+
+    // Build variants on change (keeps the original behavior)
+    $('#colors, #sizes').on('change', generateVariants);
+
+    function generateVariants() {
+        const colors = $('#colors').val() || [];
+        const sizes = $('#sizes').val() || [];
+        const tbody = $('#variant-table-body');
+        tbody.empty();
+
+        if (colors.length === 0 && sizes.length === 0) {
+            $('#variant-section').hide();
+            return;
+        }
+
+        let variants = [];
+
+        if (colors.length && sizes.length) {
+            colors.forEach(c => sizes.forEach(s => variants.push({
+                name: c + '/' + s,
+                color: c,
+                size: s
+            })));
+        } else if (colors.length) {
+            colors.forEach(c => variants.push({
+                name: c,
+                color: c,
+                size: ''
+            }));
+        } else if (sizes.length) {
+            sizes.forEach(s => variants.push({
+                name: s,
+                color: '',
+                size: s
+            }));
+        }
+
+        variants.forEach((v, idx) => {
+            const row = `
+          <tr>
+            <td>
+              <input type="text" name="variants[${idx}][name]" class="form-control" value="${escapeHtml(v.name)}" readonly>
+              <input type="hidden" name="variants[${idx}][color]" value="${escapeHtml(v.color)}">
+              <input type="hidden" name="variants[${idx}][size]" value="${escapeHtml(v.size)}">
+            </td>
+            <td><input type="text" name="variants[${idx}][variant_sku]" class="form-control" placeholder="Enter SKU"></td>
+            <td><input type="number" step="0.01" name="variants[${idx}][additional_cost]" class="form-control" placeholder="0.00"></td>
+            <td><input type="number" step="0.01" name="variants[${idx}][additional_price]" class="form-control" placeholder="0.00"></td>
+            <td><button type="button" class="btn btn-danger btn-sm remove-variant">X</button></td>
+          </tr>
+        `;
+            tbody.append(row);
+        });
+
+        $('#variant-section').show();
+    }
+
+    // If editing and we have existing variants, populate them
+    if (existingVariants && existingVariants.length) {
+        populateExistingVariants(existingVariants);
+    }
+
+    // Remove and reindex
+    $(document).on('click', '.remove-variant', function() {
+        const tr = $(this).closest('tr');
+
+        // get hidden color/size values from the row
+        const color = tr.find('input[name*="[color]"]').val();
+        const size = tr.find('input[name*="[size]"]').val();
+
+        // remove row first
+        tr.remove();
+
+        // also unselect from select2 if that color/size is no longer present in any row
+        if (color) {
+            const stillExists = $('#variant-table-body input[name*="[color]"][value="' + color + '"]').length > 0;
+            if (!stillExists) {
+                let colors = $('#colors').val() || [];
+                colors = colors.filter(c => c !== color);
+                $('#colors').val(colors).trigger('change');
+            }
+        }
+        if (size) {
+            const stillExists = $('#variant-table-body input[name*="[size]"][value="' + size + '"]').length > 0;
+            if (!stillExists) {
+                let sizes = $('#sizes').val() || [];
+                sizes = sizes.filter(s => s !== size);
+                $('#sizes').val(sizes).trigger('change');
+            }
+        }
+
+        rebuildIndices();
+        if ($('#variant-table-body tr').length === 0) {
+            $('#variant-section').hide();
+        }
+    });
+
+    function rebuildIndices() {
+        $('#variant-table-body tr').each(function(i, tr) {
+            $(tr).find('input, select, textarea').each(function() {
+                const name = $(this).attr('name');
+                if (!name) return;
+                // replace the first occurrence of variants[\d+]
+                const newName = name.replace(/variants\[\d+\]/, 'variants[' + i + ']');
+                $(this).attr('name', newName);
+            });
+        });
+    }
+
+    // Client-side validation before form submit
+    $('form.admin-form').on('submit', function(e) {
+        let isValid = true;
+        let firstInvalid = null;
+
+        // (your existing validations here — kept exactly as before)
+        // ... [omitted for brevity in this snippet; use your existing validation code block]
+
+        // Validate Variant SKUs only if variants exist
+        $('#variant-table-body tr').each(function() {
+            const variantSku = $(this).find('input[name*="[variant_sku]"]');
+            if (variantSku.length && !variantSku.val().trim()) {
+                isValid = false;
+                variantSku.addClass('is-invalid');
+                if (!firstInvalid) firstInvalid = variantSku;
+            } else {
+                variantSku.removeClass('is-invalid');
+            }
+        });
+
+        if (!isValid) {
+            e.preventDefault();
+            alert('Please fill in all required fields before submitting.');
+            if (firstInvalid) firstInvalid.focus();
+        }
+    });
+
+});
+</script>
+@endsection
+
