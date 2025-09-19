@@ -234,11 +234,11 @@
 
 
             </div>
-            <div class="navigation__column right ">
+            <div class="navigation__column right">
                 <div class="ps-cart">
                     <a class="ps-cart__toggle" href="#"><span><i>20</i></span><i
                             class="ps-icon-shopping-cart"></i></a>
-                    <div class="ps-cart__listing">
+                    <div class="ps-cart__listing cart_slidercontent">
                         <div class="ps-cart__content">
                             <div class="ps-cart-item">
                                 <a class="ps-cart-item__close" href="#"></a>

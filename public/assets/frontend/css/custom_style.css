@@ -818,6 +818,12 @@ h5.modal_h5_title span{
     font-weight: 500;
     color: #232323;
 }
+
+.address_second{
+  padding-top: 0px!important;
+}
+
+
 /* //mobile device */
 @media (max-width: 768px) {
     .login-main-content{
