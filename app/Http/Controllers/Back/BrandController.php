@@ -69,7 +69,19 @@ class BrandController extends Controller
      */
     public function status($id,$status,$type)
     {
-        Brand::find($id)->update([$type => $status]);
+        $brand = Brand::findOrFail($id);
+
+        // Normalize status based on column type
+        if ($type === 'status') {
+            // Convert numeric to enum values
+            $status = $status == 1 ? 'active' : 'inactive';
+        } elseif ($type === 'is_popular') {
+            // Convert to boolean
+            $status = (bool) $status;
+        }
+
+        $brand->update([$type => $status]);
+
         return redirect()->route('back.brand.index')->withSuccess(__('Status Updated Successfully.'));
     }
 
