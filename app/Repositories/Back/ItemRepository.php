@@ -312,7 +312,7 @@ class ItemRepository
 
     public function galleriesUpdate($request,$item_id=null)
     {
-        Gallery::insert($this->storeImageData($request,$item_id));
+        // Gallery::insert($this->storeImageData($request,$item_id));
     }
 
     /**

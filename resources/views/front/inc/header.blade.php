@@ -35,7 +35,7 @@
                                 </a>
                             </div>
                             <div class="ps-cart">
-                                <a class="ps-cart__toggle" href="{{ route('front.wishlist') }}"><span><i>20</i></span><i
+                                <a class="ps-cart__toggle" href="{{ route('front.wishlist') }}"><span><i class="cart_count">20</i></span><i
                                         class="ps-icon-shopping-cart"></i></a>
                                 <div class="ps-cart__listing">
                                     <div class="ps-cart__content">

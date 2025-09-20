@@ -660,6 +660,220 @@
       $(this).find("i").removeClass("fa-eye").addClass("fa-eye-slash");
     }
   });
+
+// Notifications
+        function successNotification(title) {
+            $.notify(
+                {
+                    title: ` <strong>${title}</strong>`,
+                    message: "",
+                    icon: "fas fa-check-circle",
+                },
+                {
+                    // settings
+                    element: "body",
+                    position: null,
+                    type: "success",
+                    allow_dismiss: true,
+                    newest_on_top: false,
+                    showProgressbar: false,
+                    placement: {
+                        from: "top",
+                        align: "right",
+                    },
+                    offset: 20,
+                    spacing: 10,
+                    z_index: 1031,
+                    delay: 5000,
+                    timer: 1000,
+                    url_target: "_blank",
+                    mouse_over: null,
+                    animate: {
+                        enter: "animated fadeInDown",
+                        exit: "animated fadeOutUp",
+                    },
+                    onShow: null,
+                    onShown: null,
+                    onClose: null,
+                    onClosed: null,
+                    icon_type: "class",
+                }
+            );
+        }
+
+        function dangerNotification(title) {
+            $.notify(
+                {
+                    // options
+                    title: ` <strong>${title}</strong>`,
+                    message: "",
+                    icon: "fas fa-exclamation-triangle",
+                },
+                {
+                    // settings
+                    element: "body",
+                    position: null,
+                    type: "danger",
+                    allow_dismiss: true,
+                    newest_on_top: false,
+                    showProgressbar: false,
+                    placement: {
+                        from: "top",
+                        align: "right",
+                    },
+                    offset: 20,
+                    spacing: 10,
+                    z_index: 1031,
+                    delay: 5000,
+                    timer: 1000,
+                    url_target: "_blank",
+                    mouse_over: null,
+                    animate: {
+                        enter: "animated fadeInDown",
+                        exit: "animated fadeOutUp",
+                    },
+                    onShow: null,
+                    onShown: null,
+                    onClose: null,
+                    onClosed: null,
+                    icon_type: "class",
+                }
+            );
+        }
+        // Notifications Ends
+
+  // -------------------------------------------------------------
+    // ecommerce custom js
+  // -------------------------------------------------------------  
+$(document).on("click", "#add_to_cart", function () {
+    getData(1);
+});
+$(document).on("click", "#buy_to_cart", function () {
+    getData(1, $(this).attr("data-item"), 0, 0, 1);
+});
+
+function getData( status = 0, check = 0, item_key = 0, qty = 0, add_type = 0, optionIds = null ) {
+    
+    let itemId;
+    let type;
+    
+    if (check != 0) {
+        itemId = check;
+        type = 1;
+    } else {
+        itemId = $("#item_id").val();
+        type = 0;
+    }
+
+    let options_prices = optionPrice();
+
+    let totalOptionPrice = parseFloat(optionPriceSum(options_prices));
+
+    let attribute_ids = $(".attribute_option :selected")
+        .map(function (i, el) {
+            return $(el).attr("data-type");
+        })
+        .get();
+
+    if (optionIds != null) {
+        var options_ids = optionIds;
+    } else {
+        var options_ids = $(".attribute_option :selected")
+            .map(function (i, el) {
+                return $(el).attr("data-href");
+            })
+            .get();
+    }
+
+    let quantity;
+
+    quantity = parseInt(getQuantity());
+
+    if (isNaN(quantity)) {
+        quantity = 1;
+    }
+    if (qty != 0) {
+        quantity = qty;
+    }
+
+    let setCurrency = $("#set_currency").val();
+
+    let currency_direction = $("#currency_direction").val();
+
+    let demoPrice = parseFloat($("#demo_price").val());
+    let subPrice = parseFloat(demoPrice + totalOptionPrice);
+    let mainPrice = subPrice * quantity;
+
+    mainPrice = 200;
+    
+    if (currency_direction == 0) {
+        $("#main_price").html(mainPrice + setCurrency);
+    } else {
+        $("#main_price").html(setCurrency + mainPrice);
+    }
+    
+    if (status == 1) {
+        let mainurl = window.location.origin;
+        let addToCartUrl = `${mainurl}/product/add/cart?item_id=${itemId}&options_ids=${options_ids}&attribute_ids=${attribute_ids}&quantity=${quantity}&type=${type}&item_key=${item_key}&add_type=${add_type}`;
+       
+        $.ajax({
+            type: "GET",
+            url: addToCartUrl,
+            success: function (data) {
+                console.log(data);
+                if (data.status == "outStock") {
+                    dangerNotification(data.message);
+                } else if (data.status == "alreadyInCart") {
+                    dangerNotification(data.message);
+                } else {
+                    $(".cart_count").text(data.qty);
+                    $(".cart_view_header").load(
+                        $("#header_cart_load").attr("data-target")
+                    );
+                    if (qty) {
+                        $("#view_cart_load").load(
+                            $("#cart_view_load").attr("data-target")
+                        );
+                    }
+                    if (add_type == 1) {
+                        // location.href = mainurl + "/cart";
+                      
+                        location.href = "/checkout/review/payment";
+                    } else {
+                        successNotification(data.message);
+                    }
+                }
+            },
+        });
+    }
+    }
+
+
+
+    function optionPrice() {
+        let option_prices = $(".attribute_option :selected")
+            .map(function (i, el) {
+                return $(el).attr("data-target");
+            })
+            .get();
+
+        return option_prices;
+    }
+
+    function getQuantity() {
+        let quantity = $(".qtyValue").val();
+        return parseInt(quantity);
+    }
+
+    function optionPriceSum(options_prices) {
+        var price = 0;
+        $.each(options_prices, function (i, v) {
+            price += parseFloat(v);
+        });
+        return price;
+    }
+
+  
 })(jQuery);
 
 //# sourceMappingURL=main.js.map

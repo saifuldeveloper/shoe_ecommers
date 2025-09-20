@@ -68,6 +68,7 @@ class SettingsTableSeeder extends Seeder
                     'satureday_start' => '9:27 PM',
                     'satureday_end' => '9:27 PM',
                     'copy_right' => 'OmniMart © All rights reserved.',
+                    'footer_about' => 'Welcome to Avijatry, your one-stop shop for the latest footwear trends. Quality, comfort, and style delivered to your doorstep.',
                     'is_slider' => 1,
                     'is_category' => 0,
                     'is_product' => 0,

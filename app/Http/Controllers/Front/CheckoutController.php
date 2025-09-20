@@ -30,12 +30,8 @@ use Stripe\Price;
 class CheckoutController extends Controller
 {
 
-    use StripeCheckout {
-        StripeCheckout::__construct as private __stripeConstruct;
-    }
-    use PaypalCheckout {
-        PaypalCheckout::__construct as private __paypalConstruct;
-    }
+    
+    
     use MollieCheckout {
         MollieCheckout::__construct as private __MollieConstruct;
     }
@@ -52,8 +48,8 @@ class CheckoutController extends Controller
             $this->middleware('auth');
         }
         $this->middleware('localize');
-        $this->__stripeConstruct();
-        $this->__paypalConstruct();
+        
+        
     }
 
     public function checkoutPage()
@@ -106,7 +102,7 @@ class CheckoutController extends Controller
         $data['tax'] = $total_tax;
         $data['payments'] = PaymentSetting::whereStatus(1)->get();
 
-        return view('front.checkout.index', $data);
+        // return view('front.checkout.index', $data);
     }
 
     public function ship_address()
@@ -284,15 +280,15 @@ class CheckoutController extends Controller
     {
 
         // laravel validation
-        $request->validate([
-            'ship_first_name' => 'required',
-            'ship_last_name' => 'required',
-            'ship_email' => 'required|email',
-            'ship_phone' => 'required',
-            'ship_address1' => 'required',
-            'ship_zip' => 'required',
-            'ship_city' => 'required',
-        ]);
+        // $request->validate([
+        //     'ship_first_name' => 'required',
+        //     'ship_last_name' => 'required',
+        //     'ship_email' => 'required|email',
+        //     'ship_phone' => 'required',
+        //     'ship_address1' => 'required',
+        //     'ship_zip' => 'required',
+        //     'ship_city' => 'required',
+        // ]);
 
         Session::put('shipping_address', $request->all());
         return redirect(route('front.checkout.payment'));
@@ -302,13 +298,13 @@ class CheckoutController extends Controller
 
     public function payment()
     {
-        if (!Session::has('billing_address')) {
-            return redirect(route('front.checkout.billing'));
-        }
+        // if (!Session::has('billing_address')) {
+        //     return redirect(route('front.checkout.billing'));
+        // }
 
-        if (!Session::has('shipping_address')) {
-            return redirect(route('front.checkout.shipping'));
-        }
+        // if (!Session::has('shipping_address')) {
+        //     return redirect(route('front.checkout.shipping'));
+        // }
 
 
         if (!Session::has('cart')) {
@@ -522,16 +518,7 @@ class CheckoutController extends Controller
         $paystack_supported = ['NGN', "GHS", "USD", "ZAR", "KES"];
         switch ($input['payment_method']) {
 
-            case 'Stripe':
-                if (!in_array($currency->name, $usd_supported)) {
-                    Session::flash('error', __('Currency Not Supported'));
-                    return redirect()->back();
-                }
-                $checkout = true;
-                $payment_redirect = true;
-                $payment = $this->stripeSubmit($input);
-                break;
-
+           
             case 'Paypal':
                 if (!in_array($currency->name, $paypal_supported)) {
                     Session::flash('error', __('Currency Not Supported'));
@@ -586,6 +573,7 @@ class CheckoutController extends Controller
             if ($payment_redirect) {
 
                 if ($payment['status']) {
+                    return "payment-link-ddd";
                     return redirect()->away($payment['link']);
                 } else {
                     Session::put('message', $payment['message']);

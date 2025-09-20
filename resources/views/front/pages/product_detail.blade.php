@@ -12,7 +12,7 @@
             <div class="row">
                 <div class="col-lg-10 col-md-12">
                     <div class="col-md-6">
-                        <img src="{{ asset('assets/frontend/images/shoe/a1.avif') }}"
+                        <img src="{{ asset('storage/items/' . $item_details->photo??"") }}"
                             class="img-fluid border mb-3 image-detail-main-image" alt="Product" />
                         <div class="d-flex">
                             <img src="images/shoe/a1.avif" class="img-thumbnail me-2" alt="thumb" />
@@ -23,17 +23,17 @@
 
                     <!-- Product Details -->
                     <div class="col-md-6">
-                        <h4>BATA (MEN) AP1 MENS CASUAL</h4>
-                        <p><strong>Brand:</strong> Bata</p>
-                        <p><strong>Product Code:</strong> 8544611</p>
+                        <h4>{{ $item_details->name??"" }}</h4>
+                        <p><strong>Brand:</strong> {{ $item_details->brand->name??"" }}</p>
+                        <p><strong>Product Code:</strong> {{ $item_details->code??"" }}</p>
                         <p><strong>Availability:</strong> In stock</p>
-                        <h3 class="text-danger">Tk 2,499.00</h3>
+                        <h3 class="text-danger">Tk {{ $item_details->discount_price??"" }}</h3>
                         <p class="text-danger fw-bold">
-                            * PLEASE CHECK THE PRODUCT IN FRONT OF
-                            DELIVERY MAN<br />
-                            * Offer is only valid at batabd.com<br />
-                            * FREE SHIPPING
+                            @foreach ( json_decode($item_details->specification_description)??[] as $spe)
+                                * {{ $spe }} <br />
+                            @endforeach
                         </p>
+                        <p>{{ $item_details->sort_details??"" }}</p>
                         <!-- Size -->
                         <div class="mb-3">
                             <p><strong>Size</strong></p>
@@ -65,16 +65,20 @@
                         <!-- Quantity -->
                         <div class="mb-3 d-flex align-items-center">
                             <label class="me-3"><strong>Quantity</strong></label>
-                            <input type="number" class="form-control w-25" value="1" min="1" />
+                            <input type="number" class="form-control w-25 qtyValue" value="1" min="1" />
                         </div>
                         <p><strong>Subtotal:</strong> Tk 2,499.00</p>
 
+                        {{-- hidden inputs  --}}
+                        <input type="hidden" value="{{ $item_details->id??"" }}" id="item_id">
+                        <input type="hidden" id="demo_price"
+                            value="200">
                         <!-- Buttons -->
                         <div class="d-flex">
-                            <button class="btn btn-dark me-2">
+                            <button class="btn btn-dark me-2" id="add_to_cart">
                                 ADD TO CART
                             </button>
-                            <button class="btn btn-outline-dark">
+                            <button class="btn btn-outline-dark" id="buy_to_cart">
                                 BUY IT NOW
                             </button>
                         </div>

@@ -63,6 +63,11 @@ class Item extends Model
         return $this->belongsTo('App\Models\Brand')->withDefault();
     }
 
+    public function size()
+    {
+        return $this->hasMany('App\Models\Size');
+    }
+
     public function campaigns()
     {
         return $this->hasMany('App\Models\CampaignItem');
