@@ -275,6 +275,20 @@ p.main_content { line-height: 2.15rem; padding-top: 5%; }
   background: none !important; 
 }
 
+
+
+.account-sidebar .nav > li > a:hover {
+  color: #000 !important;    
+  background: none !important;
+}
+.account-sidebar .nav > li.active > a,
+.account-sidebar .nav > li.active > a:focus,
+.account-sidebar .nav > li.active > a:hover {
+  color: #000 !important;      
+  font-weight: bold;
+  background: none !important; 
+}
+
 .nav-pills-item .nav-link {
   color: #6c757d;
   font-weight: 500;
@@ -1020,6 +1034,12 @@ h5.modal_h5_title span{
         margin-top: 55px;
       }
     }
+@media (max-width: 972px) {
+.account-sidebar {
+  text-align: left;
+    height: 80vh;
+}
+}
 
 /* stats css  */
 .stats-container {
