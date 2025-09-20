@@ -65,7 +65,7 @@
                         <span class="sub-item">{{ __('All Products') }}</span>
                     </a>
                 </li>
-                <li>
+                <li class="d-none">
                     <a class="sub-link" href="{{ route('back.item.stock.out') }}">
                         <span class="sub-item">{{ __('Stock Out Products') }}</span>
                     </a>
