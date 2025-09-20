@@ -466,6 +466,7 @@
         $('form.admin-form').on('submit', function(e) {
             let isValid = true;
             let firstInvalid = null;
+            let seenSkus = {};
 
             // Validate Name
             const nameInput = $('input[name="name"]');
@@ -551,18 +552,32 @@
             // Validate Variant SKUs only if variants exist
             $('#variant-table-body tr').each(function() {
                 const variantSku = $(this).find('input[name*="[variant_sku]"]');
-                if (variantSku.length && !variantSku.val().trim()) {
-                    isValid = false;
-                    variantSku.addClass('is-invalid');
-                    if (!firstInvalid) firstInvalid = variantSku;
-                } else {
-                    variantSku.removeClass('is-invalid');
+                if (variantSku.length) {
+                    const val = variantSku.val().trim();
+
+                    // Check required
+                    if (!val) {
+                        isValid = false;
+                        variantSku.addClass('is-invalid');
+                        if (!firstInvalid) firstInvalid = variantSku;
+                        return; // skip further checks
+                    }
+
+                    // Check uniqueness
+                    if (seenSkus[val]) {
+                        isValid = false;
+                        variantSku.addClass('is-invalid');
+                        if (!firstInvalid) firstInvalid = variantSku;
+                    } else {
+                        seenSkus[val] = true;
+                        variantSku.removeClass('is-invalid');
+                    }
                 }
             });
 
             if (!isValid) {
                 e.preventDefault();
-                alert('Please fill in all required fields before submitting.');
+                alert('Please fill in all required fields and check unique sku when you have variants before submitting.');
                 if (firstInvalid) firstInvalid.focus();
             }
         });
