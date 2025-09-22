@@ -4,116 +4,28 @@
         <div class="ps-container">
           <div class="row">
                 <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 ">
+                  @foreach ($posts ?? [] as $post )
+                    
                   <div class="ps-post--2">
                     <div class="ps-post__thumbnail"><a class="ps-post__overlay" href="#"></a><img src="{{ asset('assets/frontend/images/blog/4.jpg')}}" alt=""></div>
                     <div class="ps-post__container">
-                      <header class="ps-post__header"><a class="ps-post__title" href="blog-detail.html">Unpacking the Breaking 2 Race Strategy</a>
-                        <p>Posted by <a href="blog-grid.html">Alena Studio</a> on August 17, 2016  in <a href="blog-grid.html">Men Shoes</a> , <a href="blog-grid.html">Stylish</a></p>
+                      <header class="ps-post__header"><a class="ps-post__title" href="">{{ $post->title }}</a>
+                        <p>Posted by <a href="#">Avijatry</a> on {{ $post->created_at->format('M d, Y') }}  in <a href="">{{ $categories[0]['name'] }}</a></p>
                       </header>
                       <div class="ps-post__content">
-                        <p>Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further, Support Sports Bra has a compression fit and V-back straps that give you medium support and full range of motion during your workout….</p>
+                           <p>
+                              {{  Illuminate\Support\Str::words($post->details, 20, '...')  }}
+                             </p>
                       </div>
-                      <footer class="ps-post__footer"><a class="ps-post__morelink" href="#">READ MORE<i class="ps-icon-arrow-left"></i></a>
-                        <div class="ps-post__actions"><span><i class="fa fa-comments"></i> 23 Comments</span><span><i class="fa fa-heart"></i>  likes</span>
-                          <div class="ps-post__social"><i class="fa fa-share-alt"></i><a href="#">Share</a>
-                            <ul>
-                              <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                              <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                              <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                            </ul>
-                          </div>
-                        </div>
+                      <footer class="ps-post__footer">
+                        <a class="ps-post__morelink" href="{{ route('front.blog.details',$post->slug) }}">READ MORE<i class="ps-icon-arrow-left"></i></a>
+                       
                       </footer>
                     </div>
                   </div>
-                  <div class="ps-post--2">
-                    <div class="ps-post__thumbnail"><a class="ps-post__overlay" href="#"></a><img src="{{ asset('assets/frontend/images/blog/5.jpg')}}" alt=""></div>
-                    <div class="ps-post__container">
-                      <header class="ps-post__header"><a class="ps-post__title" href="blog-detail.html">Leverage agile frameworks to provide a robust synopsis</a>
-                        <p>Posted by <a href="blog-grid.html">Alena Studio</a> on August 17, 2016  in <a href="blog-grid.html">Men Shoes</a> , <a href="blog-grid.html">Stylish</a></p>
-                      </header>
-                      <div class="ps-post__content">
-                        <p>Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further, Support Sports Bra has a compression fit and V-back straps that give you medium support and full range of motion during your workout….</p>
-                      </div>
-                      <footer class="ps-post__footer"><a class="ps-post__morelink" href="#">READ MORE<i class="ps-icon-arrow-left"></i></a>
-                        <div class="ps-post__actions"><span><i class="fa fa-comments"></i> 23 Comments</span><span><i class="fa fa-heart"></i>  likes</span>
-                          <div class="ps-post__social"><i class="fa fa-share-alt"></i><a href="#">Share</a>
-                            <ul>
-                              <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                              <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                              <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                            </ul>
-                          </div>
-                        </div>
-                      </footer>
-                    </div>
-                  </div>
-                  <div class="ps-post--2">
-                    <div class="ps-post__thumbnail"><a class="ps-post__overlay" href="#"></a><img src="{{ asset('assets/frontend/images/blog/3.jpg')}}" alt=""></div>
-                    <div class="ps-post__container">
-                      <header class="ps-post__header"><a class="ps-post__title" href="blog-detail.html">Nike’s Latest Football Cleat Breaks the Mold</a>
-                        <p>Posted by <a href="blog-grid.html">Alena Studio</a> on August 17, 2016  in <a href="blog-grid.html">Men Shoes</a> , <a href="blog-grid.html">Stylish</a></p>
-                      </header>
-                      <div class="ps-post__content">
-                        <p>Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further, Support Sports Bra has a compression fit and V-back straps that give you medium support and full range of motion during your workout….</p>
-                      </div>
-                      <footer class="ps-post__footer"><a class="ps-post__morelink" href="#">READ MORE<i class="ps-icon-arrow-left"></i></a>
-                        <div class="ps-post__actions"><span><i class="fa fa-comments"></i> 23 Comments</span><span><i class="fa fa-heart"></i>  likes</span>
-                          <div class="ps-post__social"><i class="fa fa-share-alt"></i><a href="#">Share</a>
-                            <ul>
-                              <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                              <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                              <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                            </ul>
-                          </div>
-                        </div>
-                      </footer>
-                    </div>
-                  </div>
-                  <div class="ps-post--2">
-                    <div class="ps-post__thumbnail"><a class="ps-post__overlay" href="#"></a><img src="{{ asset('assets/frontend/images/blog/4.jpg')}}" alt=""></div>
-                    <div class="ps-post__container">
-                      <header class="ps-post__header"><a class="ps-post__title" href="blog-detail.html">Breaking Down the Black Rose Tech Fleece Collection</a>
-                        <p>Posted by <a href="blog-grid.html">Alena Studio</a> on August 17, 2016  in <a href="blog-grid.html">Men Shoes</a> , <a href="blog-grid.html">Stylish</a></p>
-                      </header>
-                      <div class="ps-post__content">
-                        <p>Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further, Support Sports Bra has a compression fit and V-back straps that give you medium support and full range of motion during your workout….</p>
-                      </div>
-                      <footer class="ps-post__footer"><a class="ps-post__morelink" href="#">READ MORE<i class="ps-icon-arrow-left"></i></a>
-                        <div class="ps-post__actions"><span><i class="fa fa-comments"></i> 23 Comments</span><span><i class="fa fa-heart"></i>  likes</span>
-                          <div class="ps-post__social"><i class="fa fa-share-alt"></i><a href="#">Share</a>
-                            <ul>
-                              <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                              <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                              <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                            </ul>
-                          </div>
-                        </div>
-                      </footer>
-                    </div>
-                  </div>
-                  <div class="ps-post--2">
-                    <div class="ps-post__thumbnail"><a class="ps-post__overlay" href="#"></a><img src="{{ asset('assets/frontend/images/blog/5.jpg')}}" alt=""></div>
-                    <div class="ps-post__container">
-                      <header class="ps-post__header"><a class="ps-post__title" href="blog-detail.html">The Shoes Athletes Say Will Change the Future of Running</a>
-                        <p>Posted by <a href="blog-grid.html">Alena Studio</a> on August 17, 2016  in <a href="blog-grid.html">Men Shoes</a> , <a href="blog-grid.html">Stylish</a></p>
-                      </header>
-                      <div class="ps-post__content">
-                        <p>Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further, Support Sports Bra has a compression fit and V-back straps that give you medium support and full range of motion during your workout….</p>
-                      </div>
-                      <footer class="ps-post__footer"><a class="ps-post__morelink" href="#">READ MORE<i class="ps-icon-arrow-left"></i></a>
-                        <div class="ps-post__actions"><span><i class="fa fa-comments"></i> 23 Comments</span><span><i class="fa fa-heart"></i>  likes</span>
-                          <div class="ps-post__social"><i class="fa fa-share-alt"></i><a href="#">Share</a>
-                            <ul>
-                              <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                              <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                              <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                            </ul>
-                          </div>
-                        </div>
-                      </footer>
-                    </div>
-                  </div>
+                
+                  @endforeach
+
                   <div class="mt-30">
                     <div class="ps-pagination">
                       <ul class="pagination">
@@ -205,15 +117,10 @@
                       <h3>Tags</h3>
                     </div>
                     <div class="ps-widget__content">
-                      <ul class="ps-tags">
-                        <li><a href="product-listing.html">Men</a></li>
-                        <li><a href="product-listing.html">Female</a></li>
-                        <li><a href="product-listing.html">B&G</a></li>
-                        <li><a href="product-listing.html">ugly fashion</a></li>
-                        <li><a href="product-listing.html">Nike</a></li>
-                        <li><a href="product-listing.html">Dior</a></li>
-                        <li><a href="product-listing.html">Adidas</a></li>
-                        <li><a href="product-listing.html">Diour</a></li>
+                    <ul class="ps-tags">
+                        @foreach ($tags ?? [] as $tag )
+                        <li><a href="#">{{ $tag }}</a></li>
+                          @endforeach
                       </ul>
                     </div>
                   </aside>

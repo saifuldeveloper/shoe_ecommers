@@ -122,7 +122,6 @@ class FrontendController extends Controller
 
     public function blog(Request $request)
     {
-
         $tagz = '';
         $tags = null;
         $name = Post::pluck('tags')->toArray();
@@ -134,8 +133,8 @@ class FrontendController extends Controller
         if (Setting::first()->is_blog == 0)
             return back();
 
-        if ($request->ajax())
-            return view('front.blog.list', ['posts' => $this->repository->displayPosts($request)]);
+        // if ($request->ajax())
+        //     return view('front.blog.list', ['posts' => $this->repository->displayPosts($request)]);
 
         return view('front.blog.index', [
             'posts' => $this->repository->displayPosts($request),
