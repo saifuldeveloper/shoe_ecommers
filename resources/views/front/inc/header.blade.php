@@ -280,6 +280,11 @@
     container.addEventListener('mouseleave', () => {
         cartDropdown.classList.remove('active');
     });
+    // click
+    cartIcon.addEventListener('click', (e) => {
+        e.preventDefault();
+        cartDropdown.classList.toggle('active');
+    });
 });
 
 // Remove cart item
