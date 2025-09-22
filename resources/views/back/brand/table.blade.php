@@ -9,25 +9,33 @@
     <td>
         {{ $data->slug }}
     </td>
-    <td>
-        <div class="dropdown">
-            <button class="btn btn-{{  $data->status == 1 ? 'success' : 'danger'  }} btn-sm  dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              {{  $data->status == 1 ? __('Enabled') : __('Disabled')  }}
+   <td>
+       <div class="dropdown">
+            <button class="btn btn-{{ $data->status === 'active' ? 'success' : 'danger' }} btn-sm dropdown-toggle"
+                    type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{ $data->status === 'active' ? __('Enabled') : __('Disabled') }}
             </button>
             <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="{{ route('back.brand.status',[$data->id,1,'status']) }}">{{ __('Enable') }}</a>
-              <a class="dropdown-item" href="{{ route('back.brand.status',[$data->id,0,'status']) }}">{{ __('Disable') }}</a>
+                @if($data->status === 'active')
+                    <a class="dropdown-item" href="{{ route('back.brand.status',[$data->id,0,'status']) }}">{{ __('Disable') }}</a>
+                @else
+                    <a class="dropdown-item" href="{{ route('back.brand.status',[$data->id,1,'status']) }}">{{ __('Enable') }}</a>
+                @endif
             </div>
         </div>
     </td>
     <td>
         <div class="dropdown">
-            <button class="btn btn-{{  $data->is_popular == 1 ? 'success' : 'danger'  }} btn-sm  dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              {{  $data->is_popular == 1 ? __('Enabled') : __('Disabled')  }}
+            <button class="btn btn-{{ $data->is_popular ? 'success' : 'danger' }} btn-sm dropdown-toggle"
+                    type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{ $data->is_popular ? __('Enabled') : __('Disabled') }}
             </button>
             <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="{{ route('back.brand.status',[$data->id,1,'is_popular']) }}">{{ __('Enable') }}</a>
-              <a class="dropdown-item" href="{{ route('back.brand.status',[$data->id,0,'is_popular']) }}">{{ __('Disable') }}</a>
+                @if($data->is_popular)
+                    <a class="dropdown-item" href="{{ route('back.brand.status',[$data->id,0,'is_popular']) }}">{{ __('Disable') }}</a>
+                @else
+                    <a class="dropdown-item" href="{{ route('back.brand.status',[$data->id,1,'is_popular']) }}">{{ __('Enable') }}</a>
+                @endif
             </div>
         </div>
 

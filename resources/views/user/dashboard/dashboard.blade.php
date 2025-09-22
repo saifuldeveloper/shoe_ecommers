@@ -25,61 +25,50 @@
       
 <div class="container  padding-bottom-3x mb-1">
   <div class="row">
-         {{-- @include('includes.user_sitebar') --}}
-          <div class="col-lg-8">
-            <div class="padding-top-2x mt-2 hidden-lg-up"></div>
-                <div class="row u-d-d">
-                    <div class="col-md-6 mb-4">
-                        <div class="card round">
-                            <div class="card-body text-center">
-                                <i class="icon-shopping-bag"></i>
-                                <p class="mt-3">{{__('All Order')}}</p>
-                                <h4><b>{{$allorders}}</b></h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-4">
-                        <div class="card round">
-                            <div class="card-body text-center">
-                                <i class="icon-shopping-bag"></i>
-                                <p class="mt-3">{{__('Completed Order')}}</p>
-                                <h4><b>{{$delivered}}</b></h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-4">
-                        <div class="card round">
-                            <div class="card-body text-center">
-                                <i class="icon-shopping-bag"></i>
-                                <p class="mt-3">{{__('Processing Order')}}</p>
-                                <h4><b>{{$progress}}</b></h4>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="col-md-6 mb-4">
-                        <div class="card round">
-                            <div class="card-body text-center">
-                                <i class="icon-shopping-bag"></i>
-                                <p class="mt-3">{{__('Canceled Order')}}</p>
-                                <h4><b>{{$canceled}}</b></h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-4">
-                        <div class="card round">
-                            <div class="card-body text-center">
-                                <i class="icon-shopping-bag"></i>
-                                <p class="mt-3">{{__('Pending Order')}}</p>
-                                <h4><b>{{$pending}}</b></h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-          </div>
+    <div class="stats-container">
+        <div class="stat-card">
+        <div class="icon green"><i class="fa fa-shopping-cart"></i></div>
+        <div class="stat-info">
+            <h4>Total Orders</h4>
+            <p>{{$allorders}}</p>
         </div>
+        </div>
+
+        <div class="stat-card">
+        <div class="icon green"><i class="fa fa-hourglass-half"></i></div>
+        <div class="stat-info">
+            <h4>Processing Orders</h4>
+            <p>{{$progress}}</p>
+        </div>
+        </div>
+
+        <div class="stat-card">
+        <div class="icon green"><i class="fa fa-truck"></i></div>
+        <div class="stat-info">
+            <h4>Delivered Orders</h4>
+            <p>{{$delivered}}</p>
+        </div>
+        </div>
+
+        <div class="stat-card">
+        <div class="icon green"><i class="fa fa-times-circle"></i></div>
+        <div class="stat-info">
+            <h4>Canceled Orders</h4>
+            <p>{{$canceled}}</p>
+        </div>
+        </div>
+
+        <div class="stat-card">
+        <div class="icon green"><i class="fa fa-shopping-cart"></i></div>
+        <div class="stat-info">
+            <h4>Pending Order</h4>
+            <p>{{$pending}}</p>
+        </div>
+        </div>  
+
+    </div>
   </div>
+</div>
 
 
 

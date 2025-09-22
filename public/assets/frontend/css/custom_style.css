@@ -571,8 +571,6 @@ p.accountTitle{
 p.message-danger{
     color: red;
 }
-<<<<<<< HEAD
-=======
 .storLocator{
   cursor: pointer;
 }
@@ -839,7 +837,7 @@ h5.modal_h5_title span{
   padding-top: 0px!important;
 }
 
->>>>>>> 84cd46b136dae154df8c67481c3d660f3bf86bc1
+
 
 /* //mobile device */
 @media (max-width: 768px) {
@@ -847,8 +845,6 @@ h5.modal_h5_title span{
         padding-bottom: 57px;
         padding-top: 0px;
     }
-<<<<<<< HEAD
-=======
   .buy_now_btn{
     min-width: 0px;
     width: 320px;
@@ -856,7 +852,6 @@ h5.modal_h5_title span{
   .add_to_cartbtn{
     min-width: 0px;
   } 
->>>>>>> 84cd46b136dae154df8c67481c3d660f3bf86bc1
   .login_small_device {
     flex-direction: column;
     align-items: left;
@@ -869,9 +864,8 @@ h5.modal_h5_title span{
     text-align: center;
     margin-left: 9px;
   }
-<<<<<<< HEAD
+
 }
-=======
   .size_flex_data{
     gap: 50%;
   }
@@ -1104,4 +1098,9 @@ h5.modal_h5_title span{
       font-weight: bold;
       color: #222;
     }
->>>>>>> 84cd46b136dae154df8c67481c3d660f3bf86bc1
+
+.ps-post__thumbnail img.blog_image{
+  width: 450px;
+  height: 250px;
+}
+

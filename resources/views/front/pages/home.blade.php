@@ -499,79 +499,39 @@
 
             <div class="ps-section__content">
                 <div class="row">
+                    @foreach ($posts ?? [] as $post )       
+                    @php
+                        $photos = json_decode($post->photo, true);
+                    @endphp            
                     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
                         <div class="ps-post">
                             <div class="ps-post__thumbnail">
-                                <img alt="" src="{{ asset('assets/frontend/images/blog/image2.webp') }}" />
+                              @if(!empty($photos) && count($photos) > 0)
+                                @foreach($photos as $img)
+                                    <img class="blog_image" alt="" src="{{ Storage::url('blog/' . $img) }}" />
+                                @endforeach
+                            @else
+                                <img alt="default" src="{{ asset('assets/images/default.jpg') }}" />
+                            @endif
                             </div>
 
                             <div class="ps-post__content">
-                                <a class="ps-post__title" href="blog-detail.html">Unpacking the Breaking2 Race
-                                    Strategy</a>
+                                <a class="ps-post__title" href="{{ route('front.blog.details',$post->slug) }}">{{  $post->title  }}</a>
 
                                 <p class="ps-post__meta">
-                                    <span>By:<a class="mr-5" href="blog.html">Avijatry</a></span>
-                                    -<span class="ml-5">Jun 10, 2017</span>
+                                    <span>By:<a class="mr-5" href="#">Avijatry</a></span>
+                                    -<span class="ml-5">{{ $post->created_at->format('M d, Y') }}</span>
                                 </p>
 
                                 <p>
-                                    Leverage agile frameworks to provide a robust synopsis for
-                                    high level overviews. Iterative approaches to corporate
-                                    strategy foster collaborative thinking to further&hellip;
+                                  
+                                    {{  Illuminate\Support\Str::words($post->details, 20, '...')  }}
                                 </p>
-                                <a class="ps-morelink" href="blog-detail.html">Read more</a>
+                                <a class="ps-morelink" href="{{ route('front.blog.details',$post->slug) }}">Read more</a>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
-                        <div class="ps-post">
-                            <div class="ps-post__thumbnail">
-                                <img alt="" src="{{ asset('assets/frontend/images/blog/image2.webp') }}" />
-                            </div>
-
-                            <div class="ps-post__content">
-                                <a class="ps-post__title" href="blog-detail.html">Unpacking the Breaking2 Race
-                                    Strategy</a>
-
-                                <p class="ps-post__meta">
-                                    <span>By:<a class="mr-5" href="blog.html">Avijatry</a></span>
-                                    -<span class="ml-5">Jun 10, 2017</span>
-                                </p>
-
-                                <p>
-                                    Leverage agile frameworks to provide a robust synopsis for
-                                    high level overviews. Iterative approaches to corporate
-                                    strategy foster collaborative thinking to further&hellip;
-                                </p>
-                                <a class="ps-morelink" href="blog-detail.html">Read more</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
-                        <div class="ps-post">
-                            <div class="ps-post__thumbnail">
-                                <img alt="" src="{{ asset('assets/frontend/images/blog/image3.webp') }}" />
-                            </div>
-
-                            <div class="ps-post__content">
-                                <a class="ps-post__title" href="blog-detail.html">Nike&rsquo;s Latest Football Cleat
-                                    Breaks the Mold</a>
-
-                                <p class="ps-post__meta">
-                                    <span>By:<a class="mr-5" href="blog.html">Avijatry</a></span>
-                                    -<span class="ml-5">Jun 10, 2017</span>
-                                </p>
-
-                                <p>
-                                    Leverage agile frameworks to provide a robust synopsis for
-                                    high level overviews. Iterative approaches to corporate
-                                    strategy foster collaborative thinking to further&hellip;
-                                </p>
-                                <a class="ps-morelink" href="blog-detail.html">Read more</a>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>

@@ -6,6 +6,7 @@ use App\{
     Models\Item,
     Models\Color,
     Models\Size,
+    Models\Gallery,
     Models\Variant,
     Models\ItemVariant,
     Helpers\ImageHelper
@@ -251,7 +252,106 @@ class ItemRepository
             }
         }
 
+        // Detect if product has variants
+        $hasVariants = isset($input['variants']) && count($input['variants']) > 0;
+
+        if ($hasVariants) {
+            $input['is_variant'] = 1;
+
+            // Store variant option names (Color, Size)
+            $variantOptions = [];
+            if (!empty($input['colors'])) {
+                $variantOptions[] = 'Color';
+            }
+            if (!empty($input['sizes'])) {
+                $variantOptions[] = 'Size';
+            }
+            $input['variant_option'] = json_encode($variantOptions);
+
+            // Store variant values (like Red, Blue, 42, 43)
+            $variantValues = array_merge($input['colors'] ?? [], $input['sizes'] ?? []);
+            $input['variant_value'] = json_encode($variantValues);
+        } else {
+            $input['is_variant'] = 0;
+            $input['variant_option'] = null;
+            $input['variant_value'] = null;
+        }
+
         $item->update($input);
+
+        // Handle variants:
+        $existingIds = $item->itemVariants()->pluck('id')->toArray();
+        $submittedIds = [];
+
+        if ($hasVariants) {
+            foreach ($input['variants'] as $position => $variant) {
+                $colorId = null;
+                $sizeId = null;
+
+                if (!empty($variant['color']) && !empty($input['colors'])) {
+                    $colorId = Color::where('name', $variant['color'])->value('id');
+                }
+
+                if (!empty($variant['size']) && !empty($input['sizes'])) {
+                    $sizeId = Size::where('name', $variant['size'])->value('id');
+                }
+                
+                // find or create the variant (Variant model)
+                $variantModel = Variant::firstOrCreate([
+                    'name' => $variant['name'],
+                    'color_id' => $colorId,
+                    'size_id'  => $sizeId,
+                ]);
+
+                // If item_variant_id exists, update; otherwise create
+                if (!empty($variant['item_variant_id'])) {
+                    $iv = ItemVariant::find($variant['item_variant_id']);
+                    if ($iv) {
+                        $iv->update([
+                            'item_id' => $item->id,
+                            'variant_sku' => $variant['variant_sku'] ?? null,
+                            'variant_id' => $variantModel->id,
+                            'position' => $position + 1,
+                            'item_code' => $variant['item_code'] ?? ($variant['name'] . '/' . $item->sku),
+                            'additional_cost' => $variant['additional_cost'] ?? 0,
+                            'additional_price' => $variant['additional_price'] ?? 0,
+                            'qty' => $variant['qty'] ?? 0,
+                        ]);
+                    } else {
+                        $iv = ItemVariant::create([
+                            'item_id' => $item->id,
+                            'variant_sku' => $variant['variant_sku'] ?? null,
+                            'variant_id' => $variantModel->id,
+                            'position' => $position + 1,
+                            'item_code' => $variant['item_code'] ?? ($variant['name'] . '/' . $item->sku),
+                            'additional_cost' => $variant['additional_cost'] ?? 0,
+                            'additional_price' => $variant['additional_price'] ?? 0,
+                            'qty' => $variant['qty'] ?? 0,
+                        ]);
+                    }
+                } else {
+                    $iv = ItemVariant::create([
+                        'item_id' => $item->id,
+                        'variant_sku' => $variant['variant_sku'] ?? null,
+                        'variant_id' => $variantModel->id,
+                        'position' => $position + 1,
+                        'item_code' => $variant['item_code'] ?? ($variant['name'] . '/' . $item->sku),
+                        'additional_cost' => $variant['additional_cost'] ?? 0,
+                        'additional_price' => $variant['additional_price'] ?? 0,
+                        'qty' => $variant['qty'] ?? 0,
+                    ]);
+                }
+
+                $submittedIds[] = $iv->id;
+            }
+        }
+
+        // Delete item variants that were removed in the form
+        $toDelete = array_diff($existingIds, $submittedIds);
+        if (!empty($toDelete)) {
+            ItemVariant::whereIn('id', $toDelete)->delete();
+        }
+
         if(isset($input['galleries'])){
             $this->galleriesUpdate($request,$item->id);
         }

@@ -3,10 +3,11 @@
         <div class="container-fluid">
             <div class="row py-5">
                 <div class="col-lg-4 col-md-4 text-center">
+                    
                     <p>
                         <img src="{{ asset('assets/frontend/images/icon/free-location-icon-2952-thumb.png') }}"
                             height="30" alt="">
-                        Find A Store | Customer care: 09666200300
+                        <a href="{{ route('front.findStore') }}" class="storLocator"> Find A Store</a> | Customer care: 09666200300
                     </p>
                 </div>
                 <div class="col-lg-4 col-md-4">
@@ -88,16 +89,51 @@
                                     <div class="ps-cart__total">
                                         <p>Number of items:<span>36</span></p>
                                         <p>Item Total:<span>£528.00</span></p>
+
+                            <div>
+                            {{-- start cart  --}}
+                            <div class="cart-container">
+                                 <a class="ps-cart__toggle cart-icon" href="">
+                                    <span><i>20</i></span><i class="ps-icon-shopping-cart"></i>
+                                </a>
+                                <div class="cart-dropdown">
+                                <div class="cart-item">
+                                    <img src="https://www.batabd.com/cdn/shop/files/5208167_1_160x.jpg?v=1756790194" alt="Product">
+                                    <div class="cart-item-details">
+                                    <h4>NORTH STAR STRIKER ELEV8 LADIES CANVAS</h4>
+                                    <p>3 / Off White / #MPC543</p>
+                                    <div class="cart-item-price">1 x Tk 3,749.00</div>
+
                                     </div>
-                                    <div class="ps-cart__footer">
-                                        <a class="ps-btn" href="cart.html">Check out<i
-                                                class="ps-icon-arrow-left"></i></a>
+                                    <div class="cart-item-remove">✖</div>
+                                </div>
+                                <div class="cart-item">
+                                    <img src="https://www.batabd.com/cdn/shop/files/5208167_1_160x.jpg?v=1756790194" alt="Product">
+                                    <div class="cart-item-details">
+                                    <h4>NORTH STAR STRIKER ELEV8 LADIES CANVAS</h4>
+                                    <p>3 / Off White / #MPC543</p>
+                                    <div class="cart-item-price">1 x Tk 3,749.00</div>
                                     </div>
+                                    <div class="cart-item-remove">✖</div>
+                                </div>
+
+                                <div class="cart-total">
+                                    <span>Total:</span>
+                                    <span>Tk 3,749.00</span>
+                                </div>
+
+                                <div class="cart-actions">
+                                    <a href="{{ route('front.wishlist') }}" class="btn btn-checkout">CHECK OUT NOW</a>
+                                    <a href="{{ route('front.wishlist') }}" class="btn btn-view">VIEW CART</a>
+                                </div>
                                 </div>
                             </div>
+                            {{-- end cart  --}}
+                            </div>
+                          
 
                             <div class="ps-search d-flex align-items-center border rounded"
-                                style="max-width: 300px; padding: 2px 8px;">
+                                style="max-width: 300px; padding: 2px 8px;margin-left:10px">
                                 <input class="form-control border-0 ps-icon-search " type="text"
                                     placeholder="Search Product…" />
 
@@ -233,68 +269,49 @@
 
 
             </div>
-            <div class="navigation__column right ">
-                <div class="ps-cart">
-                    <a class="ps-cart__toggle" href="#"><span><i>20</i></span><i
-                            class="ps-icon-shopping-cart"></i></a>
-                    <div class="ps-cart__listing">
-                        <div class="ps-cart__content">
-                            <div class="ps-cart-item">
-                                <a class="ps-cart-item__close" href="#"></a>
-                                <div class="ps-cart-item__thumbnail">
-                                    <a href="product-detail.html"></a><img
-                                        src="{{ asset('assets/frontend/images/cart-preview/1.jpg') }}"
-                                        alt="" />
+                <div class="navigation__column right">
+                    {{-- start cart  --}}
+                            <div class="cart-container">
+                                 <a class="ps-cart__toggle cart-icon" href="{{ route('front.wishlist') }}">
+                                    <span><i>19</i></span><i class="ps-icon-shopping-cart"></i>
+                                </a>
+                                <div class="cart-dropdown">
+                                <div class="cart-item">
+                                    <img src="https://www.batabd.com/cdn/shop/files/5208167_1_160x.jpg?v=1756790194" alt="Product">
+                                    <div class="cart-item-details">
+                                    <h4>NORTH STAR STRIKER ELEV8 LADIES CANVAS</h4>
+                                    <p>3 / Off White / #MPC543</p>
+                                    <div class="cart-item-price">1 x Tk 3,749.00</div>
+                                    </div>
+                                    <div class="cart-item-remove">✖</div>
                                 </div>
-                                <div class="ps-cart-item__content">
-                                    <a class="ps-cart-item__title" href="product-detail.html">Amazin’ Glazin’</a>
-                                    <p>
-                                        <span>Quantity:<i>12</i></span><span>Total:<i>£176</i></span>
-                                    </p>
+                                <div class="cart-item">
+                                    <img src="https://www.batabd.com/cdn/shop/files/5208167_1_160x.jpg?v=1756790194" alt="Product">
+                                    <div class="cart-item-details">
+                                    <h4>NORTH STAR STRIKER ELEV8 LADIES CANVAS</h4>
+                                    <p>3 / Off White / #MPC543</p>
+                                    <div class="cart-item-price">1 x Tk 3,749.00</div>
+                                    </div>
+                                    <div class="cart-item-remove">✖</div>
                                 </div>
-                            </div>
-                            <div class="ps-cart-item">
-                                <a class="ps-cart-item__close" href="#"></a>
-                                <div class="ps-cart-item__thumbnail">
-                                    <a href="product-detail.html"></a><img
-                                        src="{{ asset('assets/frontend/images/cart-preview/2.jpg') }}"
-                                        alt="" />
+
+                                <div class="cart-total">
+                                    <span>Total:</span>
+                                    <span>Tk 3,749.00</span>
                                 </div>
-                                <div class="ps-cart-item__content">
-                                    <a class="ps-cart-item__title" href="product-detail.html">The Crusty
-                                        Croissant</a>
-                                    <p>
-                                        <span>Quantity:<i>12</i></span><span>Total:<i>£176</i></span>
-                                    </p>
+
+                                <div class="cart-actions">
+                                    <a href="{{ route('front.wishlist') }}" class="btn btn-checkout">CHECK OUT NOW</a>
+                                    <a href="{{ route('front.wishlist') }}" class="btn btn-view">VIEW CART</a>
                                 </div>
-                            </div>
-                            <div class="ps-cart-item">
-                                <a class="ps-cart-item__close" href="#"></a>
-                                <div class="ps-cart-item__thumbnail">
-                                    <a href="product-detail.html"></a><img
-                                        src="{{ asset('assets/frontend/images/cart-preview/3.jpg') }}"
-                                        alt="" />
-                                </div>
-                                <div class="ps-cart-item__content">
-                                    <a class="ps-cart-item__title" href="product-detail.html">The Rolling Pin</a>
-                                    <p>
-                                        <span>Quantity:<i>12</i></span><span>Total:<i>£176</i></span>
-                                    </p>
                                 </div>
                             </div>
-                        </div>
-                        <div class="ps-cart__total">
-                            <p>Number of items:<span>36</span></p>
-                            <p>Item Total:<span>£528.00</span></p>
-                        </div>
-                        <div class="ps-cart__footer">
-                            <a class="ps-btn" href="cart.html">Check out<i class="ps-icon-arrow-left"></i></a>
-                        </div>
-                    </div>
-                </div>
+                            {{-- end cart  --}}
+                   
                 <div class="ps-user">
                     <a class="ps-user__toggle" href="#">
-                        <img src="{{ asset('assets/frontend/images/icon/user-icon.png') }}" height="30"
+                        <img src="{{ asset('assets/frontend/images/icon/user-icon.png') }}" 
+                        height="30"
                             alt=""></a>
                 </div>
                 <div class="menu-toggle"><span></span></div>
@@ -302,3 +319,49 @@
         </div>
     </nav>
 </header>
+
+@push('js')
+<script>
+   document.querySelectorAll('.cart-container').forEach(container => {
+    const cartIcon = container.querySelector('.ps-cart__toggle');
+    const cartDropdown = container.querySelector('.cart-dropdown');
+
+    // Toggle dropdown on click
+    cartIcon.addEventListener('mouseenter', (e) => {
+        e.preventDefault();
+        cartDropdown.classList.toggle('active');
+    });
+     // Keep it open if hovering inside dropdown
+     // hide dropdown when mouse leaves container
+    container.addEventListener('mouseleave', () => {
+        cartDropdown.classList.remove('active');
+    });
+});
+
+// Remove cart item
+document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('cart-item-remove')) {
+        const item = e.target.closest('.cart-item');
+        item.remove();
+        updateCartTotal();
+    }
+});
+
+function updateCartTotal() {
+    document.querySelectorAll('.cart-container').forEach(container => {
+        const prices = container.querySelectorAll('.cart-item-price');
+        let total = 0;
+        prices.forEach(priceEl => {
+            const text = priceEl.textContent.replace(/[^\d.]/g, '');
+            total += parseFloat(text) || 0;
+        });
+        const totalEl = container.querySelector('.cart-total span:last-child');
+        if (totalEl) {
+            totalEl.textContent = "Tk " + total.toFixed(2);
+        }
+    });
+}
+
+  </script>
+    
+@endpush

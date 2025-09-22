@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Item;
+use App\Models\Variant;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ItemVariant extends Model
 {
@@ -18,5 +20,14 @@ class ItemVariant extends Model
     public function color()
     {
         return $this->belongsTo('App\Models\Color','variant_id')->withDefault();
+    }
+    public function item()
+    {
+        return $this->belongsTo(Item::class);
+    }
+
+    public function variant()
+    {
+        return $this->belongsTo(Variant::class);
     }
 }

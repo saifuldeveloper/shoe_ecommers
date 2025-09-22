@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Variant;
 use App\Models\Wishlist;
+use App\Models\ItemVariant;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 
@@ -163,4 +165,13 @@ class Item extends Model
      
     }
 
+    public function itemVariants()
+    {
+        return $this->hasMany(ItemVariant::class);
+    }
+
+    public function variants()
+    {
+        return $this->hasManyThrough(Variant::class, ItemVariant::class, 'item_id', 'id', 'id', 'variant_id');
+    }
 }

@@ -4,15 +4,14 @@
 @endsection
 @section('content')
 <div class="login-main-content">
-
 <div class="flex-r login_small_device">
   <div class="flex-r">
-      @if(Session::has('success'))
+    <div class="login-text">
+    @if(Session::has('success'))
       <div class="alert alert-success">
             {{ Session::get('success') }}
         </div>
-     @endif
-    <div class="login-text">
+     @endif </br>
       <h1>SIGN IN TO YOUR ACCOUNT</h1>
       <p>Welcome back! 
       </br>

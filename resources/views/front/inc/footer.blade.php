@@ -4,6 +4,8 @@ $pages = \App\Models\Page::where('pos',1)->orWhere('pos', 2)->orderBy('id','DESC
 $brands = \App\Models\Brand::where('status',1)->where('is_popular' , 1)->orderBy('id','DESC')->get();
 
 @endphp
+
+
 <div class="ps-footer bg--cover">
     <div class="ps-footer__content">
         <div class="ps-container">
@@ -11,7 +13,7 @@ $brands = \App\Models\Brand::where('status',1)->where('is_popular' , 1)->orderBy
                 <div class="col-lg-3 col-md-3 col-sm-12 col-xs-6">
                     <aside class="ps-widget--footer ps-widget--info">
                         <header>
-                            <a class="ps-logo" href="index.html"><img alt=""
+                            <a class="ps-logo" href="#"><img alt=""
                                     src="{{ asset('assets/frontend/images/logo/logo.png') }}" /></a>
 
                             <h3 class="ps-widget__title">About</h3>
@@ -24,7 +26,7 @@ $brands = \App\Models\Brand::where('status',1)->where('is_popular' , 1)->orderBy
                 </div>
 
                 <div class="col-lg-3 col-md-3 col-sm-12 col-xs-6">
-                    <aside class="ps-widget--footer ps-widget--info second">
+                    <aside class="ps-widget--footer ps-widget--info address_second second">
                         <header>
                             <h3 class="ps-widget__title">Address</h3>
                         </header>
