@@ -43,11 +43,11 @@ class CheckoutController extends Controller
 
     public function __construct()
     {
-        $setting = Setting::first();
-        if ($setting->is_guest_checkout != 1) {
-            $this->middleware('auth');
-        }
-        $this->middleware('localize');
+        // $setting = Setting::first();
+        // if ($setting->is_guest_checkout != 1) {
+        //     $this->middleware('auth');
+        // }
+        // $this->middleware('localize');
         
         
     }
@@ -278,35 +278,19 @@ class CheckoutController extends Controller
 
     public function shippingStore(Request $request)
     {
-
-        // laravel validation
-        // $request->validate([
-        //     'ship_first_name' => 'required',
-        //     'ship_last_name' => 'required',
-        //     'ship_email' => 'required|email',
-        //     'ship_phone' => 'required',
-        //     'ship_address1' => 'required',
-        //     'ship_zip' => 'required',
-        //     'ship_city' => 'required',
-        // ]);
-
-        Session::put('shipping_address', $request->all());
-        return redirect(route('front.checkout.payment'));
+        // dd("ok shipping store");
+        $shippingData = [
+            'ship_name' => $request->ship_name,
+            'ship_phone' => $request->ship_phone,
+            'ship_address1' => $request->ship_address1,
+        ];
+        Session::put('shipping_address', $shippingData);
     }
 
 
 
     public function payment()
     {
-        // if (!Session::has('billing_address')) {
-        //     return redirect(route('front.checkout.billing'));
-        // }
-
-        // if (!Session::has('shipping_address')) {
-        //     return redirect(route('front.checkout.shipping'));
-        // }
-
-
         if (!Session::has('cart')) {
             return redirect(route('front.cart'));
         }
@@ -356,15 +340,23 @@ class CheckoutController extends Controller
         return view('front.checkout.payment', $data);
     }
 
-    public function checkout(PaymentRequest $request)
+    public function checkout(Request $request)
     {
 
-
+        // dd($request->all());
+        // laravel validation
+        $request->validate([
+            'ship_name' => 'required',
+            'ship_phone' => 'required',
+            'ship_address1' => 'required',
+            'size' => 'nullable',
+            'color' => 'nullable',
+        ]);
 
         PriceHelper::checkCheckout($request);
 
         $input = $request->all();
-
+        
         $checkout = false;
         $payment_redirect = false;
         $payment = null;
@@ -517,51 +509,7 @@ class CheckoutController extends Controller
         $paypal_supported = ['USD', 'EUR', 'AUD', 'BRL', 'CAD', 'HKD', 'JPY', 'MXN', 'NZD', 'PHP', 'GBP', 'RUB'];
         $paystack_supported = ['NGN', "GHS", "USD", "ZAR", "KES"];
         switch ($input['payment_method']) {
-
-           
-            case 'Paypal':
-                if (!in_array($currency->name, $paypal_supported)) {
-                    Session::flash('error', __('Currency Not Supported'));
-                    return redirect()->back();
-                }
-                $checkout = true;
-                $payment_redirect = true;
-                $payment = $this->paypalSubmit($input);
-                break;
-
-
-            case 'Mollie':
-                if (!in_array($currency->name, $usd_supported)) {
-                    Session::flash('error', __('Currency Not Supported'));
-                    return redirect()->back();
-                }
-                $checkout = true;
-                $payment_redirect = true;
-                $payment = $this->MollieSubmit($input);
-                break;
-
-            case 'Paystack':
-                if (!in_array($currency->name, $paystack_supported)) {
-                    Session::flash('error', __('Currency Not Supported'));
-                    return redirect()->back();
-                }
-                $checkout = true;
-                $payment = $this->PaystackSubmit($input);
-
-                break;
-
-            case 'Bank':
-                $checkout = true;
-                $payment = $this->BankSubmit($input);
-                break;
-
-            case 'Paytabs':
-                $checkout = true;
-                $payment_redirect = true;
-                $payment = $this->PayTabsSubmit($input);
-                break;
-
-            case 'Cash On Delivery':
+            case 'cod':
                 $checkout = true;
                 $payment = $this->cashOnDeliverySubmit($input);
                 break;

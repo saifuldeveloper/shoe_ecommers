@@ -811,10 +811,13 @@ function getData( status = 0, check = 0, item_key = 0, qty = 0, add_type = 0, op
     } else {
         $("#main_price").html(setCurrency + mainPrice);
     }
+    // get variants 
+    let size = $('[name="size"]:checked').val();
+    let color = $('[name="color"]:checked').val();
     
     if (status == 1) {
         let mainurl = window.location.origin;
-        let addToCartUrl = `${mainurl}/product/add/cart?item_id=${itemId}&options_ids=${options_ids}&attribute_ids=${attribute_ids}&quantity=${quantity}&type=${type}&item_key=${item_key}&add_type=${add_type}`;
+        let addToCartUrl = `${mainurl}/product/add/cart?item_id=${itemId}&options_ids=${options_ids}&attribute_ids=${attribute_ids}&quantity=${quantity}&type=${type}&item_key=${item_key}&add_type=${add_type}&size=${size}&color=${color}`;
        
         $.ajax({
             type: "GET",

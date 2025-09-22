@@ -60,7 +60,7 @@
         @foreach ($cart as $key => $item)
      
         <div class="entry">
-          <div class="entry-thumb"><a href="{{route('front.product',$item['slug'])}}"><img src="{{asset('/images/products/'.$item['photo'])}}" alt="Product"></a></div>
+          <div class="entry-thumb"><a href="{{route('front.product',$item['slug'])}}"><img src="{{asset('storage/items/'.$item['photo'])}}" alt="Product"></a></div>
           <div class="entry-content">
             <h4 class="entry-title"><a href="{{route('front.product',$item['slug'])}}">
                 {{ Str::limit($item['name'], 45) }}

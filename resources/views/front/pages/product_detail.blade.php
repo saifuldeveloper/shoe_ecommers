@@ -38,23 +38,35 @@
                         <div class="mb-3">
                             <p><strong>Size</strong></p>
                             <div class="size-option d-flex">
-                                <input type="radio" id="size6" name="size" checked />
-                                <label for="size6">6</label>
-                                <input type="radio" id="size7" name="size" />
-                                <label for="size7">7</label>
-                                <input type="radio" id="size8" name="size" />
-                                <label for="size8">8</label>
-                                <input type="radio" id="size9" name="size" />
-                                <label for="size9">9</label>
-                                <input type="radio" id="size10" name="size" />
-                                <label for="size10">10</label>
+                                @php
+                                    $sizes = collect($item_details->iteamVariant ?? [])->pluck('size')->unique('id')->filter();
+                                @endphp
+                                @foreach ($sizes as $size)
+                                    @if (isset($size->id))
+                                    <input type="radio" id="size{{ $size->id }}" name="size" value="{{ $size->id }}" />
+                                    <label for="size{{ $size->id }}">{{ $size->name }}</label>
+                                    @endif
+                                @endforeach
                             </div>
                         </div>
 
                         <!-- Color -->
                         <div class="mb-3">
                             <p><strong>Color</strong></p>
-                            <span class="color-circle" style="background: brown"></span>
+                            <div class="color-option d-flex">
+                                @php
+                                    $colors = collect($item_details->iteamVariant ?? [])->pluck('color')->filter()->unique('id');
+                                @endphp
+                                @foreach ($colors as $color)
+                                    @if(isset($color->id))
+                                        <input type="radio" id="color{{ $color->id }}" name="color" value="{{ $color->id }}">
+                                        <label for="color{{ $color->id }}">
+                                            <span class="color-circle" style="background: {{ $color->code ?? '#000' }}; display:inline-block; width:20px; height:20px; border-radius:50%; border:1px solid #ccc; margin-right:5px;"></span>
+                                            
+                                        </label>
+                                    @endif
+                                @endforeach
+                            </div>
                         </div>
                         <!-- Promocode -->
                         <div class="mb-3">

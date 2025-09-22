@@ -16,21 +16,34 @@
         </div>
     </div>
     <!-- Page Content-->
-    <div class="container padding-bottom-3x mb-1  checkut-page">
+    <div class="container padding-bottom-3x mb-4  checkut-page">
         <div class="row">
             <!-- Payment Methode-->
             <div class="col-xl-8 col-lg-8">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                <form action="{{ route('front.checkout.submit')}}" method="post">
+                    @csrf
+                    {{-- hidden inputs --}} @dd(Session::get('cart'))
+                    <input type="hidden" name="size" value="{{ Session::get('cart')['size'] ?? '' }}">
                 <div class="card">
                     <div class="card-body">
                         <h6 class="pb-2">{{ __('Review Your Order') }} :</h6>
                         <hr>
-                        <form id="checkout-form" action="{{ route('front.checkout.shipping.store') }}" method="POST">
-                            @csrf
+                        {{-- <form id="checkout-form" action="{{ route('front.checkout.shipping.store') }}" method="POST">
+                            @csrf --}}
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="name">{{ __('Name *') }}</label>
-                                        <input required class="form-control" name="name" type="text" id="name"
+                                        <input required class="form-control" name="ship_name" type="text" id="name"
                                             placeholder="
                                         Your Name *"
                                             value="{{ isset($user) ? $user->first_name : '' }}">
@@ -66,7 +79,7 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label for="checkout-address1">{{ __('Address') }} </label>
-                                        <input class="form-control" name="Address" required type="text"
+                                        <input class="form-control" name="ship_address1" required type="text"
                                             placeholder="Address" id="checkout-address1"
                                             value="{{ isset($user) ? $user->ship_address1 : '' }}">
                                     </div>
@@ -89,56 +102,57 @@
                                     </div>
                                 </div>
                             </div>
-                        </form>
+                        {{-- </form> --}}
 
                         <h6>{{ __('Pay with') }} :</h6>
+                        @php
+                            $gateways = DB::table('payment_settings')->whereStatus(1)->first();
+                        @endphp
                         <div class="row mt-4">
-                            <div class="col-12">
-                                <div class="payment-methods">
-                                    @php
-                                        $gateways = DB::table('payment_settings')->whereStatus(1)->get();
-                                    @endphp
-                                    @foreach ($gateways as $gateway)
-                                        @if (PriceHelper::CheckDigitalPaymentGateway())
-                                            @if ($gateway->unique_keyword = 'cod')
-                                                <div class="single-payment-method">
-                                                    <a class="text-decoration-none " href="#"
-                                                        data-bs-target="#{{ $gateway->unique_keyword }}">
-                                                        <img class=""
-                                                            src="{{ asset('/images/payment/' . $gateway->photo) }}"
-                                                            alt="{{ $gateway->name }}" title="{{ $gateway->name }}">
-                                                        <p>{{ $gateway->name }}</p>
-
-                                                    </a>
-                                                </div>
-                                            @endif
-                                        @else
-                                            <div class="single-payment-method">
-                                                <a class="text-decoration-none" href="#"
-                                                    data-bs-target="#{{ $gateway->unique_keyword }}">
-                                                    <img class=""
-                                                        src="{{ asset('/images/payment/' . $gateway->photo) }}"
-                                                        alt="{{ $gateway->name }}" title="{{ $gateway->name }}">
-                                                    <p>{{ $gateway->name }}</p>
-                                                </a>
-                                            </div>
-                                        @endif
-                                    @endforeach
-
+                            <div class="col-3">
+                                <div class="card payment-card mb-3">
+                                    <div class="card-body text-center">
+                                        @php
+                                            $paymentMethods = DB::table('payment_settings')->where('status', 1)->get();
+                                        @endphp
+                                        <div class="d-flex flex-column align-items-center">
+                                            @foreach($paymentMethods as $method)
+                                                <label class="d-block mb-2" style="cursor:pointer;">
+                                                    <input type="radio" name="payment_method" value="{{ $method->unique_keyword }}" class="d-none payment-radio" {{ $loop->first ? 'checked' : '' }}>
+                                                    <img src="{{ url('/storage/payments/' . $method->photo) }}" alt="{{ $method->name }}" title="{{ $method->name }}" style="width:120px; height:auto; border:2px solid #eee; border-radius:6px; margin-right:8px; vertical-align:middle;">
+                                                    <span>{{ $method->name }}</span>
+                                                </label>
+                                            @endforeach
+                                        </div>
+                                        <script>
+                                            document.addEventListener('DOMContentLoaded', function() {
+                                                const radios = document.querySelectorAll('.payment-radio');
+                                                radios.forEach(radio => {
+                                                    radio.addEventListener('change', function() {
+                                                        radios.forEach(r => r.parentElement.style.border = '');
+                                                        if(this.checked) {
+                                                            // this.parentElement.style.border = '1px solid #007bff';
+                                                        }
+                                                    });
+                                                    if(radio.checked) {
+                                                        // radio.parentElement.style.border = '1px solid #007bff';
+                                                    }
+                                                });
+                                            });
+                                        </script>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
+                        <button type="submit" class="btn btn-danger">Payment Submit</button>
                     </div>
                 </div>
-
-                @include('includes.checkout_modal')
-
+                </form>
             </div>
             @include('includes.checkout_sitebar', $cart)
         </div>
     </div>
-
+    <div class="mt-4" style="margin-top: 120px"></div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {

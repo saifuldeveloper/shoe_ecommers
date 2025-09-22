@@ -62,10 +62,9 @@ class Item extends Model
     {
         return $this->belongsTo('App\Models\Brand')->withDefault();
     }
-
-    public function size()
+    public function iteamVariant()
     {
-        return $this->hasMany('App\Models\Size');
+        return $this->hasMany('App\Models\ItemVariant');
     }
 
     public function campaigns()
