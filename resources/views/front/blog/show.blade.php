@@ -65,7 +65,7 @@
                     <div class="ps-widget__content">
                       <ul class="ps-tags">
                         @foreach ($tags ?? [] as $tag )
-                        <li><a href="#">{{ $tag }}</a></li>
+                        <li><a href="{{ route('front.blog',$tag) }}">{{ $tag }}</a></li>
                           @endforeach
                       </ul>
                     </div>
