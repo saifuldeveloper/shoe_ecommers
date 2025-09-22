@@ -180,6 +180,8 @@ class CartRepository
                 "qty" => $qty,
                 "price" => PriceHelper::grandPrice($item),
                 "main_price" => $item->discount_price,
+                "size" => $input['size'] ?? null,
+                "color" => $input['color'] ?? null,
                 "photo" => $item->photo,
                 "type" => $item->item_type,
                 "item_type" => $item->item_type,

@@ -12,9 +12,8 @@
             <div class="row">
                 <div class="col-lg-10 col-md-12">
                     <div class="col-md-6">
-                        <img src="{{ asset('assets/frontend/images/shoe/a1.avif') }}"
-                            class="img-fluid border mb-3 image-detail-main-image popup-image"
-                            alt="Product" />
+                        <img src="{{ asset('storage/items/' . $item_details->photo??"") }}"
+                            class="img-fluid border mb-3 image-detail-main-image popup-image" alt="Product" />
 
                         <div class="d-flex">
                             <div class="owl-slider zoom-gallery product-slider" data-owl-auto="true" data-owl-dots="false"
@@ -40,18 +39,30 @@
                     </div>
                     <!-- Product Details -->
                     <div class="col-md-6">
-                        <h4>BATA (MEN) AP1 MENS CASUAL</h4>
-                        <p><strong>Brand:</strong> Bata</p>
-                        <p><strong>Product Code:</strong> 8544611</p>
+                        <h4>{{ $item_details->name??"" }}</h4>
+                        <p><strong>Brand:</strong> {{ $item_details->brand->name??"" }}</p>
+                        <p><strong>Product Code:</strong> {{ $item_details->code??"" }}</p>
                         <p><strong>Availability:</strong> In stock</p>
-                        <h3 class="text-danger">Tk 2,499.00</h3>
+                        <h3 class="text-danger">Tk {{ $item_details->discount_price??"" }}</h3>
                         <p class="text-danger fw-bold">
-                            * PLEASE CHECK THE PRODUCT IN FRONT OF
-                            DELIVERY MAN<br />
-                            * Offer is only valid at batabd.com<br />
-                            * FREE SHIPPING
+                            @foreach ( json_decode($item_details->specification_description)??[] as $spe)
+                                * {{ $spe }} <br />
+                            @endforeach
                         </p>
+                        <p>{{ $item_details->sort_details??"" }}</p>
                         <!-- Size -->
+                        <div class="mb-3">
+                            <p><strong>Size</strong></p>
+                            <div class="size-option d-flex">
+                                @php
+                                    $sizes = collect($item_details->iteamVariant ?? [])->pluck('size')->unique('id')->filter();
+                                @endphp
+                                @foreach ($sizes as $size)
+                                    @if (isset($size->id))
+                                    <input type="radio" id="size{{ $size->id }}" name="size" value="{{ $size->id }}" />
+                                    <label for="size{{ $size->id }}">{{ $size->name }}</label>
+                                    @endif
+                                @endforeach
                             <div class="mb-3">
                                 <div class="d-flex size_flex_data">
                                     <p><strong>Size</strong></p>
@@ -75,7 +86,20 @@
                         <!-- Color -->
                         <div class="mb-3">
                             <p><strong>Color</strong></p>
-                            <span class="color-circle" style="background: brown"></span>
+                            <div class="color-option d-flex">
+                                @php
+                                    $colors = collect($item_details->iteamVariant ?? [])->pluck('color')->filter()->unique('id');
+                                @endphp
+                                @foreach ($colors as $color)
+                                    @if(isset($color->id))
+                                        <input type="radio" id="color{{ $color->id }}" name="color" value="{{ $color->id }}">
+                                        <label for="color{{ $color->id }}">
+                                            <span class="color-circle" style="background: {{ $color->code ?? '#000' }}; display:inline-block; width:20px; height:20px; border-radius:50%; border:1px solid #ccc; margin-right:5px;"></span>
+                                            
+                                        </label>
+                                    @endif
+                                @endforeach
+                            </div>
                         </div>
                         <!-- Promocode -->
                         <div class="mb-3">
@@ -86,12 +110,22 @@
                         <!-- Quantity -->
                         <div class="mb-3 d-flex align-items-center">
                             <label class="me-3"><strong>Quantity</strong></label>
-                            <input type="number" class="form-control w-25" value="1" min="1" />
+                            <input type="number" class="form-control w-25 qtyValue" value="1" min="1" />
                         </div>
                         <p><strong>Subtotal:</strong> Tk 2,499.00</p>
-
+                        {{-- hidden inputs  --}}
+                        <input type="hidden" value="{{ $item_details->id??"" }}" id="item_id">
+                        <input type="hidden" id="demo_price"
+                            value="200">
+                        <!-- Buttons -->
                         <div class="d-flex">
-                            <button class="btn btn-dark me-2 add_to_cartbtn">
+                            <button class="btn btn-dark me-2 add_to_cartbtn" id="add_to_cart">
+                                ADD TO CART
+                            </button> 
+                            <button class="btn btn-outline-dark buy_now_btn" id="buy_to_cart">
+
+                      <!---  <div class="d-flex">
+                            <button class="btn btn-dark me-2  add_to_cartbtn">
                                 ADD TO CART
                             </button>
                              
@@ -102,9 +136,11 @@
                         </div>
                         <div>
                              <button class="btn btn-outline-dark buy_now_btn">
+
                                 BUY IT NOW
                             </button>
-                        </div> 
+                        </div>
+                        --->
                     </div>
 
                     <div class="clearfix"></div>

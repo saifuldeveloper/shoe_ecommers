@@ -838,6 +838,7 @@ h5.modal_h5_title span{
 }
 
 
+
 /* //mobile device */
 @media (max-width: 768px) {
     .login-main-content{
@@ -863,6 +864,8 @@ h5.modal_h5_title span{
     text-align: center;
     margin-left: 9px;
   }
+
+}
   .size_flex_data{
     gap: 50%;
   }
@@ -1100,3 +1103,4 @@ h5.modal_h5_title span{
   width: 450px;
   height: 250px;
 }
+

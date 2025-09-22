@@ -66,9 +66,12 @@ class FrontendController extends Controller
 
     public function index()
     {
-        $posts = Post::latest('id')->take(3)->get();
+        $featured_items = Item::where('status', 1)->take(8)->get();
+        
 
-        return view('front.pages.home',compact('posts'));
+        $posts = Post::latest('id')->take(3)->get();
+        return view('front.pages.home',compact('posts','featured_items'));
+
     }
 
 
@@ -89,7 +92,11 @@ class FrontendController extends Controller
 
     public function product($slug)
     {
-        return view('front.pages.product_detail');
+        $item_details = Item::with('brand')->where('slug', $slug)->first();
+        // dd($item_details);
+        return view('front.pages.product_detail', compact(
+            'item_details'
+        ));
 
     }
      public function wishlist()

@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('order_status')->default('pending');
             $table->text('shipping_info'); // JSON data
             $table->text('billing_info'); // JSON data
+            $table->text('variant_id'); // JSON data
             $table->string('payment_status')->default('pending');
             $table->decimal('state_price', 10, 2)->default(0);
             $table->string('state')->nullable();

@@ -13,6 +13,14 @@ class ItemVariant extends Model
 
     protected $fillable = ['item_id', 'variant_sku', 'variant_id', 'position', 'item_code', 'additional_cost', 'additional_price', 'qty'];
 
+    public function size()
+    {
+        return $this->belongsTo('App\Models\Size','variant_id')->withDefault();
+    }
+    public function color()
+    {
+        return $this->belongsTo('App\Models\Color','variant_id')->withDefault();
+    }
     public function item()
     {
         return $this->belongsTo(Item::class);

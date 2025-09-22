@@ -35,6 +35,61 @@
                                         style="height: 32px;padding-top: 7px;" alt="">
                                 </a>
                             </div>
+                            <div class="ps-cart">
+                                <a class="ps-cart__toggle" href="{{ route('front.wishlist') }}"><span><i class="cart_count">20</i></span><i
+                                        class="ps-icon-shopping-cart"></i></a>
+                                <div class="ps-cart__listing">
+                                    <div class="ps-cart__content">
+                                        <div class="ps-cart-item">
+                                            <a class="ps-cart-item__close" href="#"></a>
+                                            <div class="ps-cart-item__thumbnail">
+                                                <a href="product-detail.html"></a><img
+                                                    src="{{ asset('assets/frontend/images/cart-preview/1.jpg') }}"
+                                                    alt="" />
+                                            </div>
+                                            <div class="ps-cart-item__content">
+                                                <a class="ps-cart-item__title" href="product-detail.html">Amazin’
+                                                    Glazin’</a>
+                                                <p>
+                                                    <span>Quantity:<i>12</i></span><span>Total:<i>£176</i></span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="ps-cart-item">
+                                            <a class="ps-cart-item__close" href="#"></a>
+                                            <div class="ps-cart-item__thumbnail">
+                                                <a href="product-detail.html"></a><img
+                                                    src="{{ asset('assets/frontend/images/cart-preview/2.jpg') }}"
+                                                    alt="" />
+                                            </div>
+                                            <div class="ps-cart-item__content">
+                                                <a class="ps-cart-item__title" href="product-detail.html">The
+                                                    Crusty Croissant</a>
+                                                <p>
+                                                    <span>Quantity:<i>12</i></span><span>Total:<i>£176</i></span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="ps-cart-item">
+                                            <a class="ps-cart-item__close" href="#"></a>
+                                            <div class="ps-cart-item__thumbnail">
+                                                <a href="product-detail.html"></a><img
+                                                    src="{{ asset('assets/frontend/images/cart-preview/3.jpg') }}"
+                                                    alt="" />
+                                            </div>
+                                            <div class="ps-cart-item__content">
+                                                <a class="ps-cart-item__title" href="product-detail.html">The
+                                                    Rolling Pin</a>
+                                                <p>
+                                                    <span>Quantity:<i>12</i></span><span>Total:<i>£176</i></span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ps-cart__total">
+                                        <p>Number of items:<span>36</span></p>
+                                        <p>Item Total:<span>£528.00</span></p>
+
                             <div>
                             {{-- start cart  --}}
                             <div class="cart-container">
@@ -48,6 +103,7 @@
                                     <h4>NORTH STAR STRIKER ELEV8 LADIES CANVAS</h4>
                                     <p>3 / Off White / #MPC543</p>
                                     <div class="cart-item-price">1 x Tk 3,749.00</div>
+
                                     </div>
                                     <div class="cart-item-remove">✖</div>
                                 </div>

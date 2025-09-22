@@ -51,7 +51,8 @@
 
     <!-- Bootstrap -->
     <script src="{{ asset('assets/frontend/plugins/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-
+<script type="text/javascript" src="{{ asset('assets/back/js/plugin/bootstrap-notify/bootstrap-notify.min.js') }}">
+    </script>
     <!-- Other JS plugins -->
     <script src="{{ asset('assets/frontend/plugins/jquery-bar-rating/dist/jquery.barrating.min.js') }}"></script>
     <script src="{{ asset('assets/frontend/plugins/owl-carousel/owl.carousel.min.js') }}"></script>
