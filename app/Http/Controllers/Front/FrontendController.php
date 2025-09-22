@@ -66,7 +66,9 @@ class FrontendController extends Controller
 
     public function index()
     {
-        return view('front.pages.home');
+        $posts = Post::latest('id')->take(3)->get();
+
+        return view('front.pages.home',compact('posts'));
     }
 
 

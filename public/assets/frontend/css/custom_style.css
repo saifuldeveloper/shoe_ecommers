@@ -1095,3 +1095,8 @@ h5.modal_h5_title span{
       font-weight: bold;
       color: #222;
     }
+
+.ps-post__thumbnail img.blog_image{
+  width: 450px;
+  height: 250px;
+}
