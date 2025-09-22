@@ -2,8 +2,9 @@
 
 namespace App\Helpers;
 
-use Illuminate\Support\Facades\Storage;
+use Image;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class ImageHelper
 {
@@ -49,18 +50,20 @@ class ImageHelper
                 Storage::delete($path . '/' . $delete);
             }
 
+            $extension = strtolower($file->getClientOriginalExtension());
             $photoName = 'OM_' . time() .  Str::random(8) . '.' . $file->getClientOriginalExtension();
             $thumbnailName = 'OM_' . time() .  Str::random(8) . '.' . $file->getClientOriginalExtension();
 
             Storage::putFileAs($path, $file, $photoName);
 
 
-            $image = \Image::make($file)->resize(230, 230);
-
-
-            $thumbnailPath = $path . '/' . $thumbnailName;
-            Storage::put($thumbnailPath, (string) $image->encode());
-
+            if (in_array($extension, ['jpg', 'jpeg', 'png', 'webp'])) {
+                $image = \Image::make($file)->resize(230, 230);
+                $thumbnailPath = $path . '/' . $thumbnailName;
+                Storage::put($thumbnailPath, (string) $image->encode());
+            } else {
+                $thumbnailName = $photoName;
+            }
 
             return [$photoName, $thumbnailName];
         }
@@ -82,23 +85,25 @@ class ImageHelper
     }
 
 
-    public static function ItemhandleUpdatedUploadedImage($file, $path, $data, $delete_path, $field)
-    {
+  public static function ItemhandleUpdatedUploadedImage($file, $path, $data, $delete_path, $field)
+  {
+        $extension = strtolower($file->getClientOriginalExtension());
 
-        $photoName = 'OM_' . time() .  Str::random(8) . '.' . $file->getClientOriginalExtension();
-        $thumbnailName = 'OM_' . time() . Str::random(8) . '.' . $file->getClientOriginalExtension();
+        $photoName = 'OM_' . time() . Str::random(8) . '.' . $extension;
+        $thumbnailName = 'OM_' . time() . Str::random(8) . '.' . $extension;
 
-
-        $image = \Image::make($file)->resize(230, 230);
-
-
-        $thumbnailPath = $path . '/' . $thumbnailName;
-        Storage::put($thumbnailPath, (string) $image->encode());
-
-
-        $photoPath = $path . '/' . $photoName;
+        // Save original file
         Storage::putFileAs($path, $file, $photoName);
 
+        if (in_array($extension, ['jpg', 'jpeg', 'png', 'webp'])) {
+            $image = \Image::make($file)->resize(230, 230);
+            $thumbnailPath = $path . '/' . $thumbnailName;
+            Storage::put($thumbnailPath, (string) $image->encode());
+        } else {
+            $thumbnailName = $photoName;
+        }
+
+        // Delete old files if they exist
         if (!empty($data['thumbnail'])) {
             Storage::delete($delete_path . '/' . $data['thumbnail']);
         }

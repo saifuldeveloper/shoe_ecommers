@@ -12,6 +12,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -47,8 +48,11 @@ class RegisterController extends Controller
 
     public function register(UserRequest $request)
     {   
-     
-        $this->repository->register($request);
+        try{
+            $this->repository->register($request);
+        }catch (\Exception $e){
+           
+        }
 
         $setting = Setting::first();
         if($setting->is_mail_verify == 0){
@@ -58,8 +62,6 @@ class RegisterController extends Controller
             Session::flash('success',__('Account Register Successfully please check your email for verification'));
             return redirect()->route('user.verify');
         }
-        
-        
     }
     
 

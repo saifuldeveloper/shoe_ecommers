@@ -60,6 +60,7 @@ use App\Http\Controllers\Back\AccountController as BackAccountController;
 use App\Http\Controllers\User\AccountController as UserAccountController;
 use App\Http\Controllers\Auth\User\LoginController as UserLoginController;
 use App\Http\Controllers\Auth\Back\LoginController  as BackLoginController;
+use App\Http\Controllers\Front\UserDashboardController;
 
 
 Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
@@ -401,10 +402,23 @@ Route::group(['middleware' => 'maintainance'], function () {
             Route::post('/change-password-submit', [ForgotController::class, 'changepass'])->name('user.change.password');
 
 
-
             //------------ DASHBOARD ------------
             Route::get('/dashboard', [UserAccountController::class, 'index'])->name('user.dashboard');
             Route::get('/profile', [UserAccountController::class, 'profile'])->name('user.profile');
+
+             //USER UPDATE
+            Route::controller(UserDashboardController::class)->group(function(){
+                Route::get('account/profile','userProfile')->name('custom.profile');
+                Route::get('account/orders','orders')->name('custom.orders');
+                Route::get('account/order/details','orderDetails')->name('custom.order-details');
+                Route::get('account/edit/profile','editProfile')->name('custom.edit-profile');
+                Route::get('account/change/password','passwordChange')->name('custom.change-password');
+            });
+            //------------ SETTING ------------
+            Route::post('/profile/update', [UserAccountController::class, 'profileUpdate'])->name('user.profile.update');
+            Route::get('/addresses', [UserAccountController::class, 'addresses'])->name('user.address');
+            Route::post('/billing/addresses', [UserAccountController::class, 'billingSubmit'])->name('user.billing.submit');
+            Route::post('/shipping/addresses', [UserAccountController::class, 'shippingSubmit'])->name('user.shipping.submit');
 
             // ----------- TICKET ---------------//
             Route::get('/ticket', [TicketController::class, 'ticket'])->name('user.ticket');
@@ -414,12 +428,7 @@ Route::group(['middleware' => 'maintainance'], function () {
             Route::post('/ticket/reply/store', [TicketController::class, 'ticketReply'])->name('user.ticket.reply');
             Route::get('/ticket/delete/{id}', [TicketController::class, 'ticketDelete'])->name('user.ticket.delete');
 
-            //------------ SETTING ------------
-            Route::post('/profile/update', [UserAccountController::class, 'profileUpdate'])->name('user.profile.update');
-            Route::get('/addresses', [UserAccountController::class, 'addresses'])->name('user.address');
-            Route::post('/billing/addresses', [UserAccountController::class, 'billingSubmit'])->name('user.billing.submit');
-            Route::post('/shipping/addresses', [UserAccountController::class, 'shippingSubmit'])->name('user.shipping.submit');
-
+         
             //------------ ORDER ------------
             Route::get('/orders', [OrderController::class, 'index'])->name('user.order.index');
             Route::get('/order/print/{id}', [OrderController::class, 'printOrder'])->name('user.order.print');
@@ -441,17 +450,7 @@ Route::group(['middleware' => 'maintainance'], function () {
 
         // ************************************ FRONTEND **********************************************
 
-        //------------ FRONT ------------
-        Route::get('/custom-register',function(){
-             return view('front.custom_register');
-        });
-        Route::get('/custom-login',function(){
-            return view('front.custom_login');
-        });
-         Route::get('/custom-dashboard',function(){
-            return view('front.custom_dashboard');
-        });
-
+        Route::get('/store-locator', [FrontendController::class, 'findStore'])->name('front.findStore');
         Route::get('/', [FrontendController::class, 'index'])->name('front.index');
         Route::get('/extra-index', [FrontendController::class, 'extraIndex'])->name('front.extraindex');
         Route::get('/product/{slug}', [FrontendController::class, 'product'])->name('front.product');

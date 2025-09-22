@@ -61,21 +61,25 @@
                     </div>
                 </div>
                 <div class="card">
-                    <div class="card-body">
-                        <div class="form-group pb-0  mb-0">
-                            <label>{{ __('Gallery Images') }} </label>
+                   <div class="card-body">
+                        <div class="form-group pb-0 mb-0">
+                            <label>{{ __('Gallery Images') }}</label>
                         </div>
                         <div class="form-group pb-0 pt-0 mt-0 mb-0">
-                            <div id="gallery-images" class="">
-                                <div class="d-block gallery_image_view">
-                                </div>
+                            <div id="gallery-images">
+                                <div class="d-block gallery_image_view"></div>
                             </div>
                         </div>
-                        <div class="form-group position-relative ">
+                        <div class="form-group position-relative">
                             <label class="file">
-                                <input type="file" accept="image/*" name="galleries[]" id="gallery_file" aria-label="File browser example" accept="image/*" multiple>
+                                <!-- Visible input just for picking files -->
+                                <input type="file" accept="image/*" id="gallery_file" aria-label="File browser example" multiple>
                                 <span class="file-custom text-left">{{ __('Upload Image...') }}</span>
                             </label>
+
+                            <!-- Hidden input that will actually be submitted -->
+                            <input type="file" name="galleries[]" id="gallery_files_hidden" multiple style="display:none">
+
                             <br>
                             <span class="mt-1 text-info">{{ __('Image Size Should Be 800 x 800. or square size') }}</span>
                         </div>
@@ -286,6 +290,22 @@
                                 @endforeach
                             </select>
                         </div>
+
+                        <div class="form-group">
+                            <label for="is_type">{{ __('Select Item Type') }}</label>
+                            <select name="is_type" id="is_type" class="form-control">
+                                <option value="undefined" 
+                                    {{ old('is_type', 'undefined') == 'undefined' ? 'selected' : '' }}>
+                                    Undefine Product
+                                </option>
+                                <option value="new" {{ old('is_type') == 'new' ? 'selected' : '' }}>New Arrival</option>
+                                <option value="flash_deal" {{ old('is_type') == 'flash_deal' ? 'selected' : '' }}>Flash Deal Product</option>
+                                <option value="feature" {{ old('is_type') == 'feature' ? 'selected' : '' }}>Featured Product</option>
+                                <option value="best" {{ old('is_type') == 'best' ? 'selected' : '' }}>Best Product</option>
+                                <option value="top" {{ old('is_type') == 'top' ? 'selected' : '' }}>Top Product</option>
+                            </select>
+                        </div>
+
                     </div>
                 </div>
                 <div class="card">
@@ -446,6 +466,7 @@
         $('form.admin-form').on('submit', function(e) {
             let isValid = true;
             let firstInvalid = null;
+            let seenSkus = {};
 
             // Validate Name
             const nameInput = $('input[name="name"]');
@@ -531,18 +552,32 @@
             // Validate Variant SKUs only if variants exist
             $('#variant-table-body tr').each(function() {
                 const variantSku = $(this).find('input[name*="[variant_sku]"]');
-                if (variantSku.length && !variantSku.val().trim()) {
-                    isValid = false;
-                    variantSku.addClass('is-invalid');
-                    if (!firstInvalid) firstInvalid = variantSku;
-                } else {
-                    variantSku.removeClass('is-invalid');
+                if (variantSku.length) {
+                    const val = variantSku.val().trim();
+
+                    // Check required
+                    if (!val) {
+                        isValid = false;
+                        variantSku.addClass('is-invalid');
+                        if (!firstInvalid) firstInvalid = variantSku;
+                        return; // skip further checks
+                    }
+
+                    // Check uniqueness
+                    if (seenSkus[val]) {
+                        isValid = false;
+                        variantSku.addClass('is-invalid');
+                        if (!firstInvalid) firstInvalid = variantSku;
+                    } else {
+                        seenSkus[val] = true;
+                        variantSku.removeClass('is-invalid');
+                    }
                 }
             });
 
             if (!isValid) {
                 e.preventDefault();
-                alert('Please fill in all required fields before submitting.');
+                alert('Please fill in all required fields and check unique sku when you have variants before submitting.');
                 if (firstInvalid) firstInvalid.focus();
             }
         });

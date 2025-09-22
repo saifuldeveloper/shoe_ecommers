@@ -55,6 +55,7 @@ class Setting extends Model
         'friday_end',
         'satureday_start',
         'satureday_end',
+        'footer_about',
         'copy_right',
         'is_slider',
         'is_category',

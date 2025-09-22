@@ -65,7 +65,7 @@
                         <span class="sub-item">{{ __('All Products') }}</span>
                     </a>
                 </li>
-                <li>
+                <li class="d-none">
                     <a class="sub-link" href="{{ route('back.item.stock.out') }}">
                         <span class="sub-item">{{ __('Stock Out Products') }}</span>
                     </a>
@@ -201,12 +201,12 @@
           <p>{{ __('Customer List') }}</p></a>
     </li>
 
-    <li class="nav-item">
+    {{-- <li class="nav-item">
         <a href="{{ route('back.ticket.index') }}">
             <i class="fas fa-comments"></i>
           <p>{{ __('Manages Tickets') }}</p></a>
     </li>
-    
+     --}}
     <li class="nav-item">
         <a data-toggle="collapse" href="#content">
             <i class="fas fa-tasks"></i>
@@ -241,11 +241,11 @@
                         <span class="sub-item">{{ __('Services') }}</span>
                     </a>
                 </li>
-                <li>
+                {{-- <li>
                     <a class="sub-link" href="{{ route('back.setting.section') }}">
                         <span class="sub-item">{{ __('Visibility') }}</span>
                     </a>
-                </li>
+                </li> --}}
 
                 <li>
                     <a class="sub-link" href="{{ route('back.setting.storage') }}">
@@ -258,7 +258,7 @@
                     </a>
                 </li>
 
-                <li>
+                {{-- <li>
                     <a class="sub-link" href="{{ route('back.setting.email') }}">
                         <span class="sub-item">{{ __('Email Settings') }}</span>
                     </a>
@@ -267,7 +267,7 @@
                     <a class="sub-link" href="{{ route('back.setting.sms') }}">
                         <span class="sub-item">{{ __('SMS Settings') }}</span>
                     </a>
-                </li>
+                </li> --}}
                 <li>
                     <a class="sub-link" href="{{ route('back.subscribers.announcement') }}">
                       <span class="sub-item">{{ __('Announcement') }}</span></a>
@@ -277,18 +277,18 @@
                       <span class="sub-item">{{ __('Cookies Alert') }}</span></a>
                 </li>
 
-                <li>
+                {{-- <li>
                     <a class="sub-link" href="{{ route('back.setting.maintainance') }}">
                       <span class="sub-item">{{ __('Maintainance') }}</span></a>
-                </li>
-                <li>
+                </li> --}}
+                {{-- <li>
                     <a class="sub-link" href="{{ route('admin.sitemap.index') }}">
                       <span class="sub-item">{{ __('Sitemap') }}</span></a>
-                </li>
-                <li>
+                </li> --}}
+                {{-- <li>
                     <a class="sub-link" href="{{ route('back.language.index') }}">
                       <span class="sub-item">{{ __('Language') }}</span></a>
-                </li>
+                </li> --}}
             </ul>
         </div>
     </li>
@@ -372,7 +372,7 @@
             </ul>
         </div>
     </li>
-    <li class="nav-item">
+    {{-- <li class="nav-item">
         <a data-toggle="collapse" href="#backup">
             <i class="fas fa-hdd"></i>
             <p>{{ __('System Backup') }}</p>
@@ -392,7 +392,7 @@
                 </li>
             </ul>
         </div>
-    </li>
+    </li> --}}
 
     <li class="nav-item">
         <a href="{{ route('front.cache.clear') }}">

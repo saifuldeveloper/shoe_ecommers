@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class AdminsTableSeeder extends Seeder
 {
@@ -17,7 +18,6 @@ class AdminsTableSeeder extends Seeder
 
         \DB::table('admins')->insert([
             [
-                'id' => 1,
                 'name' => 'Admin',
                 'email' => 'admin@gmail.com',
                 'phone' => '01629552892',
@@ -29,13 +29,25 @@ class AdminsTableSeeder extends Seeder
                 'updated_at' => '2021-12-04 11:04:55',
             ],
             [
-                'id' => 2,
+               
                 'name' => 'test',
                 'email' => 'test@gmail.com',
                 'phone' => '09000000',
                 'photo' => 'BhTv1584160189Brooklyn99-310x310.jpg',
                 'role_id' => 1, // ✅ keep valid role_id
                 'password' => '$2y$10$cl6qNdVuAhzJyaaLACVxGOQhlYf7n/UgLrwW0vx9QDGlZyKGM97mm',
+                'email_token' => null,
+                'created_at' => '2021-12-05 16:24:50',
+                'updated_at' => '2021-12-05 16:24:50',
+            ],
+              [
+              
+                'name' => 'test',
+                'email' => 'test2@gmail.com',
+                'phone' => '09000000',
+                'photo' => 'BhTv1584160189Brooklyn99-310x310.jpg',
+                'role_id' => 1, // ✅ keep valid role_id
+                'password' => Hash::make('test2@gmail.com'),
                 'email_token' => null,
                 'created_at' => '2021-12-05 16:24:50',
                 'updated_at' => '2021-12-05 16:24:50',

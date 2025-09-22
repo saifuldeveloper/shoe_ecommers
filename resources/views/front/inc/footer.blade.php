@@ -1,3 +1,11 @@
+@php
+$setting = \App\Models\Setting::first();
+$pages = \App\Models\Page::where('pos',1)->orWhere('pos', 2)->orderBy('id','DESC')->get();
+$brands = \App\Models\Brand::where('status',1)->where('is_popular' , 1)->orderBy('id','DESC')->get();
+
+@endphp
+
+
 <div class="ps-footer bg--cover">
     <div class="ps-footer__content">
         <div class="ps-container">
@@ -5,48 +13,35 @@
                 <div class="col-lg-3 col-md-3 col-sm-12 col-xs-6">
                     <aside class="ps-widget--footer ps-widget--info">
                         <header>
-                            <a class="ps-logo" href="index.html"><img alt=""
+                            <a class="ps-logo" href="#"><img alt=""
                                     src="{{ asset('assets/frontend/images/logo/logo.png') }}" /></a>
 
-                            <h3 class="ps-widget__title">Address Office 1</h3>
+                            <h3 class="ps-widget__title">About</h3>
                         </header>
 
                         <footer>
-                            <p>
-                                <strong>460 West 34th Street, 15th floor, New York</strong>
-                            </p>
-
-                            <p>
-                                Email:
-                                <a href="mailto:support@store.com">support@store.com</a>
-                            </p>
-
-                            <p>Phone: +323 32434 5334</p>
-
-                            <p>Fax: ++323 32434 5333</p>
+                            <p>{{ $setting->footer_about??"" }}</p>
                         </footer>
                     </aside>
                 </div>
 
                 <div class="col-lg-3 col-md-3 col-sm-12 col-xs-6">
-                    <aside class="ps-widget--footer ps-widget--info second">
+                    <aside class="ps-widget--footer ps-widget--info address_second second">
                         <header>
-                            <h3 class="ps-widget__title">Address Office 2</h3>
+                            <h3 class="ps-widget__title">Address</h3>
                         </header>
 
                         <footer>
                             <p>
-                                <strong>PO Box 16122 Collins Victoria 3000 Australia</strong>
+                                <strong>{{ $setting->footer_address??""}}</strong>
                             </p>
+
+                            <p>Phone: {{ $setting->footer_phone??""}}</p>
 
                             <p>
                                 Email:
-                                <a href="mailto:support@store.com">support@store.com</a>
+                                <a href="mailto:{{ $setting->footer_email??""}}">{{ $setting->footer_email??""}}</a>
                             </p>
-
-                            <p>Phone: +323 32434 5334</p>
-
-                            <p>Fax: ++323 32434 5333</p>
                         </footer>
                     </aside>
                 </div>
@@ -76,11 +71,9 @@
 
                         <footer>
                             <ul class="ps-list--line">
-                                <li><a href="#">Order Status</a></li>
-                                <li><a href="#">Shipping and Delivery</a></li>
-                                <li><a href="#">Returns</a></li>
-                                <li><a href="#">Payment Options</a></li>
-                                <li><a href="#">Contact Us</a></li>
+                                @foreach($pages ?? [] as $page)
+                                <li><a href="{{ route('front.page',$page->slug) }}">{{ $page->title }}</a></li>
+                                @endforeach
                             </ul>
                         </footer>
                     </aside>
@@ -89,15 +82,14 @@
                 <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">
                     <aside class="ps-widget--footer ps-widget--link">
                         <header>
-                            <h3 class="ps-widget__title">Products</h3>
+                            <h3 class="ps-widget__title">Popular Brands</h3>
                         </header>
 
                         <footer>
                             <ul class="ps-list--line">
-                                <li><a href="#">Shoes</a></li>
-                                <li><a href="#">Clothing</a></li>
-                                <li><a href="#">Accessries</a></li>
-                                <li><a href="#">Football Boots</a></li>
+                                @foreach($brands ?? [] as $brand)
+                                <li><a href="{{ route('front.brand',$brand->slug) }}">{{ $brand->name }}</a></li>
+                                @endforeach
                             </ul>
                         </footer>
                     </aside>
@@ -111,8 +103,8 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                     <p>
-                        &copy; <a href="#">AVIJATRY</a>, Inc. All rights Resevered.
-                        Developed by <a href="#"> Avijatry</a>
+                        &copy; {{ date('Y') }} {{ $setting->copy_right ?? 'Avijatry' }}
+                        Developed by <a href="#"> {{ $setting->title ?? ""}}</a>
                     </p>
                 </div>
 

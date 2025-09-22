@@ -58,10 +58,17 @@ class FrontendController extends Controller
     }
 
     // -------------------------------- HOME ----------------------------------------
+    public function findStore(){
+         return view('front.pages.store_locator');
+    }
+
+
 
     public function index()
     {
-        return view('front.pages.home');
+        $posts = Post::latest('id')->take(3)->get();
+
+        return view('front.pages.home',compact('posts'));
     }
 
 
@@ -115,7 +122,6 @@ class FrontendController extends Controller
 
     public function blog(Request $request)
     {
-
         $tagz = '';
         $tags = null;
         $name = Post::pluck('tags')->toArray();
@@ -127,8 +133,8 @@ class FrontendController extends Controller
         if (Setting::first()->is_blog == 0)
             return back();
 
-        if ($request->ajax())
-            return view('front.blog.list', ['posts' => $this->repository->displayPosts($request)]);
+        // if ($request->ajax())
+        //     return view('front.blog.list', ['posts' => $this->repository->displayPosts($request)]);
 
         return view('front.blog.index', [
             'posts' => $this->repository->displayPosts($request),

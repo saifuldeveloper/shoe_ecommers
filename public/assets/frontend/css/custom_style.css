@@ -68,7 +68,7 @@ input {
     font-size: 16px;
     font-family: Montserrat-Regular;
     /* background-color: red; */
-    color: #fff; */
+    /* color: #fff;  */
 }
 /* .btn:hover { transform: translateY(-2px); } */
 
@@ -252,7 +252,9 @@ p.main_content { line-height: 2.15rem; padding-top: 5%; }
 /* Dashboard css  */
 /* ========================= */
 .my-accountText{
-    padding-bottom:30px
+    padding-bottom:30px;
+     color: #000;
+     font-weight: bold;
 }
 .account-sidebar {
   background: #fff;
@@ -260,6 +262,17 @@ p.main_content { line-height: 2.15rem; padding-top: 5%; }
   border-right: 1px solid #e5e5e5;
   height: 100vh;
   text-align: right;
+}
+.account-sidebar .nav > li > a:hover {
+  color: #000 !important;    
+  background: none !important;
+}
+.account-sidebar .nav > li.active > a,
+.account-sidebar .nav > li.active > a:focus,
+.account-sidebar .nav > li.active > a:hover {
+  color: #000 !important;      
+  font-weight: bold;
+  background: none !important; 
 }
 
 
@@ -279,7 +292,7 @@ p.main_content { line-height: 2.15rem; padding-top: 5%; }
 .nav-pills-item .nav-link {
   color: #6c757d;
   font-weight: 500;
-  text-align: right; /* এখানে right করা হয়েছে */
+  text-align: right; 
   margin-bottom: 8px;
 }
 
@@ -293,8 +306,6 @@ p.main_content { line-height: 2.15rem; padding-top: 5%; }
   padding: 30px;
   background: #fff;
   color: black;
-  /* height: 100vh;
-  overflow-y: auto; */
 }
 
 
@@ -1084,3 +1095,8 @@ h5.modal_h5_title span{
       font-weight: bold;
       color: #222;
     }
+
+.ps-post__thumbnail img.blog_image{
+  width: 450px;
+  height: 250px;
+}
