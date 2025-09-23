@@ -55,9 +55,6 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        $request->validate([
-            'serial' => 'required|numeric|max:150'
-        ]);
         $this->repository->store($request);
         return redirect()->route('back.category.index')->withSuccess(__('New Category Added Successfully.'));
     }
@@ -109,9 +106,6 @@ class CategoryController extends Controller
      */
     public function update(CategoryRequest $request, Category $category)
     {
-        $request->validate([
-            'serial' => 'required|numeric|max:150'
-        ]);
         $this->repository->update($category, $request);
         return redirect()->route('back.category.index')->withSuccess(__('Category Updated Successfully.'));
     }

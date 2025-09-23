@@ -12,16 +12,18 @@ return new class extends Migration {
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->string('name');                      
-            $table->string('slug')->unique();          
+            $table->string('name');
+            $table->string('slug')->unique();
             $table->unsignedBigInteger('parent_id')->nullable(); // For subcategories
-            $table->text('description')->nullable(); 
-            $table->text('meta_keywords')->nullable();  
-            $table->text('meta_descriptions')->nullable();  
-            $table->tinyInteger('is_feature')->default(0);
-            $table->integer('serial')->default(0);
-            $table->string('photo')->nullable();         
-            $table->boolean('status')->default(1);      
+            $table->text('description')->nullable();
+            $table->text('meta_keywords')->nullable();
+            $table->text('meta_descriptions')->nullable();
+            $table->tinyInteger('is_in_menu')->default(0)->index();
+            $table->unsignedInteger('menu_serial')->default(0);
+            $table->tinyInteger('is_featured')->default(0)->index();
+            $table->unsignedInteger('featured_serial')->default(0);
+            $table->string('photo')->nullable();
+            $table->boolean('status')->default(1);
             $table->foreign('parent_id')->references('id')->on('categories')->onDelete('cascade');
             $table->timestamps();
         });
