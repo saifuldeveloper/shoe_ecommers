@@ -19,6 +19,7 @@ use App\{
 };
 use App\Jobs\EmailSendJob;
 use App\Models\Brand;
+use App\Models\ContactMessage;
 use App\Models\Menu;
 use App\Models\CampaignItem;
 use App\Models\Category;
@@ -237,27 +238,45 @@ class FrontendController extends Controller
         }
         return view('front.contact');
     }
+    //contact message submit
+    public function contactSubmit(Request $request)
+    {
+
+        $request->validate([
+            'name'        => 'required|max:50',
+            'email'       => 'required|email|max:50',
+            'phone'       => 'required|digits:11',
+            'description' => 'required|max:250',
+        ]);
+
+        // Save to database
+        $contact              = new ContactMessage();
+        $contact->name        = $request->name;
+        $contact->email       = $request->email;
+        $contact->phone       = $request->phone;
+        $contact->description = $request->description;
+        $contact->save();
+
+        Session::flash('success', __('Thank you for contacting with us, we will get back to you shortly.'));
+        return redirect()->back();
+    }
+
 
     public function contactEmail(Request $request)
     {
         $setting = Setting::first();
 
         $request->validate([
-            'g-recaptcha-response' => $setting->recaptcha == 1 ? 'required|captcha' : '',
-            'first_name' => 'required|max:50',
-            'last_name' => 'required|max:50',
+            'g-recaptcha-response' => $setting->recaptcha == 1 ? 'nullable|captcha' : '',
+            'name' => 'required|max:50',
+            'last_name' => 'nullable|max:50',
             'email' => 'required|email|max:50',
-            'phone' => 'required|max:50',
+            'phone' => 'nullable|max:50',
             'message' => 'required|max:250',
-            'honeypot' => 'max:0',
         ]);
 
         $input = $request->all();
-
-
-
-
-        $name = $input['first_name'] . ' ' . $input['last_name'];
+        $name = $input['name'];
         $subject = "Email From " . $name;
         $to = $setting->contact_email;
         $phone = $request->phone;

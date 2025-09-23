@@ -7,6 +7,7 @@
         </a>
     </li>
 
+
     @php
         if(Auth::guard('admin')->user()->role->section != 'null'){
             $section = json_decode(Auth::guard('admin')->user()->role->section,true);
@@ -407,6 +408,12 @@
         </div>
     </li>
     @endif
+      <li class="nav-item">
+        <a href="{{ route('back.contact-message') }}">
+           <i class="fas fa-envelope"></i>
+            <p>{{ __('Contact Messages') }}</p>
+        </a>
+    </li>
     <li class="nav-item">
         <a href="{{ route('front.cache.clear') }}">
             <i class="fas fa-broom"></i>
