@@ -23,41 +23,51 @@ class StatesTableSeeder extends Seeder
             array (
                 'id' => 6,
                 'name' => 'Alaska',
-                'price' => 3.0,
-                'status' => 0,
+                'price' => '3.00',
+                'status' => '',
                 'type' => 'percentage',
+                'created_at' => NULL,
+                'updated_at' => NULL,
             ),
             1 => 
             array (
                 'id' => 7,
                 'name' => 'California',
-                'price' => 4.0,
-                'status' => 0,
+                'price' => '4.00',
+                'status' => '',
                 'type' => 'percentage',
+                'created_at' => NULL,
+                'updated_at' => NULL,
             ),
             2 => 
             array (
                 'id' => 8,
                 'name' => 'New Mexico',
-                'price' => 5.0,
-                'status' => 1,
+                'price' => '5.00',
+                'status' => 'active',
                 'type' => 'percentage',
+                'created_at' => NULL,
+                'updated_at' => NULL,
             ),
             3 => 
             array (
                 'id' => 9,
                 'name' => 'Utah',
-                'price' => 6.0,
-                'status' => 1,
+                'price' => '6.00',
+                'status' => 'active',
                 'type' => 'percentage',
+                'created_at' => NULL,
+                'updated_at' => NULL,
             ),
             4 => 
             array (
                 'id' => 10,
                 'name' => 'Virginia',
-                'price' => 6.0,
-                'status' => 1,
+                'price' => '6.00',
+                'status' => 'active',
                 'type' => 'percentage',
+                'created_at' => NULL,
+                'updated_at' => NULL,
             ),
         ));
         

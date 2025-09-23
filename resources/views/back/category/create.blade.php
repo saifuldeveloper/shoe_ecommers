@@ -37,7 +37,7 @@
 									<img class="admin-img" src="{{  url('/assets/images/placeholder.png') }}"
 										alt="No Image Found">
 									<br>
-									<span class="mt-1">{{ __('Image Size Should Be 60 x 60.') }}</span>
+									<span class="mt-1">{{ __('Image Size Should Be 400 x 213.') }}</span>
 								</div>
 
 								<div class="form-group position-relative">
@@ -54,7 +54,7 @@
 										placeholder="{{ __('Enter Name') }}" value="{{ old('name') }}">
 								</div>
 
-								<div class="form-group">
+								<div class="form-group d-none">
 									<label for="slug">{{ __('Slug') }} *</label>
 									<input type="text" name="slug" class="form-control" id="slug"
 										placeholder="{{ __('Enter Slug') }}" value="{{ old('slug') }}">

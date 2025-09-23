@@ -57,7 +57,7 @@
 											placeholder="{{ __('Enter Name') }}" value="{{ $brand->name }}">
 									</div>
 
-									<div class="form-group">
+									<div class="form-group d-none">
 										<label for="slug">{{ __('Slug') }} *</label>
 										<input type="text" name="slug" class="form-control" id="slug"
 											placeholder="{{ __('Enter Slug') }}" value="{{ $brand->slug }}">

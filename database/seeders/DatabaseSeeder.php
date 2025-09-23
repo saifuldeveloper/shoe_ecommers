@@ -23,31 +23,31 @@ class DatabaseSeeder extends Seeder
         BannersTableSeeder::class,
         BcategoriesTableSeeder::class,
         BrandsTableSeeder::class,
-        CampaignItemsTableSeeder::class,
-        // CategoriesTableSeeder::class,
-        // SubcategoriesTableSeeder::class,
-        // ChieldCategoriesTableSeeder::class, 
+        // CampaignItemsTableSeeder::class,
+        CategoriesTableSeeder::class,
+        SubcategoriesTableSeeder::class,
+        ChieldCategoriesTableSeeder::class, 
         CountriesTableSeeder::class,
         StatesTableSeeder::class,
         CurrenciesTableSeeder::class,
         EmailTemplatesTableSeeder::class,
         ExtraSettingsTableSeeder::class,
-        FaqsTableSeeder::class,
-        FcategoriesTableSeeder::class,
-        GalleriesTableSeeder::class,
+        // FaqsTableSeeder::class,
+        // FcategoriesTableSeeder::class,
+        // GalleriesTableSeeder::class,
         HomeCutomizesTableSeeder::class,
         // ItemsTableSeeder::class,
         JobsTableSeeder::class,
         LanguagesTableSeeder::class,
         MenusTableSeeder::class,
-        MessagesTableSeeder::class,
+        // MessagesTableSeeder::class,
         NotificationsTableSeeder::class,
-        OrdersTableSeeder::class,
+        // OrdersTableSeeder::class,
         PagesTableSeeder::class,
         PaymentSettingsTableSeeder::class,
         PostsTableSeeder::class,
         PromoCodesTableSeeder::class,
-        ReviewsTableSeeder::class,
+        // ReviewsTableSeeder::class,
         ServicesTableSeeder::class,
         SettingsTableSeeder::class,
         ShippingServicesTableSeeder::class,
@@ -57,12 +57,20 @@ class DatabaseSeeder extends Seeder
         SubscribersTableSeeder::class,
         TaxesTableSeeder::class,
         // TicketsTableSeeder::class,
-        TrackOrdersTableSeeder::class,
-        TransactionsTableSeeder::class,
+        // TrackOrdersTableSeeder::class,
+        // TransactionsTableSeeder::class,
         // UsersTableSeeder::class,
-        WishlistsTableSeeder::class,
+        // WishlistsTableSeeder::class,
+        ColorsTableSeeder::class,
+        DistrictsTableSeeder::class,
+        ItemVariantsTableSeeder::class,
+        SizesTableSeeder::class,
+        StoresTableSeeder::class,
+        TaxsTableSeeder::class,
+        VariantsTableSeeder::class,
+    
     ]);
-}
+
 
     // public function run(): void
     // {
@@ -112,5 +120,12 @@ class DatabaseSeeder extends Seeder
     //     $this->call(TransactionsTableSeeder::class);
     //     $this->call(UsersTableSeeder::class);
     //     $this->call(WishlistsTableSeeder::class);
-    // }
+    //     $this->call(ColorsTableSeeder::class);
+        $this->call(DistrictsTableSeeder::class);
+        $this->call(ItemVariantsTableSeeder::class);
+        $this->call(SizesTableSeeder::class);
+        $this->call(StoresTableSeeder::class);
+        $this->call(TaxsTableSeeder::class);
+        $this->call(VariantsTableSeeder::class);
+    }
 }

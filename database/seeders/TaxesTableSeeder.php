@@ -23,8 +23,8 @@ class TaxesTableSeeder extends Seeder
             array (
                 'id' => 1,
                 'name' => 'High Tax',
-                'value' => 4.0,
-                'status' => 1,
+                'value' => '4.00',
+                'status' => 'active',
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
@@ -32,8 +32,8 @@ class TaxesTableSeeder extends Seeder
             array (
                 'id' => 2,
                 'name' => 'Low Tax',
-                'value' => 1.0,
-                'status' => 1,
+                'value' => '1.00',
+                'status' => 'active',
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
@@ -41,8 +41,8 @@ class TaxesTableSeeder extends Seeder
             array (
                 'id' => 3,
                 'name' => 'No Tax',
-                'value' => 0.0,
-                'status' => 1,
+                'value' => '0.00',
+                'status' => 'active',
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
