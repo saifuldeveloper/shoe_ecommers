@@ -119,13 +119,13 @@
                             value="200">
                         <!-- Buttons -->
                         <div class="d-flex">
-                            <button class="btn btn-dark me-2 add_to_cartbtn" id="add_to_cart">
+                            {{-- <button class="btn btn-dark me-2 add_to_cartbtn" i>
                                 ADD TO CART
                             </button> 
-                            <button class="btn btn-outline-dark buy_now_btn" id="buy_to_cart">
+                            <button class="btn btn-outline-dark buy_now_btn" > --}}
 
-                      <!---  <div class="d-flex">
-                            <button class="btn btn-dark me-2  add_to_cartbtn">
+                      <div class="d-flex">
+                            <button class="btn btn-dark me-2  add_to_cartbtn" d="add_to_cart">
                                 ADD TO CART
                             </button>
                              
@@ -135,12 +135,12 @@
                           
                         </div>
                         <div>
-                             <button class="btn btn-outline-dark buy_now_btn">
+                             <button class="btn btn-outline-dark buy_now_btn" id="buy_to_cart">
 
                                 BUY IT NOW
                             </button>
                         </div>
-                        --->
+                        
                     </div>
 
                     <div class="clearfix"></div>

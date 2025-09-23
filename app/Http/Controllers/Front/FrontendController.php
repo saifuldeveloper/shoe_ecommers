@@ -140,9 +140,9 @@ class FrontendController extends Controller
         if (Setting::first()->is_blog == 0)
             return back();
 
-        // if ($request->ajax())
-        //     return view('front.blog.list', ['posts' => $this->repository->displayPosts($request)]);
-
+        if ($request->ajax()){
+           return view('front.blog.list', ['posts' => $this->repository->displayPosts($request)]);
+        }
         return view('front.blog.index', [
             'posts' => $this->repository->displayPosts($request),
             'recent_posts' => Post::orderby('id', 'desc')->take(4)->get(),

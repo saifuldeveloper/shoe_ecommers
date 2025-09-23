@@ -31,17 +31,16 @@
                 
                   <aside class="ps-widget--sidebar">
                     <div class="ps-widget__header">
-                      <h3>Archive</h3>
+                      <h3>All Categories</h3>
                     </div>
                     <div class="ps-widget__content">
                       <ul class="ps-list--arrow">
-                        <li class="current"><a href="product-listing.html">Shoe(321)</a></li>
-                        <li><a href="product-listing.html">Amazin’ Glazin’</a></li>
-                        <li><a href="product-listing.html">The Crusty Croissant</a></li>
-                        <li><a href="product-listing.html">The Rolling Pin</a></li>
-                        <li><a href="product-listing.html">Skippity Scones</a></li>
-                        <li><a href="product-listing.html">Mad Batter</a></li>
-                        <li><a href="product-listing.html">Confection Connection</a></li>
+                        @foreach ($categories ?? [] as  $category)
+                          <li class="current">
+                            <a href="{{ route('front.blog', ['category' => $category->slug]) }}">
+                           {{ $category->name }} ({{ $category->posts_count }}) 
+                        </a></li>
+                        @endforeach
                       </ul>
                     </div>
                   </aside>
@@ -51,15 +50,11 @@
                       <h3>Recent Posts</h3>
                     </div>
                     <div class="ps-widget__content">
+                     @foreach ($posts ?? [] as  $recent_post)
                       <div class="ps-post--sidebar">
-                        <div class="ps-post__content"><a class="ps-post__title" href="#">Micenas Placerat Nibh Loreming Fentum</a><span>SEP 29, 2017</span></div>
+                        <div class="ps-post__content"><a class="ps-post__title" href="{{ route('front.blog.details',$recent_post->slug) }}">{{ $recent_post->title }}</a><span>{{ $recent_post->created_at->format('M d, Y') }}</span></div>
                       </div>
-                      <div class="ps-post--sidebar">
-                        <div class="ps-post__content"><a class="ps-post__title" href="#">Micenas Placerat Nibh Loreming Fentum</a><span>SEP 29, 2017</span></div>
-                      </div>
-                      <div class="ps-post--sidebar">
-                        <div class="ps-post__content"><a class="ps-post__title" href="#">Micenas Placerat Nibh Loreming Fentum</a><span>SEP 29, 2017</span></div>
-                      </div>
+                      @endforeach
                     </div>
                   </aside>
                 
@@ -70,7 +65,7 @@
                     <div class="ps-widget__content">
                       <ul class="ps-tags">
                         @foreach ($tags ?? [] as $tag )
-                        <li><a href="#">{{ $tag }}</a></li>
+                        <li><a href="{{ route('front.blog',$tag) }}">{{ $tag }}</a></li>
                           @endforeach
                       </ul>
                     </div>

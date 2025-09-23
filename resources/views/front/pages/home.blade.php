@@ -493,7 +493,7 @@
                 <h2 class="ps-section__title">- Our Story</h2>
 
                 <div class="ps-section__action">
-                    <a class="ps-morelink text-uppercase" href="#">View all post</a>
+                    <a class="ps-morelink text-uppercase" href="{{ route('front.blog') }}">View all post</a>
                 </div>
             </div>
 
