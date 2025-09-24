@@ -25,11 +25,11 @@ class PromoCodesTableSeeder extends Seeder
                 'title' => 'Flash Discount',
                 'code_name' => 'ironman',
                 'no_of_times' => 95,
-                'discount' => 2.0,
-                'status' => 1,
+                'discount' => '2.00',
+                'status' => 'active',
+                'type' => '',
                 'created_at' => NULL,
                 'updated_at' => NULL,
-                'type' => NULL,
             ),
             1 => 
             array (
@@ -37,11 +37,11 @@ class PromoCodesTableSeeder extends Seeder
                 'title' => 'Halloween Carnival',
                 'code_name' => 'superman',
                 'no_of_times' => 96,
-                'discount' => 5.0,
-                'status' => 1,
+                'discount' => '5.00',
+                'status' => 'active',
+                'type' => '',
                 'created_at' => NULL,
                 'updated_at' => NULL,
-                'type' => NULL,
             ),
             2 => 
             array (
@@ -49,11 +49,11 @@ class PromoCodesTableSeeder extends Seeder
                 'title' => 'Fest Carnival',
                 'code_name' => 'loki',
                 'no_of_times' => 94,
-                'discount' => 10.0,
-                'status' => 1,
+                'discount' => '10.00',
+                'status' => 'active',
+                'type' => '',
                 'created_at' => NULL,
                 'updated_at' => NULL,
-                'type' => 'amount',
             ),
         ));
         

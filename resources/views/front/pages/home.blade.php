@@ -33,35 +33,16 @@
         <div class="ps-container">
             <div class="ps-section__content pb-35">
                 <div class="row g-4">
-                    <div class="col-sm-6 col-xs-6 col-lg-3 col-xs-6">
-                        <a class="ps-offer d-block" href="product-detail.html">
-                            <img src="{{ asset('assets/frontend/images/offer/image1.avif') }}" alt=""
-                                class="img-fluid" />
-                        </a>
-                    </div>
-
-                    <div class="col-sm-6 col-xs-6 col-lg-3 col-xs-6">
-                        <a class="ps-offer d-block" href="product-detail.html">
-                            <img src="{{ asset('assets/frontend/images/offer/image2.avif') }}" alt=""
-                                class="img-fluid" />
-                        </a>
-                    </div>
-
-                    <div class="col-sm-6 col-xs-6 col-lg-3 col-xs-6">
-                        <a class="ps-offer d-block" href="product-detail.html">
-                            <img src="{{ asset('assets/frontend/images/offer/image3.avif') }}" alt=""
-                                class="img-fluid" />
-                        </a>
-                    </div>
-
-                    <div class="col-sm-6 col-xs-6 col-lg-3 col-xs-6">
-                        <a class="ps-offer d-block" href="product-detail.html">
-                            <img src="{{ asset('assets/frontend/images/offer/image4.avif') }}" alt=""
-                                class="img-fluid" />
-                        </a>
-                    </div>
+                    @foreach($featuredCategories as $category)
+                        <div class="col-sm-6 col-xs-6 col-lg-3 col-xs-6">
+                            <a class="ps-offer d-block" href="#">
+                                <img src="{{ asset('storage/category/' . $category->photo) }}" 
+                                    alt="{{ $category->name }}" 
+                                    class="img-fluid" />
+                            </a>
+                        </div>
+                    @endforeach
                 </div>
-
             </div>
         </div>
     </div>

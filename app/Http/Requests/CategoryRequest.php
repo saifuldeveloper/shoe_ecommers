@@ -28,10 +28,13 @@ class CategoryRequest extends FormRequest
         $required = $this->category ? '' : 'required';
 
         return [
-            'slug'      => [$required,'unique:categories,slug'. $id,'regex:/^[a-zA-Z0-9-]+$/'],
-            'photo'     => [$required,'mimes:jpeg,jpg,png,svg'],
-            'name'      => 'required|max:255',
-            'meta_keywords'=> 'max:255',
+            'slug'             => [$required, 'unique:categories,slug' . $id, 'regex:/^[a-zA-Z0-9-]+$/'],
+            'photo'            => [$required, 'mimes:jpeg,jpg,png,svg,webp,avif'],
+            'name'             => 'required|max:255',
+            'is_in_menu'       => 'nullable|boolean',
+            'menu_serial'      => 'nullable|numeric|max:150',
+            'is_featured'      => 'nullable|boolean',
+            'featured_serial'  => 'nullable|numeric|max:150',
         ];
     }
 
@@ -45,9 +48,11 @@ class CategoryRequest extends FormRequest
         return [
             'slug.required'  => __('Slug field is required.'),
             'slug.unique'    => __('This slug has already been taken.'),
-            'slug.regex'     => __('Slug Must Not Have Any Special Characters.'),
+            'slug.regex'     => __('Slug must not have any special characters.'),
             'photo.required' => __('Image field is required.'),
             'photo.mimes'    => __('Image type must be jpg,jpeg,png,svg.'),
+            'menu_serial.numeric'     => __('Menu serial must be a number.'),
+            'featured_serial.numeric' => __('Featured serial must be a number.'),
         ];
     }
 }
