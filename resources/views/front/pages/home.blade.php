@@ -52,7 +52,7 @@
             <div class="ps-section__content pb-35">
                 <div class="row g-4">
                     <div class="col-12">
-                        <a class="ps-offer d-block" href="product-detail.html">
+                        <a class="ps-offer d-block" href="">
                             <img src="{{ asset('assets/frontend/images/offer/image5.webp') }}" alt=""
                                 class="img-fluid" />
                         </a>
@@ -67,7 +67,7 @@
             <div class="ps-section__content">
                 <div class="row g-4">
                     <div class="col-12">
-                        <a class="ps-offer d-block" href="product-detail.html">
+                        <a class="ps-offer d-block" href="">
                             <img src="{{ asset('assets/frontend/images/offer/image6.webp') }}" alt=""
                                 class="img-fluid" />
                         </a>
@@ -157,14 +157,14 @@
             <div class="ps-section__content pb-35">
                 <div class="row g-4">
                     <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-                        <a class="ps-offer d-block" href="product-detail.html">
+                        <a class="ps-offer d-block" href="">
                             <img src="{{ asset('assets/frontend/images/category/one (1).jpg') }}" alt=""
                                 class="img-fluid" />
                         </a>
                     </div>
 
                     <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-                        <a class="ps-offer d-block" href="product-detail.html">
+                        <a class="ps-offer d-block" href="">
                             <img src="{{ asset('assets/frontend/images/category/two.jpg') }}" alt=""
                                 class="img-fluid" />
                         </a>
@@ -290,7 +290,7 @@
                                 </div>
                                 <div class="ps-shoe__content">
                                     <div class="ps-shoe__detail">
-                                        <a class="ps-shoe__name" href="product-detai.html">Air Jordan 7 Retro</a>
+                                        <a class="ps-shoe__name" href="#">Air Jordan 7 Retro</a>
                                         <div> <span class="ps-shoe__price"> &#2547; 120</span></div>
                                     </div>
 
@@ -321,7 +321,7 @@
                                 </div>
                                 <div class="ps-shoe__content">
                                     <div class="ps-shoe__detail">
-                                        <a class="ps-shoe__name" href="product-detai.html">Air Jordan 7 Retro</a>
+                                        <a class="ps-shoe__name" href="#">Air Jordan 7 Retro</a>
                                         <div> <span class="ps-shoe__price"> &#2547; 120</span></div>
                                     </div>
 
@@ -352,7 +352,7 @@
                                 </div>
                                 <div class="ps-shoe__content">
                                     <div class="ps-shoe__detail">
-                                        <a class="ps-shoe__name" href="product-detai.html">Air Jordan 7 Retro</a>
+                                        <a class="ps-shoe__name" href="#">Air Jordan 7 Retro</a>
                                         <div> <span class="ps-shoe__price"> &#2547; 120</span></div>
                                     </div>
 
@@ -383,7 +383,7 @@
                                 </div>
                                 <div class="ps-shoe__content">
                                     <div class="ps-shoe__detail">
-                                        <a class="ps-shoe__name" href="product-detai.html">Air Jordan 7 Retro</a>
+                                        <a class="ps-shoe__name" href="#">Air Jordan 7 Retro</a>
                                         <div> <span class="ps-shoe__price"> &#2547; 120</span></div>
                                     </div>
 
@@ -414,7 +414,7 @@
                                 </div>
                                 <div class="ps-shoe__content">
                                     <div class="ps-shoe__detail">
-                                        <a class="ps-shoe__name" href="product-detai.html">Air Jordan 7 Retro</a>
+                                        <a class="ps-shoe__name" href="#">Air Jordan 7 Retro</a>
                                         <div> <span class="ps-shoe__price"> &#2547; 120</span></div>
                                     </div>
 
@@ -445,7 +445,7 @@
                                 </div>
                                 <div class="ps-shoe__content">
                                     <div class="ps-shoe__detail">
-                                        <a class="ps-shoe__name" href="product-detai.html">Air Jordan 7 Retro</a>
+                                        <a class="ps-shoe__name" href="#">Air Jordan 7 Retro</a>
                                         <div> <span class="ps-shoe__price"> &#2547; 120</span></div>
                                     </div>
 

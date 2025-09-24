@@ -5,6 +5,7 @@
             <p>{{ __('Dashboard') }}</p>
         </a>
     </li>
+
     <li class="nav-item">
         <a data-toggle="collapse" href="#category">
             <i class="fas fa-list-alt"></i>
@@ -394,6 +395,12 @@
         </div>
     </li> --}}
 
+      <li class="nav-item">
+        <a href="{{ route('back.contact-message') }}">
+           <i class="fas fa-envelope"></i>
+            <p>{{ __('Contact Messages') }}</p>
+        </a>
+    </li>
     <li class="nav-item">
         <a href="{{ route('front.cache.clear') }}">
             <i class="fas fa-broom"></i>

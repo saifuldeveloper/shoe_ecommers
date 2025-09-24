@@ -7,24 +7,32 @@
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
                   <div class="ps-section__header mb-50">
                     <h2 class="ps-section__title" data-mask="Contact">- Get in touch</h2>
-                    <form class="ps-contact__form" action="do_action" method="post">
+                      @include('alerts.alerts')
+                    <form class="ps-contact__form" action="{{ route('front.contact-message.submit') }}" method="post">
+                      @csrf
                       <div class="row">   
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
                               <div class="form-group">
                                 <label>Name <sub>*</sub></label>
-                                <input class="form-control" type="text" placeholder="">
+                                <input class="form-control" name="name" type="text" placeholder="Enter your name">
                               </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
                               <div class="form-group">
                                 <label>Email <sub>*</sub></label>
-                                <input class="form-control" type="email" placeholder="">
+                                <input class="form-control" name="email" type="email" placeholder="Enter your email">
+                              </div>
+                            </div>
+                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                              <div class="form-group">
+                                <label>Phone <sub>*</sub></label>
+                                <input class="form-control" name="phone" type="text" placeholder="Enter your phone number">
                               </div>
                             </div>
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
                               <div class="form-group mb-25">
                                 <label>Your Message <sub>*</sub></label>
-                                <textarea class="form-control" rows="6"></textarea>
+                                <textarea class="form-control" rows="6" name="description" placeholder="Enter your description"></textarea>
                               </div>
                               <div class="form-group">
                                 <button class="ps-btn">Send Message<i class="ps-icon-next"></i></button>

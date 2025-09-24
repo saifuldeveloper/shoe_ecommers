@@ -15,6 +15,7 @@ use App\Models\Order;
 use App\Models\Attribute;
 use App\Models\AttributeOption;
 use Illuminate\Http\Request;
+use App\Models\ContactMessage;
 
 class AccountController extends Controller
 {
@@ -102,6 +103,12 @@ class AccountController extends Controller
             'total_incomess' => $check_income,
         ]);
     }
+
+    public function contactMessage(){
+        $datas = ContactMessage::orderBy('id', 'desc')->paginate(20);
+        return view('back.contactMessage.contact_message',compact('datas'));
+    }
+
 
     /**
      * Display a listing of the resource.
