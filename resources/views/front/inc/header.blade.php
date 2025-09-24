@@ -43,7 +43,7 @@
                                     <a class="ps-cart__toggle cart-icon" href="">
                                         <span><i class="cart_count">20</i></span><i class="ps-icon-shopping-cart"></i>
                                     </a>
-                                    {{-- <div class="cart-dropdown">
+                                    <div class="cart-dropdown">
                                         <div class="cart-item">
                                             <img src="https://www.batabd.com/cdn/shop/files/5208167_1_160x.jpg?v=1756790194"
                                                 alt="Product">
@@ -75,7 +75,7 @@
                                                 NOW</a>
                                             <a href="{{ route('front.wishlist') }}" class="btn btn-view">VIEW CART</a>
                                         </div>
-                                    </div> --}}
+                                    </div>
                                 </div>
                                 {{-- end cart  --}}
                             </div>
