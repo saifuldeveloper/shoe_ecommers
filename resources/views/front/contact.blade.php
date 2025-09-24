@@ -49,56 +49,18 @@
                   </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
-                  <div class="ps-section__content">
+                  <div class="">
                     <div class="row">
-                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
                             <div class="ps-contact__block" data-mh="contact-block">
                               <header>
-                                <h3>USA <span> San Francisco</span></h3>
+                                <h3> 
+                                <strong>{{ $setting->footer_address??""}}</strong>
                               </header>
                               <footer>
-                                <p><i class="fa fa-map-marker"></i> 19C Trolley Square  Wilmington, DE 19806</p>
-                                <p><i class="fa fa-envelope-o"></i><a href="mailto@supportShoes@shoes.net">supportShoes@shoes.net</a></p>
-                                <p><i class="fa fa-phone"></i> ( +84 ) 9892 2324  -  9401 123 003</p>
+                                <p><i class="fa fa-envelope-o"></i><a href="{{ $setting->footer_email??""}}">{{ $setting->footer_email??""}}</a></p>
+                                <p><i class="fa fa-phone"></i> {{ $setting->footer_phone??""}}</p>
                               </footer>
                             </div>
-                          </div>
-                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
-                            <div class="ps-contact__block" data-mh="contact-block">
-                              <header>
-                                <h3>Ireland  <span> Dublin</span></h3>
-                              </header>
-                              <footer>
-                                <p><i class="fa fa-map-marker"></i> 19C Trolley Square  Wilmington, DE 19806</p>
-                                <p><i class="fa fa-envelope-o"></i><a href="mailto@supportShoes@shoes.net">supportShoes@shoes.net</a></p>
-                                <p><i class="fa fa-phone"></i> ( +84 ) 9892 2324  -  9401 123 003</p>
-                              </footer>
-                            </div>
-                          </div>
-                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
-                            <div class="ps-contact__block" data-mh="contact-block">
-                              <header>
-                                <h3>Brazil <span> São Paulo</span></h3>
-                              </header>
-                              <footer>
-                                <p><i class="fa fa-map-marker"></i> 19C Trolley Square  Wilmington, DE 19806</p>
-                                <p><i class="fa fa-envelope-o"></i><a href="mailto@supportShoes@shoes.net">supportShoes@shoes.net</a></p>
-                                <p><i class="fa fa-phone"></i> ( +84 ) 9892 2324  -  9401 123 003</p>
-                              </footer>
-                            </div>
-                          </div>
-                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
-                            <div class="ps-contact__block" data-mh="contact-block">
-                              <header>
-                                <h3>Philippines <span> Quezon City</span></h3>
-                              </header>
-                              <footer>
-                                <p><i class="fa fa-map-marker"></i> 19C Trolley Square  Wilmington, DE 19806</p>
-                                <p><i class="fa fa-envelope-o"></i><a href="mailto@supportShoes@shoes.net">supportShoes@shoes.net</a></p>
-                                <p><i class="fa fa-phone"></i> ( +84 ) 9892 2324  -  9401 123 003</p>
-                              </footer>
-                            </div>
-                          </div>
                     </div>
                   </div>
                 </div>
