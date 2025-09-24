@@ -38,10 +38,10 @@
                                 </a>
                             </div>
                             <div>
-                                {{-- start cart  --}}
                                 <div class="cart-container">
-                                    <a class="ps-cart__toggle cart-icon" href="">
-                                        <span><i class="cart_count">20</i></span><i class="ps-icon-shopping-cart"></i>
+                                    <a class="ps-cart__toggle cart-icon" href="#">
+                                        <span><i class="cart_count">20</i></span>
+                                        <i class="ps-icon-shopping-cart"></i>
                                     </a>
                                     <div class="cart-dropdown">
                                         <div class="cart-item">
@@ -64,16 +64,13 @@
                                             </div>
                                             <div class="cart-item-remove">✖</div>
                                         </div>
-
                                         <div class="cart-total">
                                             <span>Total:</span>
                                             <span>Tk 3,749.00</span>
                                         </div>
-
                                         <div class="cart-actions">
-                                            <a href="{{ route('front.wishlist') }}" class="btn btn-checkout">CHECK OUT
-                                                NOW</a>
-                                            <a href="{{ route('front.wishlist') }}" class="btn btn-view">VIEW CART</a>
+                                            <a href="#" class="btn btn-checkout">CHECK OUT NOW</a>
+                                            <a href="#" class="btn btn-view">VIEW CART</a>
                                         </div>
                                     </div>
                                 </div>
@@ -277,23 +274,18 @@
 @push('js')
     <script>
         document.querySelectorAll('.cart-container').forEach(container => {
-            const cartIcon = container.querySelector('.ps-cart__toggle');
             const cartDropdown = container.querySelector('.cart-dropdown');
+            let hideTimeout;
 
-            // Toggle dropdown on click
-            cartIcon.addEventListener('mouseenter', (e) => {
-                e.preventDefault();
-                cartDropdown.classList.toggle('active');
+            container.addEventListener('mouseenter', () => {
+                clearTimeout(hideTimeout);
+                cartDropdown.classList.add('active');
             });
-            // Keep it open if hovering inside dropdown
-            // hide dropdown when mouse leaves container
+
             container.addEventListener('mouseleave', () => {
-                cartDropdown.classList.remove('active');
-            });
-            // click
-            cartIcon.addEventListener('click', (e) => {
-                e.preventDefault();
-                cartDropdown.classList.toggle('active');
+                hideTimeout = setTimeout(() => {
+                    cartDropdown.classList.remove('active');
+                }, 200); 
             });
         });
 
