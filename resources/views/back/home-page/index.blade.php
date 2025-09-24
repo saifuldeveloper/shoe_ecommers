@@ -48,7 +48,7 @@
                                                     src="{{isset($hero_banner['img1']) ? url('/storage/banner/'.$hero_banner['img1']) : url('/assets/images/placeholder.png') }}"
                                                     alt="No Image Found">
                                             <br>
-                                            <span class="mt-1">{{ __('Image Size Should Be 496 x 204.') }}</span>
+                                            <span class="mt-1">{{ __('Image Size Should Be 1688 x 338.') }}</span>
                                         </div>
                                         <div class="form-group position-relative">
                                             <label class="file">
@@ -58,16 +58,6 @@
                                             </label>
                                         </div>
 
-                                        <div class="form-group">
-                                            <label for="title1">{{ __('Title') }} *</label>
-                                            <input type="text" name="title1" class="form-control" id="title1"
-                                                placeholder="{{ __('Enter Title') }}"  value="{{isset($hero_banner['title1']) ? $hero_banner['title1'] : ''}}" >
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="subtitle1">{{ __('Subtitle') }} </label>
-                                            <input type="text" name="subtitle1" class="form-control" id="subtitle1"
-                                                placeholder="{{ __('Enter Subtitle') }}"  value="{{isset($hero_banner['subtitle1']) ? $hero_banner['subtitle1'] : ''}}" >
-                                        </div>
                                         <div class="form-group">
                                             <label for="url1">{{ __('URL 1') }} *</label>
                                             <input type="text" name="url1" class="form-control" id="url1"
@@ -83,7 +73,7 @@
                                                     src="{{isset($hero_banner['img2']) ? url('/storage/banner/'.$hero_banner['img2']) : url('/assets/images/placeholder.png') }}"
                                                     alt="No Image Found">
                                             <br>
-                                            <span class="mt-1">{{ __('Image Size Should Be 496 x 204.') }}</span>
+                                            <span class="mt-1">{{ __('Image Size Should Be 1638 x 338.') }}</span>
                                         </div>
                                         <div class="form-group position-relative">
                                             <label class="file">
@@ -93,16 +83,6 @@
                                             </label>
                                         </div>
 
-                                        <div class="form-group">
-                                            <label for="title2">{{ __('Title') }} *</label>
-                                            <input type="text" name="title2" class="form-control" id="title2"
-                                                placeholder="{{ __('Enter Title') }}"  value="{{isset($hero_banner['title2']) ? $hero_banner['title2'] : ''}}" >
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="subtitle2">{{ __('Subtitle') }} </label>
-                                            <input type="text" name="subtitle2" class="form-control" id="subtitle2"
-                                                placeholder="{{ __('Enter Subtitle') }}"  value="{{isset($hero_banner['subtitle2']) ? $hero_banner['subtitle2'] : ''}}" >
-                                        </div>
                                         <div class="form-group">
                                             <label for="url2">{{ __('URL 2') }} *</label>
                                             <input type="text" name="url2" class="form-control" id="url2"

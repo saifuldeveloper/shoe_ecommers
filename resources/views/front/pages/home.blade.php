@@ -52,9 +52,10 @@
             <div class="ps-section__content pb-35">
                 <div class="row g-4">
                     <div class="col-12">
-                        <a class="ps-offer d-block" href="">
-                            <img src="{{ asset('assets/frontend/images/offer/image5.webp') }}" alt=""
-                                class="img-fluid" />
+                      <a class="ps-offer d-block" 
+                        href="{{ preg_match('/^https?:\/\//', $heroBanner['url1']) ? $heroBanner['url1'] : '//' . $heroBanner['url1'] }}">
+                            <img src="{{ asset('storage/banner/' . $heroBanner['img1']) }}" 
+                                alt="{{ $heroBanner['title1'] ?? '' }}" class="img-fluid" />
                         </a>
                     </div>
                 </div>
@@ -67,9 +68,11 @@
             <div class="ps-section__content">
                 <div class="row g-4">
                     <div class="col-12">
-                        <a class="ps-offer d-block" href="">
-                            <img src="{{ asset('assets/frontend/images/offer/image6.webp') }}" alt=""
-                                class="img-fluid" />
+                        <a class="ps-offer d-block" 
+                            href="{{ preg_match('/^https?:\/\//', $heroBanner['url2']) ? $heroBanner['url2'] : '//' . $heroBanner['url2'] }}">
+                                <img src="{{ asset('storage/banner/' . $heroBanner['img2']) }}" 
+                                    alt="{{ $heroBanner['title2'] ?? '' }}" 
+                                    class="img-fluid" />
                         </a>
                     </div>
                 </div>
