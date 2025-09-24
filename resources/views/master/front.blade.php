@@ -13,11 +13,13 @@
     <meta name="keywords" content="Default Description" />
     <meta name="description" content="Default keyword" />
     <title>Shoe - Homepage</title>
-          @stack('css')
+    @stack('css')
     <!-- Fonts-->
     <link
         href="https://fonts.googleapis.com/css?family=Archivo+Narrow:300,400,700%7CMontserrat:300,400,500,600,700,800,900"
         rel="stylesheet" />
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
     <link href="{{ asset('assets/frontend/plugins/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/frontend/plugins/ps-icon/style.css') }}" rel="stylesheet" />
     <!-- CSS Library-->

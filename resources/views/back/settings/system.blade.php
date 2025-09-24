@@ -931,8 +931,10 @@
                                                                                     for="footer_gateway_img">{{ __('Current Gateway Image') }}</label>
                                                                                 <div class="col-lg-12 pb-1">
                                                                                     <img class="admin-setting-img"
-                                                                                        src="{{ $setting->footer_gateway_img ? url('/storage/generalSettings/' . $setting->footer_gateway_img) : url('/assets/images/placeholder.png') }}"
-                                                                                        alt="No Image Found">
+                                                                                    src="{{ !empty($setting->footer_gateway_img) && file_exists(public_path('storage/generalSettings/' . $setting->footer_gateway_img)) 
+                                                                                            ? asset('storage/generalSettings/' . $setting->footer_gateway_img) 
+                                                                                            : asset('assets/images/sslc.png') }}"
+                                                                                    alt="No Image Found">
                                                                                 </div>
                                                                                 <span>{{ __('Image Size Should Be 324 x 31.') }}</span>
                                                                             </div>
