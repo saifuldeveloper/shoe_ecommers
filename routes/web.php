@@ -79,6 +79,7 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
         //------------ DASHBOARD & PROFILE ------------
 
         Route::get('/contact/messages', [BackAccountController::class, 'contactMessage'])->name('back.contact-message');
+       
         Route::get('/', [BackAccountController::class, 'index'])->name('back.dashboard');
         Route::get('/profile', [BackAccountController::class, 'profileForm'])->name('back.profile');
         Route::post('/profile/update', [BackAccountController::class, 'updateProfile'])->name('back.profile.update');
