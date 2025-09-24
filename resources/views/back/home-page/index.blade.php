@@ -11,7 +11,7 @@
     <div class="card mb-4">
         <div class="card-body">
             <div class="d-sm-flex align-items-center justify-content-between">
-                <h3 class="mb-0 bc-title"><b>{{ __('Language') }}</b></h3>
+                <h3 class="mb-0 bc-title"><b>{{ __('Home Page Banner') }}</b></h3>
                 </div>
         </div>
     </div>
@@ -730,7 +730,7 @@
                                                     src="{{  url('/storage/banner/'.$third_banner['img1']) }}"
                                                     alt="No Image Found">
                                             <br>
-                                            <span class="mt-1">{{ __('Image Size Should Be 496 x 204.') }}</span>
+                                            <span class="mt-1">{{ __('Image Size Should Be 700 x 700.') }}</span>
                                         </div>
                                         <div class="form-group position-relative">
                                             <label class="file">
@@ -739,17 +739,6 @@
                                                 <span class="file-custom text-left">{{ __('Upload Image...') }}</span>
                                             </label>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="title1">{{ __('Title') }} *</label>
-                                            <input type="text" name="title1" class="form-control" id="title1"
-                                                placeholder="{{ __('Enter Title') }}"  value="{{isset($third_banner['title1']) ? $third_banner['title1'] : ''}}" >
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="subtitle1">{{ __('Subtitle') }} *</label>
-                                            <input type="text" name="subtitle1" class="form-control" id="subtitle1"
-                                                placeholder="{{ __('Enter Subtitle') }}"  value="{{isset($third_banner['subtitle1']) ? $third_banner['subtitle1'] : ''}}" >
-                                        </div>
-
                                         <div class="form-group">
                                             <label for="url">{{ __('URL 1') }} *</label>
                                             <input type="text" name="url1" class="form-control" id="url1"
@@ -764,7 +753,7 @@
                                                     src="{{  url('/storage/banner/'.$third_banner['img2']) }}"
                                                     alt="No Image Found">
                                             <br>
-                                            <span class="mt-1">{{ __('Image Size Should Be 496 x 204.') }}</span>
+                                            <span class="mt-1">{{ __('Image Size Should Be 700 x 700.') }}</span>
                                         </div>
                                         <div class="form-group position-relative">
                                             <label class="file">
@@ -774,16 +763,6 @@
                                             </label>
                                         </div>
 
-                                        <div class="form-group">
-                                            <label for="title2">{{ __('Title') }} *</label>
-                                            <input type="text" name="title2" class="form-control" id="title2"
-                                                placeholder="{{ __('Enter Title') }}"  value="{{isset($third_banner['title2']) ? $third_banner['title2'] : ''}}" >
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="subtitle2">{{ __('Subtitle') }} *</label>
-                                            <input type="text" name="subtitle2" class="form-control" id="subtitle2"
-                                                placeholder="{{ __('Enter Subtitle') }}"  value="{{isset($third_banner['subtitle2']) ? $third_banner['subtitle2'] : ''}}" >
-                                        </div>
                                         <div class="form-group">
                                             <label for="url">{{ __('URL 2') }} *</label>
                                             <input type="text" name="url2" class="form-control" id="url2"

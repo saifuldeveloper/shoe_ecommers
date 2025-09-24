@@ -76,8 +76,15 @@ class FrontendController extends Controller
 
         $homeCustomize = HomeCutomize::first();
         $heroBanner = json_decode($homeCustomize->hero_banner, true);
+        $thirdBanner  = json_decode($homeCustomize->banner_third, true);
 
-        return view('front.pages.home',compact('posts','featured_items','featuredCategories', 'heroBanner'));
+        return view('front.pages.home',compact(
+            'posts',
+            'featured_items',
+            'featuredCategories',
+            'heroBanner',
+            'thirdBanner'
+        ));
 
     }
 
