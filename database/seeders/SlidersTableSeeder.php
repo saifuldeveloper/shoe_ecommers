@@ -22,7 +22,7 @@ class SlidersTableSeeder extends Seeder
             0 => 
             array (
                 'id' => 20,
-                'photo' => 'ZwPoslider2.webp',
+                'photo' => 'OM_1758653330t9InuVxo.jpg',
                 'title' => NULL,
                 'link' => NULL,
                 'logo' => NULL,
@@ -34,9 +34,21 @@ class SlidersTableSeeder extends Seeder
             1 => 
             array (
                 'id' => 21,
-                'photo' => 'WkjXslider1.webp',
+                'photo' => 'OM_1758653318Y8fOboL6.webp',
                 'title' => NULL,
                 'link' => 's',
+                'logo' => NULL,
+                'details' => NULL,
+                'home_page' => 0,
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
+            2 => 
+            array (
+                'id' => 22,
+                'photo' => 'rPm3slider2.webp',
+                'title' => NULL,
+                'link' => NULL,
                 'logo' => NULL,
                 'details' => NULL,
                 'home_page' => 0,

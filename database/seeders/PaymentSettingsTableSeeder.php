@@ -27,7 +27,7 @@ class PaymentSettingsTableSeeder extends Seeder
                 'unique_keyword' => 'cod',
                 'photo' => '1631032407index.png',
                 'text' => 'Cash on Delivery basically means you will pay the amount of product while you get the item delivered to you.',
-                'status' => 1,
+                'status' => 'active',
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),

@@ -55,14 +55,14 @@ class ExtraSettingsTableSeeder extends Seeder
                 'is_t2_2_column_banner' => 1,
                 'is_t2_blog_section' => 1,
                 'is_t2_brand_section' => 1,
-                'created_at' => NULL,
-                'updated_at' => NULL,
                 'is_t1_falsh' => 1,
                 'is_t2_falsh' => 1,
                 'is_t3_falsh' => 1,
                 'is_t4_falsh' => 1,
                 'is_t2_three_column_category' => 0,
                 'is_t3_three_column_category' => 1,
+                'created_at' => NULL,
+                'updated_at' => NULL,
             ),
         ));
         

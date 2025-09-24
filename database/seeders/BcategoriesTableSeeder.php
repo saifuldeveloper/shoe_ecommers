@@ -16,7 +16,6 @@ class BcategoriesTableSeeder extends Seeder
     {
         
 
-         \DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         \DB::table('bcategories')->delete();
         
         \DB::table('bcategories')->insert(array (
@@ -25,7 +24,7 @@ class BcategoriesTableSeeder extends Seeder
                 'id' => 1,
                 'name' => 'Beauty',
                 'slug' => 'Beauty',
-                'status' => 1,
+                'status' => 'active',
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
@@ -34,7 +33,7 @@ class BcategoriesTableSeeder extends Seeder
                 'id' => 2,
                 'name' => 'Fashion',
                 'slug' => 'fashion',
-                'status' => 1,
+                'status' => 'active',
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),

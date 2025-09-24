@@ -61,7 +61,7 @@ use App\Http\Controllers\User\AccountController as UserAccountController;
 use App\Http\Controllers\Auth\User\LoginController as UserLoginController;
 use App\Http\Controllers\Auth\Back\LoginController  as BackLoginController;
 use App\Http\Controllers\Front\UserDashboardController;
-
+use App\Http\Controllers\Utility\UtilityController;
 
 Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
     Route::prefix('admin')->group(function () {
@@ -365,6 +365,12 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
         Route::resource('districts', DistrictController::class)->names('back.districts');
        
         Route::resource('stores', StoresController::class)->names('back.stores');
+
+        Route::controller(UtilityController::class)->group(function () {
+        Route::get('/clear', 'clear')->name('clear-cache');
+        Route::get('/composer', 'composer')->name('composer');
+        Route::get('/iseed', 'iseed')->name('iseed');
+    });
 
     });
 });
