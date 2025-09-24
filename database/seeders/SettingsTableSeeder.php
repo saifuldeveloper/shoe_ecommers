@@ -60,7 +60,7 @@ class SettingsTableSeeder extends Seeder
                 'footer_phone' => '453876234',
                 'footer_address' => '514 S. Magnolia St. Orlando, FL 32806, USA',
                 'footer_email' => 'demoemail123@gmail.com',
-                'footer_gateway_img' => '16305963101621960148credit-cards-footer.png',
+                'footer_gateway_img' => 'sslc.png',
                 'social_link' => '{"icons":["fab fa-facebook-f","fab fa-twitter","fab fa-youtube","fab fa-linkedin-in"],"links":["https:\\/\\/www.facebook.com","https:\\/\\/www.twitter.com","https:\\/\\/www.youtube.com","https:\\/\\/www.linkedin.com"]}',
                 'copy_right' => 'OmniMart © All rights reserved.',
                 'footer_about' => 'Welcome to Avijatry, your one-stop shop for the latest footwear trends. Quality, comfort, and style delivered to your doorstep.',
