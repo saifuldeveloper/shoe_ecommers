@@ -8,38 +8,44 @@
                   <div class="ps-section__header mb-50">
                     <h2 class="ps-section__title" data-mask="Contact">- Get in touch</h2>
                       @include('alerts.alerts')
-                    <form class="ps-contact__form" action="{{ route('front.contact-message.submit') }}" method="post">
-                      @csrf
-                      <div class="row">   
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
-                              <div class="form-group">
-                                <label>Name <sub>*</sub></label>
-                                <input class="form-control" name="name" type="text" placeholder="Enter your name">
+                      
+                      <!-- Ajax message show  -->
+                      <div id="formMessage"></div>
+                      <form id="contactForm" class="ps-contact__form" action="{{ route('front.contact-message.submit') }}" method="post">
+                          @csrf
+                          <div class="row">   
+                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
+                                  <div class="form-group">
+                                      <label>Name <sub>*</sub></label>
+                                      <input class="form-control" name="name" type="text" placeholder="Enter your name">
+                                  </div>
                               </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
-                              <div class="form-group">
-                                <label>Email <sub>*</sub></label>
-                                <input class="form-control" name="email" type="email" placeholder="Enter your email">
+                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
+                                  <div class="form-group">
+                                      <label>Email <sub>*</sub></label>
+                                      <input class="form-control" name="email" type="email" placeholder="Enter your email">
+                                  </div>
                               </div>
-                            </div>
-                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-                              <div class="form-group">
-                                <label>Phone <sub>*</sub></label>
-                                <input class="form-control" name="phone" type="text" placeholder="Enter your phone number">
+                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                  <div class="form-group">
+                                      <label>Phone <sub>*</sub></label>
+                                      <input class="form-control" name="phone" type="text" placeholder="Enter your phone number">
+                                  </div>
                               </div>
-                            </div>
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-                              <div class="form-group mb-25">
-                                <label>Your Message <sub>*</sub></label>
-                                <textarea class="form-control" rows="6" name="description" placeholder="Enter your description"></textarea>
+                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                  <div class="form-group mb-25">
+                                      <label>Your Message <sub>*</sub></label>
+                                      <textarea class="form-control" rows="6" name="description" placeholder="Enter your description"></textarea>
+                                  </div>
+                                  <div class="form-group">
+                                      <button type="submit" class="ps-btn">Send Message<i class="ps-icon-next"></i></button>
+                                  </div>
                               </div>
-                              <div class="form-group">
-                                <button class="ps-btn">Send Message<i class="ps-icon-next"></i></button>
-                              </div>
-                            </div>
-                      </div>
-                    </form>
+                          </div>
+                      </form>
+
+
+                  
                   </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
@@ -181,3 +187,42 @@
   </div>
 </div>
 @endsection
+
+@push('js')
+<script>
+$(document).ready(function(){
+    $('#contactForm').on('submit', function(e){
+        e.preventDefault(); // form normal submit 
+
+        let form = $(this);
+        let url = form.attr('action');
+        let formData = form.serialize();
+
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: formData,
+            success: function(response){
+                $('#formMessage').html(
+                    '<div class="alert alert-success">Thank you for contacting with us, we will get back to you shortly.</div>'
+                );
+                $('#contactForm')[0].reset(); // form clear
+            },
+            error: function(xhr){
+                if(xhr.status === 422){ 
+                    let errors = xhr.responseJSON.errors;
+                    let errorHtml = '<div class="alert alert-danger"><ul>';
+                    $.each(errors, function(key, value){
+                        errorHtml += '<li>'+ value[0] +'</li>';
+                    });
+                    errorHtml += '</ul></div>';
+                    $('#formMessage').html(errorHtml);
+                } else {
+                    $('#formMessage').html('<div class="alert alert-danger">Something went wrong. Please try again later.</div>');
+                }
+            }
+        });
+    });
+});
+</script>
+@endpush

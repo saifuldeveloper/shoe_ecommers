@@ -246,7 +246,6 @@ class FrontendController extends Controller
     //contact message submit
     public function contactSubmit(Request $request)
     {
-
         $request->validate([
             'name'        => 'required|max:50',
             'email'       => 'required|email|max:50',
