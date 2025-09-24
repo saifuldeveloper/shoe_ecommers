@@ -44,8 +44,8 @@
                                         aria-orientation="vertical">
                                         <a class="nav-link active" data-toggle="pill"
                                             href="#basic">{{ __('Basic Information') }}</a>
-                                        <a class="nav-link" data-toggle="pill"
-                                            href="#theme">{{ __('Home Page Themes') }}</a>
+                                        {{-- <a class="nav-link" data-toggle="pill"
+                                            href="#theme">{{ __('Home Page Themes') }}</a> --}}
                                         <a class="nav-link" data-toggle="pill" href="#media">{{ __('Media') }}</a>
                                         <a class="nav-link" data-toggle="pill" href="#seo">{{ __('Seo') }}</a>
                                        

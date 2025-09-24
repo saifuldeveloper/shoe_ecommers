@@ -182,11 +182,11 @@
                         <span class="sub-item">{{ __('Tax') }}</span>
                     </a>
                 </li>
-                <li>
+                {{-- <li>
                     <a class="sub-link" href="{{ route('back.currency.index') }}">
                         <span class="sub-item">{{ __('Currency') }}</span>
                     </a>
-                </li>
+                </li> --}}
                 <li>
                     <a class="sub-link" href="{{ route('back.setting.payment') }}">
                         <span class="sub-item">{{ __('Payment') }}</span>
@@ -221,11 +221,11 @@
                         <span class="sub-item">{{ __('General Settings') }}</span>
                     </a>
                 </li>
-                <li>
+                {{-- <li>
                     <a class="sub-link" href="{{ route('back.menu.index') }}">
                         <span class="sub-item">{{ __('Menu Builder') }}</span>
                     </a>
-                </li>
+                </li> --}}
                 <li>
                     <a class="sub-link" href="{{ route('back.homePage') }}">
                         <span class="sub-item">{{ __('Home Page') }}</span>
