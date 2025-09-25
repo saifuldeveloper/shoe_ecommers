@@ -43,9 +43,6 @@ class HomePageController extends Controller
         $request->validate([
             'img1' => 'image',
             'img2' => 'image',
-            'title1' => 'required|max:200',
-            'title2' => 'required|max:200',
-            'subtitle1' => 'required|max:200',
             'url1' => 'required|max:200',
             'url2' => 'required|max:200',
 
