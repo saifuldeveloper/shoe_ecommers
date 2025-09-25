@@ -125,7 +125,9 @@ class FrontendController extends Controller
     }
      public function categoryProduct($slug)
     {
-        return view('front.pages.products');
+        $categories = Category::with('subcategory')->where('status',1)->latest()->get();
+        $brands = Brand::where('status',1)->latest()->get();
+        return view('front.pages.products',compact('categories','brands'));
 
     }
 
