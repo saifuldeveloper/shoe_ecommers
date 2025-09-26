@@ -73,7 +73,7 @@ class FrontendController extends Controller
         $posts = Post::latest('id')->take(3)->get();
         $featuredCategories = Category::where('is_featured', 1)
                                   ->where('status', 1)
-                                  ->orderBy('featured_serial', 'asc')
+                                  ->orderBy('id', 'asc')
                                   ->get();
 
         return view('front.pages.home',compact('posts','featured_items','featuredCategories'));

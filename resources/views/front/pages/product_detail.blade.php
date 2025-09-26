@@ -52,7 +52,10 @@
                         <p>{{ $item_details->sort_details??"" }}</p>
                         <!-- Size -->
                         <div class="mb-3">
-                            <p><strong>Size</strong></p>
+                            <div class="d-flex size_flex_data">
+                                <p><strong>Size</strong></p>
+                                <a data-toggle="modal" data-target="#size_chart"  class="size-chart-open-popup"> <img src="{{ asset('assets/frontend/images/icon_sizechar.png') }}"/> Size Chart</a>
+                            </div>
                             <div class="size-option d-flex">
                                 @php
                                     $sizes = collect($item_details->iteamVariant ?? [])->pluck('size')->unique('id')->filter();
@@ -63,25 +66,6 @@
                                     <label for="size{{ $size->id }}">{{ $size->name }}</label>
                                     @endif
                                 @endforeach
-                            <div class="mb-3">
-                                <div class="d-flex size_flex_data">
-                                    <p><strong>Size</strong></p>
-                                    <a data-toggle="modal" data-target="#size_chart"  class="size-chart-open-popup"> <img src="{{ asset('assets/frontend/images/icon_sizechar.png') }}"/> Size Chart</a>
-                                </div>
-
-                                <div class="size-option d-flex mt-2 gap-2">
-                                    <input type="radio" id="size6" name="size" checked />
-                                    <label for="size6">6</label>
-                                    <input type="radio" id="size7" name="size" />
-                                    <label for="size7">7</label>
-                                    <input type="radio" id="size8" name="size" />
-                                    <label for="size8">8</label>
-                                    <input type="radio" id="size9" name="size" />
-                                    <label for="size9">9</label>
-                                    <input type="radio" id="size10" name="size" />
-                                    <label for="size10">10</label>
-                                </div>
-                            </div>
 
                         <!-- Color -->
                         <div class="mb-3">

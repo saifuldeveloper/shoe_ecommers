@@ -47,9 +47,9 @@ trait CashOnDeliveryCheckout
                 $total_tax += $item::taxCalculate($item) * $items['qty'];
             }
         }
-        dd($data);
+        
         // product variant selection
-        $variant = Variant::where('size_id', $data['size'])->where('color_id', $data['color'])->first();
+        // $variant = Variant::where('size_id', $data['size'])->where('color_id', $data['color'])->first();
         // if (!PriceHelper::Digital()) {
         //     $shipping = null;
         // } else {
@@ -79,7 +79,7 @@ trait CashOnDeliveryCheckout
         $orderData['currency_value'] = PriceHelper::setCurrencyValue();
         $orderData['payment_status'] = 'Unpaid';
         $orderData['order_status'] = 'Pending';
-        $orderData['variant_id'] = $variant ? $variant->id : null;
+        // $orderData['variant_id'] = $variant ? $variant->id : null;
 
         $orderData['user_id'] = 1;
 

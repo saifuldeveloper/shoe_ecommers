@@ -31,7 +31,7 @@
                 @endif
                 <form action="{{ route('front.checkout.submit')}}" method="post">
                     @csrf
-                    {{-- hidden inputs --}} @dd(Session::get('cart'))
+                    {{-- hidden inputs --}} 
                     <input type="hidden" name="size" value="{{ Session::get('cart')['size'] ?? '' }}">
                 <div class="card">
                     <div class="card-body">
