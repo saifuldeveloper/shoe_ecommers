@@ -28,8 +28,11 @@ use App\Models\HomeCutomize;
 use App\Models\Order;
 use App\Models\PaymentSetting;
 use App\Models\Post;
+use App\Models\Size;
+use App\Models\Color;
 use App\Models\Service;
 use App\Models\Slider;
+use App\Models\Subcategory;
 use App\Models\TrackOrder;
 use Illuminate\Support\Facades\Config;
 use Carbon\Carbon;
@@ -125,9 +128,13 @@ class FrontendController extends Controller
     }
      public function categoryProduct($slug)
     {
-        $categories = Category::with('subcategory')->where('status',1)->latest()->get();
+        $subCategories = Subcategory::where('status',1)->latest()->get();
         $brands = Brand::where('status',1)->latest()->get();
-        return view('front.pages.products',compact('categories','brands'));
+        $products = Item::with('iteamVariant')->where('status',1)->latest()->get();
+        $allSize = Size::where('status',1)->latest()->get();
+        $allColor  = Color::where('status',1)->latest()->get();
+
+        return view('front.pages.products',compact('subCategories','brands','products','allSize','allColor'));
 
     }
 

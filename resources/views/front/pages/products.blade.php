@@ -2,10 +2,7 @@
 @section('content')
     <div class="ps-products-wrap pt-80 pb-80">
         <div class="ps-products" data-mh="product-listing">
-         {{-- <div class="ps-section--offer mb-40">
-                            <div class="ps-column"><a class="ps-offer" href="product-listing.html"><img src="{{ asset('assets/frontend/images/banner/banner-1.jpg') }}" alt=""></a></div>
-                            <div class="ps-column"><a class="ps-offer" href="product-listing.html"><img src="{{ asset('assets/frontend/images/banner/banner-2.jpg') }}" alt=""></a></div>
-                          </div>  --}}
+
             <div class="ps-product-action">
                 <div class="ps-product__filter">
                     <select class="ps-select selectpicker">
@@ -27,28 +24,45 @@
                 </div>
             </div>
             <div class="ps-product__columns">
+                @foreach ($products as $product)
                 <div class="ps-product__column">
                     <div class="ps-shoe mb-30">
                         <a href="{{ route('front.product', 'product-details') }}">
                             <div class="ps-shoe__thumbnail">
-                                {{-- <div class="ps-badge"><span>New</span></div> --}}
-                                <img alt="" src="{{ asset('assets/frontend/images/shoe/a1.avif') }}" />
-                                <img class="hover-img" src="{{ asset('assets/frontend/images/shoe/a1.avif') }}"
-                                    alt="">
+                                    <img src="{{ $product->thumbnail 
+                                        ? (file_exists(public_path('storage/items/'.$product->thumbnail)) 
+                                            ? url('storage/items/'.$product->thumbnail) 
+                                            : url('assets/images/'.$product->thumbnail)) 
+                                        : url('assets/images/default.jpg') }}" 
+                                    alt="Image Not Found">
+                                <img class="hover-img" src="{{ $product->photo 
+                                        ? (file_exists(public_path('storage/items/'.$product->photo)) 
+                                            ? url('storage/items/'.$product->photo) 
+                                            : url('assets/images/'.$product->photo)) 
+                                        : url('assets/images/default.jpg') }}" 
+                                    alt="Image Not Found">
                                 <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
                             </div>
                             <div class="ps-shoe__content">
                                 <div class="ps-shoe__detail">
-                                    <a class="ps-shoe__name" href="product-detai.html">Air Jordan 7
-                                        Retro</a>
-                                    <div> <span class="ps-shoe__price"> &#2547; 120</span></div>
+                                    <a class="ps-shoe__name" href="product-detai.html">{{ $product->name }}</a>
+                                    <div> <span class="ps-shoe__price"> &#2547; {{ $product->discount_price }}</span></div>
                                 </div>
+                                {{-- show the size --}}
+                                @php
+                                    $values = json_decode($product->variant_value);  
+                                    $sizes = array_filter($values, function($value) {
+                                        return is_numeric($value);
+                                    });
+                                @endphp
 
                                 <div class="ps-shoe__variants">
                                     <div class="text-center pb-10">
-                                        <p class="ps-shoe__categories pb-5">
-                                            <span>5</span> <span>6</span> <span>7</span> <span>8</span>
-                                        </p>
+                                       <p class="ps-shoe__categories pb-5">
+                                        @foreach($sizes as $size)
+                                            <span>{{ $size }}</span>
+                                        @endforeach
+                                    </p>
                                     </div>
                                     <div>
                                         <span class="btn btn-dark shop-now-button">shop now</span>
@@ -58,269 +72,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="ps-product__column">
-                    <div class="ps-shoe mb-30">
-                        <a href="{{ route('front.product', 'product-details') }}">
-                            <div class="ps-shoe__thumbnail">
-                                {{-- <div class="ps-badge"><span>New</span></div> --}}
-                                <img alt="" src="{{ asset('assets/frontend/images/shoe/b1.avif') }}" />
-                                <img class="hover-img" src="{{ asset('assets/frontend/images/shoe/a1.avif') }}"
-                                    alt="">
-                                <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
-                            </div>
-                            <div class="ps-shoe__content">
-                                <div class="ps-shoe__detail">
-                                    <a class="ps-shoe__name" href="product-detai.html">Air Jordan 7
-                                        Retro</a>
-                                    <div> <span class="ps-shoe__price"> &#2547; 120</span></div>
-                                </div>
-
-                                <div class="ps-shoe__variants">
-                                    <div class="text-center pb-10">
-                                        <p class="ps-shoe__categories pb-5">
-                                            <span>5</span> <span>6</span> <span>7</span> <span>8</span>
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <span class="btn btn-dark shop-now-button">shop now</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="ps-product__column">
-                    <div class="ps-shoe mb-30">
-                        <a href="{{ route('front.product', 'product-details') }}">
-                            <div class="ps-shoe__thumbnail">
-                                {{-- <div class="ps-badge"><span>New</span></div> --}}
-                                <img alt="" src="{{ asset('assets/frontend/images/shoe/c1.avif') }}" />
-                                <img class="hover-img" src="{{ asset('assets/frontend/images/shoe/a1.avif') }}"
-                                    alt="">
-                                <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
-                            </div>
-                            <div class="ps-shoe__content">
-                                <div class="ps-shoe__detail">
-                                    <a class="ps-shoe__name" href="product-detai.html">Air Jordan 7
-                                        Retro</a>
-                                    <div> <span class="ps-shoe__price"> &#2547; 120</span></div>
-                                </div>
-
-                                <div class="ps-shoe__variants">
-                                    <div class="text-center pb-10">
-                                        <p class="ps-shoe__categories pb-5">
-                                            <span>5</span> <span>6</span> <span>7</span> <span>8</span>
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <span class="btn btn-dark shop-now-button">shop now</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="ps-product__column">
-                    <div class="ps-shoe mb-30">
-                        <a href="{{ route('front.product', 'product-details') }}">
-                            <div class="ps-shoe__thumbnail">
-                                {{-- <div class="ps-badge"><span>New</span></div> --}}
-                                <img alt="" src="{{ asset('assets/frontend/images/shoe/d1.webp') }}" />
-                                <img class="hover-img" src="{{ asset('assets/frontend/images/shoe/a1.avif') }}"
-                                    alt="">
-                                <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
-                            </div>
-                            <div class="ps-shoe__content">
-                                <div class="ps-shoe__detail">
-                                    <a class="ps-shoe__name" href="product-detai.html">Air Jordan 7
-                                        Retro</a>
-                                    <div> <span class="ps-shoe__price"> &#2547; 120</span></div>
-                                </div>
-
-                                <div class="ps-shoe__variants">
-                                    <div class="text-center pb-10">
-                                        <p class="ps-shoe__categories pb-5">
-                                            <span>5</span> <span>6</span> <span>7</span> <span>8</span>
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <a href="{{ route('front.product', 'product-details') }}">
-                                            <span class="btn btn-dark shop-now-button">shop now</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="ps-product__column">
-                    <div class="ps-shoe mb-30">
-                        <a href="{{ route('front.product', 'product-details') }}">
-                            <div class="ps-shoe__thumbnail">
-                                {{-- <div class="ps-badge"><span>New</span></div> --}}
-                                <img alt="" src="{{ asset('assets/frontend/images/shoe/j1.webp') }}" />
-                                <img class="hover-img" src="{{ asset('assets/frontend/images/shoe/a1.avif') }}"
-                                    alt="">
-                                <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
-                            </div>
-                            <div class="ps-shoe__content">
-                                <div class="ps-shoe__detail">
-                                    <a class="ps-shoe__name" href="product-detai.html">Air Jordan 7
-                                        Retro</a>
-                                    <div> <span class="ps-shoe__price"> &#2547; 120</span></div>
-                                </div>
-
-                                <div class="ps-shoe__variants">
-                                    <div class="text-center pb-10">
-                                        <p class="ps-shoe__categories pb-5">
-                                            <span>5</span> <span>6</span> <span>7</span> <span>8</span>
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <a href="{{ route('front.product', 'product-details') }}">
-                                            <span class="btn btn-dark shop-now-button">shop now</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="ps-product__column">
-                    <div class="ps-shoe mb-30">
-                        <a href="{{ route('front.product', 'product-details') }}">
-                            <div class="ps-shoe__thumbnail">
-                                {{-- <div class="ps-badge"><span>New</span></div> --}}
-                                <img alt="" src="{{ asset('assets/frontend/images/shoe/j1.webp') }}" />
-                                <img class="hover-img" src="{{ asset('assets/frontend/images/shoe/a1.avif') }}"
-                                    alt="">
-                                <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
-                            </div>
-                            <div class="ps-shoe__content">
-                                <div class="ps-shoe__detail">
-                                    <a class="ps-shoe__name" href="product-detai.html">Air Jordan 7
-                                        Retro</a>
-                                    <div> <span class="ps-shoe__price"> &#2547; 120</span></div>
-                                </div>
-
-                                <div class="ps-shoe__variants">
-                                    <div class="text-center pb-10">
-                                        <p class="ps-shoe__categories pb-5">
-                                            <span>5</span> <span>6</span> <span>7</span> <span>8</span>
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <a href="{{ route('front.product', 'product-details') }}">
-                                            <span class="btn btn-dark shop-now-button">shop now</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="ps-product__column">
-                    <div class="ps-shoe mb-30">
-                        <a href="{{ route('front.product', 'product-details') }}">
-                            <div class="ps-shoe__thumbnail">
-                                {{-- <div class="ps-badge"><span>New</span></div> --}}
-                                <img alt="" src="{{ asset('assets/frontend/images/shoe/k1.avif') }}" />
-                                <img class="hover-img" src="{{ asset('assets/frontend/images/shoe/a1.avif') }}"
-                                    alt="">
-                                <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
-                            </div>
-                            <div class="ps-shoe__content">
-                                <div class="ps-shoe__detail">
-                                    <a class="ps-shoe__name" href="product-detai.html">Air Jordan 7
-                                        Retro</a>
-                                    <div> <span class="ps-shoe__price"> &#2547; 120</span></div>
-                                </div>
-
-                                <div class="ps-shoe__variants">
-                                    <div class="text-center pb-10">
-                                        <p class="ps-shoe__categories pb-5">
-                                            <span>5</span> <span>6</span> <span>7</span> <span>8</span>
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <a href="{{ route('front.product', 'product-details') }}">
-                                            <span class="btn btn-dark shop-now-button">shop now</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                  <div class="ps-product__column">
-                    <div class="ps-shoe mb-30">
-                        <a href="{{ route('front.product', 'product-details') }}">
-                            <div class="ps-shoe__thumbnail">
-                                {{-- <div class="ps-badge"><span>New</span></div> --}}
-                                <img alt="" src="{{ asset('assets/frontend/images/shoe/l1.avif') }}" />
-                                <img class="hover-img" src="{{ asset('assets/frontend/images/shoe/a1.avif') }}"
-                                    alt="">
-                                <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
-                            </div>
-                            <div class="ps-shoe__content">
-                                <div class="ps-shoe__detail">
-                                    <a class="ps-shoe__name" href="product-detai.html">Air Jordan 7
-                                        Retro</a>
-                                    <div> <span class="ps-shoe__price"> &#2547; 120</span></div>
-                                </div>
-
-                                <div class="ps-shoe__variants">
-                                    <div class="text-center pb-10">
-                                        <p class="ps-shoe__categories pb-5">
-                                            <span>5</span> <span>6</span> <span>7</span> <span>8</span>
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <a href="{{ route('front.product', 'product-details') }}">
-                                            <span class="btn btn-dark shop-now-button">shop now</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                 <div class="ps-product__column">
-                    <div class="ps-shoe mb-30">
-                        <a href="{{ route('front.product', 'product-details') }}">
-                            <div class="ps-shoe__thumbnail">
-                                {{-- <div class="ps-badge"><span>New</span></div> --}}
-                                <img alt="" src="{{ asset('assets/frontend/images/shoe/e1.avif') }}" />
-                                <img class="hover-img" src="{{ asset('assets/frontend/images/shoe/a1.avif') }}"
-                                    alt="">
-                                <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
-                            </div>
-                            <div class="ps-shoe__content">
-                                <div class="ps-shoe__detail">
-                                    <a class="ps-shoe__name" href="product-detai.html">Air Jordan 7
-                                        Retro</a>
-                                    <div> <span class="ps-shoe__price"> &#2547; 120</span></div>
-                                </div>
-
-                                <div class="ps-shoe__variants">
-                                    <div class="text-center pb-10">
-                                        <p class="ps-shoe__categories pb-5">
-                                            <span>5</span> <span>6</span> <span>7</span> <span>8</span>
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <a href="{{ route('front.product', 'product-details') }}">
-                                            <span class="btn btn-dark shop-now-button">shop now</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
+                @endforeach
 
             </div>
             <div class="ps-product-action">
@@ -347,29 +99,17 @@
         <div class="ps-sidebar" data-mh="product-listing">
             <aside class="ps-widget--sidebar ps-widget--category">
                 <div class="ps-widget__header">
-                    <h3>Category</h3>
+                    <h3>Sub Category</h3>
                 </div>
                 <div class="ps-widget__content">
                     <ul class="ps-list--checked">
-                       @foreach ($categories as $category)
-                        {{-- <li class="current"><a href="product-listing.html">{{ $category->name }}</a></li> --}}
-                        <li><a href="#">{{ $category->name }}</a></li>
+                       @foreach ($subCategories as $subCategory)
+                        <li class="current"><a href="#">{{ $subCategory->name }}</a></li>
                         @endforeach
                     </ul>
                 </div>
             </aside>
-            {{-- <aside class="ps-widget--sidebar ps-widget--filter">
-                <div class="ps-widget__header">
-                    <h3>Category</h3>
-                </div>
-                <div class="ps-widget__content">
-                    <div class="ac-slider" data-default-min="300" data-default-max="2000" data-max="3450"
-                        data-step="50" data-unit="$"></div>
-                    <p class="ac-slider__meta">Price:<span class="ac-slider__value ac-slider__min"></span>-<span
-                            class="ac-slider__value ac-slider__max"></span></p><a class="ac-slider__filter ps-btn"
-                        href="#">Filter</a>
-                </div>
-            </aside> --}}
+           
             <aside class="ps-widget--sidebar ps-widget--category">
                 <div class="ps-widget__header">
                     <h3>Shoe Brand</h3>
@@ -382,19 +122,7 @@
                     </ul>
                 </div>
             </aside>
-            <aside class="ps-widget--sidebar ps-widget--category">
-                <div class="ps-widget__header">
-                    <h3>Width</h3>
-                </div>
-                <div class="ps-widget__content">
-                    <ul class="ps-list--checked">
-                        <li class="current"><a href="product-listing.html">Narrow</a></li>
-                        <li><a href="product-listing.html">Regular</a></li>
-                        <li><a href="product-listing.html">Wide</a></li>
-                        <li><a href="product-listing.html">Extra Wide</a></li>
-                    </ul>
-                </div>
-            </aside>
+         
             <div class="ps-sticky desktop">
                 <aside class="ps-widget--sidebar">
                     <div class="ps-widget__header">
@@ -404,35 +132,11 @@
                         <table class="table ps-table--size">
                             <tbody>
                                 <tr>
-                                    <td class="active">3</td>
-                                    <td>5.5</td>
-                                    <td>8</td>
-                                    <td>10.5</td>
+                                    @foreach ($allSize as $allSize)
+                                      <td class="active">{{ $allSize->name }}</td>
+                                    @endforeach
                                 </tr>
-                                <tr>
-                                    <td>3.5</td>
-                                    <td>6</td>
-                                    <td>8.5</td>
-                                    <td>11</td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>6.5</td>
-                                    <td>9</td>
-                                    <td>11.5</td>
-                                </tr>
-                                <tr>
-                                    <td>4.5</td>
-                                    <td>7</td>
-                                    <td>9.5</td>
-                                    <td>12</td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td>7.5</td>
-                                    <td>10</td>
-                                    <td>12.5</td>
-                                </tr>
+                               
                             </tbody>
                         </table>
                     </div>
@@ -443,63 +147,19 @@
                     </div>
                     <div class="ps-widget__content">
                         <ul class="ps-list--color">
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
+                           @foreach ($allColor as $color)
+                            <li>
+                                <a href="#" 
+                                style="background-color: {{ $color->code ?? $color->name }};">
+                                </a>
+                            </li>
+                        @endforeach
                         </ul>
                     </div>
                 </aside>
             </div>
-            <!--aside.ps-widget--sidebar-->
-            <!--    .ps-widget__header: h3 Ads Banner-->
-            <!--    .ps-widget__content-->
-            <!--        a(href='product-listing'): img(src="images/offer/sidebar.jpg" alt="")-->
-            <!---->
-            <!--aside.ps-widget--sidebar-->
-            <!--    .ps-widget__header: h3 Best Seller-->
-            <!--    .ps-widget__content-->
-            <!--        - for (var i = 0; i < 3; i ++)-->
-            <!--            .ps-shoe--sidebar-->
-            <!--                .ps-shoe__thumbnail-->
-            <!--                    a(href='#')-->
-            <!--                    img(src="images/shoe/sidebar/"+(i+1)+".jpg" alt="")-->
-            <!--                .ps-shoe__content-->
-            <!--                    if i == 1-->
-            <!--                        a(href='#').ps-shoe__title Nike Flight Bonafide-->
-            <!--                    else if i == 2-->
-            <!--                        a(href='#').ps-shoe__title Nike Sock Dart QS-->
-            <!--                    else-->
-            <!--                        a(href='#').ps-shoe__title Men's Shoe-->
-            <!--                    p <del> £253.00</del> £152.00-->
-            <!--                    a(href='#').ps-btn PURCHASE-->
+          
         </div>
     </div>
-    {{-- <div class="ps-subscribe">
-        <div class="ps-container">
-            <div class="row">
-                <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 ">
-                    <h3><i class="fa fa-envelope"></i>Sign up to Newsletter</h3>
-                </div>
-                <div class="col-lg-5 col-md-7 col-sm-12 col-xs-12 ">
-                    <form class="ps-subscribe__form" action="do_action" method="post">
-                        <input class="form-control" type="text" placeholder="">
-                        <button>Sign up now</button>
-                    </form>
-                </div>
-                <div class="col-lg-4 col-md-5 col-sm-12 col-xs-12 ">
-                    <p>...and receive <span>$20</span> coupon for first shopping.</p>
-                </div>
-            </div>
-        </div>
-    </div> --}}
+   
 @endsection
