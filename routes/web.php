@@ -47,21 +47,23 @@ use App\Http\Controllers\Back\CsvProductController;
 use App\Http\Controllers\Back\SmsSettingController;
 use App\Http\Controllers\Back\SubscriberController;
 use App\Http\Controllers\Back\TranactionController;
+use App\Http\Controllers\Utility\UtilityController;
 use App\Http\Controllers\Auth\Back\ForgotController;
+use App\Http\Controllers\Back\SocialMediaController;
 use App\Http\Controllers\Back\SubCategoryController;
 use App\Http\Controllers\Back\EmailSettingController;
 use App\Http\Controllers\Back\NotificationController;
 use App\Http\Controllers\Auth\User\RegisterController;
 use App\Http\Controllers\Back\ChieldCategoryController;
 use App\Http\Controllers\Back\PaymentSettingController;
+use App\Http\Controllers\Front\UserDashboardController;
 use App\Http\Controllers\Back\AttributeOptionController;
 use App\Http\Controllers\Back\ShippingServiceController;
 use App\Http\Controllers\Back\AccountController as BackAccountController;
 use App\Http\Controllers\User\AccountController as UserAccountController;
 use App\Http\Controllers\Auth\User\LoginController as UserLoginController;
 use App\Http\Controllers\Auth\Back\LoginController  as BackLoginController;
-use App\Http\Controllers\Front\UserDashboardController;
-use App\Http\Controllers\Utility\UtilityController;
+use App\Http\Controllers\Back\SocialMediaPostController;
 
 Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
     Route::prefix('admin')->group(function () {
@@ -170,6 +172,9 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
         Route::get('/notification/delete/{id}', [NotificationController::class, 'delete'])->name('back.notification.delete');
         Route::get('/notifications/clear', [NotificationController::class, 'clear_notf'])->name('back.notifications.clear');
 
+        Route::get('socialmediapost/status/{id}/{status}', [SocialMediaPostController::class, 'status'])
+        ->name('back.socialmediapost.status');
+        Route::resource('socialmediapost', SocialMediaPostController::class)->except(['show'])->names('back.socialmediapost');
 
         Route::group(['middleware' => 'permissions:Manage Categories'], function () {
             //------------ CATEGORY ------------

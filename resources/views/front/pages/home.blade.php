@@ -528,29 +528,18 @@
     <div class="ps-home-partner pb-50">
         <div class="ps-container">
             <div class="ps-section__header">
-                <h2 class="ps-section__title">Avijatri On Instagram</h2>
+                <h2 class="ps-section__title">Avijatri On Social Media</h2>
             </div>
             <div class="owl-slider" data-owl-auto="true" data-owl-dots="false" data-owl-duration="1000"
                 data-owl-gap="40" data-owl-item="6" data-owl-item-lg="6" data-owl-item-md="5" data-owl-item-sm="4"
                 data-owl-item-xs="2" data-owl-loop="true" data-owl-mousedrag="on" data-owl-nav="false"
                 data-owl-speed="5000">
-                <a href="#"><img alt=""
-                        src="{{ asset('assets/frontend/images/partner/image1.jpg') }}" /></a>
-                <a href="#"><img alt=""
-                        src="{{ asset('assets/frontend/images/partner/image2.jpg') }}" /></a>
-                <a href="#"><img alt=""
-                        src="{{ asset('assets/frontend/images/partner/image3.jpg') }}" /></a>
-                <a href="#"><img alt=""
-                        src="{{ asset('assets/frontend/images/partner/image4.jpg') }}" /></a>
-                <a href="#"><img alt=""
-                        src="{{ asset('assets/frontend/images/partner/image5.png') }}" /></a>
-                <a href="#"><img alt=""
-                        src="{{ asset('assets/frontend/images/partner/image6.jpg') }}" /></a>
-                <a href="#"><img alt=""
-                        src="{{ asset('assets/frontend/images/partner/image7.jpg') }}" /></a>
-                <a href="#"><img alt=""
-                        src="{{ asset('assets/frontend/images/partner/image8.jpg') }}" /></a>
 
+                @foreach($socialPosts as $post)
+                    <a href="{{ $post->url }}" target="_blank">
+                        <img alt="" src="{{ asset('storage/socialMediaPost/' . $post->photo) }}" />
+                    </a>
+                @endforeach
             </div>
         </div>
     </div>
