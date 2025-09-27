@@ -130,12 +130,42 @@ class FrontendController extends Controller
     {
         $subCategories = Subcategory::where('status',1)->latest()->get();
         $brands = Brand::where('status',1)->latest()->get();
-        $products = Item::with('iteamVariant')->where('status',1)->latest()->get();
+        $products = Item::with('iteamVariant')->where('status',1)->latest()->paginate(2);
         $allSize = Size::where('status',1)->latest()->get();
         $allColor  = Color::where('status',1)->latest()->get();
 
         return view('front.pages.products',compact('subCategories','brands','products','allSize','allColor'));
 
+    }
+
+    //products filter 
+    public function filterProducts(Request $request)
+    {
+      
+        $query = Item::query()->where('status', 1);
+
+        if ($request->subcategory_id) {
+            $query->where('subcategory_id', $request->subcategory_id);
+        }
+
+        if ($request->brand_id) {
+            $query->where('brand_id', $request->brand_id);
+        }
+
+        if ($request->color_id) {
+            $query->where('color_id', $request->color_id);
+        }
+
+        if ($request->size) {
+            $query->whereJsonContains('variant_value', $request->size);
+        }
+
+        $products = $query->paginate(2);
+        // dd($products);
+        return response()->json([
+            'products'   => view('front.pages.partials.product_list', compact('products'))->render(),
+            'pagination' => view('front.pages.partials.pagination', compact('products'))->render(),
+        ]);
     }
 
 
