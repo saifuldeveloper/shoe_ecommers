@@ -128,18 +128,21 @@
                     <div class="ps-widget__header">
                         <h3>Size</h3>
                     </div>
-                    <div class="ps-widget__content">
-                        <table class="table ps-table--size">
-                            <tbody>
+                   <div class="ps-widget__content">
+                    <table class="table ps-table--size">
+                        <tbody>
+                            @foreach($allSize->chunk(4) as $chunk)  
                                 <tr>
-                                    @foreach ($allSize as $allSize)
-                                      <td class="active">{{ $allSize->name }}</td>
+                                    @foreach($chunk as $size)
+                                        <td class="{{ $loop->first && $loop->parent->first ? 'active' : '' }}">
+                                            {{ $size->name }}
+                                        </td>
                                     @endforeach
                                 </tr>
-                               
-                            </tbody>
-                        </table>
-                    </div>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
                 </aside>
                 <aside class="ps-widget--sidebar">
                     <div class="ps-widget__header">
