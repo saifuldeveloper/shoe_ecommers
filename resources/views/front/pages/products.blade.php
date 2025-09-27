@@ -49,10 +49,8 @@
         <div class="ps-product-action">
                 <div class="ps-product__filter">
                     <select class="ps-select selectpicker">
-                        <option value="1">Shortby</option>
-                        <option value="2">Name</option>
-                        <option value="3">Price (Low to High)</option>
-                        <option value="3">Price (High to Low)</option>
+                        <option value="1">Price (Low to High)</option>
+                        <option value="2">Price (High to Low)</option>
                     </select>
                 </div>
                 <div class="ps-pagination">
@@ -69,10 +67,8 @@
          <div class="ps-product-action">
                 <div class="ps-product__filter">
                     <select class="ps-select selectpicker">
-                        <option value="1">Shortby</option>
-                        <option value="2">Name</option>
-                        <option value="3">Price (Low to High)</option>
-                        <option value="3">Price (High to Low)</option>
+                           <option value="1">Price (Low to High)</option>
+                        <option value="2">Price (High to Low)</option>
                     </select>
                 </div>
                 <div class="ps-pagination">
@@ -160,6 +156,9 @@ $(document).on("click", ".color-item", function() {
     $(this).addClass("current");
     filterProducts();
 });
+$(document).on('change', '.ps-product__filter .ps-select.selectpicker', function() {
+    filterProducts();
+});
 
 
 function filterProducts(page = 1) {
@@ -167,15 +166,17 @@ function filterProducts(page = 1) {
     let brand_id = $(".brand-item.current").data("id");
     let color = $(".color-item.current").data("value");
     let size = $(".size-item.current").data("value");
-
+    let sort_by = $('.ps-product__filter .ps-select.selectpicker').val();
+    
     $.ajax({
         url: "{{ route('products.filter') }}?page=" + page,
         type: "GET",
         data: {
             subcategory_id: subcategory_id,
             brand_id: brand_id,
-            color_id: color,
+            color: color,
             size: size,
+            sort_by: sort_by 
         },
         success: function(response) {
             $("#product-list").html(response.products);
