@@ -79,6 +79,8 @@ class FrontendController extends Controller
         $heroBanner = json_decode($homeCustomize->hero_banner, true);
         $thirdBanner  = json_decode($homeCustomize->banner_third, true);
         $socialPosts = SocialMediaPost::where('status', 1)->latest()->get();
+        $newArrivalItems = Item::with('itemVariants.variant.color', 'itemVariants.variant.size')->where('status', 1)->where('is_type', 'new')->latest()->get();
+
 
         return view('front.pages.home',compact(
             'posts',
@@ -86,7 +88,8 @@ class FrontendController extends Controller
             'featuredCategories',
             'heroBanner',
             'thirdBanner',
-            'socialPosts'
+            'socialPosts',
+            'newArrivalItems'
         ));
 
     }
