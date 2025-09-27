@@ -130,7 +130,7 @@ class FrontendController extends Controller
     {
         $subCategories = Subcategory::where('status',1)->latest()->get();
         $brands = Brand::where('status',1)->latest()->get();
-        $products = Item::with('iteamVariant')->where('status',1)->latest()->paginate(2);
+        $products = Item::with('iteamVariant')->where('status',1)->latest()->paginate(20);
         $allSize = Size::where('status',1)->latest()->get();
         $allColor  = Color::where('status',1)->latest()->get();
 
@@ -141,27 +141,51 @@ class FrontendController extends Controller
     //products filter 
     public function filterProducts(Request $request)
     {
-      
+        // $query = Item::query()->where('status', 1);
+
+        // if ($request->subcategory_id) {
+        //     $query->where('subcategory_id', $request->subcategory_id);
+        // }
+
+        // if ($request->brand_id) {
+        //     $query->where('brand_id', $request->brand_id);
+        // }
+
+        //  // Color filter (JSON check)
+        // if ($request->color) {
+        //     $query->whereJsonContains('variant_value', $request->color);
+        // }
+        // //  Size filter (JSON check)
+        // if ($request->size) {
+        //     $query->whereJsonContains('variant_value', $request->size);
+        // }
+
+        // $products = $query->paginate(2);
+
+        // return response()->json([
+        //     'products'   => view('front.pages.partials.product_list', compact('products'))->render(),
+        //     'pagination' => view('front.pages.partials.pagination', compact('products'))->render(),
+        // ]);
+
         $query = Item::query()->where('status', 1);
+        $query->where(function ($q) use ($request) {
+            $q->when($request->subcategory_id, function ($q) use ($request) {
+                return $q->where('subcategory_id', $request->subcategory_id);
+            });
+            $q->when($request->brand_id, function ($q) use ($request) {
+                return $q->orWhere('brand_id', $request->brand_id);
+            });
+            $q->when($request->color, function ($q) use ($request) {
+                return $q->orWhereJsonContains('variant_value', $request->color);
+            });
 
-        if ($request->subcategory_id) {
-            $query->where('subcategory_id', $request->subcategory_id);
-        }
+            $q->when($request->size, function ($q) use ($request) {
+                return $q->orWhereJsonContains('variant_value', $request->size);
+            });
+        });
 
-        if ($request->brand_id) {
-            $query->where('brand_id', $request->brand_id);
-        }
+        $products = $query->paginate(20);
 
-        if ($request->color_id) {
-            $query->where('color_id', $request->color_id);
-        }
-
-        if ($request->size) {
-            $query->whereJsonContains('variant_value', $request->size);
-        }
-
-        $products = $query->paginate(2);
-        // dd($products);
         return response()->json([
             'products'   => view('front.pages.partials.product_list', compact('products'))->render(),
             'pagination' => view('front.pages.partials.pagination', compact('products'))->render(),

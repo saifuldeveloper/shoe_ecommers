@@ -1,6 +1,49 @@
 @extends('master.front')
 
 @section('content')
+@push('css')
+    <style> 
+    .size-item {
+    cursor: pointer;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-align: center;
+    transition: all 0.2s;
+}
+.size-item:hover {
+    background-color: #f0f0f0;
+}
+.size-item.current {
+    background-color: #f59b34; /
+    color: #fff;
+    border-color: #f59b34;
+}
+
+/* Color selection */
+.ps-list--color li {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    margin: 3px;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.ps-list--color li a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+.color-item.current {
+    border-color: #f59b34; /* Highlight border for selected color */
+}
+    </style>
+@endpush
+
+
 <div class="ps-products-wrap pt-80 pb-80">
     <div class="ps-products" data-mh="product-listing">
         <div class="ps-product-action">
@@ -90,7 +133,7 @@
             <div class="ps-widget__content">
                 <ul class="ps-list--color">
                     @foreach ($allColor as $color)
-                        <li class="color-item" data-id="{{ $color->id }}">
+                        <li class="color-item" data-value="{{ $color->name }}">
                             <a href="javascript:void(0)" style="background-color: {{ $color->code ?? $color->name }}"></a>
                         </li>
                     @endforeach
@@ -103,15 +146,26 @@
 
 @push('js')
 <script>
-$(document).on("click", ".sub-category-item, .brand-item, .color-item, .size-item", function() {
+$(document).on("click", ".sub-category-item, .brand-item", function() {
     $(this).toggleClass("current").siblings().removeClass("current");
     filterProducts();
 });
+$(document).on("click", ".size-item", function() {
+    $(".size-item").removeClass("current");
+    $(this).addClass("current");
+    filterProducts();
+});
+$(document).on("click", ".color-item", function() {
+    $(".color-item").removeClass("current");
+    $(this).addClass("current");
+    filterProducts();
+});
+
 
 function filterProducts(page = 1) {
     let subcategory_id = $(".sub-category-item.current").data("id");
     let brand_id = $(".brand-item.current").data("id");
-    let color_id = $(".color-item.current").data("id");
+    let color = $(".color-item.current").data("value");
     let size = $(".size-item.current").data("value");
 
     $.ajax({
@@ -120,7 +174,7 @@ function filterProducts(page = 1) {
         data: {
             subcategory_id: subcategory_id,
             brand_id: brand_id,
-            color_id: color_id,
+            color_id: color,
             size: size,
         },
         success: function(response) {
