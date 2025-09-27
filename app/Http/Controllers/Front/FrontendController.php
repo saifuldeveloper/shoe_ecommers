@@ -68,15 +68,23 @@ class FrontendController extends Controller
     public function index()
     {
         $featured_items = Item::where('status', 1)->take(8)->get();
-        
-
         $posts = Post::latest('id')->take(3)->get();
         $featuredCategories = Category::where('is_featured', 1)
                                   ->where('status', 1)
                                   ->orderBy('id', 'asc')
                                   ->get();
 
-        return view('front.pages.home',compact('posts','featured_items','featuredCategories'));
+        $homeCustomize = HomeCutomize::first();
+        $heroBanner = json_decode($homeCustomize->hero_banner, true);
+        $thirdBanner  = json_decode($homeCustomize->banner_third, true);
+
+        return view('front.pages.home',compact(
+            'posts',
+            'featured_items',
+            'featuredCategories',
+            'heroBanner',
+            'thirdBanner'
+        ));
 
     }
 
@@ -246,7 +254,6 @@ class FrontendController extends Controller
     //contact message submit
     public function contactSubmit(Request $request)
     {
-
         $request->validate([
             'name'        => 'required|max:50',
             'email'       => 'required|email|max:50',

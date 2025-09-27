@@ -14,4 +14,9 @@ class Cart extends Model
         'quantity',
         'item_variant_id',
     ];
+
+    public function item()
+    {
+        return $this->belongsTo(Item::class);
+    }
 }

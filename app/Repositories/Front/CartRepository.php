@@ -40,25 +40,8 @@ class CartRepository
             session()->put('cartSession', md5(request()->ip() . uniqid()));
         }
 
-        $qty_check  = 0;
-
-        // $input['option_name'] = [];
-        // $input['option_price'] = [];
-        // $input['attr_name'] = [];
-
         $qty = isset($input['quantity']) ? $input['quantity'] : 1;
         $qty = is_numeric($qty) ? $qty : 1;
-
-
-        // if ($input['options_ids']) {
-        //     foreach (explode(',', $input['options_ids']) as $optionId) {
-        //         $option = AttributeOption::findOrFail($optionId);
-        //         if ($qty > $option->stock) {
-        //             $data = ['message' => 'Product Out Of Stock', 'status' => 'outStock'];
-        //             return $data;
-        //         }
-        //     }
-        // }
 
         $cart = Cart::where('item_id', $input['item_id'])
             ->where(function ($query) {
@@ -72,7 +55,7 @@ class CartRepository
         if ($cart) {
             $qty = $cart->quantity + $qty;
             $cart->update(['quantity' => $qty]);
-            $data = ['message' => 'This product already on your cart', 'status' => 'outStock'];
+            $data = ['message' => 'This product already on your cart', 'status' => 'alreadyInCart', 'qty' => PriceHelper::totalCartQuantity(), 'cart_items_html' => view('includes.cart-items-dropdown')->render()];
             return $data;
         }
         $item = Item::where('id', $input['item_id'])->select('id', 'name', 'photo', 'discount_price', 'previous_price', 'slug', 'item_type', 'license_name', 'license_key', 'stock')->first();
@@ -97,15 +80,17 @@ class CartRepository
             return $data;
         }
        // insert into carts table
-        Cart::create([
+        $cart = Cart::create([
             "user_id" => auth()->check() ? auth()->user()->id : null,
             "session_id" => !auth()->check() ?  session()->get('cartSession'): null,
             "item_id" => $item->id,
             "quantity" => $qty,
             "item_variant_id" => $itemVariant->id,
         ]);
-        $mgs = ['message' => __('Product add successfully'), 'qty' => 10];
+        
+        $mgs = ['message' => __('Product add successfully'), 'qty' => PriceHelper::totalCartQuantity(), 'cart_items_html' => view('includes.cart-items-dropdown')->render()];
         return $mgs;
+        
     }
 
     public function promoStore($request)

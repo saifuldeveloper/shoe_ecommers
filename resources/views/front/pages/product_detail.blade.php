@@ -39,11 +39,19 @@
                     </div>
                     <!-- Product Details -->
                     <div class="col-md-6">
-                        <h4>{{ $item_details->name??"" }}</h4>
+                        <h4 class="item-name"><strong>{{ $item_details->name??"" }}</strong></h4>
                         <p><strong>Brand:</strong> {{ $item_details->brand->name??"" }}</p>
+                        @if ($item_details->code)
                         <p><strong>Product Code:</strong> {{ $item_details->code??"" }}</p>
-                        <p><strong>Availability:</strong> In stock</p>
-                        <h3 class="text-danger">Tk {{ $item_details->discount_price??"" }}</h3>
+                        @endif
+                        <p><strong>Availability:</strong>  
+                            @if ($item_details->is_stock())
+                                <span class="text-success  d-inline-block">{{ __('In Stock') }}</span>
+                            @else
+                                <span class="text-danger  d-inline-block">{{ __('Out of stock') }}</span>
+                            @endif
+                        </p>
+                        <h3 ><span class="previous-price">Tk {{ $item_details->previous_price??"" }}</span><span class="text-danger">Tk {{ $item_details->discount_price??"" }}</span></h3>
                         <p class="text-danger fw-bold">
                             @foreach ( json_decode($item_details->specification_description)??[] as $spe)
                                 * {{ $spe }} <br />
@@ -58,30 +66,31 @@
                             </div>
                             <div class="size-option d-flex">
                                 @php
-                                    $sizes = collect($item_details->iteamVariant ?? [])->pluck('size')->unique('id')->filter();
+                                    $variantsIds = $item_details->iteamVariant->pluck('variant_id')->values()->all();
+                                    $variants = App\Models\Variant::whereIn('id', $variantsIds)->pluck('size_id')->unique()->values()->all();
+                                    $sizes = App\Models\Size::whereIn('id', $variants)->get();
                                 @endphp
                                 @foreach ($sizes as $size)
-                                    @if (isset($size->id))
-                                    <input type="radio" id="size{{ $size->id }}" name="size" value="{{ $size->id }}" />
+                                    <input type="radio" id="size{{ $size->id }}" name="size" value="{{ $size->id }}" checked>
                                     <label for="size{{ $size->id }}">{{ $size->name }}</label>
-                                    @endif
                                 @endforeach
-
+                            </div>
+                        </div>
                         <!-- Color -->
                         <div class="mb-3">
                             <p><strong>Color</strong></p>
-                            <div class="color-option d-flex">
+                            <div class="size-option d-flex">
                                 @php
-                                    $colors = collect($item_details->iteamVariant ?? [])->pluck('color')->filter()->unique('id');
+                                    $variantsIds = $item_details->iteamVariant->pluck('variant_id')->values()->all();
+                                    $variants = App\Models\Variant::whereIn('id', $variantsIds)->pluck('color_id')->unique()->values()->all();
+                                    $colors = App\Models\Color::whereIn('id', $variants)->get();
                                 @endphp
                                 @foreach ($colors as $color)
-                                    @if(isset($color->id))
-                                        <input type="radio" id="color{{ $color->id }}" name="color" value="{{ $color->id }}">
+                                        <input type="radio" id="color{{ $color->id }}" name="color" value="{{ $color->id }}" checked>
                                         <label for="color{{ $color->id }}">
                                             <span class="color-circle" style="background: {{ $color->code ?? '#000' }}; display:inline-block; width:20px; height:20px; border-radius:50%; border:1px solid #ccc; margin-right:5px;"></span>
                                             
                                         </label>
-                                    @endif
                                 @endforeach
                             </div>
                         </div>
@@ -101,28 +110,13 @@
                         <input type="hidden" value="{{ $item_details->id??"" }}" id="item_id">
                         <input type="hidden" id="demo_price"
                             value="200">
-                        <!-- Buttons -->
-                        <div class="d-flex">
-                            {{-- <button class="btn btn-dark me-2 add_to_cartbtn" i>
-                                ADD TO CART
-                            </button> 
-                            <button class="btn btn-outline-dark buy_now_btn" > --}}
 
-                      <div class="d-flex">
-                            <button class="btn btn-dark me-2  add_to_cartbtn" d="add_to_cart">
-                                ADD TO CART
-                            </button>
-                             
-                            <a> 
-                             <i class="ps-icon-heart love_icon"></i>
-                             </a>
-                          
+                        <div class="d-flex" style="display: inline-flex">
+                            <button class="btn btn-dark me-2  add_to_cartbtn" id="add_to_cart">ADD TO CART</button>
+                            <a><i class="ps-icon-heart love_icon"></i></a>
                         </div>
                         <div>
-                             <button class="btn btn-outline-dark buy_now_btn" id="buy_to_cart">
-
-                                BUY IT NOW
-                            </button>
+                             <button class="btn btn-outline-dark buy_now_btn" id="buy_to_cart">BUY IT NOW</button>
                         </div>
                         
                     </div>

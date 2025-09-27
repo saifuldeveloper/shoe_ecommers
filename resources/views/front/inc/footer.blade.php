@@ -100,23 +100,40 @@ $brands = \App\Models\Brand::where('status',1)->where('is_popular' , 1)->orderBy
 
     <div class="ps-footer__copyright">
         <div class="ps-container">
-            <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                    <p>
-                        &copy; {{ date('Y') }} {{ $setting->copy_right ?? 'Avijatry' }}
-                        Developed by <a href="#"> {{ $setting->title ?? ""}}</a>
-                    </p>
+           <div class="row">
+                <!-- Section 1 -->
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                   <p> &copy; {{ date('Y') }} {{ $setting->copy_right ?? 'Avijatry' }} Developed by <a href="#"> {{ $setting->title ?? ""}}</a> </p>
                 </div>
 
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                    <ul class="ps-social">
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
+                <!-- Section 2 -->
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <img src="{{ !empty($setting->footer_gateway_img) && file_exists(public_path('storage/generalSettings/' . $setting->footer_gateway_img)) 
+                                        ? asset('storage/generalSettings/' . $setting->footer_gateway_img) 
+                                        : asset('assets/images/sslc.png') }}" alt="">
+                </div>
+
+                <!-- Section 3 -->
+            @php
+                $socials = json_decode($setting->social_link, true);
+            @endphp
+  
+           @if(!empty($socials) && isset($socials['icons']) && isset($socials['links']))
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <ul class="ps-social d-flex gap-2 justify-content-center">
+                        @foreach($socials['icons'] as $index => $icon)
+                            @if(!empty($socials['links'][$index]))
+                                <li>
+                                    <a href="{{ $socials['links'][$index] }}" target="_blank">
+                                        <i class="{{ $icon }}"></i>
+                                    </a>
+                                </li>
+                            @endif
+                        @endforeach
                     </ul>
                 </div>
-            </div>
+            @endif
+           
         </div>
     </div>
 </div>

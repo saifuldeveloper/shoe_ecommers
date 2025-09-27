@@ -60,16 +60,14 @@
         @foreach ($cart as $key => $item)
      
         <div class="entry">
-          <div class="entry-thumb"><a href="{{route('front.product',$item['slug'])}}"><img src="{{asset('storage/items/'.$item['photo'])}}" alt="Product"></a></div>
+          <div class="entry-thumb"><a href="{{route('front.product',$item->item->id)}}"><img src="{{asset('storage/items/'.$item->item->photo)}}" alt="Product"></a></div>
           <div class="entry-content">
-            <h4 class="entry-title"><a href="{{route('front.product',$item['slug'])}}">
+            <h4 class="entry-title"><a href="{{route('front.product',$item->item->id)}}">
                 {{ Str::limit($item['name'], 45) }}
 
             </a></h4>
-            <span class="entry-meta">{{$item['qty']}} x {{PriceHelper::setCurrencyPrice($item['main_price'])}}</span>
-            @foreach ($item['attribute']['option_name'] as $optionkey => $option_name)
-            <span class="entry-meta"><b>{{$option_name}}</b> : {{PriceHelper::setCurrencySign()}}{{$item['attribute']['option_price'][$optionkey]}}</span>
-            @endforeach
+            <span class="entry-meta">{{$item->quantity}} x {{PriceHelper::setCurrencyPrice($item->item->discount_price)}}</span>
+            
          </div>
         </div>
         @endforeach
