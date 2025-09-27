@@ -36,7 +36,7 @@ class DatabaseSeeder extends Seeder
         // FcategoriesTableSeeder::class,
         // GalleriesTableSeeder::class,
         HomeCutomizesTableSeeder::class,
-        // ItemsTableSeeder::class,
+        ItemsTableSeeder::class,
         JobsTableSeeder::class,
         LanguagesTableSeeder::class,
         MenusTableSeeder::class,
