@@ -7,22 +7,33 @@
     }
     $cartTotal = 0;
 @endphp
-<div class="cart-items-dropdown">
-    @foreach ($cart as $item)
-    <div class="cart-item">
-        <img src="{{ asset('storage/items/' . $item->item->photo) }}"
-            alt="Product">
-        <div class="cart-item-details">
-            <h4>{{ $item->item->name }}</h4>
-            <p>3 / Off White / #MPC543</p>
-            <div class="cart-item-price">{{ $item->quantity }} x Tk {{ $item->item->discount_price??}}</div>
+@if ($cart && $cart->count() > 0)
+    <div class="cart-items-dropdown">
+        @foreach ($cart as $item)
+        @php
+            $item_variant = App\Models\ItemVariant::where('id', $item->item_variant_id)->first();
+            $item_price = $item->item->discount_price + $item_variant->additional_price;
+            $cartTotal += $item_price * $item->quantity;
+        @endphp
+        <div class="cart-item">
+            <img src="{{ asset('storage/items/' . $item->item->photo) }}"
+                alt="Product">
+            <div class="cart-item-details">
+                <h4>{{ $item->item->name }}</h4>
+                <p>{{ $item_variant->item_code??"" }}</p>
+                <div class="cart-item-price">{{ $item->quantity }} x Tk {{ $item_price??"" }}</div>
+            </div>
+            <div class="cart-item-remove" data-cart-id="{{ $item->id }}">✖</div>
+        </div> 
+        @endforeach
+        
+        <div class="cart-total">
+            <span>Total:</span>
+            <span>Tk {{ $cartTotal ?? ""}}</span>
         </div>
-        <div class="cart-item-remove">✖</div>
-    </div> 
-    @endforeach
-    
-    <div class="cart-total">
-        <span>Total:</span>
-        <span>Tk 3,749.00</span>
     </div>
-</div>
+@else
+    <div class="cart-items-dropdown">
+        <p class="text-center">{{ __('Your cart is empty.') }}</p>
+    </div>
+@endif

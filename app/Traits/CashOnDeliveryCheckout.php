@@ -48,20 +48,9 @@ trait CashOnDeliveryCheckout
             $total += $items->item->discount_price * $items->quantity;
             
             $cart_total = $total;
-
-            // $item = Item::findOrFail($key);
-            // if ($item->tax) {
-            //     $total_tax += $item::taxCalculate($item) * $items['qty'];
-            // }
         }
         
-        // product variant selection
-        // $variant = Variant::where('size_id', $data['size'])->where('color_id', $data['color'])->first();
-        // if (!PriceHelper::Digital()) {
-        //     $shipping = null;
-        // } else {
-        //     $shipping = ShippingService::findOrFail($data['shipping_id']);
-        // }
+    
         
         $discount = [];
         if (Session::has('coupon')) {
@@ -140,6 +129,13 @@ trait CashOnDeliveryCheckout
         //         $sms->SendSms($user_number, "'purchase'", $order->transaction_number);
         //     }
         // }
+
+        // clear all cart data
+        if (auth()->check()) {
+            Cart::where('user_id', auth()->user()->id)->delete();
+        } else {
+            Cart::where('session_id', session()->get('cartSession'))->delete();
+        }
 
         Session::put('order_id', $order->id);
         Session::forget('cart');

@@ -26,8 +26,9 @@
 
                     @foreach ($cart as $key => $item)
                         @php
-                            
-                            $cartTotal += ($item['main_price'] + $total + $item['attribute_price']) * $item['qty'];
+                            $item_variant = App\Models\ItemVariant::where('id', $item->item_variant_id)->first();
+                            $item_price = $item->item->discount_price + $item_variant->additional_price;
+                            $cartTotal += $item_price * $item->quantity;
                         @endphp
                         <tr>
                             <td>
@@ -43,7 +44,7 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="text-center text-lg">{{ PriceHelper::setCurrencyPrice($item->item->discount_price??"") }}
+                            <td class="text-center text-lg">{{ PriceHelper::setCurrencyPrice($item_price??"") }}
                             </td>
 
                             <td class="text-center">
@@ -64,7 +65,7 @@
 
                             </td>
                             <td class="text-center text-lg">
-                                {{ PriceHelper::setCurrencyPrice($item->item->discount_price * $item->quantity) }}</td>
+                                {{ PriceHelper::setCurrencyPrice($item_price * $item->quantity) }}</td>
 
                             <td class="text-center"><a class="remove-from-cart"
                                     href="{{ route('front.cart.destroy', $key) }}" data-toggle="tooltip"

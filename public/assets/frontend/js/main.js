@@ -875,6 +875,31 @@ function getData( status = 0, check = 0, item_key = 0, qty = 0, add_type = 0, op
         return price;
     }
 
+    // cart item remove
+    function handleRemoveCartItem(item_id) {
+        let mainurl = window.location.origin;
+        let removeCartUrl = `${mainurl}/cart/destroy/${item_id}`;
+        $.ajax({
+            type: "GET",
+            url: removeCartUrl,
+            success: function (data) {
+                if (data.status == "success") {
+                    successNotification(data.message);
+                    $(".cart_count").text(data.qty);
+                    $(".cart-dropdown").addClass("active");
+                    $('.dropdown-cart-items').html(data.cart_items_html);
+                  
+                } else {
+                    dangerNotification(data.message);
+                }
+            },
+        });
+    }
+    $(document).on("click", ".cart-item-remove", function () {
+        const itemId = $(this).data("cart-id");
+        handleRemoveCartItem(itemId);
+    });
+
   
 })(jQuery);
 

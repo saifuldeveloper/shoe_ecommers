@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\{
     Models\Item,
+    Models\Cart,
     Http\Controllers\Controller,
     Repositories\Front\CartRepository
 };
@@ -61,18 +62,15 @@ class CartController extends Controller
         return redirect()->route('front.checkout.billing')->withSuccess($msg);
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
 
-        $cart = Session::get('cart');
-        unset($cart[$id]);
-        if (count($cart) > 0) {
-            Session::put('cart', $cart);
-        } else {
-            Session::forget('cart');
+        $cart = Cart::where('id', $id)->delete();
+
+         if ($request->ajax()) {
+            $mgs = ['message' => __('Cart removed successfully'), 'status' =>'success', 'qty' => PriceHelper::totalCartQuantity(), 'cart_items_html' => view('includes.cart-items-dropdown')->render()];
+            return $mgs;
         }
-        Session::flash('success', __('Cart item remove successfully.'));
-        return back();
     }
 
     public function promoStore(Request $request)

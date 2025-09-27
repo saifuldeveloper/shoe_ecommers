@@ -989,6 +989,7 @@ h5.modal_h5_title span{
       justify-content: space-between;
       font-weight: bold;
       border-bottom: 1px solid #eee;
+      margin-right: 20px;
     }
 
     /* Buttons */
