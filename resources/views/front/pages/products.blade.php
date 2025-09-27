@@ -47,8 +47,8 @@
 <div class="ps-products-wrap pt-80 pb-80">
     <div class="ps-products" data-mh="product-listing">
         <div class="ps-product-action">
-                <div class="ps-product__filter">
-                    <select class="ps-select selectpicker">
+            <div class="ps-product__filter">
+                    <select class="ps-select selectpicker sort-select" name="sort_price">
                         <option value="1">Price (Low to High)</option>
                         <option value="2">Price (High to Low)</option>
                     </select>
@@ -66,8 +66,8 @@
 
          <div class="ps-product-action">
                 <div class="ps-product__filter">
-                    <select class="ps-select selectpicker">
-                           <option value="1">Price (Low to High)</option>
+                    <select class="ps-select selectpicker sort-select" name="sort_price">
+                        <option value="1">Price (Low to High)</option>
                         <option value="2">Price (High to Low)</option>
                     </select>
                 </div>
@@ -156,7 +156,9 @@ $(document).on("click", ".color-item", function() {
     $(this).addClass("current");
     filterProducts();
 });
-$(document).on('change', '.ps-product__filter .ps-select.selectpicker', function() {
+$(document).on('change', '.ps-product__filter .sort-select', function() {
+    let selected_value = $(this).val();
+    $('.ps-product__filter .sort-select').val(selected_value); 
     filterProducts();
 });
 
@@ -166,7 +168,7 @@ function filterProducts(page = 1) {
     let brand_id = $(".brand-item.current").data("id");
     let color = $(".color-item.current").data("value");
     let size = $(".size-item.current").data("value");
-    let sort_by = $('.ps-product__filter .ps-select.selectpicker').val();
+   let sort_by = $('.ps-product__filter .sort-select').val();
     
     $.ajax({
         url: "{{ route('products.filter') }}?page=" + page,
