@@ -64,13 +64,9 @@ class CartController extends Controller
 
     public function destroy(Request $request, $id)
     {
-
-        $cart = Cart::where('id', $id)->delete();
-
-         if ($request->ajax()) {
-            $mgs = ['message' => __('Cart removed successfully'), 'status' =>'success', 'qty' => PriceHelper::totalCartQuantity(), 'cart_items_html' => view('includes.cart-items-dropdown')->render()];
-            return $mgs;
-        }
+        Cart::where('id', $id)->delete();
+        Session::flash('success', __('Cart removed successfully'));
+        return back();
     }
 
     public function promoStore(Request $request)
@@ -133,7 +129,11 @@ class CartController extends Controller
 
     public function cartClear()
     {
-        Session::forget('cart');
+        if (auth()->check()) {
+            Cart::where('user_id', auth()->user()->id)->delete();
+        } else {
+            Cart::where('session_id', session()->get('cartSession'))->delete();
+        }
         Session::flash('success', __('Cart clear successfully'));
         return back();
     }

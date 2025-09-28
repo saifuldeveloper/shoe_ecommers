@@ -16,15 +16,14 @@
 @endphp
 @section('content')
     <!-- Page Title-->
-<div class="page-title">
+<div class="page-title mt-4">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
                 <ul class="breadcrumbs">
-                    <li><a href="{{route('front.index')}}">{{__('Home')}}</a> </li>
                     <li class="separator"></li>
-                    <li>{{__('Cart')}}</li>
-                  </ul>
+                    <li>{{__('Cart List')}}</li>
+                </ul>
             </div>
         </div>
     </div>
