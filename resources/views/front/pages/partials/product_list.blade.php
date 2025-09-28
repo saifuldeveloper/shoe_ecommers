@@ -21,19 +21,17 @@
                                 <span class="ps-shoe__price"> &#2547; {{ $product->discount_price }}</span>
                             </div>
                         </div>
-
-                        {{-- sizes --}}
-                        @php 
-                            $values = json_decode($product->variant_value);
-                            $sizes = array_filter($values, fn($value) => is_numeric($value));
-                        @endphp
-
                         <div class="ps-shoe__variants">
                             <div class="text-center pb-10">
                                 <p class="ps-shoe__categories pb-5">
-                                    @foreach($sizes as $size)
-                                        <span>{{ $size }}</span>
-                                    @endforeach
+                                     @php
+                                         $sizes = collect($product->iteamVariant ?? [])->pluck('size')->unique('id')->filter();
+                                      @endphp
+                                    @foreach ($sizes as $size)
+                                    @if (isset($size->id))
+                                    <span for="size{{ $size->id }}">{{ $size->name }}</span>
+                                    @endif
+                                @endforeach
                                 </p>
                             </div>
                             <div>

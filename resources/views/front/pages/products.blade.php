@@ -112,6 +112,7 @@
             <div class="ps-widget__content">
                 <table class="table ps-table--size">
                     <tbody>
+                        
                         @foreach ($allSize->chunk(4) as $chunk)
                             <tr>
                                 @foreach ($chunk as $size)

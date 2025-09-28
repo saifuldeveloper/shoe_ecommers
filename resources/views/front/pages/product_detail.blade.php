@@ -12,28 +12,26 @@
             <div class="row">
                 <div class="col-lg-10 col-md-12">
                     <div class="col-md-6">
-                        <img src="{{ asset('storage/items/' . $item_details->photo??"") }}"
-                            class="img-fluid border mb-3 image-detail-main-image popup-image" alt="Product" />
-
+                         <img class="img-fluid border mb-3 image-detail-main-image popup-image" alt="Product"
+                          src="{{ $item_details->photo ? (file_exists(public_path('storage/items/'.$item_details->photo)) ? url('storage/items/'.$item_details->photo) : url('assets/images/'.$item_details->photo)) : url('assets/images/default.jpg') }}" 
+                             alt="Image Not Found">
                         <div class="d-flex">
                             <div class="owl-slider zoom-gallery product-slider" data-owl-auto="true" data-owl-dots="false"
                                 data-owl-duration="1000" data-owl-gap="10" data-owl-item="4" data-owl-item-lg="6"
                                 data-owl-item-md="5" data-owl-item-sm="4" data-owl-item-xs="2" data-owl-loop="true"
                                 data-owl-mousedrag="on" data-owl-nav="true" data-owl-speed="5000">
-
-                                <a href="{{ asset('assets/frontend/images/shoe/a1.avif')}}" data-source="http://500px.com/photo/32736307" title="Into The Blue" style="width:193px;height:125px;">
-                            <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}" width="193" height="125">
-                        </a>
-
-                                <a href="{{ asset('assets/frontend/images/shoe/a1.avif')}}" data-source="http://500px.com/photo/32736307" title="Into The Blue" style="width:193px;height:125px;">
-                            <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}" width="193" height="125">
-                        </a>
-                                    <a href="{{ asset('assets/frontend/images/shoe/a1.avif')}}" data-source="http://500px.com/photo/32736307" title="Into The Blue" style="width:193px;height:125px;">
-                            <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}" width="193" height="125">
-                        </a>
-                                <a href="{{ asset('assets/frontend/images/shoe/a1.avif')}}" data-source="http://500px.com/photo/32736307" title="Into The Blue" style="width:193px;height:125px;">
-                            <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}" width="193" height="125">
-                        </a>
+                        
+                                    @foreach($item_details->galleries ?? [] as $gallery)
+                                        <a href="{{ asset($gallery->photo) }}" 
+                                        data-source="{{ asset($gallery->photo) }}" 
+                                        title="{{ $item_details->name }}" 
+                                        style="width:193px;height:125px; margin:5px;">
+                                            <img src="{{ asset('storage/items/'.$gallery->photo) }}" 
+                                                width="193" 
+                                                height="125" 
+                                                alt="{{ $item_details->name }}">
+                                        </a>
+                                    @endforeach
                             </div>
                         </div> 
                     </div>
@@ -57,31 +55,14 @@
                                 @php
                                     $sizes = collect($item_details->iteamVariant ?? [])->pluck('size')->unique('id')->filter();
                                 @endphp
+
                                 @foreach ($sizes as $size)
                                     @if (isset($size->id))
                                     <input type="radio" id="size{{ $size->id }}" name="size" value="{{ $size->id }}" />
                                     <label for="size{{ $size->id }}">{{ $size->name }}</label>
                                     @endif
                                 @endforeach
-                            <div class="mb-3">
-                                <div class="d-flex size_flex_data">
-                                    <p><strong>Size</strong></p>
-                                    <a data-toggle="modal" data-target="#size_chart"  class="size-chart-open-popup"> <img src="{{ asset('assets/frontend/images/icon_sizechar.png') }}"/> Size Chart</a>
-                                </div>
-
-                                <div class="size-option d-flex mt-2 gap-2">
-                                    <input type="radio" id="size6" name="size" checked />
-                                    <label for="size6">6</label>
-                                    <input type="radio" id="size7" name="size" />
-                                    <label for="size7">7</label>
-                                    <input type="radio" id="size8" name="size" />
-                                    <label for="size8">8</label>
-                                    <input type="radio" id="size9" name="size" />
-                                    <label for="size9">9</label>
-                                    <input type="radio" id="size10" name="size" />
-                                    <label for="size10">10</label>
-                                </div>
-                            </div>
+                        
 
                         <!-- Color -->
                         <div class="mb-3">
@@ -119,11 +100,7 @@
                             value="200">
                         <!-- Buttons -->
                         <div class="d-flex">
-                            {{-- <button class="btn btn-dark me-2 add_to_cartbtn" i>
-                                ADD TO CART
-                            </button> 
-                            <button class="btn btn-outline-dark buy_now_btn" > --}}
-
+        
                       <div class="d-flex">
                             <button class="btn btn-dark me-2  add_to_cartbtn" d="add_to_cart">
                                 ADD TO CART

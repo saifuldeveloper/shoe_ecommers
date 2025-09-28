@@ -110,7 +110,7 @@ class FrontendController extends Controller
     public function product($slug)
     {
         $item_details = Item::with('brand')->where('slug', $slug)->first();
-        dd($item_details);
+        // dd($item_details);
         return view('front.pages.product_detail', compact(
             'item_details'
         ));
