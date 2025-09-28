@@ -2,7 +2,7 @@
     @foreach ($products as $product)
         <div class="ps-product__column">
             <div class="ps-shoe mb-30">
-                <a href="{{ route('front.product', 'product-details') }}">
+                <a href="{{ route('front.product', $product->slug) }}">
                     <div class="ps-shoe__thumbnail">
                         <img src="{{ $product->thumbnail ? (file_exists(public_path('storage/items/'.$product->thumbnail)) ? url('storage/items/'.$product->thumbnail) : url('assets/images/'.$product->thumbnail)) : url('assets/images/default.jpg') }}" 
                              alt="Image Not Found">
