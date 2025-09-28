@@ -69,8 +69,8 @@
                             <p><strong>Color</strong></p>
                             <div class="color-option d-flex">
                                 @php
-                                    $colors = collect($item_details->iteamVariant ?? [])->pluck('color')->filter()->unique('id');
-                                @endphp
+                                    $colors = collect($item_details->variants ?? [])->pluck('color')->filter()->unique('id');
+                               @endphp
                                 @foreach ($colors as $color)
                                     @if(isset($color->id))
                                         <input type="radio" id="color{{ $color->id }}" name="color" value="{{ $color->id }}">

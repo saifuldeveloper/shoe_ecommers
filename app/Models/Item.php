@@ -167,7 +167,7 @@ class Item extends Model
 
     public function itemVariants()
     {
-        return $this->hasMany(ItemVariant::class);
+        return $this->hasMany(ItemVariant::class,);
     }
 
     public function variants()
