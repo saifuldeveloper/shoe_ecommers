@@ -8463,4 +8463,12 @@ html .bg--parallax {
     float: left;
     margin-right: 0px !important;
 }
+.item-name {
+  margin-bottom: 10px;
+}
+.previous-price {
+  color: #888;
+  text-decoration: line-through;
+  margin-right: 10px;
+}
 

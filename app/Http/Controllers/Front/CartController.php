@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\{
     Models\Item,
+    Models\Cart,
     Http\Controllers\Controller,
     Repositories\Front\CartRepository
 };
@@ -61,17 +62,10 @@ class CartController extends Controller
         return redirect()->route('front.checkout.billing')->withSuccess($msg);
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-
-        $cart = Session::get('cart');
-        unset($cart[$id]);
-        if (count($cart) > 0) {
-            Session::put('cart', $cart);
-        } else {
-            Session::forget('cart');
-        }
-        Session::flash('success', __('Cart item remove successfully.'));
+        Cart::where('id', $id)->delete();
+        Session::flash('success', __('Cart removed successfully'));
         return back();
     }
 
@@ -135,7 +129,11 @@ class CartController extends Controller
 
     public function cartClear()
     {
-        Session::forget('cart');
+        if (auth()->check()) {
+            Cart::where('user_id', auth()->user()->id)->delete();
+        } else {
+            Cart::where('session_id', session()->get('cartSession'))->delete();
+        }
         Session::flash('success', __('Cart clear successfully'));
         return back();
     }

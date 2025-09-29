@@ -40,37 +40,17 @@
                             <div>
                                 <div class="cart-container">
                                     <a class="ps-cart__toggle cart-icon" href="#">
-                                        <span><i class="cart_count">20</i></span>
+                                        <span><i class="cart_count">{{ PriceHelper::totalCartQuantity() }}</i></span>
                                         <i class="ps-icon-shopping-cart"></i>
                                     </a>
                                     <div class="cart-dropdown">
-                                        <div class="cart-item">
-                                            <img src="https://www.batabd.com/cdn/shop/files/5208167_1_160x.jpg?v=1756790194"
-                                                alt="Product">
-                                            <div class="cart-item-details">
-                                                <h4>NORTH STAR STRIKER ELEV8 LADIES CANVAS</h4>
-                                                <p>3 / Off White / #MPC543</p>
-                                                <div class="cart-item-price">1 x Tk 3,749.00</div>
-                                            </div>
-                                            <div class="cart-item-remove">✖</div>
+                                        <div class="dropdown-cart-items">
+                                            @include('includes.cart-items-dropdown')
                                         </div>
-                                        <div class="cart-item">
-                                            <img src="https://www.batabd.com/cdn/shop/files/5208167_1_160x.jpg?v=1756790194"
-                                                alt="Product">
-                                            <div class="cart-item-details">
-                                                <h4>NORTH STAR STRIKER ELEV8 LADIES CANVAS</h4>
-                                                <p>3 / Off White / #MPC543</p>
-                                                <div class="cart-item-price">1 x Tk 3,749.00</div>
-                                            </div>
-                                            <div class="cart-item-remove">✖</div>
-                                        </div>
-                                        <div class="cart-total">
-                                            <span>Total:</span>
-                                            <span>Tk 3,749.00</span>
-                                        </div>
+                                        {{--  --}}
                                         <div class="cart-actions">
-                                            <a href="#" class="btn btn-checkout">CHECK OUT NOW</a>
-                                            <a href="#" class="btn btn-view">VIEW CART</a>
+                                            <a href="{{ route('front.checkout.payment') }}" class="btn btn-checkout">CHECK OUT NOW</a>
+                                            <a href="{{ route('front.cart') }}" class="btn btn-view">VIEW CART</a>
                                         </div>
                                     </div>
                                 </div>

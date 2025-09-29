@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\{
     Models\Order,
+    Models\Cart,
     Models\PaymentSetting,
     Traits\StripeCheckout,
     Traits\MollieCheckout,
@@ -291,24 +292,27 @@ class CheckoutController extends Controller
 
     public function payment()
     {
-        if (!Session::has('cart')) {
-            return redirect(route('front.cart'));
-        }
         $data['user'] = Auth::user();
-        $cart = Session::get('cart');
+        $cart = collect();
+        if(auth()->check()) {
+            $cart = Cart::where('user_id', auth()->user()->id)->get();
+        } else {
+            $cart = Cart::where('session_id', session()->get('cartSession'))->get();
+        }
 
         $total_tax = 0;
         $cart_total = 0;
         $total = 0;
 
+        
         foreach ($cart as $key => $items) {
 
-            $total += ($items['main_price'] + $items['attribute_price']) * $items['qty'];
+            $total += ($items->item->discount_price) * $items->quantity;
             $cart_total = $total;
-            $item = Item::findOrFail($key);
-            if ($item->tax) {
-                $total_tax += $item::taxCalculate($item) * $items['qty'];
-            }
+            // $item = Item::findOrFail($key);
+            // if ($item->tax) {
+            //     $total_tax += $item::taxCalculate($item) * $items['qty'];
+            // }
         }
 
         $shipping = [];
@@ -318,9 +322,7 @@ class CheckoutController extends Controller
             $discount = Session::get('coupon');
         }
 
-        if (!PriceHelper::Digital()) {
-            $shipping = null;
-        }
+      
 
         $grand_total = ($cart_total  + $total_tax);
         $grand_total = $grand_total - ($discount ? $discount['discount'] : 0);

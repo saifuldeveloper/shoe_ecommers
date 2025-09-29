@@ -823,24 +823,23 @@ function getData( status = 0, check = 0, item_key = 0, qty = 0, add_type = 0, op
             type: "GET",
             url: addToCartUrl,
             success: function (data) {
-                console.log(data);
                 if (data.status == "outStock") {
                     dangerNotification(data.message);
                 } else if (data.status == "alreadyInCart") {
                     dangerNotification(data.message);
-                } else {
                     $(".cart_count").text(data.qty);
-                    $(".cart_view_header").load(
-                        $("#header_cart_load").attr("data-target")
-                    );
+                    $(".cart-dropdown").addClass("active");
+                    $('.dropdown-cart-items').html(data.cart_items_html);
+                } else {
+                   $(".cart_count").text(data.qty);
+                    $(".cart-dropdown").addClass("active");
+                    $('.dropdown-cart-items').html(data.cart_items_html);
                     if (qty) {
                         $("#view_cart_load").load(
                             $("#cart_view_load").attr("data-target")
                         );
                     }
                     if (add_type == 1) {
-                        // location.href = mainurl + "/cart";
-                      
                         location.href = "/checkout/review/payment";
                     } else {
                         successNotification(data.message);
@@ -875,6 +874,31 @@ function getData( status = 0, check = 0, item_key = 0, qty = 0, add_type = 0, op
         });
         return price;
     }
+
+    // cart item remove
+    function handleRemoveCartItem(item_id) {
+        let mainurl = window.location.origin;
+        let removeCartUrl = `${mainurl}/cart/destroy/${item_id}`;
+        $.ajax({
+            type: "GET",
+            url: removeCartUrl,
+            success: function (data) {
+                if (data.status == "success") {
+                    successNotification(data.message);
+                    $(".cart_count").text(data.qty);
+                    $(".cart-dropdown").addClass("active");
+                    $('.dropdown-cart-items').html(data.cart_items_html);
+                  
+                } else {
+                    dangerNotification(data.message);
+                }
+            },
+        });
+    }
+    $(document).on("click", ".cart-item-remove", function () {
+        const itemId = $(this).data("cart-id");
+        handleRemoveCartItem(itemId);
+    });
 
   
 })(jQuery);

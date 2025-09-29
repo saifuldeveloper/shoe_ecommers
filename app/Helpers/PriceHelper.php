@@ -487,5 +487,18 @@ class PriceHelper
         ];
         Session::put('shipping_address', $shipping);
     }
+    public static function totalCartQuantity(){
+        $cart = collect();
+        if(auth()->check()) {
+            $cart = \App\Models\Cart::where('user_id', auth()->user()->id)->get();
+        } else {
+            $cart = \App\Models\Cart::where('session_id', session()->get('cartSession'))->get();
+        }
+        $total_quantity = 0;
+        foreach ($cart as $key => $items) {
+            $total_quantity += $items->quantity;
+        }
+        return $total_quantity;
+    }
 
 }

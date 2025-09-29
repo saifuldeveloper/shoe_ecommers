@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->tinyInteger('user_id')->nullable();
+            $table->string('session_id')->nullable();
             $table->text('cart'); // JSON data of cart items
             $table->string('currency_sign', 10);
             $table->decimal('currency_value', 10, 4)->default(1.0000);
@@ -27,18 +28,14 @@ return new class extends Migration
             $table->string('order_status')->default('pending');
             $table->text('shipping_info'); // JSON data
             $table->text('billing_info'); // JSON data
-            $table->text('variant_id'); // JSON data
             $table->string('payment_status')->default('pending');
             $table->decimal('state_price', 10, 2)->default(0);
             $table->string('state')->nullable();
             $table->timestamps();
             
             // Indexes for better performance
-            $table->index('user_id');
-            $table->index('order_status');
-            $table->index('payment_status');
+            $table->index('id');
             $table->index('transaction_number');
-            $table->index('created_at');
         });
     }
 

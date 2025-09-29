@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use App\{
     Models\Order,
+    Models\Cart,
     Models\Setting,
     Models\TrackOrder,
     Helpers\EmailHelper,
@@ -31,7 +32,12 @@ trait CashOnDeliveryCheckout
         $user = Auth::user();
 
         $setting = Setting::first();
-        $cart = Session::get('cart');
+        $cart = collect();
+        if(auth()->check()) {
+            $cart = Cart::where('user_id', auth()->user()->id)->get();
+        } else {
+            $cart = Cart::where('session_id', session()->get('cartSession'))->get();
+        }
         $total_tax = 0;
         $cart_total = 0;
         $total = 0;
@@ -39,22 +45,12 @@ trait CashOnDeliveryCheckout
         
         foreach ($cart as $key => $items) {
 
-            $total += $items['main_price'] * $items['qty'];
-            $option_price += $items['attribute_price'];
-            $cart_total = $total + $option_price;
-            $item = Item::findOrFail($key);
-            if ($item->tax) {
-                $total_tax += $item::taxCalculate($item) * $items['qty'];
-            }
+            $total += $items->item->discount_price * $items->quantity;
+            
+            $cart_total = $total;
         }
-        dd($data);
-        // product variant selection
-        $variant = Variant::where('size_id', $data['size'])->where('color_id', $data['color'])->first();
-        // if (!PriceHelper::Digital()) {
-        //     $shipping = null;
-        // } else {
-        //     $shipping = ShippingService::findOrFail($data['shipping_id']);
-        // }
+        
+    
         
         $discount = [];
         if (Session::has('coupon')) {
@@ -79,7 +75,7 @@ trait CashOnDeliveryCheckout
         $orderData['currency_value'] = PriceHelper::setCurrencyValue();
         $orderData['payment_status'] = 'Unpaid';
         $orderData['order_status'] = 'Pending';
-        $orderData['variant_id'] = $variant ? $variant->id : null;
+        // $orderData['variant_id'] = $variant ? $variant->id : null;
 
         $orderData['user_id'] = 1;
 
@@ -133,6 +129,13 @@ trait CashOnDeliveryCheckout
         //         $sms->SendSms($user_number, "'purchase'", $order->transaction_number);
         //     }
         // }
+
+        // clear all cart data
+        if (auth()->check()) {
+            Cart::where('user_id', auth()->user()->id)->delete();
+        } else {
+            Cart::where('session_id', session()->get('cartSession'))->delete();
+        }
 
         Session::put('order_id', $order->id);
         Session::forget('cart');
