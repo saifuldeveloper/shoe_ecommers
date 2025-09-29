@@ -116,7 +116,7 @@ class FrontendController extends Controller
     public function product($slug)
     {
         $item_details = Item::with('brand')->where('slug', $slug)->first();
-        // dd($item_details);
+        
         return view('front.pages.product_detail', compact(
             'item_details'
         ));
@@ -157,13 +157,18 @@ class FrontendController extends Controller
             return $q->where('brand_id', $request->brand_id); 
         });
 
-
+        // color filter
         $query->when($request->color, function ($q) use ($request) {
-            return $q->whereJsonContains('variant_value', $request->color); 
+            $q->whereHas('itemVariants.variant', function ($subQ) use ($request) {
+                $subQ->where('color_id', $request->color);
+            });
         });
 
+        // size filter
         $query->when($request->size, function ($q) use ($request) {
-            return $q->whereJsonContains('variant_value', $request->size); 
+            $q->whereHas('itemVariants.variant', function ($subQ) use ($request) {
+                $subQ->where('size_id', $request->size);
+            });
         });
 
     

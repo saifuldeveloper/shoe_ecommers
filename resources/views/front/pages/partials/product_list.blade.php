@@ -25,7 +25,7 @@
                             <div class="text-center pb-10">
                                 <p class="ps-shoe__categories pb-5">
                                      @php
-                                         $sizes = collect($product->iteamVariant ?? [])->pluck('size')->unique('id')->filter();
+                                         $sizes = collect($product->variants ?? [])->pluck('size')->unique('id')->filter();
                                       @endphp
                                     @foreach ($sizes as $size)
                                     @if (isset($size->id))
