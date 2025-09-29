@@ -242,6 +242,12 @@
                         <span class="sub-item">{{ __('Services') }}</span>
                     </a>
                 </li>
+
+                <li>
+                    <a class="sub-link" href="{{ route('back.socialmediapost.index') }}">
+                        <span class="sub-item">{{ __('Social Media Posts') }}</span>
+                    </a>
+                </li>
                 {{-- <li>
                     <a class="sub-link" href="{{ route('back.setting.section') }}">
                         <span class="sub-item">{{ __('Visibility') }}</span>
