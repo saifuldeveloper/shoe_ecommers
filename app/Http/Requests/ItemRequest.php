@@ -52,7 +52,7 @@ class ItemRequest extends FormRequest
             'discount_price'  => 'required|max:50',
             'previous_price'  => 'max:50',
             'tax_id'          => 'required',
-            'photo'           => $required . 'mimes:jpeg,jpg,png,svg,webp',
+            'photo'           => $required . 'mimes:jpeg,jpg,png,svg,webp,avif',
         ];
 
         // If product has variants → validate variant_sku

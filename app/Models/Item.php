@@ -167,11 +167,29 @@ class Item extends Model
 
     public function itemVariants()
     {
-        return $this->hasMany(ItemVariant::class);
+        return $this->hasMany(ItemVariant::class,);
     }
 
     public function variants()
     {
         return $this->hasManyThrough(Variant::class, ItemVariant::class, 'item_id', 'id', 'id', 'variant_id');
+    }
+
+    public function getUniqueSizesAttribute()
+    {
+        return $this->itemVariants
+            ->pluck('variant.size.name')
+            ->filter()
+            ->unique()
+            ->values();
+    }
+
+    public function getUniqueColorsAttribute()
+    {
+        return $this->itemVariants
+            ->pluck('variant.color.code')
+            ->filter()
+            ->unique()
+            ->values();
     }
 }

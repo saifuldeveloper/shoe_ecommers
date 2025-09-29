@@ -25,11 +25,15 @@ use App\Models\CampaignItem;
 use App\Models\Category;
 use App\Models\Fcategory;
 use App\Models\HomeCutomize;
+use App\Models\SocialMediaPost;
 use App\Models\Order;
 use App\Models\PaymentSetting;
 use App\Models\Post;
+use App\Models\Size;
+use App\Models\Color;
 use App\Models\Service;
 use App\Models\Slider;
+use App\Models\Subcategory;
 use App\Models\TrackOrder;
 use Illuminate\Support\Facades\Config;
 use Carbon\Carbon;
@@ -77,13 +81,18 @@ class FrontendController extends Controller
         $homeCustomize = HomeCutomize::first();
         $heroBanner = json_decode($homeCustomize->hero_banner, true);
         $thirdBanner  = json_decode($homeCustomize->banner_third, true);
+        $socialPosts = SocialMediaPost::where('status', 1)->latest()->get();
+        $newArrivalItems = Item::with('itemVariants.variant.color', 'itemVariants.variant.size')->where('status', 1)->where('is_type', 'new')->latest()->get();
+
 
         return view('front.pages.home',compact(
             'posts',
             'featured_items',
             'featuredCategories',
             'heroBanner',
-            'thirdBanner'
+            'thirdBanner',
+            'socialPosts',
+            'newArrivalItems'
         ));
 
     }
@@ -125,8 +134,50 @@ class FrontendController extends Controller
     }
      public function categoryProduct($slug)
     {
-        return view('front.pages.products');
+        $subCategories = Subcategory::where('status',1)->latest()->get();
+        $brands = Brand::where('status',1)->latest()->get();
+        $products = Item::with('iteamVariant')->where('status',1)->latest()->paginate(20);
+        $allSize = Size::where('status',1)->latest()->get();
+        $allColor  = Color::where('status',1)->latest()->get();
 
+        return view('front.pages.products',compact('subCategories','brands','products','allSize','allColor'));
+
+    }
+
+    //products filter 
+    public function filterProducts(Request $request)
+    {
+        $query = Item::query()->where('status', 1);
+
+        $query->when($request->subcategory_id, function ($q) use ($request) {
+            return $q->where('subcategory_id', $request->subcategory_id);
+        });
+
+        $query->when($request->brand_id, function ($q) use ($request) {
+            return $q->where('brand_id', $request->brand_id); 
+        });
+
+
+        $query->when($request->color, function ($q) use ($request) {
+            return $q->whereJsonContains('variant_value', $request->color); 
+        });
+
+        $query->when($request->size, function ($q) use ($request) {
+            return $q->whereJsonContains('variant_value', $request->size); 
+        });
+
+    
+        if ($request->filled('sort_by')) {
+            $sortOrder = $request->sort_by == '1' ? 'asc' : 'desc'; 
+            $query->orderBy('discount_price', $sortOrder); 
+        }
+
+        $products = $query->paginate(20);
+
+        return response()->json([
+            'products'=> view('front.pages.partials.product_list', compact('products'))->render(),
+            'pagination' => view('front.pages.partials.pagination', compact('products'))->render(),
+        ]);
     }
 
 

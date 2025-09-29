@@ -16,7 +16,7 @@ class Variant extends Model
 
     public function color()
     {
-        return $this->belongsTo(Color::class, 'color_id');
+        return $this->belongsTo(Color::class, 'color_id','id');
     }
 
     public function size()
