@@ -12,12 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('stores', function (Blueprint $table) {
-            $table->id();  
+            $table->id();
             $table->foreignId('district_id')->constrained()->cascadeOnDelete('districts');
             $table->string('name');
             $table->string('slug')->unique('slug');
             $table->string('area');
             $table->string('address');
+            $table->decimal('latitude', 10, 7)->nullable();
+            $table->decimal('longitude', 10, 7)->nullable();
             $table->string('mobile');
             $table->timestamps();
         });
