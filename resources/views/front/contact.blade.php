@@ -2,38 +2,47 @@
 @section('content')
 <div class="ps-contact ps-section pb-80">
 
-  <!-- Filter -->
-  <div class="mb-4">
-    <label for="districtSelect" class="form-label">Select District</label>
-    <select id="districtSelect" class="form-control" style="max-width: 400px;">
-      <option value="all">All Districts</option>
-      @foreach($districts as $district)
-      <option value="{{ $district->id }}">{{ $district->name }}</option>
-      @endforeach
-    </select>
-  </div>
-
-  <div class="row">
-    <!-- ✅ Store List -->
-    <div class="col-md-4 mb-4">
-      <div id="storeList" class="list-group" style="max-height: 500px; overflow-y: auto; border-radius: 10px;">
-        @foreach($stores as $store)
-        <div class="list-group-item">
-          <h6 class="mb-1">{{ $store->name }}</h6>
-          <p class="mb-0"><strong>📍</strong> {{ $store->area }}, {{ $store->address }}</p>
-          <p class="mb-0"><strong>📞</strong> {{ $store->mobile }}</p>
-        </div>
+  <div class="ps-container">
+    <!-- Filter -->
+    <div class="mb-4" style="margin-bottom: 10px;">
+      <label for="districtSelect" class="form-label">Select District</label>
+      <select id="districtSelect" class="form-control" style="max-width: 361px; border-radius: 10px;">
+        <option value="all">All Districts</option>
+        @foreach($districts as $district)
+        <option value="{{ $district->id }}">{{ $district->name }}</option>
         @endforeach
+      </select>
+    </div>
+
+    <div class="row">
+      <!-- ✅ Store List -->
+      <div class="col-md-4 mb-4">
+        <div id="storeListWrapper"
+          style="border: 1px solid #ddd; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+
+          <div id="storeList"
+            class="list-group"
+            style="max-height: 500px; overflow-y: auto; scroll-behavior: smooth;">
+            @foreach($stores as $store)
+            <div class="list-group-item">
+              <h6 class="mb-1">{{ $store->name }}</h6>
+              <p class="mb-0"><strong>📍</strong> {{ $store->area }}, {{ $store->address }}</p>
+              <p class="mb-0"><strong>📞</strong> {{ $store->mobile }}</p>
+            </div>
+            @endforeach
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ✅ Map -->
+      <div class="col-md-8">
+        <div id="contact-map" style="height: 500px; border-radius: 10px;"></div>
       </div>
     </div>
-
-    <!-- ✅ Map -->
-    <div class="col-md-8">
-      <div id="contact-map" style="height: 500px; border-radius: 10px;"></div>
-    </div>
   </div>
 
-  <div class="ps-container" style="display: none;">
+  <div class="ps-container">
     <div class="row">
       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
         <div class="ps-section__header mb-50">
@@ -328,27 +337,6 @@
     var allStores = @json($stores);
     renderStoresOnMap(allStores);
     renderStoreList(allStores);
-
-    // ✅ Filter stores by district
-    // $('#districtSelect').on('change', function() {
-    //   var districtId = $(this).val();
-
-    //   fetch(`/contact/stores/${districtId}`)
-    //     .then(res => res.json())
-    //     .then(data => {
-    //       renderStoresOnMap(data);
-    //       renderStoreList(data);
-
-    //       // ✅ Smoothly fly to the first store in the selected district
-    //       if (data.length > 0) {
-    //         var firstStore = data[0];
-    //         map.flyTo([firstStore.latitude, firstStore.longitude], 11, {
-    //           animate: true,
-    //           duration: 2 // adjust for slower or faster transition
-    //         });
-    //       }
-    //     });
-    // });
 
     // ✅ Filter stores by district
     $('#districtSelect').on('change', function() {
