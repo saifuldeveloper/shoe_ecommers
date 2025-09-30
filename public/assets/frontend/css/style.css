@@ -8472,3 +8472,20 @@ html .bg--parallax {
   margin-right: 10px;
 }
 
+.store-item {
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: border-color 0.3s, background-color 0.3s;
+}
+
+.store-item:hover {
+  background-color: #f8f9fa;
+}
+
+.store-item.active {
+  border-color: #007bff;
+  background-color: #e9f3ff;
+}

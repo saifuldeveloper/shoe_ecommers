@@ -226,7 +226,6 @@
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 
-<!-- 
 <script>
   $(document).ready(function() {
     var map = L.map('contact-map').setView([25.5, 88.5], 7);
@@ -236,13 +235,12 @@
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
-    var markers = [];
+    var markers = {};
 
     // ✅ Render stores on map
     function renderStoresOnMap(stores) {
-      // Remove old markers
-      markers.forEach(m => map.removeLayer(m));
-      markers = [];
+      Object.values(markers).forEach(marker => map.removeLayer(marker));
+      markers = {};
 
       if (!stores.length) return;
 
@@ -251,29 +249,51 @@
       stores.forEach(store => {
         if (!store.latitude || !store.longitude) return;
 
+        // ✅ Create marker
         var marker = L.marker([store.latitude, store.longitude])
           .addTo(map)
           .bindPopup(`<b>${store.name}</b><br>${store.area}, ${store.address}<br>📞 ${store.mobile}`);
 
-        markers.push(marker);
+        // ✅ When clicking on marker → highlight corresponding store in list
+        marker.on('click', function() {
+          // Remove highlight from all
+          $('.store-item').removeClass('active');
+
+          // Highlight the matching store
+          var storeItem = $(`.store-item[data-id='${store.id}']`);
+          storeItem.addClass('active');
+
+          // Smoothly scroll into view
+          $('#storeList').animate({
+            scrollTop: storeItem.position().top + $('#storeList').scrollTop() - 20
+          }, 500);
+
+          // Smooth map fly
+          map.flyTo(marker.getLatLng(), 15, {
+            animate: true,
+            duration: 2
+          });
+        });
+
+        markers[store.id] = marker;
         bounds.extend([store.latitude, store.longitude]);
       });
 
       map.fitBounds(bounds);
-      map.invalidateSize(); // Fix rendering inside flex/grid
+      map.invalidateSize();
     }
 
 
-    // ✅ Render store list
+    // ✅ Render store list (clickable)
     function renderStoreList(stores) {
       var listHtml = '';
 
-      if (stores.length === 0) {
+      if (!stores.length) {
         listHtml = `<div class="list-group-item text-muted text-center">No stores found.</div>`;
       } else {
         stores.forEach(store => {
           listHtml += `
-                    <div class="list-group-item">
+                    <div class="list-group-item store-item" data-id="${store.id}" style="cursor: pointer;">
                         <h6 class="mb-1">${store.name}</h6>
                         <p class="mb-0"><strong>📍</strong> ${store.area}, ${store.address}</p>
                         <p class="mb-0"><strong>📞</strong> ${store.mobile}</p>
@@ -283,6 +303,25 @@
       }
 
       $('#storeList').html(listHtml);
+
+      // ✅ Handle click on store item
+      $('.store-item').on('click', function() {
+        // 🔹 Remove active border from others
+        $('.store-item').removeClass('active');
+
+        // 🔹 Highlight the clicked one
+        $(this).addClass('active');
+
+        var id = $(this).data('id');
+        var marker = markers[id];
+        if (marker) {
+          map.flyTo(marker.getLatLng(), 15, {
+            animate: true,
+            duration: 2
+          });
+          setTimeout(() => marker.openPopup(), 2000);
+        }
+      });
     }
 
     // ✅ Initial render with all stores
@@ -290,7 +329,28 @@
     renderStoresOnMap(allStores);
     renderStoreList(allStores);
 
-    // ✅ When district changes
+    // ✅ Filter stores by district
+    // $('#districtSelect').on('change', function() {
+    //   var districtId = $(this).val();
+
+    //   fetch(`/contact/stores/${districtId}`)
+    //     .then(res => res.json())
+    //     .then(data => {
+    //       renderStoresOnMap(data);
+    //       renderStoreList(data);
+
+    //       // ✅ Smoothly fly to the first store in the selected district
+    //       if (data.length > 0) {
+    //         var firstStore = data[0];
+    //         map.flyTo([firstStore.latitude, firstStore.longitude], 11, {
+    //           animate: true,
+    //           duration: 2 // adjust for slower or faster transition
+    //         });
+    //       }
+    //     });
+    // });
+
+    // ✅ Filter stores by district
     $('#districtSelect').on('change', function() {
       var districtId = $(this).val();
 
@@ -299,89 +359,33 @@
         .then(data => {
           renderStoresOnMap(data);
           renderStoreList(data);
-        })
-        .catch(err => console.error('Fetch error:', err));
-    });
-  });
-</script> -->
 
-
-<script>
-$(document).ready(function() {
-    // ✅ Initialize map only once
-    var map = L.map('contact-map').setView([25.5, 88.5], 7);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 18,
-        attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
-
-    var markers = [];
-
-    // ✅ Render stores on map
-    function renderStoresOnMap(stores) {
-        // Remove old markers
-        markers.forEach(m => map.removeLayer(m));
-        markers = [];
-
-        if (!stores.length) return;
-
-        var bounds = L.latLngBounds();
-
-        stores.forEach(store => {
-            if (!store.latitude || !store.longitude) return;
-
-            var marker = L.marker([store.latitude, store.longitude])
-                .addTo(map)
-                .bindPopup(`<b>${store.name}</b><br>${store.area}, ${store.address}<br>📞 ${store.mobile}`);
-
-            markers.push(marker);
-            bounds.extend([store.latitude, store.longitude]);
-        });
-
-        map.fitBounds(bounds);
-        map.invalidateSize(); // Fix rendering inside flex/grid
-    }
-
-    // ✅ Render store list
-    function renderStoreList(stores) {
-        var listHtml = '';
-
-        if (stores.length === 0) {
-            listHtml = `<div class="list-group-item text-muted text-center">No stores found.</div>`;
-        } else {
-            stores.forEach(store => {
-                listHtml += `
-                    <div class="list-group-item">
-                        <h6 class="mb-1">${store.name}</h6>
-                        <p class="mb-0"><strong>📍</strong> ${store.area}, ${store.address}</p>
-                        <p class="mb-0"><strong>📞</strong> ${store.mobile}</p>
-                    </div>
-                `;
+          // ✅ Smooth behavior for single district
+          if (districtId !== 'all' && data.length > 0) {
+            var firstStore = data[0];
+            map.flyTo([firstStore.latitude, firstStore.longitude], 11, {
+              animate: true,
+              duration: 2
             });
-        }
-
-        $('#storeList').html(listHtml);
-    }
-
-    // ✅ Initial render with all stores
-    var allStores = @json($stores);
-    renderStoresOnMap(allStores);
-    renderStoreList(allStores);
-
-    // ✅ When district changes
-    $('#districtSelect').on('change', function() {
-        var districtId = $(this).val();
-
-        fetch(`/contact/stores/${districtId}`)
-            .then(res => res.json())
-            .then(data => {
-                renderStoresOnMap(data);
-                renderStoreList(data);
-            })
-            .catch(err => console.error('Fetch error:', err));
+          }
+          // ✅ When 'All Districts' selected — show all stores smoothly
+          else if (districtId === 'all' && data.length > 0) {
+            var bounds = L.latLngBounds();
+            data.forEach(store => {
+              if (store.latitude && store.longitude) {
+                bounds.extend([store.latitude, store.longitude]);
+              }
+            });
+            map.flyToBounds(bounds, {
+              animate: true,
+              duration: 2 // smooth zoom for "All Districts"
+            });
+          }
+        });
     });
-});
+
+
+  });
 </script>
 
 @endpush
