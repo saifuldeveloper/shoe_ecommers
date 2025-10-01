@@ -368,7 +368,7 @@
                             <div class="ps-post__thumbnail">
                               @if(!empty($photos) && count($photos) > 0)
                                 @foreach($photos as $img)
-                                    <img class="blog_image" alt="" src="{{ Storage::url('blog/' . $img) }}" />
+                                    <img  alt="" src="{{ Storage::url('blog/' . $img) }}" />
                                 @endforeach
                             @else
                                 <img alt="default" src="{{ asset('assets/images/default.jpg') }}" />
@@ -402,10 +402,20 @@
             <div class="ps-section__header">
                 <h2 class="ps-section__title">Avijatri On Social Media</h2>
             </div>
-            <div class="owl-slider" data-owl-auto="true" data-owl-dots="false" data-owl-duration="1000"
-                data-owl-gap="40" data-owl-item="6" data-owl-item-lg="6" data-owl-item-md="5" data-owl-item-sm="4"
-                data-owl-item-xs="2" data-owl-loop="true" data-owl-mousedrag="on" data-owl-nav="false"
-                data-owl-speed="5000">
+            <div class="owl-slider"
+            data-owl-auto="true"
+            data-owl-dots="false"
+            data-owl-duration="1000"
+            data-owl-gap="0"
+            data-owl-item="6"
+            data-owl-item-lg="6"
+            data-owl-item-md="5"
+            data-owl-item-sm="4"
+            data-owl-item-xs="2"
+            data-owl-loop="true"
+            data-owl-mousedrag="on"
+            data-owl-nav="false"
+            data-owl-speed="5000">
 
                 @foreach($socialPosts as $post)
                     <a href="{{ $post->url }}" target="_blank">
