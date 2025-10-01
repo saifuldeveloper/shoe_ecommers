@@ -406,7 +406,7 @@
             data-owl-auto="true"
             data-owl-dots="false"
             data-owl-duration="1000"
-            data-owl-gap="0"
+            data-owl-gap="40"
             data-owl-item="6"
             data-owl-item-lg="6"
             data-owl-item-md="5"
