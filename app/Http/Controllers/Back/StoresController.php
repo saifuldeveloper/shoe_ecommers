@@ -37,6 +37,8 @@ class StoresController extends Controller
             'district_id' => 'required',
             'address' => 'required',
             'area' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
             'mobile' => 'required',
         ]);
         $store = new Store();
@@ -45,6 +47,8 @@ class StoresController extends Controller
         $store->district_id = $request->district_id;
         $store->address = $request->address;
         $store->area = $request->area;
+        $store->latitude = $request->latitude;
+        $store->longitude = $request->longitude;
         $store->mobile = $request->mobile;
         $store->save();
         return redirect()->route('back.stores.index')->withSuccess(__('New Store Added Successfully.'));
@@ -79,6 +83,8 @@ class StoresController extends Controller
             'district_id' => 'required',
             'address' => 'required',
             'area' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
             'mobile' => 'required',
         ]);
         $store = Store::find($id);
@@ -88,6 +94,8 @@ class StoresController extends Controller
             $store->district_id = $request->district_id;
             $store->address = $request->address;
             $store->area = $request->area;
+            $store->latitude = $request->latitude;
+            $store->longitude = $request->longitude;
             $store->mobile = $request->mobile;
             $store->save();
             return redirect()->route('back.stores.index')->withSuccess(__('Store Updated Successfully.'));

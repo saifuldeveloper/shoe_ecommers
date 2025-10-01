@@ -9,7 +9,9 @@ use Illuminate\{
 
 use App\{
     Models\Item,
+    Models\Store,
     Models\Setting,
+    Models\District,
     Models\Subscriber,
     Helpers\EmailHelper,
     Http\Controllers\Controller,
@@ -305,8 +307,28 @@ class FrontendController extends Controller
         if (Setting::first()->is_contact == 0) {
             return back();
         }
-        return view('front.contact');
+
+        
+        $districts = District::orderBy('name')->get(['id', 'name']);
+        $stores = Store::with('district:id,name')
+            ->get(['id', 'district_id', 'name', 'area', 'address', 'mobile', 'latitude', 'longitude']);
+
+        return view('front.contact', compact('districts', 'stores'));
     }
+
+    public function getByDistrict($district_id = null)
+    {
+        $query = Store::query()->with('district:id,name');
+
+        if ($district_id && $district_id !== 'all') {
+            $query->where('district_id', $district_id);
+        }
+
+        $stores = $query->get(['id', 'district_id', 'name', 'area', 'address', 'mobile', 'latitude', 'longitude']);
+
+        return response()->json($stores);
+    }
+
     //contact message submit
     public function contactSubmit(Request $request)
     {
