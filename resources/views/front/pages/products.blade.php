@@ -40,6 +40,10 @@
 .color-item.current {
     border-color: #f59b34; /* Highlight border for selected color */
 }
+.color-item.current {
+    border-color: #f59b34;
+    box-shadow: 3px 2px 1px 7px #f59b34
+}
     </style>
 @endpush
 
@@ -116,7 +120,7 @@
                         @foreach ($allSize->chunk(4) as $chunk)
                             <tr>
                                 @foreach ($chunk as $size)
-                                    <td class="size-item" data-value="{{ $size->name }}">{{ $size->name }}</td>
+                                    <td class="size-item" data-value="{{ $size->id }}">{{ $size->name }}</td>
                                 @endforeach
                             </tr>
                         @endforeach
@@ -130,7 +134,7 @@
             <div class="ps-widget__content">
                 <ul class="ps-list--color">
                     @foreach ($allColor as $color)
-                        <li class="color-item" data-value="{{ $color->name }}">
+                        <li class="color-item" data-value="{{ $color->id }}">
                             <a href="javascript:void(0)" style="background-color: {{ $color->code ?? $color->name }}"></a>
                         </li>
                     @endforeach
@@ -147,16 +151,35 @@ $(document).on("click", ".sub-category-item, .brand-item", function() {
     $(this).toggleClass("current").siblings().removeClass("current");
     filterProducts();
 });
+// $(document).on("click", ".size-item", function() {
+//     $(".size-item").removeClass("current");
+//     $(this).addClass("current");
+//     filterProducts();
+// });
 $(document).on("click", ".size-item", function() {
-    $(".size-item").removeClass("current");
-    $(this).addClass("current");
+    if ($(this).hasClass("current")) {
+        $(this).removeClass("current");
+    } else {
+        $(".size-item").removeClass("current");
+        $(this).addClass("current");
+    }
     filterProducts();
 });
+// $(document).on("click", ".color-item", function() {
+//     $(".color-item").removeClass("current");
+//     $(this).addClass("current");
+//     filterProducts();
+// });
 $(document).on("click", ".color-item", function() {
-    $(".color-item").removeClass("current");
-    $(this).addClass("current");
+    if ($(this).hasClass("current")) {
+        $(this).removeClass("current");
+    } else {
+        $(".color-item").removeClass("current");
+        $(this).addClass("current");
+    }
     filterProducts();
 });
+
 $(document).on('change', '.ps-product__filter .sort-select', function() {
     let selected_value = $(this).val();
     $('.ps-product__filter .sort-select').val(selected_value); 
