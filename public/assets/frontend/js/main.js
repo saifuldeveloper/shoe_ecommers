@@ -625,7 +625,7 @@
         menuBtnToggle();
         subMenuToggle();
         owlCarousel($('.owl-slider'));
-        initMap();
+        // initMap();
         // setHeightProduct();
         navigateOwlCarousel();
         countDown();

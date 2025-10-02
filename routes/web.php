@@ -481,6 +481,7 @@ Route::group(['middleware' => 'maintainance'], function () {
 
         Route::get('/faq', [FrontendController::class, 'faq'])->name('front.faq');
         Route::get('/faq/{slug}', [FrontendController::class, 'show'])->name('front.faq.details');
+        Route::get('/contact/stores/{district_id?}', [FrontendController::class, 'getByDistrict']);
         Route::get('/contact', [FrontendController::class, 'contact'])->name('front.contact');
         Route::post('/contact', [FrontendController::class, 'contactSubmit'])->name('front.contact-message.submit');
         Route::post('/contact/submit', [FrontendController::class, 'contactEmail'])->name('front.contact.submit');
