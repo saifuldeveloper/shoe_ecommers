@@ -22,7 +22,11 @@ class ViewServiceProvider extends ServiceProvider
     public function boot(): void
     {
         View::composer('front.inc.header', function ($view) {
-            $categories = Category::with('subcategory')->latest()->take(3)->get();
+            $categories = Category::with('subcategory')
+            ->where('is_in_menu', 1)
+            ->where('status', 1)
+            ->orderBy('menu_serial', 'asc')
+            ->get();
             $view->with('categories', $categories);
         });
     }
