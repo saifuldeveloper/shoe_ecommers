@@ -15,7 +15,6 @@ class GalleriesTableSeeder extends Seeder
     public function run()
     {
         
-
         \DB::table('galleries')->delete();
         
         
