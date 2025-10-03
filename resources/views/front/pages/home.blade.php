@@ -87,23 +87,21 @@
 
                 <ul class="ps-masonry__filter">
                     <li class="current">
-                        <a data-filter="*" href="#">All <sup>8</sup></a>
+                        <a data-filter="*" href="#">All <sup>{{ $featured_items->count() }}</sup></a>
                     </li>
-                    <li>
-                        <a data-filter=".nike" href="#">Nike <sup>1</sup></a>
-                    </li>
-                    <li>
-                        <a data-filter=".adidas" href="#">Adidas <sup>1</sup></a>
-                    </li>
-                    <li>
-                        <a data-filter=".men" href="#">Men <sup>1</sup></a>
-                    </li>
-                    <li>
-                        <a data-filter=".women" href="#">Women <sup>1</sup></a>
-                    </li>
-                    <li>
-                        <a data-filter=".kids" href="#">Kids <sup>4</sup></a>
-                    </li>
+                    @foreach ($menuCategories as $cat)
+                        @php
+                            $count = $featured_items->where('category_id', $cat->id)->count();
+                        @endphp
+
+                        @if ($count > 0)
+                            <li>
+                                <a data-filter=".{{ Str::slug($cat->slug) }}" href="#">
+                                    {{ $cat->name }} <sup>{{ $count }}</sup>
+                                </a>
+                            </li>
+                        @endif
+                    @endforeach
                 </ul>
             </div>
 
@@ -113,7 +111,7 @@
                     <div class="ps-masonry">
                         <div class="grid-sizer"></div>
                         @foreach ($featured_items as $item)
-                         <div class="grid-item kids">
+                         <div class="grid-item {{ Str::slug($item->category->slug ?? '') }}">
                             <div class="grid-item__content-wrapper">
                                 <a href="{{ route('front.product', $item->slug) }}">
                                     <div class="ps-shoe mb-30">
