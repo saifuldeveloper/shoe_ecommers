@@ -73,7 +73,19 @@ class FrontendController extends Controller
 
     public function index()
     {
-        $featured_items = Item::where('status', 1)->take(8)->get();
+        $menuCategories = Category::where('is_in_menu', 1)
+        ->where('status', 1)
+        ->orderBy('menu_serial', 'asc')
+        ->get();
+
+        $menuCategoryIds = $menuCategories->pluck('id');
+
+        $featured_items = Item::where('status', 1)
+        ->where('is_type', 'feature')
+        ->whereIn('category_id', $menuCategoryIds)
+        ->latest()
+        ->get();
+
         $posts = Post::latest('id')->take(3)->get();
         $featuredCategories = Category::where('is_featured', 1)
                                   ->where('status', 1)
@@ -94,7 +106,8 @@ class FrontendController extends Controller
             'heroBanner',
             'thirdBanner',
             'socialPosts',
-            'newArrivalItems'
+            'newArrivalItems',
+            'menuCategories'
         ));
 
     }
