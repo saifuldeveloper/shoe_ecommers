@@ -3,6 +3,7 @@
     {{ __('Payment') }}
 @endsection
 @section('content')
+<div class="mt-4" style="margin-top: 40px"></div>
     <!-- Page Title-->
     <div class="page-title">
         <div class="container">
@@ -58,7 +59,7 @@
                                 </div>
 
                             </div>
-                            {{-- <div class="row">
+                            <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="checkout-email">{{ __('E-mail Address') }}</label>
@@ -74,7 +75,7 @@
                                             id="checkout-city" value="{{ isset($user) ? $user->ship_city : '' }}">
                                     </div>
                                 </div>
-                            </div> --}}
+                            </div>
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="form-group">
@@ -119,7 +120,7 @@
                                             @foreach($paymentMethods as $method)
                                                 <label class="d-block mb-2" style="cursor:pointer;">
                                                     <input type="radio" name="payment_method" value="{{ $method->unique_keyword }}" class="d-none payment-radio" {{ $loop->first ? 'checked' : '' }}>
-                                                    <img src="{{ url('/storage/payments/' . $method->photo) }}" alt="{{ $method->name }}" title="{{ $method->name }}" style="width:120px; height:auto; border:2px solid #eee; border-radius:6px; margin-right:8px; vertical-align:middle;">
+                                                    {{-- <img src="{{ url('/storage/payments/' . $method->photo) }}" alt="{{ $method->name }}" title="{{ $method->name }}" style="width:120px; height:auto; border:2px solid #eee; border-radius:6px; margin-right:8px; vertical-align:middle;"> --}}
                                                     <span>{{ $method->name }}</span>
                                                 </label>
                                             @endforeach

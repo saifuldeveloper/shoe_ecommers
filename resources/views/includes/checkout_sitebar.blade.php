@@ -27,12 +27,12 @@
               </tr>
               @endif
 
-              @if (DB::table('states')->count() > 0)
+              {{-- @if (DB::table('states')->count() > 0)
               <tr class="{{Auth::check() && Auth::user()->state_id ? '' : 'd-none'}} set__state_price_tr">
                 <td>{{__('State tax')}}:</td>
                 <td class="text-gray-dark set__state_price">{{PriceHelper::setCurrencyPrice(Auth::check() && Auth::user()->state_id ? ($cart_total*Auth::user()->state->price/100 ): 0)}}</td>
               </tr>
-              @endif
+              @endif --}}
 
               @if($discount)
               <tr>
@@ -42,10 +42,10 @@
               @endif
             
            
-              <tr>
+              {{-- <tr>
                 <td>{{__('Shipping')}}:</td>
                 <td class="text-gray-dark "> <span class="shipping_price_set">120</span></td>
-              </tr>
+              </tr> --}}
           
               <tr>
                 <td class="text-lg text-primary">{{__('Order total')}}</td>
@@ -56,9 +56,11 @@
       <!-- Items in Cart Widget-->
       <section class="card widget widget-featured-posts widget-featured-products p-4">
         <h3 class="widget-title">{{__('Items In Your Cart')}}</h3>
-      
         @foreach ($cart as $key => $item)
-     
+         @php
+            $item_variant = App\Models\ItemVariant::where('id', $item->item_variant_id)->first();
+            $item_price = $item->item->discount_price + $item_variant->additional_price;
+        @endphp
         <div class="entry">
           <div class="entry-thumb"><a href="{{route('front.product',$item->item->id)}}"><img src="{{asset('storage/items/'.$item->item->photo)}}" alt="Product"></a></div>
           <div class="entry-content">
@@ -66,14 +68,11 @@
                 {{ Str::limit($item['name'], 45) }}
 
             </a></h4>
-            <span class="entry-meta">{{$item->quantity}} x {{PriceHelper::setCurrencyPrice($item->item->discount_price)}}</span>
+            <span class="entry-meta">{{$item->quantity}} x {{PriceHelper::setCurrencyPrice($item_price)}}</span>
             
          </div>
         </div>
         @endforeach
-
       </section>
-
-
     </aside>
   </div>
