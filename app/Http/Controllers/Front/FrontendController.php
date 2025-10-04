@@ -9,7 +9,9 @@ use Illuminate\{
 
 use App\{
     Models\Item,
+    Models\Store,
     Models\Setting,
+    Models\District,
     Models\Subscriber,
     Helpers\EmailHelper,
     Http\Controllers\Controller,
@@ -71,7 +73,19 @@ class FrontendController extends Controller
 
     public function index()
     {
-        $featured_items = Item::where('status', 1)->take(8)->get();
+        $menuCategories = Category::where('is_in_menu', 1)
+        ->where('status', 1)
+        ->orderBy('menu_serial', 'asc')
+        ->get();
+
+        $menuCategoryIds = $menuCategories->pluck('id');
+
+        $featured_items = Item::where('status', 1)
+        ->where('is_type', 'feature')
+        ->whereIn('category_id', $menuCategoryIds)
+        ->latest()
+        ->get();
+
         $posts = Post::latest('id')->take(3)->get();
         $featuredCategories = Category::where('is_featured', 1)
                                   ->where('status', 1)
@@ -92,7 +106,8 @@ class FrontendController extends Controller
             'heroBanner',
             'thirdBanner',
             'socialPosts',
-            'newArrivalItems'
+            'newArrivalItems',
+            'menuCategories'
         ));
 
     }
@@ -116,7 +131,7 @@ class FrontendController extends Controller
     public function product($slug)
     {
         $item_details = Item::with('brand')->where('slug', $slug)->first();
-        // dd($item_details);
+        
         return view('front.pages.product_detail', compact(
             'item_details'
         ));
@@ -157,13 +172,18 @@ class FrontendController extends Controller
             return $q->where('brand_id', $request->brand_id); 
         });
 
-
+        // color filter
         $query->when($request->color, function ($q) use ($request) {
-            return $q->whereJsonContains('variant_value', $request->color); 
+            $q->whereHas('itemVariants.variant', function ($subQ) use ($request) {
+                $subQ->where('color_id', $request->color);
+            });
         });
 
+        // size filter
         $query->when($request->size, function ($q) use ($request) {
-            return $q->whereJsonContains('variant_value', $request->size); 
+            $q->whereHas('itemVariants.variant', function ($subQ) use ($request) {
+                $subQ->where('size_id', $request->size);
+            });
         });
 
     
@@ -300,8 +320,28 @@ class FrontendController extends Controller
         if (Setting::first()->is_contact == 0) {
             return back();
         }
-        return view('front.contact');
+
+        
+        $districts = District::orderBy('name')->get(['id', 'name']);
+        $stores = Store::with('district:id,name')
+            ->get(['id', 'district_id', 'name', 'area', 'address', 'mobile', 'latitude', 'longitude']);
+
+        return view('front.contact', compact('districts', 'stores'));
     }
+
+    public function getByDistrict($district_id = null)
+    {
+        $query = Store::query()->with('district:id,name');
+
+        if ($district_id && $district_id !== 'all') {
+            $query->where('district_id', $district_id);
+        }
+
+        $stores = $query->get(['id', 'district_id', 'name', 'area', 'address', 'mobile', 'latitude', 'longitude']);
+
+        return response()->json($stores);
+    }
+
     //contact message submit
     public function contactSubmit(Request $request)
     {

@@ -57,6 +57,29 @@
 										<input type="text" name="address" class="form-control" id="address"
 											placeholder="{{ __('Enter Address') }}" value="{{ old('address', $store->address ?? '') }}">
 									</div>
+
+									<div class="form-group">
+										<label for="latitude">{{ __('Latitude') }} *</label>
+										<input
+											type="text"
+											name="latitude"
+											class="form-control"
+											id="latitude"
+											placeholder="{{ __('Enter Latitude (e.g. 25.6279)') }}"
+											value="{{ old('latitude', $store->latitude ?? '') }}">
+									</div>
+
+									<div class="form-group">
+										<label for="longitude">{{ __('Longitude') }} *</label>
+										<input
+											type="text"
+											name="longitude"
+											class="form-control"
+											id="longitude"
+											placeholder="{{ __('Enter Longitude (e.g. 88.6332)') }}"
+											value="{{ old('longitude', $store->longitude) }}">
+									</div>
+
 									<div class="form-group">
 										<label for="mobile">{{ __('Mobile') }} *</label>
 										<input type="text" name="mobile" class="form-control" id="mobile"

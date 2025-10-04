@@ -1,9 +1,19 @@
 @foreach ($posts ?? [] as $post)
+ @php
+    $photos = json_decode($post->photo, true);
+@endphp   
 <div class="ps-post--2">
-  <div class="ps-post__thumbnail">
-    <a class="ps-post__overlay" href="#"></a>
-    <img src="{{ asset('assets/frontend/images/blog/4.jpg') }}" alt="">
-  </div>
+     <div class="ps-post__thumbnail">
+      <a class="ps-post__overlay" href="#"></a>
+      @if(!empty($photos) && count($photos) > 0)
+        @foreach($photos as $img)
+            <img  alt="" src="{{ Storage::url('blog/' . $img) }}" />
+        @endforeach
+    @else
+        <img alt="default" src="{{ asset('assets/images/default.jpg') }}" />
+    @endif
+    </div>
+ 
   <div class="ps-post__container">
     <header class="ps-post__header">
       <a class="ps-post__title" href="{{  route('front.blog.details',$post->slug)  }}">{{ $post->title }}</a>

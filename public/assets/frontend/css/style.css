@@ -8517,3 +8517,39 @@ html .bg--parallax {
 }
 
 
+ #storeList {
+    scrollbar-width: thin;
+    scrollbar-color: #aaa #f1f1f1;
+  }
+
+  #storeList::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  #storeList::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 10px;
+  }
+
+  #storeList::-webkit-scrollbar-thumb:hover {
+    background-color: #999;
+  }
+
+.store-item {
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: border-color 0.3s, background-color 0.3s;
+}
+
+.store-item:hover {
+  background-color: #f8f9fa;
+}
+
+.store-item.active {
+  border-color: #007bff;
+  border-radius: 8px;
+  background-color: #e9f3ff;
+}

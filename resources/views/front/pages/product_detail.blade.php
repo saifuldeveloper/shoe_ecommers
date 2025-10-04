@@ -76,6 +76,7 @@
                                 @endforeach
                             </div>
                         </div>
+
                         <!-- Color -->
                         <div class="mb-3">
                             <p><strong>Color</strong></p>
@@ -85,6 +86,7 @@
                                     $variants = App\Models\Variant::whereIn('id', $variantsIds)->pluck('color_id')->unique()->values()->all();
                                     $colors = App\Models\Color::whereIn('id', $variants)->get();
                                 @endphp
+                                
                                 @foreach ($colors as $color)
                                         <input type="radio" id="color{{ $color->id }}" name="color" value="{{ $color->id }}" checked>
                                         <label for="color{{ $color->id }}">
@@ -111,14 +113,15 @@
                         <input type="hidden" id="demo_price"
                             value="200">
 
-                        <div class="d-flex" style="display: inline-flex">
+
+                        <div class="d-flex">
                             <button class="btn btn-dark me-2  add_to_cartbtn" id="add_to_cart">ADD TO CART</button>
                             <a><i class="ps-icon-heart love_icon"></i></a>
-                        </div>
+                        <!-- Buttons -->
+                        <div class="d-flex">
                         <div>
                              <button class="btn btn-outline-dark buy_now_btn" id="buy_to_cart">BUY IT NOW</button>
                         </div>
-                        
                     </div>
 
                     <div class="clearfix"></div>
