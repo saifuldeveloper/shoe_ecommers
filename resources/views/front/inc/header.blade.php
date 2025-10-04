@@ -200,6 +200,21 @@
 
             </div>
             <div class="navigation__column right">
+                 <!-- USER + SEARCH ICON AREA -->
+                   <div class="ps-user">
+                    <button type="button" class="ps-user__toggle search-toggle-btn">
+                        <i class="fa fa-search"></i>
+                    </button>
+                    <div class="search-box">
+                         <div class="icon_ps-search d-flex align-items-center border rounded"
+                                style="max-width: 300px; padding: 2px 8px;margin-left:10px">
+                                <input class="form-control border-0 ps-icon-search " type="text"
+                                    placeholder="Search Product…" />
+
+                            </div>
+                    </div>
+                </div>
+
                 {{-- start cart  --}}
                 <div class="cart-container">
                     <a class="ps-cart__toggle cart-icon" href="{{ route('front.wishlist') }}">
@@ -303,6 +318,33 @@
         body.classList.toggle('sidebar-open');
         });
         
+        // =================== seach icon 
+        document.addEventListener("DOMContentLoaded", () => {
+  const searchToggleBtn = document.querySelector(".search-toggle-btn");
+  const searchBox = document.querySelector(".search-box");
+  const closeSearch = document.querySelector(".close-search");
 
+  if (searchToggleBtn && searchBox) {
+    // toggle search box
+    searchToggleBtn.addEventListener("click", () => {
+      searchBox.classList.toggle("active");
+      if (searchBox.classList.contains("active")) {
+        searchBox.querySelector("input").focus();
+      }
+    });
+
+    // close button
+    closeSearch.addEventListener("click", () => {
+      searchBox.classList.remove("active");
+    });
+
+    // click outside to close
+    document.addEventListener("click", (e) => {
+      if (!searchBox.contains(e.target) && !searchToggleBtn.contains(e.target)) {
+        searchBox.classList.remove("active");
+      }
+    });
+  }
+});
     </script>
 @endpush
