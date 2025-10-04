@@ -15,6 +15,7 @@
     }
 @endphp
 @section('content')
+<div class="mt-4" style="margin-top: 90px"></div>
     <!-- Page Title-->
 <div class="page-title mt-4">
     <div class="container">
@@ -48,7 +49,7 @@
     </div>
   @endif
   <!-- Page Content-->
-
+<div class="mt-4" style="margin-top: 120px"></div>
 
 @endsection
 

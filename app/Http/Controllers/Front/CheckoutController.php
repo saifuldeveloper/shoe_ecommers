@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\{
     Models\Order,
     Models\Cart,
+    Models\ItemVariant,
     Models\PaymentSetting,
     Traits\StripeCheckout,
     Traits\MollieCheckout,
@@ -306,8 +307,8 @@ class CheckoutController extends Controller
 
         
         foreach ($cart as $key => $items) {
-
-            $total += ($items->item->discount_price) * $items->quantity;
+            $item_variant = ItemVariant::where('id', $items->item_variant_id)->first();
+            $total += ($items->item->discount_price + $item_variant->additional_price) * $items->quantity;
             $cart_total = $total;
             // $item = Item::findOrFail($key);
             // if ($item->tax) {
@@ -350,6 +351,8 @@ class CheckoutController extends Controller
         $request->validate([
             'ship_name' => 'required',
             'ship_phone' => 'required',
+            'ship_email' => 'nullable|email',
+            'ship_city' => 'nullable',
             'ship_address1' => 'required',
             'size' => 'nullable',
             'color' => 'nullable',

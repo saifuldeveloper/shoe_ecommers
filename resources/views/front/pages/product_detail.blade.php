@@ -12,26 +12,28 @@
             <div class="row">
                 <div class="col-lg-10 col-md-12">
                     <div class="col-md-6">
-                         <img class="img-fluid border mb-3 image-detail-main-image popup-image" alt="Product"
-                          src="{{ $item_details->photo ? (file_exists(public_path('storage/items/'.$item_details->photo)) ? url('storage/items/'.$item_details->photo) : url('assets/images/'.$item_details->photo)) : url('assets/images/default.jpg') }}" 
-                             alt="Image Not Found">
+                        <img src="{{ asset('storage/items/' . $item_details->photo??"") }}"
+                            class="img-fluid border mb-3 image-detail-main-image popup-image" alt="Product" />
+
                         <div class="d-flex">
                             <div class="owl-slider zoom-gallery product-slider" data-owl-auto="true" data-owl-dots="false"
                                 data-owl-duration="1000" data-owl-gap="10" data-owl-item="4" data-owl-item-lg="6"
                                 data-owl-item-md="5" data-owl-item-sm="4" data-owl-item-xs="2" data-owl-loop="true"
                                 data-owl-mousedrag="on" data-owl-nav="true" data-owl-speed="5000">
-                        
-                                    @foreach($item_details->galleries ?? [] as $gallery)
-                                        <a href="{{ asset($gallery->photo) }}" 
-                                        data-source="{{ asset($gallery->photo) }}" 
-                                        title="{{ $item_details->name }}" 
-                                        style="width:193px;height:125px; margin:5px;">
-                                            <img src="{{ asset('storage/items/'.$gallery->photo) }}" 
-                                                width="193" 
-                                                height="125" 
-                                                alt="{{ $item_details->name }}">
-                                        </a>
-                                    @endforeach
+
+                                <a href="{{ asset('assets/frontend/images/shoe/a1.avif')}}" data-source="http://500px.com/photo/32736307" title="Into The Blue" style="width:193px;height:125px;">
+                            <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}" width="193" height="125">
+                        </a>
+
+                                <a href="{{ asset('assets/frontend/images/shoe/a1.avif')}}" data-source="http://500px.com/photo/32736307" title="Into The Blue" style="width:193px;height:125px;">
+                            <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}" width="193" height="125">
+                        </a>
+                                    <a href="{{ asset('assets/frontend/images/shoe/a1.avif')}}" data-source="http://500px.com/photo/32736307" title="Into The Blue" style="width:193px;height:125px;">
+                            <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}" width="193" height="125">
+                        </a>
+                                <a href="{{ asset('assets/frontend/images/shoe/a1.avif')}}" data-source="http://500px.com/photo/32736307" title="Into The Blue" style="width:193px;height:125px;">
+                            <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}" width="193" height="125">
+                        </a>
                             </div>
                         </div> 
                     </div>
@@ -68,7 +70,6 @@
                                     $variants = App\Models\Variant::whereIn('id', $variantsIds)->pluck('size_id')->unique()->values()->all();
                                     $sizes = App\Models\Size::whereIn('id', $variants)->get();
                                 @endphp
-
                                 @foreach ($sizes as $size)
                                     <input type="radio" id="size{{ $size->id }}" name="size" value="{{ $size->id }}" checked>
                                     <label for="size{{ $size->id }}">{{ $size->name }}</label>

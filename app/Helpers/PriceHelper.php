@@ -483,6 +483,8 @@ class PriceHelper
         $shipping = [
             'ship_name' => 'required',
             'ship_phone' => 'required',
+            'ship_email' => 'nullable|email',
+            'ship_city' => 'nullable',
             'ship_address1' => 'required',
         ];
         Session::put('shipping_address', $shipping);

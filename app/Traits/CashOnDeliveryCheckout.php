@@ -7,6 +7,8 @@ use App\{
     Models\Cart,
     Models\Setting,
     Models\TrackOrder,
+    Models\ItemVariant,
+    Models\OrderDetails,
     Helpers\EmailHelper,
     Helpers\PriceHelper,
     Models\Notification,
@@ -44,9 +46,8 @@ trait CashOnDeliveryCheckout
         $option_price = 0;
         
         foreach ($cart as $key => $items) {
-
-            $total += $items->item->discount_price * $items->quantity;
-            
+            $item_variant = ItemVariant::where('id', $items->item_variant_id)->first();
+            $total += ($items->item->discount_price + $item_variant->additional_price) * $items->quantity;
             $cart_total = $total;
         }
         
@@ -58,9 +59,8 @@ trait CashOnDeliveryCheckout
         }
         $grand_total = 200 ??($cart_total  + $total_tax);
         $grand_total = $grand_total - ($discount ? $discount['discount'] : 0);
-        $grand_total += 200 ?? PriceHelper::StatePrce($data['state_id'], $cart_total);
-        $total_amount = 200 ?? PriceHelper::setConvertPrice($grand_total);
-        $orderData['state'] =  20 ;
+        $total_amount = PriceHelper::setConvertPrice($grand_total);
+       
         $orderData['cart'] = json_encode($cart, true);
         $orderData['discount'] = json_encode($discount, true);
         $orderData['shipping'] = "ghjhkgjh";
@@ -79,16 +79,36 @@ trait CashOnDeliveryCheckout
 
         $orderData['user_id'] = 1;
 
-        $order = Order::create($orderData);
+       try {
+            $order = Order::create($orderData);
 
-        $new_txn =  $new_txn = 'ORD-' . str_pad(Carbon::now()->format('Ymd'), 4, '0000', STR_PAD_LEFT) . '-' . $order->id;
-        $order->transaction_number = $new_txn;
-        $order->save();
+            $new_txn =  $new_txn = 'ORD-' . str_pad(Carbon::now()->format('Ymd'), 4, '0000', STR_PAD_LEFT) . '-' . $order->id;
+            $order->transaction_number = $new_txn;
+            $order->save();
 
-        TrackOrder::create([
-            'title' => 'Pending',
-            'order_id' => $order->id,
-        ]);
+            //order details entry
+            foreach ($cart as $key => $item) {
+                $orderDetailsData = [];
+                $orderDetailsData['order_id'] = $order->id;
+                $orderDetailsData['item_id'] = $item->item_id;
+                $orderDetailsData['qty'] = $item->quantity;
+                $orderDetailsData['price'] = $item->item->discount_price;
+                $item_variant = ItemVariant::where('id', $item->item_variant_id)->first();
+                $orderDetailsData['variant_price'] = $item_variant ? $item_variant->additional_price : 0;
+                $orderDetailsData['item_variant_id'] = $item->item_variant_id;
+                $orderDetailsData['total_price'] = ($item->item->discount_price + ($item_variant ? $item_variant->additional_price : 0)) * $item->quantity;
+                
+                OrderDetails::create($orderDetailsData);
+                
+            }
+
+            TrackOrder::create([
+                'title' => 'Pending',
+                'order_id' => $order->id,
+            ]);
+       } catch (\Throwable $th) {
+        throw $th;
+       }
 
 
         // PriceHelper::Transaction($order->id, $order->transaction_number, EmailHelper::getEmail(), PriceHelper::OrderTotal($order, 'trns'));
