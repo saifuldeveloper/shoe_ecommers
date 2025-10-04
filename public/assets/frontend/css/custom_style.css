@@ -1184,3 +1184,86 @@ h5.modal_h5_title span{
     }
 }
 
+/* ====header small device search icon */
+.search_iconbar {
+    position:absolute;
+    right:33%;
+    top:20%;
+}
+/* Search icon */
+.search-toggle-btn {
+     background: none;
+    border: none;
+    font-size: 25px;
+    cursor: pointer;
+    color: #524343;
+    transition: color 0.2s;
+    position: absolute;
+    top: 20px;
+    left: -25px;
+}
+
+/* Hidden search box */
+.ps-search__toggle i{
+    margin-top: 22px;
+    margin-left: 83px;
+}
+.search-box {
+  position: absolute;
+  right: 0;
+  top: 624%;
+  display: none;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 2000;
+  animation: fadeIn 0.3s ease;
+  width: 303px;
+}
+
+.search-box.active {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.search-box input {
+  flex: 1;
+  border: 1px solid #ccc;
+  padding: 5px 8px;
+  border-radius: 5px;
+  outline: none;
+  font-size: 14px;
+}
+
+.icon_ps-search {
+  line-height: 90px;
+  padding-left: 20px;
+  position: relative;
+  display: inline-block;
+  width: 267px;
+  display: flex
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (max-width: 505px) {
+ .search_iconbar {
+    position:absolute;
+    right:42%;
+    top:20%;
+}
+  .search-box{
+    right: -91px;
+  }
+}

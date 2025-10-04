@@ -6435,6 +6435,7 @@ button.ps-btn--gray:before {
   .header .ps-logo {
     max-width: 120px;
   }
+
 }
 @media (max-width: 767px) {
   .header .ps-search--header {
@@ -6453,31 +6454,57 @@ button.ps-btn--gray:before {
   }
 }
 
+/* --- 1. MODIFIED: Hides the sidebar off-screen to the LEFT --- */
 .header--sidebar {
   position: fixed;
   top: 0;
-  right: 0;
+  left: 0;
   width: 240px;
   height: 100%;
   z-index: 10000;
   background-color: #f9f9f9;
   overflow-y: auto;
-  -webkit-transform: translateX(100%);
-  -moz-transform: translateX(100%);
-  -ms-transform: translateX(100%);
-  -o-transform: translateX(100%);
-  transform: translateX(100%);
-  -webkit-transition: all 0.4s ease;
-  -moz-transition: all 0.4s ease;
-  transition: all 0.4s ease;
+
+  /* This is what hides it. Move it left by 100% of its own width (240px) */
+  -webkit-transform: translateX(-100%);
+  -moz-transform: translateX(-100%);
+  -ms-transform: translateX(-100%);
+  -o-transform: translateX(-100%);
+  transform: translateX(-100%);
+
+  /* Use 'transform' transition for better performance */
+  -webkit-transition: transform 0.4s ease;
+  -moz-transition: transform 0.4s ease;
+  transition: transform 0.4s ease;
+}
+
+/* --- 2. NEW/MODIFIED: Brings the sidebar into view --- */
+/*
+   IMPORTANT: The `.sidebar-open` class should be on the <body>
+   or the parent of `.header--sidebar` element, not just the sidebar itself.
+*/
+.sidebar-open .header--sidebar {
+  /* This moves it back to its original position (0) */
+  -webkit-transform: translateX(0);
+  -moz-transform: translateX(0);
+  -ms-transform: translateX(0);
+  -o-transform: translateX(0);
+  transform: translateX(0);
+}
+
+/* 3. OPTIONAL: To prevent the background from scrolling */
+.body.sidebar-is-open { /* Change the JS to add this class to the <body> element */
+  overflow: hidden;
 }
 .header--sidebar.active {
+  /* Slides sidebar into view (overlaying content) */
   -webkit-transform: translateX(0%);
   -moz-transform: translateX(0%);
   -ms-transform: translateX(0%);
   -o-transform: translateX(0%);
   transform: translateX(0%);
 }
+
 @media (max-width: 479px) {
   .header--sidebar .ps-search--header {
     padding: 15px 0;
@@ -6496,23 +6523,35 @@ button.ps-btn--gray:before {
   overflow: hidden;
 }
 
-.menu--active {
+/*
+ * --- FIX APPLIED HERE ---
+ *
+ * The following blocks that push the body content
+ * have been removed/commented out to ensure the sidebar overlays.
+ *
+ */
+
+/* .menu--active {
   -webkit-transform: translateX(-240px);
   -moz-transform: translateX(-240px);
   -ms-transform: translateX(-240px);
   -o-transform: translateX(-240px);
   transform: translateX(-240px);
-}
+} 
+*/
+
 .menu--active .header--sidebar {
   overflow-y: auto;
 }
-.menu--active.navigation--pin {
+
+/* .menu--active.navigation--pin {
   -webkit-transform: translate(-240px, 0);
   -moz-transform: translate(-240px, 0);
   -ms-transform: translate(-240px, 0);
   -o-transform: translate(-240px, 0);
   transform: translate(-240px, 0);
 }
+
 .menu--active.navigation--unpin {
   -webkit-transform: translate(-240px, -100%);
   -moz-transform: translate(-240px, -100%);
@@ -6520,6 +6559,7 @@ button.ps-btn--gray:before {
   -o-transform: translate(-240px, -100%);
   transform: translate(-240px, -100%);
 }
+*/
 
 .navigation--sticky {
   position: fixed;
