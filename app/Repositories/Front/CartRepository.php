@@ -63,12 +63,12 @@ class CartRepository
             abort(404);
         }
         
-        if ($item->item_type == 'normal') {
-            if ($item->stock < (int)$request->quantity) {
-                $data = ['message' => 'Product Out Of Stock', 'status' => 'outStock'];
-                return $data;
-            }
-        }
+        // if ($item->item_type == 'normal') {
+        //     if ($item->stock < (int)$request->quantity) {
+        //         $data = ['message' => 'Product Out Of Stock', 'status' => 'outStock'];
+        //         return $data;
+        //     }
+        // }
         $variant = Variant::where('color_id', $input['color'])->where('size_id', $input['size'])->first();
         if(!$variant){
             $data = ['message' => 'This color/size variant not found', 'status' => 'outStock'];
