@@ -292,5 +292,17 @@
                 }
             });
         }
+
+        // Get the elements
+        const menuToggle = document.querySelector('.menu-toggle');
+        const body = document.body; // Target the <body> element
+
+        // Add the click listener
+        menuToggle.addEventListener('click', function() {
+        // Use 'toggle' to add the class if it's missing, or remove it if it's there
+        body.classList.toggle('sidebar-open');
+        });
+        
+
     </script>
 @endpush
