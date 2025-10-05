@@ -60,7 +60,7 @@
 
                             <div class="ps-search d-flex align-items-center border rounded"
                                 style="max-width: 300px; padding: 2px 8px;margin-left:10px">
-                                <input class="form-control border-0 ps-icon-search " type="text"
+                                <input id="searchInput" class="form-control border-0 ps-icon-search " type="text"
                                     placeholder="Search Product…" />
 
                             </div>
@@ -264,6 +264,38 @@
             </div>
         </div>
     </nav>
+
+    {{-- ==search modal --}}
+        <div id="searchModal" class="search-modal-container hidden">
+        <div class="trending-section">
+            <h3 class="section-title">TRENDING</h3>
+            <div class="trending-tags">
+                <button class="trend-tag">
+                    <i class="fas fa-search"></i> Power
+                </button>
+                <button class="trend-tag">
+                    <i class="fas fa-search"></i> Northstar
+                </button>
+                <button class="trend-tag">
+                    <i class="fas fa-search"></i> Loafer
+                </button>
+                <button class="trend-tag">
+                    <i class="fas fa-search"></i> Sandal
+                </button>
+                <button class="trend-tag">
+                    <i class="fas fa-search"></i> Heel
+                </button>
+                <button class="trend-tag">
+                    <i class="fas fa-search"></i> casual shoe
+                </button>
+            </div>
+        </div>
+        
+        <div class="popular-products-section">
+            <h3 class="section-title">POPULAR PRODUCTS</h3>
+            <p>Products would be listed here...</p>
+        </div>
+    </div>
 </header>
 
 @push('js')
@@ -320,31 +352,64 @@
         
         // =================== seach icon 
         document.addEventListener("DOMContentLoaded", () => {
-  const searchToggleBtn = document.querySelector(".search-toggle-btn");
-  const searchBox = document.querySelector(".search-box");
-  const closeSearch = document.querySelector(".close-search");
+        const searchToggleBtn = document.querySelector(".search-toggle-btn");
+        const searchBox = document.querySelector(".search-box");
+        const closeSearch = document.querySelector(".close-search");
 
-  if (searchToggleBtn && searchBox) {
-    // toggle search box
-    searchToggleBtn.addEventListener("click", () => {
-      searchBox.classList.toggle("active");
-      if (searchBox.classList.contains("active")) {
-        searchBox.querySelector("input").focus();
-      }
-    });
+        if (searchToggleBtn && searchBox) {
+            // toggle search box
+            searchToggleBtn.addEventListener("click", () => {
+            searchBox.classList.toggle("active");
+            if (searchBox.classList.contains("active")) {
+                searchBox.querySelector("input").focus();
+            }
+            });
 
-    // close button
-    closeSearch.addEventListener("click", () => {
-      searchBox.classList.remove("active");
-    });
+            // close button
+            closeSearch.addEventListener("click", () => {
+            searchBox.classList.remove("active");
+            });
 
-    // click outside to close
-    document.addEventListener("click", (e) => {
-      if (!searchBox.contains(e.target) && !searchToggleBtn.contains(e.target)) {
-        searchBox.classList.remove("active");
-      }
+            // click outside to close
+            document.addEventListener("click", (e) => {
+            if (!searchBox.contains(e.target) && !searchToggleBtn.contains(e.target)) {
+                searchBox.classList.remove("active");
+            }
+            });
+        }
+        });
+
+        // ==click to search bar show the modal 
+        document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        const searchModal = document.getElementById('searchModal');
+        const searchWrapper = document.querySelector('.search-dropdown-wrapper');
+
+        // Function to open the modal
+        function openModal() {
+            searchModal.classList.remove('hidden');
+        }
+        // Function to close the modal
+        function closeModal() {
+            searchModal.classList.add('hidden');
+        }
+        // 1. Open modal when the input is clicked/focused
+        searchInput.addEventListener('focus', openModal);
+
+        // 2. Hide modal when clicking anywhere OUTSIDE the search wrapper
+        document.addEventListener('click', function(event) {
+            if (!searchWrapper.contains(event.target)) {
+                closeModal();
+            }
+        });
+
+      document.addEventListener('click', function(event) {
+        const isClickOnInput = searchInput && searchInput.contains(event.target);
+        const isClickInsideModal = searchModal.contains(event.target);
+        if (!searchModal.classList.contains('hidden') && !isClickOnInput && !isClickInsideModal) {
+            closeModal();
+        }
     });
-  }
-});
+    });
     </script>
 @endpush

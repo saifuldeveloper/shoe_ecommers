@@ -1267,3 +1267,71 @@ h5.modal_h5_title span{
     right: -91px;
   }
 }
+
+/* ===seacrch modal  */
+
+.hidden {
+    display: none !important;
+}
+.search-modal-container {
+    position: fixed;
+    top: 111px;
+    right: 20px;
+    z-index: 1000;
+    width: 512px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    font-family: Arial, sans-serif;
+    border-radius: 4px;
+}
+
+.section-title {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    border-bottom: 1px solid #eee; 
+    padding-bottom: 5px;
+}
+
+.trending-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; 
+    margin-bottom: 20px;
+}
+
+
+.trend-tag {
+    appearance: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    
+    background-color: #f8f8f8; 
+    color: #444; 
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    border-radius: 2px; 
+    font-size: 14px;
+    transition: background-color 0.2s, border-color 0.2s;
+    display: flex;
+    align-items: center;
+}
+
+.trend-tag i {
+    margin-right: 5px;
+    color: #999; 
+}
+.trend-tag:hover {
+    background-color: #eee;
+    border-color: #ccc;
+}
+
+.popular-products-section {
+    padding-top: 10px;
+}
