@@ -1335,3 +1335,9 @@ h5.modal_h5_title span{
 .popular-products-section {
     padding-top: 10px;
 }
+.ps-user__toggle span i {
+   padding: 5px!important;
+   width: 20px;
+   height: 20px;
+   line-height: 6px;
+}
