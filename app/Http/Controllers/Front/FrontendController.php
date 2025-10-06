@@ -19,6 +19,7 @@ use App\{
     Http\Requests\SubscribeRequest,
     Repositories\Front\FrontRepository
 };
+use Auth;
 use App\Jobs\EmailSendJob;
 use App\Models\Brand;
 use App\Models\ContactMessage;
@@ -36,6 +37,7 @@ use App\Models\Color;
 use App\Models\Service;
 use App\Models\Slider;
 use App\Models\Subcategory;
+use App\Models\Wishlist;
 use App\Models\TrackOrder;
 use Illuminate\Support\Facades\Config;
 use Carbon\Carbon;
@@ -139,7 +141,10 @@ class FrontendController extends Controller
     }
      public function wishlist()
     {
-        return view('front.pages.wishlist');
+        $wishlists = Wishlist::whereUserId(Auth::user()->id)->pluck('item_id')->toArray();
+        $wishlist_items = Item::where('status','=',1)->whereIn('id',$wishlists)->latest('id')->get();
+       
+        return view('front.pages.wishlist',compact('wishlist_items'));
 
     }
        public function cart()
