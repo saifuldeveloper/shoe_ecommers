@@ -141,6 +141,9 @@ class FrontendController extends Controller
     }
      public function wishlist()
     {
+        if(!Auth::check()){
+            return redirect()->route('user.login');
+        }
         $wishlists = Wishlist::whereUserId(Auth::user()->id)->pluck('item_id')->toArray();
         $wishlist_items = Item::where('status','=',1)->whereIn('id',$wishlists)->latest('id')->get();
        

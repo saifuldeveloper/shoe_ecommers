@@ -1,4 +1,4 @@
-@if (Session::has('success'))
+@if(Session::has('success'))
 <div class="alert alert-success alert-dismissible">
       <button type="button" class="close" data-dismiss="alert">&times;</button>
       <b>{{ Session::get('success') }}</b>
