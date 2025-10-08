@@ -27,9 +27,12 @@
                                     <img src="{{ asset('assets/frontend/images/icon/user-icon.png') }}" height="30"
                                         alt=""></a>
                             </div>
-                            <div class="ps-user">
-                                <a class="ps-user__toggle" href="{{ route('front.wishlist') }}"><span><i>20</i></span>
-                                    <i class="ps-icon-heart"></i> </a>
+                           <div class="ps-user">
+                                <a class="ps-user__toggle" href="{{ route('front.wishlist') }}">
+                                    <span id="wishlist-count-header">
+                                        <i class="cart_count">0</i> </span>
+                                    <i class="ps-icon-heart"></i> 
+                                </a>
                             </div>
                             <div class="ps-user">
                                 <a class="ps-user__toggle" href="#">
@@ -192,7 +195,8 @@
                         <a href="{{ route('front.contact') }}">Contact</a>
                     </li>
                     <li class="menu-item menu-item-has-children mobile-only ">
-                        <a class="ps-user__toggle" href="{{ route('front.wishlist') }}"><span><i>20</i></span> <i
+                        <a class="ps-user__toggle" href="{{ route('front.wishlist') }}">
+                            <span id="wishlist-count-mobile"><i>0</i></span> <i
                                 class="ps-icon-heart"></i> </a>
                     </li>
                 </ul>
@@ -410,6 +414,39 @@
             closeModal();
         }
     });
+    });
+
+
+    //wishlist count shows 
+   // wishlist count shows
+    function updateWishlistCount() {
+        try {
+            let url = '{{ route('user.wishlist.count') }}';
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    console.log(response)
+                    if (response.count !== undefined) {
+                        $('#wishlist-count-header i').text(response.count);
+
+                        $('#wishlist-count-mobile i').text(response.count);
+                    }
+                },
+                error: function(xhr) {
+                    console.error("Failed to fetch wishlist count:", xhr);
+                    $('#wishlist-count-header i').text(0);
+                    $('#wishlist-count-mobile i').text(0);
+                }
+            });
+        } catch(e) {
+            console.warn("Wishlist count route not found or error in script:", e);
+        }
+    }
+    $(document).ready(function() {
+        updateWishlistCount(); 
     });
     </script>
 @endpush

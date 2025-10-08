@@ -451,6 +451,8 @@ Route::group(['middleware' => 'maintainance'], function () {
             Route::get('/wishlist/store/{id}', [WishlistController::class, 'store'])->name('user.wishlist.store');
             Route::get('/wishlist/delete/{id}', [WishlistController::class, 'delete'])->name('user.wishlist.delete');
             Route::get('/wishlista/delete/all', [WishlistController::class, 'alldelete'])->name('user.wishlist.delete.all');
+            Route::get('/wishlist/count', [WishlistController::class, 'getCount'])->name('user.wishlist.count');
+       
         });
 
 
