@@ -74,28 +74,28 @@
 
                                 @endphp
 
-                                <span class="text-muted">{{ __('Name') }}: </span>{{ $bill['bill_first_name'] }}
-                                {{ $bill['bill_last_name'] }}<br>
-                                <span class="text-muted">{{ __('Email') }}: </span>{{ $bill['bill_email'] }}<br>
-                                <span class="text-muted">{{ __('Phone') }}: </span>{{ $bill['bill_phone'] }}<br>
+                                <span class="text-muted">{{ __('Name') }}: </span>{{ $bill['bill_first_name']??"" }}
+                                {{ $bill['bill_last_name']??"" }}<br>
+                                <span class="text-muted">{{ __('Email') }}: </span>{{ $bill['bill_email']??"" }}<br>
+                                <span class="text-muted">{{ __('Phone') }}: </span>{{ $bill['bill_phone']??"" }}<br>
                                 @if (isset($bill['bill_address1']))
-                                    <span class="text-muted">{{ __('Address') }}: </span>{{ $bill['bill_address1'] }},
+                                    <span class="text-muted">{{ __('Address') }}: </span>{{ $bill['bill_address1']??"" }},
                                     {{ isset($bill['bill_address2']) ? $bill['bill_address2'] : '' }}<br>
                                 @endif
                                 @if (isset($bill['bill_country']))
-                                    <span class="text-muted">{{ __('Country') }}: </span>{{ $bill['bill_country'] }}<br>
+                                    <span class="text-muted">{{ __('Country') }}: </span>{{ $bill['bill_country']??"" }}<br>
                                 @endif
                                 @if (isset($bill['bill_city']))
-                                    <span class="text-muted">{{ __('City') }}: </span>{{ $bill['bill_city'] }}<br>
+                                    <span class="text-muted">{{ __('City') }}: </span>{{ $bill['bill_city']??"" }}<br>
                                 @endif
                                 @if (isset($state['name']))
-                                    <span class="text-muted">{{ __('State') }}: </span>{{ $state['name'] }}<br>
+                                    <span class="text-muted">{{ __('State') }}: </span>{{ $state['name']??"" }}<br>
                                 @endif
                                 @if (isset($bill['bill_zip']))
-                                    <span class="text-muted">{{ __('Zip') }}: </span>{{ $bill['bill_zip'] }}<br>
+                                    <span class="text-muted">{{ __('Zip') }}: </span>{{ $bill['bill_zip']??"" }}<br>
                                 @endif
                                 @if (isset($bill['bill_company']))
-                                    <span class="text-muted">{{ __('Company') }}: </span>{{ $bill['bill_company'] }}<br>
+                                    <span class="text-muted">{{ __('Company') }}: </span>{{ $bill['bill_company']??"" }}<br>
                                 @endif
 
 
@@ -105,28 +105,28 @@
                                 @php
                                     $ship = json_decode($order->shipping_info, true);
                                 @endphp
-                                <span class="text-muted">{{ __('Name') }}: </span>{{ $ship['ship_first_name'] }}
-                                {{ $ship['ship_last_name'] }} <br>
-                                <span class="text-muted">{{ __('Email') }}: </span>{{ $ship['ship_email'] }}<br>
-                                <span class="text-muted">{{ __('Phone') }}: </span>{{ $ship['ship_phone'] }}<br>
+                                <span class="text-muted">{{ __('Name') }}: </span>{{ $ship['ship_first_name']??"" }}
+                                {{ $ship['ship_last_name']??"" }} <br>
+                                <span class="text-muted">{{ __('Email') }}: </span>{{ $ship['ship_email']??"" }}<br>
+                                <span class="text-muted">{{ __('Phone') }}: </span>{{ $ship['ship_phone']??"" }}<br>
                                 @if (isset($ship['ship_address1']))
-                                    <span class="text-muted">{{ __('Address') }}: </span>{{ $ship['ship_address1'] }},
+                                    <span class="text-muted">{{ __('Address') }}: </span>{{ $ship['ship_address1']??"" }},
                                     {{ isset($ship['ship_address2']) ? $ship['ship_address2'] : '' }}<br>
                                 @endif
                                 @if (isset($ship['ship_country']))
-                                    <span class="text-muted">{{ __('Country') }}: </span>{{ $ship['ship_country'] }}<br>
+                                    <span class="text-muted">{{ __('Country') }}: </span>{{ $ship['ship_country']??"" }}<br>
                                 @endif
                                 @if (isset($ship['ship_city']))
-                                    <span class="text-muted">{{ __('City') }}: </span>{{ $ship['ship_city'] }}<br>
+                                    <span class="text-muted">{{ __('City') }}: </span>{{ $ship['ship_city']??"" }}<br>
                                 @endif
                                 @if (isset($state['name']))
-                                    <span class="text-muted">{{ __('State') }}: </span>{{ $state['name'] }}<br>
+                                    <span class="text-muted">{{ __('State') }}: </span>{{ $state['name']??"" }}<br>
                                 @endif
                                 @if (isset($ship['ship_zip']))
-                                    <span class="text-muted">{{ __('Zip') }}: </span>{{ $ship['ship_zip'] }}<br>
+                                    <span class="text-muted">{{ __('Zip') }}: </span>{{ $ship['ship_zip']??"" }}<br>
                                 @endif
                                 @if (isset($ship['ship_company']))
-                                    <span class="text-muted">{{ __('Company') }}: </span>{{ $ship['ship_company'] }}<br>
+                                    <span class="text-muted">{{ __('Company') }}: </span>{{ $ship['ship_company']??"" }}<br>
                                 @endif
 
                             </div>
@@ -153,7 +153,7 @@
                                                 </th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        {{-- <tbody>
                                             @php
                                                 $option_price = 0;
                                                 $total = 0;
@@ -293,7 +293,7 @@
                                                     </span>
                                                 </td>
                                             </tr>
-                                        </tbody>
+                                        </tbody> --}}
                                     </table>
                                 </div>
                             </div>

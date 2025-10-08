@@ -7,14 +7,14 @@
         </td>
         <td>
         
-            {{ json_decode(@$data->billing_info, true)['bill_first_name'] }}
+            {{ json_decode(@$data->billing_info, true)['bill_first_name']??"" }}
         </td>
 
         <td>
             @if ($setting->currency_direction == 1)
-                {{ $data->currency_sign }}{{ PriceHelper::OrderTotal($data) }}
+                {{ $data->currency_sign }}{{ $data->state_price }}
             @else
-                {{ PriceHelper::OrderTotal($data) }}{{ $data->currency_sign }}
+                {{ $data->state_price }}{{ $data->currency_sign }}
             @endif
         </td>
 
