@@ -274,24 +274,17 @@
         <div class="trending-section">
             <h3 class="section-title">TRENDING</h3>
             <div class="trending-tags">
-                <button class="trend-tag">
-                    <i class="fas fa-search"></i> Power
-                </button>
-                <button class="trend-tag">
-                    <i class="fas fa-search"></i> Northstar
-                </button>
-                <button class="trend-tag">
-                    <i class="fas fa-search"></i> Loafer
-                </button>
-                <button class="trend-tag">
-                    <i class="fas fa-search"></i> Sandal
-                </button>
-                <button class="trend-tag">
-                    <i class="fas fa-search"></i> Heel
-                </button>
-                <button class="trend-tag">
-                    <i class="fas fa-search"></i> casual shoe
-                </button>
+                  @foreach ($categories as $category)
+                  <form action="{{ route('front.product.search') }}" method="GET">
+                  
+                     <input type="hidden" name="q" value="{{ $category->name }}">
+                    <input type="hidden" name="type" value="product">
+                    <button class="trend-tag" >
+                        <i class="fas fa-search"></i> {{ $category->name }}
+                    </button>
+                    </form>
+                @endforeach
+            
             </div>
         </div>
         

@@ -540,4 +540,21 @@ class FrontendController extends Controller
 
         return redirect(route('front.index'));
     }
+
+    /**
+     * CategoryBased product search
+     */
+    public function productSearch(Request $request){
+        $query = $request->input('q');    
+        $type = $request->input('type');  
+
+        $category = Category::where('name','like','%'.$query. '%')->first();
+        $products = [];
+        if($category){
+           $products =  Item::where('category_id',$category->id)->paginate(5);
+        }
+
+        return view('front.pages.search_products',compact('products'));
+    }
+
 }
