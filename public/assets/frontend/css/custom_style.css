@@ -33,11 +33,11 @@ input::-webkit-inner-spin-button {
 .register-text p { font-size: 15px; color: #000; }
 
 /* Form Styles */
-form {
+/* form {
     width: 100%;
     margin-top: 15px;
     align-items: flex-start !important;
-}
+} */
 .input-box {
     margin: 10px 0px;
     width: 100%;
@@ -1298,20 +1298,24 @@ h5.modal_h5_title span{
     padding-bottom: 5px;
 }
 
-.trending-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px; 
-    margin-bottom: 20px;
+
+.trending-tags form {
+   margin: 0; 
+    padding: 0;
 }
 
+.trending-tags {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 10px; 
+    margin-bottom: 50px;
+}
 
 .trend-tag {
     appearance: none;
     border: none;
     cursor: pointer;
     text-align: left;
-    
     background-color: #f8f8f8; 
     color: #444; 
     border: 1px solid #ddd;
@@ -1340,4 +1344,18 @@ h5.modal_h5_title span{
    width: 20px;
    height: 20px;
    line-height: 12px!important;
+}
+
+.search-modal-container_small {
+    position: fixed;
+    top: 111px;
+    right: 20px;
+    z-index: 99999;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    font-family: Arial, sans-serif;
+    border-radius: 4px;
+    text-align: left;
 }

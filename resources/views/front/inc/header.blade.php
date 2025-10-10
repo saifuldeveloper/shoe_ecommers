@@ -209,13 +209,28 @@
                     <button type="button" class="ps-user__toggle search-toggle-btn">
                         <i class="fa fa-search"></i>
                     </button>
-                    <div class="search-box">
-                         <div class="icon_ps-search d-flex align-items-center border rounded"
-                                style="max-width: 300px; padding: 2px 8px;margin-left:10px">
-                                <input class="form-control border-0 ps-icon-search " type="text"
-                                    placeholder="Search Product…" />
-
-                            </div>
+                    <div class="search-box_small">
+                        <div id="smallsearchModal" class="search-modal-container_small hidden">
+                        <div class="trending-section">
+                            <h3 class="section-title">TRENDING</h3>
+                            <div class="trending-tags">
+                                    @foreach ($categories as $category)
+                                    <form action="{{ route('front.product.search') }}" method="GET" style="margin: 0;">
+                                        <input type="hidden" name="q" value="{{ $category->name }}">
+                                        <input type="hidden" name="type" value="product">
+                                        <button class="trend-tag ">
+                                            <i class="fas fa-search"></i> {{ $category->name }}
+                                        </button>
+                                    </form>
+                                    @endforeach
+                                </div>
+                        </div>
+                        
+                        <div class="popular-products-section">
+                            <h3 class="section-title">POPULAR PRODUCTS</h3>
+                            <p>Products would be listed here...</p>
+                        </div>
+                    </div>
                     </div>
                 </div>
 
@@ -270,22 +285,20 @@
     </nav>
 
     {{-- ==search modal --}}
-        <div id="searchModal" class="search-modal-container hidden">
+    <div id="searchModal" class="search-modal-container hidden">
         <div class="trending-section">
             <h3 class="section-title">TRENDING</h3>
-            <div class="trending-tags">
-                  @foreach ($categories as $category)
-                  <form action="{{ route('front.product.search') }}" method="GET">
-                  
-                     <input type="hidden" name="q" value="{{ $category->name }}">
-                    <input type="hidden" name="type" value="product">
-                    <button class="trend-tag" >
-                        <i class="fas fa-search"></i> {{ $category->name }}
-                    </button>
+             <div class="trending-tags">
+                    @foreach ($categories as $category)
+                    <form action="{{ route('front.product.search') }}" method="GET" style="margin: 0;">
+                        <input type="hidden" name="q" value="{{ $category->name }}">
+                        <input type="hidden" name="type" value="product">
+                        <button class="trend-tag ">
+                            <i class="fas fa-search"></i> {{ $category->name }}
+                        </button>
                     </form>
-                @endforeach
-            
-            </div>
+                    @endforeach
+                </div>
         </div>
         
         <div class="popular-products-section">
@@ -343,37 +356,38 @@
 
         // Add the click listener
         menuToggle.addEventListener('click', function() {
-        // Use 'toggle' to add the class if it's missing, or remove it if it's there
         body.classList.toggle('sidebar-open');
         });
         
-        // =================== seach icon 
+        //click to search icon show the modal 
         document.addEventListener("DOMContentLoaded", () => {
-        const searchToggleBtn = document.querySelector(".search-toggle-btn");
-        const searchBox = document.querySelector(".search-box");
-        const closeSearch = document.querySelector(".close-search");
+            const searchToggleBtn = document.querySelector(".search-toggle-btn");
+            const searchBox = document.querySelector(".search-box_small");
+            const searchModal = document.getElementById("smallsearchModal"); 
 
-        if (searchToggleBtn && searchBox) {
-            // toggle search box
-            searchToggleBtn.addEventListener("click", () => {
-            searchBox.classList.toggle("active");
-            if (searchBox.classList.contains("active")) {
-                searchBox.querySelector("input").focus();
+            if (searchToggleBtn && searchBox && searchModal) {
+                searchToggleBtn.addEventListener("click", (e) => {
+                    e.stopPropagation(); 
+                    searchBox.classList.toggle("active");
+                    if (searchBox.classList.contains("active")) {
+                        searchModal.classList.remove("hidden");
+                        const searchInput = searchBox.querySelector("input[type='text'], input[type='search']");
+                        if (searchInput) {
+                            searchInput.focus();
+                        }
+                    } else {
+                        searchModal.classList.add("hidden");
+                    }
+                });
+
+                // click outside to close
+                document.addEventListener("click", (e) => {
+                    if (searchBox.classList.contains("active") && !searchBox.contains(e.target) && !searchToggleBtn.contains(e.target)) {
+                        searchBox.classList.remove("active");
+                        searchModal.classList.add("hidden"); 
+                    }
+                });
             }
-            });
-
-            // close button
-            closeSearch.addEventListener("click", () => {
-            searchBox.classList.remove("active");
-            });
-
-            // click outside to close
-            document.addEventListener("click", (e) => {
-            if (!searchBox.contains(e.target) && !searchToggleBtn.contains(e.target)) {
-                searchBox.classList.remove("active");
-            }
-            });
-        }
         });
 
         // ==click to search bar show the modal 
