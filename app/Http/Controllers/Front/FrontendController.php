@@ -133,9 +133,35 @@ class FrontendController extends Controller
     public function product($slug)
     {
         $item_details = Item::with('brand')->where('slug', $slug)->first();
+        $related_products = Item::where('status', 1)
+                        ->where('id', '!=', $item_details->id)
+                        ->where(function ($query) use ($item_details) {
+                            $query->where('category_id', $item_details->category_id)
+                                ->orWhere('subcategory_id', $item_details->subcategory_id)
+                                ->orWhere('childcategory_id', $item_details->childcategory_id)
+                                ->orWhere('brand_id', $item_details->brand_id);
+                        })
+                        ->inRandomOrder()
+                        ->take(8)
+                        ->get();
+        // Get existing viewed product IDs from session (or empty array)
+        $viewed = session()->get('viewed_products', []);
+
+        // Add this product ID if not already there
+        if (!in_array($item_details->id, $viewed)) {
+            $viewed[] = $item_details->id;
+            session()->put('viewed_products', $viewed);
+        }
         
+        $recently_viewed = Item::where('id', '!=', $item_details->id)
+            ->whereIn('id', session('viewed_products', []))
+            ->where('status', 1)
+            ->get();
+
         return view('front.pages.product_detail', compact(
-            'item_details'
+            'item_details',
+            'related_products',
+            'recently_viewed'
         ));
 
     }
