@@ -464,7 +464,9 @@ Route::group(['middleware' => 'maintainance'], function () {
 
 
         // ************************************ FRONTEND **********************************************
-        Route::get('/search', [FrontendController::class, 'productSearch'])->name('front.product.search');
+        Route::get('/search', [FrontendController::class, 'categoryBaseProduct'])->name('front.product.search');
+        Route::get('/search-results', [FrontendController::class, 'productSearch'])->name('front.product.query');
+        Route::get('/search-view',[FrontendController::class, 'showSearchProducts'])->name('front.show.search.product');
 
         Route::get('/store-locator', [FrontendController::class, 'findStore'])->name('front.findStore');
         Route::get('/', [FrontendController::class, 'index'])->name('front.index');

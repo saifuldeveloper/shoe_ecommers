@@ -65,7 +65,16 @@
                                 style="max-width: 300px; padding: 2px 8px;margin-left:10px">
                                 <input id="searchInput" class="form-control border-0 ps-icon-search " type="text"
                                     placeholder="Search Product…" />
-
+                            </div>
+                             <div id="productResultsModal" class="product-results-modal" style="display: none">
+                                <div class="modal-content_product">
+                                    <h5 class="modal-heading_result">PRODUCT RESULTS</h5>
+                                    <div id="productResultsContainer" class="results-grid">
+                                        </div>
+                                    <div class="see-all-container">
+                                        <a href="#" class="see-all-link">SEE ALL RESULTS (<span id="totalResults">0</span>)</a>
+                                    </div>
+                                </div>
                             </div>
                             <div class="menu-toggle"><span></span></div>
                         </div>
@@ -390,7 +399,7 @@
             }
         });
 
-        // ==click to search bar show the modal 
+        // ==click to search input field & show the modal 
         document.addEventListener('DOMContentLoaded', function() {
         const searchInput = document.getElementById('searchInput');
         const searchModal = document.getElementById('searchModal');
@@ -407,11 +416,23 @@
         // 1. Open modal when the input is clicked/focused
         searchInput.addEventListener('focus', openModal);
 
+         // Check if the current value of the input has 3 or more characters
+        searchInput.addEventListener('input', function() {
+           
+            if (searchInput.value.length >= 3) {
+                closeModal();
+            } else {
+                if (searchModal.classList.contains('hidden')) {
+                    openModal();
+                }
+            }
+        });
+
         // 2. Hide modal when clicking anywhere OUTSIDE the search wrapper
         document.addEventListener('click', function(event) {
             if (!searchWrapper.contains(event.target)) {
                 closeModal();
-            }
+            }searchInput.addEventListener('input', closeModal);
         });
 
       document.addEventListener('click', function(event) {
@@ -456,4 +477,111 @@
         updateWishlistCount(); 
     });
     </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Get DOM Elements (already defined in your code)
+    const searchInput = document.getElementById('searchInput');
+    const modal = document.getElementById('productResultsModal');
+    const resultsContainer = document.getElementById('productResultsContainer');
+    const totalResultsSpan = document.getElementById('totalResults');
+    const seeAllLink = document.querySelector('.see-all-link'); 
+
+
+    // --- Function to build the product HTML  ---
+     const PRODUCT_DETAIL_URL = "{{ route('front.product', ['slug' => ':slug']) }}";
+    function createProductHTML(product) {
+        const imageUrl = `/storage/items/${product.thumbnail}`; 
+        const productLink = PRODUCT_DETAIL_URL.replace(':slug', product.slug); 
+        return `
+            <div class="product-item">
+                <a href="${productLink}">
+                <img src="${imageUrl}" alt="${product.name}">
+                <p class="name">${product.name}</p>
+                <span class="original-price">Tk ${product.previous_price}</span>
+                <span class="currency">Tk</span>
+                <span class="sale-price">${product.discount_price}</span>
+                </a>
+            </div>
+        `;
+    }
+
+    // --- Core Logic to Display Results 
+    function showProductResults(products, total, query) {
+        const productListViewRoute = '{{ route('front.show.search.product') }}';
+        resultsContainer.innerHTML = ''; 
+
+        if (products.length === 0) {
+            // Show no results message
+            resultsContainer.innerHTML = '<p class="no-results-message" style="padding: 15px; text-align: center;">No products found matching your search.</p>';
+            totalResultsSpan.textContent = '0';
+        } else {
+            products.forEach(product => {
+                resultsContainer.innerHTML += createProductHTML(product);
+            });
+
+            totalResultsSpan.textContent = total.toLocaleString();
+            seeAllLink.href = `${productListViewRoute}?q=${encodeURIComponent(query)}&type=product`;
+        }
+        modal.style.display = 'block';
+    }
+
+    // --- Debounce Function (from previous answer) ---
+    function debounce(func, delay) {
+        let timeout;
+        return function(...args) {
+            const context = this;
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(context, args), delay);
+        };
+    }
+
+    // --- AJAX/Fetch Logic ---
+    function fetchProductResults(query) {
+         const SEARCH_ROUTE_URL = "{{ route('front.product.query') }}";
+         const url = SEARCH_ROUTE_URL + `?q=${encodeURIComponent(query)}`; 
+
+        // Optional: Add a loading state while fetching
+        resultsContainer.innerHTML = '<p class="loading-message" style="padding: 15px; text-align: center;">Searching...</p>';
+        modal.style.display = 'block'; 
+
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                showProductResults(data.products, data.totalCount, query);
+            })
+            .catch(error => {
+                console.error('Error fetching search results:', error);
+                resultsContainer.innerHTML = '<p class="error-message" style="padding: 15px; text-align: center; color: red;">Failed to load results. Try again.</p>';
+                totalResultsSpan.textContent = '0';
+                modal.style.display = 'block';
+            });
+    }
+
+    // --- Event Listener: The Final Connection ---
+    searchInput.addEventListener('input', debounce((event) => {
+        const query = event.target.value.trim();
+
+        if (query.length >= 3) { 
+            fetchProductResults(query); 
+        } else {
+            modal.style.display = 'none'; 
+        }
+    }, 300)); 
+
+
+    document.addEventListener('click', (event) => {
+        const searchContainer = searchInput.closest('.ps-search');
+        if (!searchContainer.contains(event.target) && !modal.contains(event.target)) {
+             modal.style.display = 'none';
+        }
+    });
+});
+</script>
+
 @endpush

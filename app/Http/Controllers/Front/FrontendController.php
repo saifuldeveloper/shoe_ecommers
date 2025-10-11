@@ -570,7 +570,7 @@ class FrontendController extends Controller
     /**
      * CategoryBased product search
      */
-    public function productSearch(Request $request){
+    public function categoryBaseProduct(Request $request){
         $query = $request->input('q');    
         $type = $request->input('type');  
 
@@ -581,6 +581,43 @@ class FrontendController extends Controller
         }
 
         return view('front.pages.search_products',compact('products'));
+    }
+
+     /**
+      * Summary of productSearch
+      * @param \Illuminate\Http\Request $request
+      * @return \Illuminate\Http\JsonResponse
+      */
+     public function productSearch(Request $request){
+        $query = $request->input('q');    
+
+        if (empty($query)) {
+            return response()->json([
+                'products' => [],
+                'totalCount' => 0,
+            ]);
+        }
+        
+        $products = Item::where('name','like','%'.$query. '%')->limit(3)->get();
+        $totalCount = Item::where('name', 'like', '%' . $query . '%')->count();
+      
+         return response()->json([
+                'products' => $products,
+                'totalCount' => $totalCount, 
+            ]);
+    }
+    
+    /**
+     * Summary of showSearchProducts
+     * @return void
+     */
+    public function showSearchProducts(Request $request)
+    {
+        $query = $request->input('q');    
+
+        $products = Item::where('name', 'like', '%' . $query . '%')->paginate(5);
+
+        return view('front.pages.query_products',compact('products'));
     }
 
 }
