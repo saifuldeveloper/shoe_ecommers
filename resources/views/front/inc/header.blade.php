@@ -317,9 +317,22 @@
         </div>
     </div>
 </header>
+{{-- //small device search bar products  --}}
  <div class="small_ps-search d-flex align-items-center border rounded">
     <input id="searchInput_small_device" class="form-control" type="text"
         placeholder="Search Product…" />
+</div>
+<div class="small_device_container">
+ <div id="productResultsModal_small" class="small_device_product-results-modal" style="display: none">
+    <div class="modal-content_product">
+        <h5 class="modal-heading_result">PRODUCT RESULTS</h5>
+        <div id="productResultsContainer_small" class="results-grid">
+            </div>
+        <div class="see-all-container">
+            <a href="#" class="see-all-link">SEE ALL RESULTS (<span id="totalProducts">0</span>)</a>
+        </div>
+    </div>
+</div>
 </div>
 
 @push('js')
@@ -372,51 +385,10 @@
         menuToggle.addEventListener('click', function() {
         body.classList.toggle('sidebar-open');
         });
-        
-//click to search icon show input field and click to input field show the modal 
-document.addEventListener("DOMContentLoaded", () => {
-    const searchToggleBtn = document.querySelector(".search-toggle-btn"); 
-    const smallPsSearch = document.querySelector(".small_ps-search");    
-    const searchInput = document.getElementById("searchInput_small_device"); 
-    const searchModal = document.getElementById("smallsearchModal");         
-    const searchBoxContainer = document.querySelector(".search-box_small");  
+   
 
-    if (searchToggleBtn && smallPsSearch && searchInput && searchModal && searchBoxContainer) {
-        // --- 1. Search Toggle Button Click Event: Toggles the visibility of the input box ---
-        searchToggleBtn.addEventListener("click", (e) => {
-            e.stopPropagation(); 
-            smallPsSearch.classList.toggle("active");
-            
-            if (smallPsSearch.classList.contains("active")) {
-                searchInput.focus(); 
-                searchModal.classList.add("hidden"); 
-            } else {
-                searchModal.classList.add("hidden");
-            }
-        });
-        // --- 2. Input Field Click Event: Shows the Modal ---
-        searchInput.addEventListener("click", (e) => {
-            e.stopPropagation(); 
-            if (smallPsSearch.classList.contains("active")) {
-                searchModal.classList.remove("hidden"); // Show the modal
-            }
-        });
-        // --- 3. Click Outside to Close: Hides Input Bar and Modal ---
-        document.addEventListener("click", (e) => {
-            const isClickOutside = !smallPsSearch.contains(e.target) && 
-                                   !searchModal.contains(e.target) && 
-                                   !searchToggleBtn.contains(e.target);
-
-            if (smallPsSearch.classList.contains("active") && isClickOutside) {
-                smallPsSearch.classList.remove("active");
-                searchModal.classList.add("hidden"); 
-            }
-        });
-    }
-});
-
-
-    // ==click to search input field & show the modal 
+// ==click to search input field & show the modal dektop device
+// ==click to search input field & show the modal dektop device
     document.addEventListener('DOMContentLoaded', function() {
         const searchInput = document.getElementById('searchInput');
         const searchModal = document.getElementById('searchModal');
@@ -496,10 +468,9 @@ document.addEventListener("DOMContentLoaded", () => {
     </script>
 
 <script>
-//input field keyword searchwise products modal products shows shows
+//input field keyword searchwise products modal products shows shows dektop device
 document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('searchInput');
-    const smallDeviceInput = document.getElementById('searchInput_small_device')
     const modal = document.getElementById('productResultsModal');
     const resultsContainer = document.getElementById('productResultsContainer');
     const totalResultsSpan = document.getElementById('totalResults');
@@ -593,19 +564,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, 300)); 
 }
-    //small device search field
-if (smallDeviceInput) {
-    smallDeviceInput.addEventListener('input', debounce((event) => {
-        const query = event.target.value.trim();
-
-        if (query.length >= 3) { 
-            fetchProductResults(query); 
-        } else {
-            modal.style.display = 'none'; 
-        }
-    }, 300)); 
-}
-
     document.addEventListener('click', (event) => {
         const searchContainer = searchInput.closest('.ps-search');
         if (!searchContainer.contains(event.target) && !modal.contains(event.target)) {
@@ -613,12 +571,162 @@ if (smallDeviceInput) {
         }
     });
 
-      document.addEventListener('click', (event) => {
-        const searchContainer = smallDeviceInput.closest('.ps-search');
+});
+</script>
+
+<script>      
+//click to search icon show input field and click to input field show the modal mobile device
+//click to search icon show input field and click to input field show the modal   mobile device
+document.addEventListener("DOMContentLoaded", () => {
+    const searchToggleBtn = document.querySelector(".search-toggle-btn"); 
+    const smallPsSearch = document.querySelector(".small_ps-search");    
+    const searchInput = document.getElementById("searchInput_small_device"); 
+    const searchModal = document.getElementById("smallsearchModal");         
+    const searchBoxContainer = document.querySelector(".search-box_small");  
+
+    if (searchToggleBtn && smallPsSearch && searchInput && searchModal && searchBoxContainer) {
+        // --- 1. Search Toggle Button Click Event: Toggles the visibility of the input box ---
+        searchToggleBtn.addEventListener("click", (e) => {
+            e.stopPropagation(); 
+            smallPsSearch.classList.toggle("active");
+            
+            if (smallPsSearch.classList.contains("active")) {
+                searchInput.focus(); 
+                searchModal.classList.add("hidden"); 
+            } else {
+                searchModal.classList.add("hidden");
+            }
+        });
+        // --- 2. Input Field Click Event: Shows the Modal ---
+        searchInput.addEventListener("click", (e) => {
+            e.stopPropagation(); 
+            if (smallPsSearch.classList.contains("active")) {
+                searchModal.classList.remove("hidden"); 
+            }
+        });
+        
+        // --- 3. Click Outside to Close: Hides Input Bar and Modal ---
+        document.addEventListener("click", (e) => {
+            const isClickOutside = !smallPsSearch.contains(e.target) && 
+                                   !searchModal.contains(e.target) && 
+                                   !searchToggleBtn.contains(e.target);
+
+            if (smallPsSearch.classList.contains("active") && isClickOutside) {
+                smallPsSearch.classList.remove("active");
+                searchModal.classList.add("hidden"); 
+            }
+        });
+         document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && searchModal.classList.contains("hidden") === false) {
+                searchModal.classList.add("hidden");
+            }
+        });
+    }
+});
+
+//input field keyword searchwise products modal products shows shows
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('searchInput_small_device');
+    const modal = document.getElementById('productResultsModal_small');
+    const resultsContainer = document.getElementById('productResultsContainer_small');
+    const totalResultsSpan = document.getElementById('totalProducts');
+    const seeAllLink = document.querySelector('.see-all-link'); 
+
+
+    // --- Function to build the product HTML  ---
+    const PRODUCT_DETAIL_URL = "{{ route('front.product', ['slug' => ':slug']) }}";
+    function createProductHTML(product) {
+        const imageUrl = `/storage/items/${product.thumbnail}`; 
+        const productLink = PRODUCT_DETAIL_URL.replace(':slug', product.slug); 
+        return `
+            <div class="product-item">
+                <a href="${productLink}">
+                <img src="${imageUrl}" alt="${product.name}">
+                <p class="name">${product.name}</p>
+                <span class="original-price">Tk ${product.previous_price}</span>
+                <span class="currency">Tk</span>
+                <span class="sale-price">${product.discount_price}</span>
+                </a>
+            </div>
+        `;
+    }
+
+    // --- Core Logic to Display Results 
+    function showProductResults(products, total, query) {
+        const productListViewRoute = '{{ route('front.show.search.product') }}';
+        resultsContainer.innerHTML = ''; 
+
+        if (products.length === 0) {
+            // Show no results message
+            resultsContainer.innerHTML = '<p class="no-results-message" style="padding: 15px; text-align: center;">No products found matching your search.</p>';
+            totalResultsSpan.textContent = '0';
+        } else {
+            products.forEach(product => {
+                resultsContainer.innerHTML += createProductHTML(product);
+            });
+
+            totalResultsSpan.textContent = total.toLocaleString();
+            seeAllLink.href = `${productListViewRoute}?q=${encodeURIComponent(query)}&type=product`;
+        }
+        modal.style.display = 'block';
+    }
+
+    // --- Debounce Function (from previous answer) ---
+    function debounce(func, delay) {
+        let timeout;
+        return function(...args) {
+            const context = this;
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(context, args), delay);
+        };
+    }
+
+    // --- AJAX/Fetch Logic ---
+    function fetchProductResults(query) {
+         const SEARCH_ROUTE_URL = "{{ route('front.product.query') }}";
+         const url = SEARCH_ROUTE_URL + `?q=${encodeURIComponent(query)}`; 
+
+        // Optional: Add a loading state while fetching
+        resultsContainer.innerHTML = '<p class="loading-message" style="padding: 15px; text-align: center;">Searching...</p>';
+        modal.style.display = 'block'; 
+
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                showProductResults(data.products, data.totalCount, query);
+            })
+            .catch(error => {
+                console.error('Error fetching search results:', error);
+                resultsContainer.innerHTML = '<p class="error-message" style="padding: 15px; text-align: center; color: red;">Failed to load results. Try again.</p>';
+                totalResultsSpan.textContent = '0';
+                modal.style.display = 'block';
+            });
+    }
+
+    // --- Event Listener: The Final Connection ---
+     if (searchInput) {
+        searchInput.addEventListener('input', debounce((event) => {
+            const query = event.target.value.trim();
+
+            if (query.length >= 3) { 
+                fetchProductResults(query); 
+            } else {
+                modal.style.display = 'none'; 
+            }
+        }, 300)); 
+    }
+    document.addEventListener('click', (event) => {
+        const searchContainer = searchInput.closest('.small_ps-search');
         if (!searchContainer.contains(event.target) && !modal.contains(event.target)) {
              modal.style.display = 'none';
         }
     });
+
 });
 </script>
 

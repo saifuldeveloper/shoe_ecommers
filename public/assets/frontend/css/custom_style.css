@@ -1369,11 +1369,21 @@ h5.modal_h5_title span{
     position: relative;
     z-index: 1000; 
 }
-
+.small_device_container{
+  max-width: 100%;
+}
+.small_device_product-results-modal{
+    width: 100%; 
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    z-index: 1001; 
+    padding: 0; 
+    margin-top: 2px; 
+}
 .product-results-modal {
     position: absolute;
     top: 100%; 
-    left: 0;
+    left: 15%;
     width: 500px; 
     background-color: #ffffff;
     border: 1px solid #ddd;
