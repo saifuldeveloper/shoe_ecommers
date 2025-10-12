@@ -88,7 +88,7 @@
         <div class="container-fluid">
             <div class="navigation__column left d-lg-none d-md-none">
                 <div class="header__logo">
-                    <a class="ps-logo" href="index.html"><img src="{{ asset('assets/frontend/images/logo/logo.png') }}"
+                    <a class="ps-logo" href="{{ route("front.index") }}"><img src="{{ asset('assets/frontend/images/logo/logo.png') }}"
                             alt="" style="height: 60px;" /></a>
                 </div>
             </div>
@@ -218,6 +218,7 @@
                     <button type="button" class="ps-user__toggle search-toggle-btn">
                         <i class="fa fa-search"></i>
                     </button>
+                      
                     <div class="search-box_small">
                         <div id="smallsearchModal" class="search-modal-container_small hidden">
                         <div class="trending-section">
@@ -316,6 +317,10 @@
         </div>
     </div>
 </header>
+ <div class="small_ps-search d-flex align-items-center border rounded">
+    <input id="searchInput_small_device" class="form-control" type="text"
+        placeholder="Search Product…" />
+</div>
 
 @push('js')
     <script>
@@ -368,39 +373,51 @@
         body.classList.toggle('sidebar-open');
         });
         
-        //click to search icon show the modal 
-        document.addEventListener("DOMContentLoaded", () => {
-            const searchToggleBtn = document.querySelector(".search-toggle-btn");
-            const searchBox = document.querySelector(".search-box_small");
-            const searchModal = document.getElementById("smallsearchModal"); 
+//click to search icon show input field and click to input field show the modal 
+document.addEventListener("DOMContentLoaded", () => {
+    const searchToggleBtn = document.querySelector(".search-toggle-btn"); 
+    const smallPsSearch = document.querySelector(".small_ps-search");    
+    const searchInput = document.getElementById("searchInput_small_device"); 
+    const searchModal = document.getElementById("smallsearchModal");         
+    const searchBoxContainer = document.querySelector(".search-box_small");  
 
-            if (searchToggleBtn && searchBox && searchModal) {
-                searchToggleBtn.addEventListener("click", (e) => {
-                    e.stopPropagation(); 
-                    searchBox.classList.toggle("active");
-                    if (searchBox.classList.contains("active")) {
-                        searchModal.classList.remove("hidden");
-                        const searchInput = searchBox.querySelector("input[type='text'], input[type='search']");
-                        if (searchInput) {
-                            searchInput.focus();
-                        }
-                    } else {
-                        searchModal.classList.add("hidden");
-                    }
-                });
-
-                // click outside to close
-                document.addEventListener("click", (e) => {
-                    if (searchBox.classList.contains("active") && !searchBox.contains(e.target) && !searchToggleBtn.contains(e.target)) {
-                        searchBox.classList.remove("active");
-                        searchModal.classList.add("hidden"); 
-                    }
-                });
+    if (searchToggleBtn && smallPsSearch && searchInput && searchModal && searchBoxContainer) {
+        // --- 1. Search Toggle Button Click Event: Toggles the visibility of the input box ---
+        searchToggleBtn.addEventListener("click", (e) => {
+            e.stopPropagation(); 
+            smallPsSearch.classList.toggle("active");
+            
+            if (smallPsSearch.classList.contains("active")) {
+                searchInput.focus(); 
+                searchModal.classList.add("hidden"); 
+            } else {
+                searchModal.classList.add("hidden");
             }
         });
+        // --- 2. Input Field Click Event: Shows the Modal ---
+        searchInput.addEventListener("click", (e) => {
+            e.stopPropagation(); 
+            if (smallPsSearch.classList.contains("active")) {
+                searchModal.classList.remove("hidden"); // Show the modal
+            }
+        });
+        // --- 3. Click Outside to Close: Hides Input Bar and Modal ---
+        document.addEventListener("click", (e) => {
+            const isClickOutside = !smallPsSearch.contains(e.target) && 
+                                   !searchModal.contains(e.target) && 
+                                   !searchToggleBtn.contains(e.target);
 
-        // ==click to search input field & show the modal 
-        document.addEventListener('DOMContentLoaded', function() {
+            if (smallPsSearch.classList.contains("active") && isClickOutside) {
+                smallPsSearch.classList.remove("active");
+                searchModal.classList.add("hidden"); 
+            }
+        });
+    }
+});
+
+
+    // ==click to search input field & show the modal 
+    document.addEventListener('DOMContentLoaded', function() {
         const searchInput = document.getElementById('searchInput');
         const searchModal = document.getElementById('searchModal');
         const searchWrapper = document.querySelector('.search-dropdown-wrapper');
@@ -479,9 +496,10 @@
     </script>
 
 <script>
+//input field keyword searchwise products modal products shows shows
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Get DOM Elements (already defined in your code)
     const searchInput = document.getElementById('searchInput');
+    const smallDeviceInput = document.getElementById('searchInput_small_device')
     const modal = document.getElementById('productResultsModal');
     const resultsContainer = document.getElementById('productResultsContainer');
     const totalResultsSpan = document.getElementById('totalResults');
@@ -564,6 +582,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Event Listener: The Final Connection ---
+     if (searchInput) {
     searchInput.addEventListener('input', debounce((event) => {
         const query = event.target.value.trim();
 
@@ -573,10 +592,29 @@ document.addEventListener('DOMContentLoaded', () => {
             modal.style.display = 'none'; 
         }
     }, 300)); 
+}
+    //small device search field
+if (smallDeviceInput) {
+    smallDeviceInput.addEventListener('input', debounce((event) => {
+        const query = event.target.value.trim();
 
+        if (query.length >= 3) { 
+            fetchProductResults(query); 
+        } else {
+            modal.style.display = 'none'; 
+        }
+    }, 300)); 
+}
 
     document.addEventListener('click', (event) => {
         const searchContainer = searchInput.closest('.ps-search');
+        if (!searchContainer.contains(event.target) && !modal.contains(event.target)) {
+             modal.style.display = 'none';
+        }
+    });
+
+      document.addEventListener('click', (event) => {
+        const searchContainer = smallDeviceInput.closest('.ps-search');
         if (!searchContainer.contains(event.target) && !modal.contains(event.target)) {
              modal.style.display = 'none';
         }

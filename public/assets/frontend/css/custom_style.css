@@ -865,12 +865,12 @@ h5.modal_h5_title span{
     margin-left: 9px;
   }
 
-}
+
   .size_flex_data{
     gap: 50%;
   }
-
 }
+
 
 @media (max-width: 380px) {
   .buy_now_btn{
@@ -1192,7 +1192,7 @@ h5.modal_h5_title span{
 }
 /* Search icon */
 .search-toggle-btn {
-     background: none;
+    background: none;
     border: none;
     font-size: 25px;
     cursor: pointer;
@@ -1345,11 +1345,13 @@ h5.modal_h5_title span{
    height: 20px;
    line-height: 12px!important;
 }
-
+.search-box_small{
+  max-width: 100%;
+}
 .search-modal-container_small {
     position: fixed;
-    top: 111px;
-    right: 20px;
+    top: 148px;
+    right: 0;
     z-index: 99999;
     background-color: #fff;
     border: 1px solid #ccc;
@@ -1358,6 +1360,7 @@ h5.modal_h5_title span{
     font-family: Arial, sans-serif;
     border-radius: 4px;
     text-align: left;
+    width: 100%;
 }
 
 /* ====product modal after searching  */
@@ -1474,4 +1477,42 @@ h5.modal_h5_title span{
     color: #333;
     text-decoration: none;
     font-weight: 700; 
+}
+
+/* ===small device seach bar css searchInput_small_device */
+.small_ps-search{
+  max-width:  100%;
+  display: none;
+}
+input#searchInput_small_device{
+  width: 100%;
+}
+.small_ps-search.active {
+    display: flex !important; 
+}
+
+@media (max-width: 576px) {
+    .small_ps-search {
+        max-width: 100% !important; 
+    }
+}
+@media (max-width: 990px) {
+    .small_ps-search{
+     /* display: block; */
+  }
+}
+
+.search-icon {
+    position: absolute;
+    right: 15px;         
+    top: 44%;             
+    transform: translateY(-50%); 
+    color: #999;           
+    cursor: pointer;       
+    z-index: 2;            
+}
+
+#searchInput_small_device {
+    padding-right: 40px; 
+    width: 100%; 
 }
