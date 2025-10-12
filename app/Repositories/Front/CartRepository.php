@@ -69,27 +69,27 @@ class CartRepository
         //         return $data;
         //     }
         // }
-        $variant = Variant::where('color_id', $input['color'])->where('size_id', $input['size'])->first();
-        if(!$variant){
-            $data = ['message' => 'This color/size variant not found', 'status' => 'outStock'];
-            return $data;
+
+        if ($input['color'] != 'undefined' && $input['size'] != 'undefined') {
+            $variant = Variant::where('color_id', $input['color'])->where('size_id', $input['size'])->first();
+            $itemVariant = ItemVariant::where('item_id', $item->id)->where('variant_id', $variant->id)->first();
+            
         }
-        $itemVariant = ItemVariant::where('item_id', $item->id)->where('variant_id', $variant->id)->first();
-        if(!$itemVariant){
-            $data = ['message' => 'This color/size variant not found', 'status' => 'outStock'];
-            return $data;
-        }
-       // insert into carts table
+       try {
+        // insert into carts table
         $cart = Cart::create([
             "user_id" => auth()->check() ? auth()->user()->id : null,
             "session_id" => !auth()->check() ?  session()->get('cartSession'): null,
             "item_id" => $item->id,
             "quantity" => $qty,
-            "item_variant_id" => $itemVariant->id,
+            "item_variant_id" => $itemVariant->id??null,
         ]);
         
         $mgs = ['message' => __('Product add successfully'), 'qty' => PriceHelper::totalCartQuantity(), 'cart_items_html' => view('includes.cart-items-dropdown')->render()];
         return $mgs;
+       } catch (\Throwable $th) {
+        throw $th;
+       }
         
     }
 

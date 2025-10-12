@@ -59,7 +59,7 @@
         @foreach ($cart as $key => $item)
          @php
             $item_variant = App\Models\ItemVariant::where('id', $item->item_variant_id)->first();
-            $item_price = $item->item->discount_price + $item_variant->additional_price;
+            $item_price = $item->item->discount_price + ($item_variant != null ? $item_variant->additional_price : 0);
         @endphp
         <div class="entry">
           <div class="entry-thumb"><a href="{{route('front.product',$item->item->id)}}"><img src="{{asset('storage/items/'.$item->item->photo)}}" alt="Product"></a></div>

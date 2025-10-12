@@ -308,7 +308,7 @@ class CheckoutController extends Controller
         
         foreach ($cart as $key => $items) {
             $item_variant = ItemVariant::where('id', $items->item_variant_id)->first();
-            $total += ($items->item->discount_price + $item_variant->additional_price) * $items->quantity;
+            $total += ($items->item->discount_price + ($item_variant != null ? $item_variant->additional_price : 0)) * $items->quantity;
             $cart_total = $total;
             // $item = Item::findOrFail($key);
             // if ($item->tax) {
