@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-
+use Illuminate\Support\Facades\DB;
 class GalleriesTableSeeder extends Seeder
 {
 
@@ -14,10 +14,21 @@ class GalleriesTableSeeder extends Seeder
      */
     public function run()
     {
-        
-        \DB::table('galleries')->delete();
-        
-        
+        $variants = [
+            [
+                'item_id' => 7,
+                'photo' => 'gallary7.jpg',
+            ],
+            [
+                'item_id' => 7,
+                'photo' => 'gallary7-1.jpg',
+            ],
+            [
+                'item_id' => 7,
+                'photo' => 'gallary7-3.jpg',
+            ],
+        ];
+         DB::table('galleries')->insert($variants);
         
     }
 }
