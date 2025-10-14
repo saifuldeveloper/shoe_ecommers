@@ -115,6 +115,7 @@
             scrollPosition = 0,
             headerTopHeight = $('.header .header__top').outerHeight(),
             checkpoint = 300;
+             var cartIcon = $('#show_hide_cart'); 
         $(window).scroll(function() {
             var currentPosition = $(this).scrollTop();
             if (currentPosition < scrollPosition) {
@@ -122,10 +123,12 @@
                 if (currentPosition == 0) {
                     header.removeClass('navigation--sticky navigation--unpin navigation--pin');
                     header.css("margin-top", 0);
+                     cartIcon.css('display', 'none');
                 }
                 // on scrollUp
                 else if (currentPosition > checkpoint) {
                     header.removeClass('navigation--unpin').addClass('navigation--sticky navigation--pin');
+                     cartIcon.css('display', 'block'); 
                 }
             }
             // On scollDown
@@ -133,6 +136,7 @@
                 if (currentPosition > checkpoint) {
                     header.addClass('navigation--unpin').removeClass('navigation--pin');
                     header.css("margin-top", -headerTopHeight);
+                     cartIcon.css('display', 'block'); 
                 }
             }
             scrollPosition = currentPosition;

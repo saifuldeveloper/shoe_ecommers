@@ -1526,3 +1526,23 @@ input#searchInput_small_device{
     padding-right: 40px; 
     width: 100%; 
 }
+
+.search-fixed {
+    position: absolute;
+    left: 96%;
+    top: 17%;
+}
+#show_hide_cart{
+  display: none;
+}
+#sticky_cart_bar{
+   position: absolute;
+    right: -21px;
+    top: 42px;
+    width: 386px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 999;
+}
