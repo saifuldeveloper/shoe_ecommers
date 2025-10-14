@@ -209,9 +209,29 @@
                                 class="ps-icon-heart"></i> </a>
                     </li>
                 </ul>
-
-
             </div>
+        <div class="search-fixed" id="show_hide_cart">
+            <div>
+                <div class="cart-container">
+                    <a class="ps-cart__toggle cart-icon" href="#">
+                        <span><i class="cart_count">{{ PriceHelper::totalCartQuantity() }}</i></span>
+                        <i class="ps-icon-shopping-cart"></i>
+                    </a>
+                    <div class="cart-dropdown" id="sticky_cart_bar">
+                        <div class="dropdown-cart-items">
+                            @include('includes.cart-items-dropdown')
+                        </div>
+                        {{--  --}}
+                        <div class="cart-actions">
+                            <a href="{{ route('front.checkout.payment') }}" class="btn btn-checkout">CHECK OUT NOW</a>
+                            <a href="{{ route('front.cart') }}" class="btn btn-view">VIEW CART</a>
+                        </div>
+                    </div>
+                </div>
+                {{-- end cart  --}}
+            </div>
+        </div>
+
             <div class="navigation__column right">
                  <!-- USER + SEARCH ICON AREA -->
                    <div class="ps-user">

@@ -21,8 +21,8 @@
     </div>
 
     <!-- Content -->
-    <div class="col-md-9">
-      
+<div class="col-md-9">
+     
 <div class="container  padding-bottom-3x mb-1">
   <div class="row">
     <div class="stats-container">
