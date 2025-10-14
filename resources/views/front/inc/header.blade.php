@@ -4,7 +4,7 @@
             <div class="row py-5">
                 <div class="col-lg-4 col-md-4 text-center">
 
-                    <p>
+                    <p style="padding-top: 40px;">
                         <img src="{{ asset('assets/frontend/images/icon/free-location-icon-2952-thumb.png') }}"
                             height="30" alt="">
                         <a href="{{ route('front.findStore') }}" class="storLocator"> Find A Store</a> | Customer care:

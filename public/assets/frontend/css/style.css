@@ -6410,7 +6410,7 @@ button.ps-btn--gray:before {
   font-size: 16px;
   text-align: left;
   color: #5b5b5b;
-  line-height: 97px;
+  /* line-height: 97px; */
   text-align: center;
 }
 

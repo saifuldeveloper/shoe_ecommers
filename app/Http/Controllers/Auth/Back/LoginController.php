@@ -12,7 +12,7 @@ class LoginController extends Controller
 {
     public function __construct()
     {
-      $this->middleware('guest:web', ['except' => ['logout']]);
+      $this->middleware('guest:admin', ['except' => ['logout']]);
     }
 
     public function showForm()
@@ -24,7 +24,6 @@ class LoginController extends Controller
     {
       // Attempt to log the user in
       if (Auth::guard('admin')->attempt(['email' => $request->login_email, 'password' => $request->login_password])) {
- 
         // if successful, then redirect to their intended location
         return redirect()->intended(route('back.dashboard'));
       }

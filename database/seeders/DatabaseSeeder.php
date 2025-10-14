@@ -128,5 +128,9 @@ class DatabaseSeeder extends Seeder
         $this->call(StoresTableSeeder::class);
         $this->call(TaxsTableSeeder::class);
         $this->call(VariantsTableSeeder::class);
+        $this->call(CartsTableSeeder::class);
+        $this->call(ContactMessagesTableSeeder::class);
+        $this->call(OrderDetailsTableSeeder::class);
+        $this->call(SocialMediaPostsTableSeeder::class);
     }
 }

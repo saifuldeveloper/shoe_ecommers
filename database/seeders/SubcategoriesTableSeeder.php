@@ -24,8 +24,7 @@ class SubcategoriesTableSeeder extends Seeder
                 'id' => 1,
                 'name' => 'Men',
                 'slug' => 'Men',
-                 'category_id' => 1,
-
+                'category_id' => 1,
                 'status' => 1,
                 'created_at' => '2025-09-23 18:39:39',
                 'updated_at' => '2025-09-23 18:39:39',
@@ -36,7 +35,6 @@ class SubcategoriesTableSeeder extends Seeder
                 'name' => 'Women',
                 'slug' => 'Women',
                 'category_id' => 1,
- 
                 'status' => 1,
                 'created_at' => '2025-09-23 18:40:01',
                 'updated_at' => '2025-09-23 18:40:01',
@@ -46,8 +44,7 @@ class SubcategoriesTableSeeder extends Seeder
                 'id' => 3,
                 'name' => 'Kids',
                 'slug' => 'Kids',
-                 'category_id' => 1,
-
+                'category_id' => 1,
                 'status' => 1,
                 'created_at' => '2025-09-23 18:41:13',
                 'updated_at' => '2025-09-23 18:41:13',

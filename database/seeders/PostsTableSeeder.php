@@ -61,7 +61,6 @@ class PostsTableSeeder extends Seeder
                 'created_at' => '2021-05-31 13:48:23',
                 'updated_at' => '2021-09-22 22:28:15',
             ),
-            
         ));
         
         

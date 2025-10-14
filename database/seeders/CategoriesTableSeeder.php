@@ -74,10 +74,10 @@ class CategoriesTableSeeder extends Seeder
                 'menu_serial' => 0,
                 'is_featured' => 1,
                 'featured_serial' => 4,
-                'photo' => '0fX9accessories.avif',
+                'photo' => 'OM_1760421533Ib1Pq8UL.jpeg',
                 'status' => 1,
                 'created_at' => '2025-09-23 18:41:40',
-                'updated_at' => '2025-09-23 18:41:40',
+                'updated_at' => '2025-10-14 05:58:53',
             ),
         ));
         
