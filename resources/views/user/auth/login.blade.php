@@ -47,7 +47,7 @@
         </div>
         <input class="login-submit" type="submit" value="Log In">
       </form>
-
+    @if($setting->google_check == 1)
       <div class="mt-6"><div class="orText">Or</div></div>
       <div class="social--login-btn">
             <svg
@@ -77,8 +77,10 @@
               ></path>
               <path d="M1 1h22v22H1z" fill="none"></path>
             </svg>
-            <a href="#"> Login with Google </a>
+    
+              <a href="{{ route('social.provider', 'google') }}"> Login with Google </a>
           </div>
+            @endif
     </div>
   </div>
   

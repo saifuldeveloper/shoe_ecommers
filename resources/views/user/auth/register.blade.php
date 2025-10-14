@@ -116,7 +116,8 @@
                     <!-- Submit -->
                      <button type="submit" class="btn-submit" id="submitBtn" >Create an Account</button>
                 </form>
-                   <div class="mt-6"><div class="orText">Or</div></div>
+         @if($setting->google_check == 1)
+            <div class="mt-6"><div class="orText">Or</div></div>
                 <div class="social--login-btn">
                 <svg
                 transform="scale(0.8)"
@@ -145,8 +146,9 @@
                 ></path>
                 <path d="M1 1h22v22H1z" fill="none"></path>
                 </svg>
-                <a href="#"> Create Account with Google </a>
+                 <a href="{{ route('social.provider', 'google') }}"> Create Account with Google </a>
             </div>
+            @endif
             </div>
         </div>
     </div>
