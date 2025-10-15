@@ -211,6 +211,10 @@
                 </ul>
             </div>
         <div class="search-fixed" id="show_hide_cart">
+            
+               <button type="button"  id="openSearchBtn" class="ps-user__toggle sticky_search-toggle-btn">
+                        <i class="fa fa-search"></i>
+                </button>
             <div>
                 <div class="cart-container">
                     <a class="ps-cart__toggle cart-icon" href="#">
@@ -354,6 +358,57 @@
     </div>
 </div>
 </div>
+
+{{-- sticky search icon click to modal and keyword base products modal  --}}
+{{-- sticky search icon click to modal and keyword base products modal  --}}
+ <div id="searchModal_sticky_navbar" class="search-modal-overlay" >
+    <span class="close-btn-top" id="closeSearchBtn_top">&times;</span>
+    <div class="search-modal-content">
+        <div class="search-modal-header">
+            <form class="search-form" >
+                <input type="text" id="searchInput_sticky" class="search-input" placeholder="SEARCH" autofocus>
+                <button type="submit" class="search-btn">
+                    <i class="fa fa-search"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+<div id="category_show_sticky_navbar" class="search-modal-container_sticky">
+    <div class="trending-section">
+        <h3 class="section-title">TRENDING</h3>
+            <div class="trending-tags">
+                @foreach ($categories as $category)
+                <form action="{{ route('front.product.search') }}" method="GET" style="margin: 0;">
+                    <input type="hidden" name="q" value="{{ $category->name }}">
+                    <input type="hidden" name="type" value="product">
+                    <button class="trend-tag ">
+                        <i class="fas fa-search"></i> {{ $category->name }}
+                    </button>
+                </form>
+                @endforeach
+            </div>
+    </div>
+    <div class="popular-products-section">
+        <h3 class="section-title">POPULAR PRODUCTS</h3>
+        <p>Products would be listed here...</p>
+    </div>
+</div>
+
+<div class="sticky_small_device_container">
+ <div id="sticky_productResultsModal_small" class="sticky_small_device_product-results-modal" style="display: none">
+    <div class="modal-content_product">
+        <h5 class="modal-heading_result">PRODUCT RESULTS</h5>
+        <div id="productResultsContainer_small" class="results-grid">
+            </div>
+        <div class="see-all-container">
+            <a href="#" class="see-all-link">SEE ALL RESULTS (<span id="totalProducts">0</span>)</a>
+        </div>
+    </div>
+</div>
+</div>
+
+
 
 @push('js')
     <script>
@@ -749,5 +804,54 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 </script>
+<script>
+        const modal = document.getElementById('searchModal_sticky_navbar');
+        const closeBtnTop = document.getElementById('closeSearchBtn_top');
+        const btn = document.getElementById('openSearchBtn');
+        const closeBtn = document.getElementById('closeSearchBtn');
+        const searchInput = document.getElementById('searchInput_sticky');
 
+        // When the user clicks the button, open the modal 
+        btn.onclick = function() {
+            modal.style.display = "block";
+            // Focus on the input field when the modal opens
+            setTimeout(() => {
+                searchInput.focus();
+            }, 10);
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        document.onkeydown = function(event) {
+            if (event.key === "Escape") {
+                modal.style.display = "none";
+            }
+        };
+         closeBtnTop.onclick = function() {
+            modal.style.display = "none";
+        }
+  
+    </script>
+ <script>
+$(document).ready(function() {
+    $('#searchInput_sticky').on('click', function(event) {
+        event.stopPropagation(); 
+        $('#category_show_sticky_navbar').slideDown(200); 
+    });
+
+
+    $(document).on('click', function(event) {
+        const $target = $(event.target);
+        if (!$target.is('#searchInput_sticky') && !$target.closest('#category_show_sticky_navbar').length) {
+            $('#category_show_sticky_navbar').slideUp(200); 
+        }
+    });
+});
+ </script>  
+
+ 
 @endpush
