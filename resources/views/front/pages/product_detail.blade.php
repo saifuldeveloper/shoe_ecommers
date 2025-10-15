@@ -66,34 +66,36 @@
                         </p>
                         <p>{{ $item_details->sort_details??"" }}</p>
                         <!-- Size -->
+                        @php
+                            $variantsIds = $item_details->iteamVariant->pluck('variant_id')->values()->all();
+                            $variants = App\Models\Variant::whereIn('id', $variantsIds)->pluck('size_id')->unique()->values()->all();
+                            $sizes = App\Models\Size::whereIn('id', $variants)->get();
+                        @endphp
+                        @if ($sizes->count() > 0)
                         <div class="mb-3">
                             <div class="d-flex size_flex_data">
                                 <p><strong>Size</strong></p>
                                 <a data-toggle="modal" data-target="#size_chart"  class="size-chart-open-popup"> <img src="{{ asset('assets/frontend/images/icon_sizechar.png') }}"/> Size Chart</a>
                             </div>
                             <div class="size-option d-flex">
-                                @php
-                                    $variantsIds = $item_details->iteamVariant->pluck('variant_id')->values()->all();
-                                    $variants = App\Models\Variant::whereIn('id', $variantsIds)->pluck('size_id')->unique()->values()->all();
-                                    $sizes = App\Models\Size::whereIn('id', $variants)->get();
-                                @endphp
                                 @foreach ($sizes as $size)
                                     <input type="radio" id="size{{ $size->id }}" name="size" value="{{ $size->id }}" checked>
                                     <label for="size{{ $size->id }}">{{ $size->name }}</label>
                                 @endforeach
                             </div>
                         </div>
-
+                        @endif
                         <!-- Color -->
+                        
+                        @php
+                            $variantsIds = $item_details->iteamVariant->pluck('variant_id')->values()->all();
+                            $variants = App\Models\Variant::whereIn('id', $variantsIds)->pluck('color_id')->unique()->values()->all();
+                            $colors = App\Models\Color::whereIn('id', $variants)->get();
+                        @endphp
+                        @if ($colors->count() > 0)
                         <div class="mb-3">
                             <p><strong>Color</strong></p>
                             <div class="size-option d-flex">
-                                @php
-                                    $variantsIds = $item_details->iteamVariant->pluck('variant_id')->values()->all();
-                                    $variants = App\Models\Variant::whereIn('id', $variantsIds)->pluck('color_id')->unique()->values()->all();
-                                    $colors = App\Models\Color::whereIn('id', $variants)->get();
-                                @endphp
-                                
                                 @foreach ($colors as $color)
                                         <input type="radio" id="color{{ $color->id }}" name="color" value="{{ $color->id }}" checked>
                                         <label for="color{{ $color->id }}">
@@ -103,6 +105,7 @@
                                 @endforeach
                             </div>
                         </div>
+                        @endif  
                         <!-- Promocode -->
                         <div class="mb-3">
                             <label class="form-label"><strong>Promocode</strong></label>
