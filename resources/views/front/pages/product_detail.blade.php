@@ -32,15 +32,6 @@
                             <img src="{{ asset('storage/items/' . $gallery->photo) }}" width="193" height="125">
                         </a>
                         @endforeach
-                        {{-- <a href="{{ asset('assets/frontend/images/shoe/a1.avif')}}" data-source="http://500px.com/photo/32736307" title="Into The Blue" style="width:193px;height:125px;">
-                            <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}" width="193" height="125">
-                        </a>
-                                    <a href="{{ asset('assets/frontend/images/shoe/a1.avif')}}" data-source="http://500px.com/photo/32736307" title="Into The Blue" style="width:193px;height:125px;">
-                            <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}" width="193" height="125">
-                        </a>
-                                <a href="{{ asset('assets/frontend/images/shoe/a1.avif')}}" data-source="http://500px.com/photo/32736307" title="Into The Blue" style="width:193px;height:125px;">
-                            <img src="{{ asset('assets/frontend/images/shoe/a1.avif')}}" width="193" height="125">
-                        </a> --}}
                             </div>
                         </div> 
                     </div>
@@ -126,7 +117,7 @@
 
                         <div class="d-flex">
                             <button class="btn btn-dark me-2  add_to_cartbtn" id="add_to_cart">ADD TO CART</button>
-                            <a><i class="ps-icon-heart love_icon"></i></a>
+                            <a class="add-to-wishlist" data-id="{{ $item_details->id }}"><i class="ps-icon-heart love_icon"></i></a>
                         <!-- Buttons -->
                         <div class="d-flex">
                         <div>
@@ -384,36 +375,96 @@
 @push('js')
     <script>
         $(document).ready(function() {
-	$('.zoom-gallery').magnificPopup({
-		delegate: 'a',
-		type: 'image',
-		closeOnContentClick: false,
-		closeBtnInside: false,
-		mainClass: 'mfp-with-zoom mfp-img-mobile',
+            $('.zoom-gallery').magnificPopup({
+                delegate: 'a',
+                type: 'image',
+                closeOnContentClick: false,
+                closeBtnInside: false,
+                mainClass: 'mfp-with-zoom mfp-img-mobile',
 
-		// If you enable allowHTMLInTemplate - 
-		// make sure your HTML attributes are sanitized if they can be created by a non-admin user
-		allowHTMLInTemplate: true,
-		image: {
-			verticalFit: true,
-			titleSrc: function(item) {
-				return item.el.attr('title') + ' &middot; <a class="image-source-link" href="'+item.el.attr('data-source')+'" >image source</a>';
-			}
-		},
+                // If you enable allowHTMLInTemplate - 
+                // make sure your HTML attributes are sanitized if they can be created by a non-admin user
+                allowHTMLInTemplate: true,
+                image: {
+                    verticalFit: true,
+                    titleSrc: function(item) {
+                        return item.el.attr('title') + ' &middot; <a class="image-source-link" href="'+item.el.attr('data-source')+'" >image source</a>';
+                    }
+                },
 
-		gallery: {
-			enabled: true
-		},
-		zoom: {
-			enabled: true,
-			duration: 300, // don't foget to change the duration also in CSS
-			opener: function(element) {
-				return element.find('img');
-			}
-		}
-		
-	});
-});
+                gallery: {
+                    enabled: true
+                },
+                zoom: {
+                    enabled: true,
+                    duration: 300, // don't foget to change the duration also in CSS
+                    opener: function(element) {
+                        return element.find('img');
+                    }
+                }
+                
+            });
+        });
+</script>
+ <script>
+    $(document).ready(function() {
+        const csrfToken = $('meta[name="csrf-token"]').attr('content');
 
+        $('.add-to-wishlist').on('click', function(e) {
+            e.preventDefault(); 
+            let itemId = $(this).data('id');
+            
+            let url = '{{ route('user.wishlist.store', ['id' => 'ITEM_ID']) }}';
+            url = url.replace('ITEM_ID', itemId); 
+
+            // Make the AJAX call
+            $.ajax({
+                url: url,
+                type: 'GET', 
+                dataType: 'json',
+                data: {
+                    _token: csrfToken, 
+                    id: itemId         
+                },
+                // ------------------------------------------
+
+                success: function(response) {
+                    if (response.status === 0 && response.link) {
+                        alert("Wishlist-এ যোগ করার জন্য আপনাকে লগইন করতে হবে।"); 
+                        window.location.href = response.link;
+                    } 
+                  else if (response.status === 1 || response.status === 2) {
+                    alert(response.message);
+                    updateWishlistCount();
+                }
+                },
+            
+            });
+        });
+    });
+
+    function updateWishlistCount() {
+        let url = '{{ route('user.wishlist.count') }}';
+
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                if (response.count !== undefined) {
+                    $('#wishlist-count-header i').text(response.count);
+                    $('#wishlist-count-mobile i').text(response.count);
+                }
+            },
+            error: function(xhr) {
+                console.error("Failed to fetch wishlist count:", xhr);
+                $('#wishlist-count-header i').text(0);
+                $('#wishlist-count-mobile i').text(0);
+            }
+        });
+    }
+
+    // Load count on page load too
+    updateWishlistCount();
 </script>
 @endpush
