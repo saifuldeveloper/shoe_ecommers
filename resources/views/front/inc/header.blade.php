@@ -211,6 +211,10 @@
                 </ul>
             </div>
         <div class="search-fixed" id="show_hide_cart">
+            
+               <button type="button"  id="openSearchBtn" class="ps-user__toggle sticky_search-toggle-btn">
+                        <i class="fa fa-search"></i>
+                </button>
             <div>
                 <div class="cart-container">
                     <a class="ps-cart__toggle cart-icon" href="#">
@@ -354,6 +358,58 @@
     </div>
 </div>
 </div>
+
+{{-- sticky search icon click to modal and keyword base products modal  --}}
+{{-- sticky search icon click to modal and keyword base products modal  --}}
+ <div id="searchModal_sticky_navbar" class="search-modal-overlay" >
+    <span class="close-btn-top" id="closeSearchBtn_top">&times;</span>
+    <div class="search-modal-content">
+        <div class="search-modal-header">
+            <form class="search-form" >
+                <input type="text" id="searchInput_sticky" class="search-input" placeholder="SEARCH" autofocus>
+                <button type="submit" class="search-btn">
+                    <i class="fa fa-search"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+<div id="category_show_sticky_navbar" class="search-modal-container_sticky">
+    <div class="trending-section">
+        <h3 class="section-title">TRENDING</h3>
+            <div class="trending-tags">
+                @foreach ($categories as $category)
+                <form action="{{ route('front.product.search') }}" method="GET" style="margin: 0;">
+                    <input type="hidden" name="q" value="{{ $category->name }}">
+                    <input type="hidden" name="type" value="product">
+                    <button class="trend-tag ">
+                        <i class="fas fa-search"></i> {{ $category->name }}
+                    </button>
+                </form>
+                @endforeach
+            </div>
+    </div>
+    <div class="popular-products-section">
+        <h3 class="section-title">POPULAR PRODUCTS</h3>
+        <p>Products would be listed here...</p>
+    </div>
+</div>
+
+<div class="sticky_small_device_container">
+ <div id="sticky_productResultsModal_small" class="sticky_small_device_product-results-modal" style="display: none">
+    <div class="modal-content_product">
+        <h5 class="modal-heading_result">PRODUCT RESULTS</h5>
+        <div id="sticky_productResultsContainer_small" class="results-grid">
+            </div>
+        <div class="see-all-container">
+            <a href="#" class="see-all-link">SEE ALL RESULTS (<span id="totalProducts_sticky">0</span>)</a>
+        </div>
+    </div>
+</div>
+</div>
+
+
+
 
 @push('js')
     <script>
@@ -749,5 +805,171 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 </script>
+<script>
+        const modal = document.getElementById('searchModal_sticky_navbar');
+        const closeBtnTop = document.getElementById('closeSearchBtn_top');
+        const btn = document.getElementById('openSearchBtn');
+        const closeBtn = document.getElementById('closeSearchBtn');
+        const searchInput = document.getElementById('searchInput_sticky');
 
+        // When the user clicks the button, open the modal 
+        btn.onclick = function() {
+            modal.style.display = "block";
+            // Focus on the input field when the modal opens
+            setTimeout(() => {
+                searchInput.focus();
+            }, 10);
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        document.onkeydown = function(event) {
+            if (event.key === "Escape") {
+                modal.style.display = "none";
+            }
+        };
+         closeBtnTop.onclick = function() {
+            modal.style.display = "none";
+        }
+  
+    </script>
+<script>
+$(document).ready(function() {
+    // --- Element Declarations ---
+    const $searchInput = $('#searchInput_sticky');
+    const $categoryDropdown = $('#category_show_sticky_navbar'); 
+    const $productModal = $('#sticky_productResultsModal_small'); 
+    
+    // product result model
+    const $resultsContainer = $('#sticky_productResultsContainer_small');
+    const $totalResultsSpan = $('#totalProducts_sticky');
+    const $seeAllLink = $('.see-all-link');
+
+    // --- Configuration & Helpers (Blade routes) ---
+
+    const PRODUCT_DETAIL_URL = "{{ route('front.product', ['slug' => ':slug']) }}";
+    const PRODUCT_SEARCH_ROUTE = "{{ route('front.product.query') }}";
+    const PRODUCT_LIST_ROUTE = '{{ route('front.show.search.product') }}';
+    
+    // --- Debounce Function ---
+    function debounce(func, delay) {
+        let timeout;
+        return function(...args) {
+            const context = this;
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(context, args), delay);
+        };
+    }
+
+    // --- Product HTML & Display Functions  ---
+    function createProductHTML(product) {
+        const imageUrl = `/storage/items/${product.thumbnail}`; 
+        const productLink = PRODUCT_DETAIL_URL.replace(':slug', product.slug); 
+        return `
+            <div class="product-item">
+                <a href="${productLink}">
+                <img src="${imageUrl}" alt="${product.name}">
+                <p class="name">${product.name}</p>
+                <span class="original-price">Tk ${product.previous_price}</span>
+                <span class="currency">Tk</span>
+                <span class="sale-price">${product.discount_price}</span>
+                </a>
+            </div>
+        `;
+    }
+
+    function showProductResults(products, total, query) {
+        $resultsContainer.empty();
+        
+        if (products.length === 0) {
+            $resultsContainer.html('<p class="no-results-message" style="padding: 15px; text-align: center;">No products found matching your search.</p>');
+            $totalResultsSpan.text('0');
+        } else {
+            let html = '';
+            products.forEach(product => {
+                html += createProductHTML(product);
+            });
+            $resultsContainer.html(html);
+            $totalResultsSpan.text(total.toLocaleString());
+            $seeAllLink.attr('href', `${PRODUCT_LIST_ROUTE}?q=${encodeURIComponent(query)}&type=product`);
+        }
+        
+        // show the product modal
+        $productModal.show(); 
+    }
+
+    // --- AJAX Request Function ---
+    function fetchProductResults(query) {
+        const url = PRODUCT_SEARCH_ROUTE + `?q=${encodeURIComponent(query)}`;
+        
+        $resultsContainer.html('<p class="loading-message" style="padding: 15px; text-align: center;">Searching...</p>');
+        $productModal.show(); 
+
+        $.ajax({
+            url: url,
+            method: 'GET',
+            success: function(data) {
+                showProductResults(data.products, data.totalCount, query);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error fetching search results:', status, error);
+                $resultsContainer.html('<p class="error-message" style="padding: 15px; text-align: center; color: red;">Failed to load results. Try again.</p>');
+                $totalResultsSpan.text('0');
+                $productModal.show();
+            }
+        });
+    }
+
+    // =======================================================
+    // --- A. Event Listener: CLICK (Category Dropdown) ---
+    // =======================================================
+    $searchInput.on('click', function(event) {
+        event.stopPropagation(); 
+        
+        const query = $(this).val().trim();
+        if (query.length < 3) {
+            $productModal.hide(); 
+
+            $categoryDropdown.slideDown(200); 
+        }
+    });
+
+    // =======================================================
+    // --- B. Event Listener: INPUT/TYPE (Product Modal) ---
+    // =======================================================
+    $searchInput.on('input', debounce(function() {
+        const query = $(this).val().trim();
+
+        if (query.length >= 3) { 
+            $categoryDropdown.slideUp(100); 
+            fetchProductResults(query); 
+        } else {
+            if ($(this).is(':focus')) {
+                $categoryDropdown.slideDown(200);
+            }
+            $productModal.hide(); 
+        }
+    }, 300)); 
+
+    // =======================================================
+    // --- C. Event Listener: Hide on Outside Click ---
+    // =======================================================
+    $(document).on('click', function(event) {
+        const $target = $(event.target);
+        if (!$target.is($searchInput) && !$target.closest($categoryDropdown).length) {
+            $categoryDropdown.slideUp(200); 
+        }
+        
+        if (!$target.is($searchInput) && !$target.closest($productModal).length) {
+            $productModal.hide(); 
+        }
+    });
+});
+</script> 
+
+ 
 @endpush
