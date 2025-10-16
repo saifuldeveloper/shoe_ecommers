@@ -1648,13 +1648,7 @@ input#searchInput_small_device{
 }
 
 /* --- Content Area Styling (Just for context, remove in production) --- */
-body {
-    font-family: sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-    height: 150vh; /* Make body tall for scrolling context */
-}
+
 .main-content {
     padding: 50px;
     text-align: center;

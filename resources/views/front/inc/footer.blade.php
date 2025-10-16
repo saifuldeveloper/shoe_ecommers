@@ -2,6 +2,7 @@
 $setting = \App\Models\Setting::first();
 $pages = \App\Models\Page::where('pos',1)->orWhere('pos', 2)->orderBy('id','DESC')->get();
 $brands = \App\Models\Brand::where('status',1)->where('is_popular' , 1)->orderBy('id','DESC')->get();
+$categories = \App\Models\Category::where('status',1)->orderBy('id','DESC')->get();
 
 @endphp
 
@@ -82,13 +83,12 @@ $brands = \App\Models\Brand::where('status',1)->where('is_popular' , 1)->orderBy
                 <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">
                     <aside class="ps-widget--footer ps-widget--link">
                         <header>
-                            <h3 class="ps-widget__title">Popular Brands</h3>
+                            <h3 class="ps-widget__title">Popular Category</h3>
                         </header>
-
                         <footer>
                             <ul class="ps-list--line">
-                                @foreach($brands ?? [] as $brand)
-                                <li><a href="{{ route('front.brand',$brand->slug) }}">{{ $brand->name }}</a></li>
+                                @foreach($categories ?? [] as $category)
+                                <li><a href="{{ route('front.categories.products',$category->slug) }}">{{ $category->name }}</a></li>
                                 @endforeach
                             </ul>
                         </footer>
