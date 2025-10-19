@@ -1685,3 +1685,281 @@ input#searchInput_small_device{
     padding: 15px;
     font-family: Arial, sans-serif;
 }
+
+
+
+/* ==============order page css  */
+.checkout-page-container {
+    padding: 20px 0;
+}
+
+.checkout-form-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+}
+
+.checkout-title {
+    font-size: 20px;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.form-group-custom {
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.form-group-custom label {
+    display: block;
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.form-control-custom,
+.form-select-custom {
+    display: block;
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control-custom:focus,
+.form-select-custom:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Specific styling for the red border on error fields (like First/Last Name) */
+.form-control-custom.input-error {
+    border-color: #dc3545;
+    padding-right: 35px; 
+}
+
+.form-group-custom .error-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #dc3545;
+    font-size: 18px;
+    display: none; 
+}
+.form-control-custom.input-error + .error-icon {
+    display: block;
+}
+
+/* Input Helper Text */
+.input-helper-text {
+    font-size: 12px;
+    color: #dc3545; 
+    margin-top: 5px;
+    display: block;
+}
+
+/* ================================================= */
+/* 3. Checkbox and Radio Styling */
+/* ================================================= */
+
+.custom-checkbox-label,
+.custom-radio-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.custom-checkbox-label input[type="checkbox"],
+.custom-radio-label input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+}
+
+/* Custom Checkbox/Radio Appearance */
+.custom-checkbox-label span,
+.custom-radio-label span {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 1px solid #ced4da;
+    border-radius: 3px;
+    margin-right: 8px;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.custom-radio-label span {
+    border-radius: 50%; 
+}
+
+/* Checked State */
+.custom-checkbox-label input[type="checkbox"]:checked + span {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+.custom-radio-label input[type="radio"]:checked + span {
+    border-color: #007bff;
+}
+
+.custom-radio-label input[type="radio"]:checked + span::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #007bff;
+    transform: translate(-50%, -50%);
+}
+.custom-checkbox-label input[type="checkbox"]:checked + span::after {
+    content: '\2713'; 
+    position: absolute;
+    top: -2px;
+    left: 3px;
+    font-size: 14px;
+    color: white;
+}
+
+/* ================================================= */
+/* 4. Shipping and Payment Methods */
+/* ================================================= */
+
+.section-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+.shipping-method-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    border: 1px solid #007bff; 
+    border-radius: 4px;
+    background-color: #f7faff;
+}
+
+.shipping-title {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.shipping-price {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* Payment Method Card */
+.payment-card-custom {
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+.payment-card-custom.selected {
+    border-color: #007bff;
+    background-color: #f7faff;
+}
+.payment-card-custom {
+    /* ... existing styles ... */
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+
+/* 1. Ensure the label/container allows the text to flow */
+.custom-radio-label {
+    display: flex; /* Use flex to align radio and text */
+    align-items: center;
+    cursor: pointer;
+    /* Optional: Set a minimum width if necessary, but flex should handle it */
+}
+
+/* 2. Key Fix: Prevent text from wrapping prematurely */
+.custom-radio-label span {
+    font-weight: 500;
+    /* This style prevents text wrapping onto a new line */
+    white-space: nowrap; 
+    
+    /* Ensure there is enough space between the radio button and the text */
+    margin-left: 10px; 
+}
+
+/* Ensure the radio label and its contents are aligned */
+.custom-radio-label {
+    display: flex; /* Key change: use flexbox for alignment */
+    align-items: center; /* Vertically center the radio and the text */
+    cursor: pointer;
+    margin-bottom: 0; /* Important: remove default label margin */
+    width: 100%; /* Make label take full width for click area */
+}
+
+/* Basic styling for the radio button */
+.payment-radio-input {
+    margin-right: 70px!important; 
+}
+
+/* You can remove the old .payment-card-header and .payment-method-icon styles as they are no longer needed for the basic structure. */
+.payment-card-body {
+    /* Keep existing body styles, but note it is now outside the main label */
+    text-align: center; 
+    padding: 10px 0;
+    font-size: 14px;
+    color: #555;
+}
+.payment-card-body p {
+    margin-bottom: 0;
+    text-align: left; /* Adjust text alignment for a better look */
+    padding: 0 10px;
+}
+
+/* ================================================= */
+/* 5. Billing Address & Pay Button */
+/* ================================================= */
+
+.billing-radio-group {
+    margin-top: 15px;
+    margin-bottom: 25px;
+}
+
+.pay-button-custom {
+    width: 100%;
+    padding: 12px 20px;
+    background-color: #007bff; /* Blue button */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.pay-button-custom:hover {
+    background-color: #0056b3;
+}

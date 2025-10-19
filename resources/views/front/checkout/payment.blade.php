@@ -5,7 +5,7 @@
 @section('content')
 <div class="mt-4" style="margin-top: 40px"></div>
     <!-- Page Title-->
-    <div class="page-title">
+    {{-- <div class="page-title">
         <div class="container">
             <div class="column">
                 <ul class="breadcrumbs">
@@ -15,141 +15,187 @@
                 </ul>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!-- Page Content-->
     <div class="container padding-bottom-3x mb-4  checkut-page">
         <div class="row">
             <!-- Payment Methode-->
-            <div class="col-xl-8 col-lg-8">
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul class="mb-0">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-                <form action="{{ route('front.checkout.submit')}}" method="post">
-                    @csrf
-                    {{-- hidden inputs --}} 
-                    <input type="hidden" name="size" value="{{ Session::get('cart')['size'] ?? '' }}">
-                <div class="card">
-                    <div class="card-body">
-                        <h6 class="pb-2">{{ __('Review Your Order') }} :</h6>
-                        <hr>
-                        {{-- <form id="checkout-form" action="{{ route('front.checkout.shipping.store') }}" method="POST">
-                            @csrf --}}
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="name">{{ __('Name *') }}</label>
-                                        <input required class="form-control" name="ship_name" type="text" id="name"
-                                            placeholder="
-                                        Your Name *"
-                                            value="{{ isset($user) ? $user->first_name : '' }}">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="checkout-phone">{{ __('Phone *') }}</label>
-                                        <input class="form-control" name="ship_phone" type="text" id="checkout-phone"
-                                            value="{{ isset($user) ? $user->phone : '' }}" placeholder="Phone *">
-                                    </div>
-                                </div>
+                <div class="col-xl-8 col-lg-8 checkout-page-container">
+    @if ($errors->any())
+        {{-- Your existing error display logic --}}
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="checkout-email">{{ __('E-mail Address') }}</label>
-                                        <input class="form-control" name="ship_email" type="email" id="checkout-email"
-                                            placeholder="Email" value="{{ isset($user) ? $user->email : '' }}">
-                                    </div>
+    <form action="{{ route('front.checkout.submit')}}" method="post">
+        @csrf
+        {{-- hidden inputs --}} 
+        <input type="hidden" name="size" value="{{ Session::get('cart')['size'] ?? '' }}">
+        <input type="hidden" name="payment_method" id="selected-payment-method" value="SSLCOMMERZ"> 
 
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="checkout-city">{{ __('City') }}</label>
-                                        <input class="form-control" name="ship_city" required type="text"
-                                            id="checkout-city" value="{{ isset($user) ? $user->ship_city : '' }}">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <label for="checkout-address1">{{ __('Address') }} </label>
-                                        <input class="form-control" name="ship_address1" required type="text"
-                                            placeholder="Address" id="checkout-address1"
-                                            value="{{ isset($user) ? $user->ship_address1 : '' }}">
-                                    </div>
-                                </div>
-                            </div>
+        {{-- =================================================== --}}
+        {{-- DELIVERY SECTION (Shipping Details) --}}
+        {{-- =================================================== --}}
+        <div class="checkout-form-card">
+            <h2 class="checkout-title">Delivery</h2>
+            <div class="form-group-custom mb-3">
+                <select class="form-select-custom" name="ship_country">
+                    <option value="Bangladesh" selected>Country/Region: Bangladesh</option>
+                </select>
+            </div>
 
-                            @php
-                                $shippings = DB::table('shipping_services')->where('status', 1)->get();
-                            @endphp
-
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <label for="checkout-address1">{{ __('Shipping  ') }} </label>
-                                        <select name="shipping_charge" id="shipping-charge" class="form-control">
-                                            @foreach ($shippings as $item)
-                                                <option value="{{ $item->price }}">{{ $item->title }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        {{-- </form> --}}
-
-                        <h6>{{ __('Pay with') }} :</h6>
-                        @php
-                            $gateways = DB::table('payment_settings')->whereStatus(1)->first();
-                        @endphp
-                        <div class="row mt-4">
-                            <div class="col-3">
-                                <div class="card payment-card mb-3">
-                                    <div class="card-body text-center">
-                                        @php
-                                            $paymentMethods = DB::table('payment_settings')->where('status', 1)->get();
-                                        @endphp
-                                        <div class="d-flex flex-column align-items-center">
-                                            @foreach($paymentMethods as $method)
-                                                <label class="d-block mb-2" style="cursor:pointer;">
-                                                    <input type="radio" name="payment_method" value="{{ $method->unique_keyword }}" class="d-none payment-radio" {{ $loop->first ? 'checked' : '' }}>
-                                                    {{-- <img src="{{ url('/storage/payments/' . $method->photo) }}" alt="{{ $method->name }}" title="{{ $method->name }}" style="width:120px; height:auto; border:2px solid #eee; border-radius:6px; margin-right:8px; vertical-align:middle;"> --}}
-                                                    <span>{{ $method->name }}</span>
-                                                </label>
-                                            @endforeach
-                                        </div>
-                                        <script>
-                                            document.addEventListener('DOMContentLoaded', function() {
-                                                const radios = document.querySelectorAll('.payment-radio');
-                                                radios.forEach(radio => {
-                                                    radio.addEventListener('change', function() {
-                                                        radios.forEach(r => r.parentElement.style.border = '');
-                                                        if(this.checked) {
-                                                            // this.parentElement.style.border = '1px solid #007bff';
-                                                        }
-                                                    });
-                                                    if(radio.checked) {
-                                                        // radio.parentElement.style.border = '1px solid #007bff';
-                                                    }
-                                                });
-                                            });
-                                        </script>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-danger">Payment Submit</button>
+            <div class="row">
+                {{-- First Name --}}
+                <div class="col-sm-6">
+                    <div class="form-group-custom">
+                        <label for="ship_name">Name</label>
+                        <input class="form-control-custom {{ $errors->has('ship_name') ? 'input-error' : '' }}" name="ship_name" type="text" id="ship_name"
+                            placeholder="Enter a name"
+                            value="{{ isset($user) ? $user->ship_name : '' }}">
+                   
+                        @if ($errors->has('ship_name'))
+                            <span class="input-helper-text">Enter a name</span>
+                        @endif
                     </div>
                 </div>
-                </form>
+                <div class="col-sm-6">
+                    <div class="form-group-custom">
+                        <label for="ship_email">E-mail Address</label>
+                        <input class="form-control-custom {{ $errors->has('ship_email') ? 'input-error' : '' }}" name="ship_email" type="text" id="ship_email"
+                            placeholder="Enter a E-mail address"
+                           value="{{ isset($user) ? $user->email : '' }}">
+                     
+                        @if ($errors->has('ship_email'))
+                            <span class="input-helper-text">Enter a first name</span>
+                        @endif
+                    </div>
+                </div>
+            
             </div>
+            <div class="row">
+                {{-- City (ship_city) --}}
+                <div class="col-sm-6">
+                    <div class="form-group-custom">
+                        <label for="ship_city">City</label>
+                        <input class="form-control-custom {{ $errors->has('ship_city') ? 'input-error' : '' }}" name="ship_city" type="text"
+                            placeholder="Enter a city" id="ship_city" value="{{ isset($user) ? $user->ship_city : '' }}">
+                    
+                        @if ($errors->has('ship_city'))
+                            <span class="input-helper-text">Enter a city</span>
+                        @endif
+                    </div>
+                </div>
+                {{-- Postal Code (Optional) --}}
+                <div class="col-sm-6">
+                    <div class="form-group-custom">
+                        <label for="ship_zip">Postal code (optional)</label>
+                        <input class="form-control-custom" name="ship_zip" type="text" id="ship_zip" 
+                            placeholder="Postal code (optional)" value="{{ isset($user) ? $user->ship_zip : '' }}">
+                    </div>
+                </div>
+            </div>
+
+            {{-- Phone --}}
+            <div class="form-group-custom">
+                <label for="ship_phone">Phone</label>
+                <input class="form-control-custom {{ $errors->has('ship_phone') ? 'input-error' : '' }}" name="ship_phone" type="text" id="ship_phone"
+                    placeholder="Enter a phone number to use this delivery method" value="{{ isset($user) ? $user->phone : '' }}">
+             
+                @if ($errors->has('ship_phone'))
+                    <span class="input-helper-text">Enter a phone number to use this delivery method</span>
+                @endif
+            </div>
+
+             {{-- Address 1 --}}
+            <div class="form-group-custom">
+                <label for="ship_address1">Address</label>
+                <textarea class="form-control-custom {{ $errors->has('ship_address1') ? 'input-error' : '' }}" name="ship_address1" type="text"
+                    placeholder="Enter an address" id="ship_address1"> 
+                    {{ isset($user) ? $user->ship_address1 : '' }}
+                </textarea>
+            
+                 @if ($errors->has('ship_address1'))
+                     <span class="input-helper-text">Enter an address</span>
+                 @endif
+            </div>
+            {{-- Checkboxes --}}
+            {{-- <div class="mt-3">
+                <label class="custom-checkbox-label">
+                    <input type="checkbox" name="text_me">
+                    <span></span>
+                    Text me with news and offers
+                </label>
+                <label class="custom-checkbox-label">
+                    <input type="checkbox" name="terms" required>
+                    <span></span>
+                    I have read and agreed to the website <a href="#" style="color: #007bff; margin-left: 5px;">terms and conditions</a>.
+                </label>
+            </div> --}}
+        </div>
+
+        {{-- =================================================== --}}
+        {{-- SHIPPING METHOD SECTION (Dropdown converted to look like a row) --}}
+        {{-- =================================================== --}}
+        <div class="checkout-form-card">
+            <h2 class="section-title">Shipping method</h2>
+             @php
+            $shippings = DB::table('shipping_services')->where('status', 1)->get();
+        @endphp
+            <div class="form-group-custom">
+                <label for="shipping-charge">Shipping</label>
+                <select name="shipping_charge" id="shipping-charge" class="form-select-custom">
+                    @foreach ($shippings as $item)
+                        <option value="{{ $item->price }}">{{ $item->title }}</option>
+                    @endforeach
+                </select>
+               
+            </div>
+        </div>
+
+
+        {{-- =================================================== --}}
+        {{-- PAYMENT METHOD SECTION --}}
+        {{-- =================================================== --}}
+        <div class="checkout-form-card">
+            <h2 class="section-title">Payment</h2>
+            <p style="font-size: 14px; color: #555; margin-bottom: 20px;">All transactions are secure and encrypted.</p>
+
+          @php
+            $paymentMethods = DB::table('payment_settings')->where('status', 1)->get();
+        @endphp
+            
+            {{-- Payment Options --}}
+          <div class="payment-options">
+            @foreach($paymentMethods as $method)
+            <div class="payment-card-custom mb-3 {{ $loop->first ? 'selected' : '' }}" data-method="{{ $method->unique_keyword }}">
+           <label class="payment-radio-input">
+                <span style="font-weight: 500;">{{ $method->name }}</span>
+                
+            </label>
+                
+                @if($method->unique_keyword == 'sslcommerz') 
+                    {{-- Move image and body outside the main label for SSLCOMMERZ --}}
+                    <div class="sslcommerz-details mt-2"> {{-- Added a div for cleaner grouping --}}
+                        <img src="{{ url('/storage/payments/' . $method->photo) }}" alt="{{ $method->name }}" title="{{ $method->name }}" style="width:360px; height:auto; border:2px solid #eee; border-radius:6px; margin-right:8px; vertical-align:middle;">
+                        <div class="payment-card-body">
+                            <p>After clicking "Pay now" - you will be redirected to SSLCOMMERZ to complete your purchase securely.</p>
+                        </div>
+                    </div>
+                @endif
+            </div>
+        @endforeach
+    </div>
+
+            {{-- PAY BUTTON --}}
+            <button type="submit" class="pay-button-custom">Pay now</button>
+        </div>
+    </form>
+</div>
             @include('includes.checkout_sitebar', $cart)
         </div>
     </div>
@@ -282,4 +328,67 @@
 
         });
     </script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const paymentCards = document.querySelectorAll('.payment-card-custom');
+        // SSLCOMMERZ-এর মতো গেটওয়ের ডিটেইলস-এর জন্য body element
+        const paymentBodies = document.querySelectorAll('.payment-card-body'); 
+        // আপনার ফর্মে পাঠানোর জন্য HIDDEN input-এর ID যদি থাকে
+        const hiddenPaymentInput = document.getElementById('selected-payment-method');
+
+        // Body-গুলোকে প্রথমে লুকিয়ে ফেলার জন্য একটি CSS ক্লাস যোগ করুন
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = '.payment-card-body { display: none; }';
+        document.head.appendChild(styleSheet);
+
+
+        // 1. Selection ও Collapsible State আপডেট করার ফাংশন
+        function updateSelection(cardElement) {
+            // A. সব কার্ড থেকে 'selected' ক্লাস সরান
+            paymentCards.forEach(card => card.classList.remove('selected'));
+            
+            // B. সব বডি (Details) লুকিয়ে দিন
+            paymentBodies.forEach(body => body.style.display = 'none');
+
+            // C. ক্লিক করা কার্ডটিকে 'selected' করুন
+            cardElement.classList.add('selected');
+            
+            // D. যদি কার্ডটির ভেতরে body থাকে, তবে তা দেখান (Collapsing/Expanding functionality)
+            const cardBody = cardElement.querySelector('.payment-card-body');
+            if (cardBody) {
+                cardBody.style.display = 'block'; // দেখানোর জন্য block করুন
+            }
+            
+            // E. hidden input আপডেট করুন (যদি আপনি ফর্মে এটি ব্যবহার করেন)
+            const method = cardElement.getAttribute('data-method');
+            if (hiddenPaymentInput) {
+                hiddenPaymentInput.value = method;
+            }
+        }
+
+        // 2. Click Event Listener যুক্ত করা
+        paymentCards.forEach(card => {
+            card.addEventListener('click', function() {
+                // রেডিও বাটন চেক করা
+                const radio = this.querySelector('.payment-radio-input');
+                if (radio) {
+                    radio.checked = true;
+                    updateSelection(this);
+                }
+            });
+        });
+
+        // 3. Initial Setup: সবার আগে নির্বাচিত কার্ডটি (Default checked radio) ঠিক করা
+        const initiallyCheckedRadio = document.querySelector('.payment-card-custom .payment-radio-input:checked');
+        if (initiallyCheckedRadio) {
+            // রেডিও বাটনটির অভিভাবক কার্ডটি খুঁজে বের করা
+            const initiallyCheckedCard = initiallyCheckedRadio.closest('.payment-card-custom');
+            updateSelection(initiallyCheckedCard);
+        } else if (paymentCards.length > 0) {
+            // যদি কিছুই checked না থাকে, তবে প্রথম কার্ডটি (SSLCOMMERZ) নির্বাচন করা
+            updateSelection(paymentCards[0]);
+        }
+    });
+</script>
 @endsection
