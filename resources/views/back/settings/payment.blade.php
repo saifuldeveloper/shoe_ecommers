@@ -52,7 +52,7 @@
                                                                             <input type="checkbox"
                                                                                 class="switch switch-bootstrap "
                                                                                 name="status" value="1"
-                                                                                {{ $cod->status == 1 ? 'checked' : '' }}>
+                                                                                {{ $cod->status == 'active' ? 'checked' : '' }}>
                                                                             <span class="switch-body"></span>
                                                                             <span
                                                                                 class="switch-text">{{ __('Display Cash On Delivery') }}</span>
@@ -110,7 +110,7 @@
 
                                                     </div>
 
-                                                    {{-- <div id="sslcommerz" class="container tab-pane"><br>
+                                                   <div id="sslcommerz" class="container tab-pane"><br>
 
                                                         <div class="row justify-content-center">
 
@@ -126,7 +126,7 @@
                                                                             <input type="checkbox"
                                                                                 class="switch switch-bootstrap "
                                                                                 name="status" value="1"
-                                                                                {{ $sslcommerz->status == 1 ? 'checked' : '' }}>
+                                                                                {{ $sslcommerz->status == 'active' ? 'checked' : '' }}>
                                                                             <span class="switch-body"></span>
                                                                             <span
                                                                                 class="switch-text">{{ __('Display sslcommerz') }}</span>
@@ -135,7 +135,7 @@
 
 
                                                                     <div
-                                                                        class="image-show {{ $sslcommerz->status == 1 ? '' : 'd-none' }}">
+                                                                        class="image-show {{ $sslcommerz->status == 'active' ? '' : 'd-none' }}">
 
                                                                         <div class="form-group col-xl-12">
                                                                             <label
@@ -227,7 +227,7 @@
 
                                                         </div>
 
-                                                    </div> --}}
+                                                    </div> 
                                                 </div>
                                             </div>
                                         </div>

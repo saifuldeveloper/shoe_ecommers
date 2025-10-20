@@ -105,10 +105,13 @@
 
                         <!-- Quantity -->
                         <div class="mb-3 d-flex align-items-center">
+                            <input type="hidden" id="itemPrice" value="{{ $item_details->discount_price ?? $item_details->regular_price }}">
                             <label class="me-3"><strong>Quantity</strong></label>
-                            <input type="number" class="form-control w-25 qtyValue" value="1" min="1" />
+                            <input type="number" id="qtyInput" class="form-control w-25 qtyValue" value="1" min="1" />
                         </div>
-                        <p><strong>Subtotal:</strong> Tk 2,499.00</p>
+                        <p><strong>Subtotal:</strong>
+                             ৳ <span id="subtotalDisplay"></span>
+                            </p>
                         {{-- hidden inputs  --}}
                         <input type="hidden" value="{{ $item_details->id??"" }}" id="item_id">
                         <input type="hidden" id="demo_price"
@@ -466,5 +469,30 @@
 
     // Load count on page load too
     updateWishlistCount();
+</script>
+<script>
+    function updateSubtotal() {
+        const priceElement = document.getElementById('itemPrice');
+        const qtyElement = document.getElementById('qtyInput');
+        const subtotalDisplay = document.getElementById('subtotalDisplay');
+
+        const unitPrice = parseFloat(priceElement.value);
+        const quantity = parseInt(qtyElement.value);
+    
+        if (isNaN(unitPrice) || isNaN(quantity) || quantity < 1) {
+            subtotalDisplay.textContent = '0.00';
+            return;
+        }
+        const newSubtotal = unitPrice * quantity;
+        subtotalDisplay.textContent = newSubtotal.toFixed(2);
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        const qtyInput = document.getElementById('qtyInput');
+        if (qtyInput) {
+            qtyInput.addEventListener('input', updateSubtotal);
+        
+            updateSubtotal(); 
+        }
+    });
 </script>
 @endpush

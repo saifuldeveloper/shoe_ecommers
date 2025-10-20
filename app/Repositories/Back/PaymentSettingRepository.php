@@ -21,9 +21,9 @@ class PaymentSettingRepository
         $data['bank'] = $bank;
 
 
-        // $sslcommerz = PaymentSetting::whereUniqueKeyword('sslcommerz')->first();
-        // $data['sslcommerzData'] = $sslcommerz->convertJsonData();
-        // $data['sslcommerz'] = $sslcommerz;
+        $sslcommerz = PaymentSetting::whereUniqueKeyword('sslcommerz')->first();
+        $data['sslcommerzData'] = $sslcommerz->convertJsonData();
+        $data['sslcommerz'] = $sslcommerz;
 
        
      
@@ -44,6 +44,7 @@ class PaymentSettingRepository
     {
 
         $input = $request->all();
+     
         $pay_data = PaymentSetting::whereUniqueKeyword($input['unique_keyword'])->first();
 
         if ($file = $request->file('photo')) {
@@ -61,8 +62,7 @@ class PaymentSettingRepository
                 $prev = $paydata['key'];
             }
 
-           
-
+        
             if (array_key_exists("check_sandbox",$info_data)){
                 $info_data['check_sandbox'] = 1;
             }else{
@@ -88,10 +88,10 @@ class PaymentSettingRepository
         }
 
         if($request->has('status')){
-            $input['status'] = 1;
+            $input['status'] = 'active';
         }else{
 
-            $input['status'] = 0;
+            $input['status'] = 'inactive';
         }
         
  
