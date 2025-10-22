@@ -25,7 +25,7 @@
                     $cartTotal += $item_price * $item->quantity;
                 @endphp
 
-                <div class="custom-product-item" data-key="{{ $key }}">
+                <div class="custom-product-item" id="cart_view_load" data-target="{{ route('cart.get.load') }}" data-key="{{ $key }}">
                     <div class="separte_cart_product">
                         <a class="custom-product-thumb" href="#">
                             <img src="{{ asset('storage/items/' . $item->item->photo) }}" alt="{{ $item['name'] }}">
@@ -65,24 +65,34 @@
 
                             <div class="d-flex align-items-center mt-2">
                                 <label class="mr-2" for="quantity-{{ $loop->index }}">Quantity:</label>
-                                <div class="cart-controls-wrapper">
+                               <div class="cart-controls-wrapper">
+                                <form action="{{ route('product.cart.update.single', ['id' => $item->id]) }}" method="POST">
+                                    @csrf
+                                    @method('POST')
+
                                     <div class="custom-qty-selector">
-                                        <button type="button" class="decrease-qty-btn cartsubclick" data-id="{{ $key }}"
-                                            data-target="{{ PriceHelper::GetItemId($key) }}">-</button>
+                                        <button type="button" class="decrease-qty-btn cartsubclick" data-target="#quantity-{{ $loop->index }}">-</button>
 
-                                        <input type="text" id="quantity-{{ $loop->index }}" class="qtyValue"
-                                            value="{{ $item['quantity'] }}" readonly>
+                                        <input type="text" 
+                                            name="quantity" 
+                                            id="quantity-{{ $loop->index }}" 
+                                            class="qtyValue" 
+                                            value="{{ $item['quantity'] }}" 
+                                            readonly>
 
-                                        <button type="button" class="increase-qty-btn cartaddclick" data-id="{{ $key }}"
-                                            data-target="{{ PriceHelper::GetItemId($key) }}" data-item="">+</button>
+                                        <button type="button" class="increase-qty-btn cartaddclick" data-target="#quantity-{{ $loop->index }}">+</button>
                                     </div>
-
+                                </br>
                                     <div class="custom-action-buttons">
+                                        <button type="submit" class="action-btn update-cart-btn">UPDATE CART</button>
+
                                         <a href="{{ route('front.cart.destroy', $item->id) }}">
-                                            <button class="action-btn remove-btn">REMOVE</button>
+                                            <button type="button" class="action-btn remove-btn">REMOVE</button>
                                         </a>
                                     </div>
-                                </div>
+                                </form>
+                            </div>
+
                             </div>
                         </div>
                     </div>
@@ -179,4 +189,6 @@ document.addEventListener('DOMContentLoaded', function () {
     updateGrandTotal();
 });
 </script>
+
+
 @endpush
