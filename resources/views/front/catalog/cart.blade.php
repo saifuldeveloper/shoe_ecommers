@@ -31,7 +31,7 @@
     <div class="card text-center">
       <div class="card-body padding-top-2x">
         <h3 class="card-title">{{__('Your shopping cart is empty.')}}</h3>
-       <a class="btn btn-outline-primary m-4" href="{{route('front.index')}}"><i class="icon-package pr-2"></i>{{__('View our products')}}</a></div>
+       <a class="btn btn-outline-primary m-4" href="{{route('front.product.collection.all')}}"><i class="icon-package pr-2"></i>{{__('View our products')}}</a></div>
       </div>
     </div>
   @endif

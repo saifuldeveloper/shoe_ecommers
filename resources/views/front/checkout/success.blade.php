@@ -29,7 +29,7 @@
         </p>
         <div class="padding-top-1x padding-bottom-1x">
 
-            <a class="btn btn-primary m-4" href="{{route('front.index')}}"><span><i class="icon-package pr-2"></i> {{__('View our products again')}}</span></a>
+            <a class="btn btn-primary m-4" href="{{route('front.product.collection.all')}}"><span><i class="icon-package pr-2"></i> {{__('View Our Products Again')}}</span></a>
 
           </div>
       </div>
