@@ -71,6 +71,16 @@ class FrontendController extends Controller
          return view('front.pages.store_locator');
     }
 
+    public function collectionAll()
+    {
+        $subCategories = Subcategory::where('status',1)->latest()->get();
+        $brands = Brand::where('status',1)->latest()->get();
+        $products = Item::with('iteamVariant')->where('status',1)->latest()->paginate(20);
+        $allSize = Size::where('status',1)->latest()->get();
+        $allColor  = Color::where('status',1)->latest()->get();
+
+        return view('front.pages.collecton_all_products',compact('subCategories','brands','products','allSize','allColor'));
+    }
 
 
     public function index()
