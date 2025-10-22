@@ -30,7 +30,7 @@
                            <div class="ps-user">
                                 <a class="ps-user__toggle" href="{{ route('front.wishlist') }}">
                                     <span id="wishlist-count-header">
-                                        <i class="cart_count">0</i> </span>
+                                        <i class="">0</i> </span>
                                     <i class="ps-icon-heart"></i> 
                                 </a>
                             </div>

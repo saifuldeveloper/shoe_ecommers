@@ -4,7 +4,6 @@
   $itemGalleries = App\Models\Gallery::where('item_id', $item_details->id)->get();
 @endphp 
 
-
     <div class="test">
         <div class="container">
             <div class="row">
@@ -120,7 +119,7 @@
 
                         <div class="d-flex">
                             <button class="btn btn-dark me-2  add_to_cartbtn" id="add_to_cart">ADD TO CART</button>
-                            <a class="add-to-wishlist" data-id="{{ $item_details->id }}"><i class="ps-icon-heart love_icon"></i></a>
+                            <a class="add-to-wishlist" id="wish_list_add" data-id="{{ $item_details->id }}"><i class="ps-icon-heart love_icon"></i></a>
                         <!-- Buttons -->
                         <div class="d-flex">
                         <div>
@@ -410,43 +409,44 @@
         });
 </script>
  <script>
-    $(document).ready(function() {
-        const csrfToken = $('meta[name="csrf-token"]').attr('content');
+   $(document).ready(function() {
+    const csrfToken = $('meta[name="csrf-token"]').attr('content');
 
-        $('.add-to-wishlist').on('click', function(e) {
-            e.preventDefault(); 
-            let itemId = $(this).data('id');
-            
-            let url = '{{ route('user.wishlist.store', ['id' => 'ITEM_ID']) }}';
-            url = url.replace('ITEM_ID', itemId); 
+    // Handle adding to the wishlist
+    $('#wish_list_add').on('click', function(e) {
+        e.preventDefault(); 
+        let itemId = $(this).data('id');
+        
+        let url = '{{ route('user.wishlist.store', ['id' => 'ITEM_ID']) }}';
+        url = url.replace('ITEM_ID', itemId); 
 
-            // Make the AJAX call
-            $.ajax({
-                url: url,
-                type: 'GET', 
-                dataType: 'json',
-                data: {
-                    _token: csrfToken, 
-                    id: itemId         
-                },
-                // ------------------------------------------
-
-                success: function(response) {
-                    if (response.status === 0 && response.link) {
-                        alert("Wishlist-এ যোগ করার জন্য আপনাকে লগইন করতে হবে।"); 
-                        window.location.href = response.link;
-                    } 
-                  else if (response.status === 1 || response.status === 2) {
+        $.ajax({
+            url: url,
+            type: 'GET', 
+            dataType: 'json',
+            data: {
+                _token: csrfToken, 
+                id: itemId         
+            },
+            success: function(response) {
+                if (response.status === 0 && response.link) {
+                    alert("Wishlist-এ যোগ করার জন্য আপনাকে লগইন করতে হবে।"); 
+                    window.location.href = response.link;
+                } 
+                else if (response.status === 1 || response.status === 2) {
                     alert(response.message);
-                    updateWishlistCount();
+                    updateWishlistCount();  // Update the wishlist count after adding
                 }
-                },
-            
-            });
+            },
         });
     });
 
+    // Handle adding to the cart (ensure wishlist count is not updated)
+   
+
+    // Function to update the wishlist count
     function updateWishlistCount() {
+         console.log("updateWishlistCount called");
         let url = '{{ route('user.wishlist.count') }}';
 
         $.ajax({
@@ -466,9 +466,7 @@
             }
         });
     }
-
-    // Load count on page load too
-    updateWishlistCount();
+});
 </script>
 <script>
     function updateSubtotal() {

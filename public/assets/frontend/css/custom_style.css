@@ -24,6 +24,7 @@ input::-webkit-inner-spin-button {
     min-height: 450px;
     border-radius: 10px;
     padding: 25px 20px;
+    text-align: left;
 }
 .flex-r.login-wrapper {
     padding-bottom:40px;
@@ -2058,11 +2059,8 @@ input#searchInput_small_device{
 }
 /* --- New Wrapper for Horizontal Layout --- */
 .cart-controls-wrapper {
-    /* Everything side-by-side */
     display: flex;
-    /* Vertically align all items (label, qty selector, buttons) */
     align-items: center;
-    /* Space between the selector group and the action buttons group */
     gap: 15px; 
 }
 
