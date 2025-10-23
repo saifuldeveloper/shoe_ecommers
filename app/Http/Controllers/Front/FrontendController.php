@@ -68,7 +68,10 @@ class FrontendController extends Controller
 
     // -------------------------------- HOME ----------------------------------------
     public function findStore(){
-         return view('front.pages.store_locator');
+        $districts = District::latest('id')->get();
+        $stores =Store::latest('id')->get();
+
+         return view('front.pages.store_locator',compact('districts','stores'));
     }
 
     public function collectionAll()
