@@ -202,14 +202,15 @@ class PriceHelper
 
     public static function OrderTotal($order, $trns = null)
     {
+    
         $cart = json_decode($order->cart, true);
-
         $total_tax = 0;
         $cart_total = 0;
         $total = 0;
 
         foreach ($cart as $key => $items) {
-            $total += ($items['main_price'] + $items['attribute_price']) * $items['qty'];
+            // $total += ($items['previous_price'] + $items['attribute_price']) * $items['quantity'];
+              $total += $items['item']['previous_price']   * $items['quantity'];
             $cart_total = $total;
             if (Item::where('id', $key)->exists()) {
                 $item = Item::findOrFail($key);

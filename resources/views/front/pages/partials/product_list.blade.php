@@ -119,6 +119,6 @@
     }
 
     // Load count on page load too
-    updateWishlistCount();
+    // updateWishlistCount();
 </script>
 @endpush

@@ -68,9 +68,22 @@ class FrontendController extends Controller
 
     // -------------------------------- HOME ----------------------------------------
     public function findStore(){
-         return view('front.pages.store_locator');
+        $districts = District::latest('id')->get();
+        $stores =Store::latest('id')->get();
+
+         return view('front.pages.store_locator',compact('districts','stores'));
     }
 
+    public function collectionAll()
+    {
+        $subCategories = Subcategory::where('status',1)->latest()->get();
+        $brands = Brand::where('status',1)->latest()->get();
+        $products = Item::with('iteamVariant')->where('status',1)->latest()->paginate(20);
+        $allSize = Size::where('status',1)->latest()->get();
+        $allColor  = Color::where('status',1)->latest()->get();
+
+        return view('front.pages.collecton_all_products',compact('subCategories','brands','products','allSize','allColor'));
+    }
 
 
     public function index()

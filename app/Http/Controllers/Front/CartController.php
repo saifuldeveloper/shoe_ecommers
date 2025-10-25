@@ -12,6 +12,8 @@ use App\Helpers\PriceHelper;
 use App\Models\ShippingService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
@@ -144,4 +146,33 @@ class CartController extends Controller
         Session::flash('success', __('Promo code remove successfully'));
         return back();
     }
+
+    /**
+     * Update the cart for single product
+     */
+    public function updateSingle($id, Request $request)
+    {
+        $quantity = $request->input('quantity', 1); 
+        $query = DB::table('carts');
+            if (Auth::check()) {
+                $query->where('user_id', Auth::id());
+            } else {
+                $query->where('session_id', Session::get('cartSession'));
+            }
+
+            // Update specific cart item
+            $updated = $query->where('id', $id)->update([
+                'quantity' => $quantity,
+                'updated_at' => now(),
+            ]);
+
+         if ($updated) {
+            return redirect()->back()->with(['message' => __('Cart updated successfully!')]);
+        } else {
+            return redirect()->back()->with(['message' => __('Item not found or update failed.')]);
+        }
+
+
+    }
+
 }

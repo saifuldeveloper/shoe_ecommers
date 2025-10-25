@@ -1,166 +1,194 @@
 @php
-    
     $total = 0;
     $option_price = 0;
     $cartTotal = 0;
-    
 @endphp
 
-<div class="card">
-    <div class="card-body">
-        <div class="table-responsive shopping-cart">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>{{ __('Product Name') }}</th>
-                        <th>{{ __('Product Price') }}</th>
-                        <th class="text-center">{{ __('Quantity') }}</th>
-                        <th class="text-center">{{ __('Subtotal') }}</th>
-                        <th class="text-center"><a class="btn btn-sm btn-danger"
-                                href="{{ route('front.cart.clear') }}"><span>{{ __('Clear Cart') }}</span></a></th>
-                    </tr>
-                </thead>
-                <tbody id="cart_view_load" data-target="{{ route('cart.get.load') }}">
-                    @foreach ($cart as $key => $item)
-                        @php
-                            $item_variant = App\Models\ItemVariant::where('id', $item->item_variant_id)->first();
-                            $item_price = $item->item->discount_price + ($item_variant != null ? $item_variant->additional_price : 0);
-                            $cartTotal += $item_price * $item->quantity;
-                        @endphp
-                        <tr>
-                            <td>
-                                <div class="product-item">
-                                    <a class="product-thumb"
-                                        href="{{ route('front.product', $item->item->slug) }}">
-                                        <img src="{{ asset('storage/items/' . $item->item->photo) }}" alt="Product">
-                                    </a>
-                                    <div class="product-info">
-                                        <h4 class="product-title">
-                                            <a href="{{ route('front.product', $item->item->slug) }}">
-                                                {{ Str::limit($item->item->name, 45) }}
-                                            </a>
-                                        </h4>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="text-center text-lg itemPrice">{{ PriceHelper::setCurrencyPrice($item_price??"") }}</td>
-                            <td class="text-center">
-                                @if ($item->item->item_type == 'normal')
-                                    <div class="qtySelector product-quantity">
-                                        <span class="decreaseQtycart cartsubclick" data-id="{{ $key }}"
-                                            data-target="{{ PriceHelper::GetItemId($key) }}"><i
-                                                class="fas fa-minus"></i></span>
-                                        <input type="text" disabled class="qtyValue cartcart-amount"
-                                            value="{{ $item->quantity }}">
-                                        <span class="increaseQtycart cartaddclick" data-id="{{ $key }}"
-                                            data-target="{{ PriceHelper::GetItemId($key) }}"
-                                            data-item=""><i
-                                                class="fas fa-plus"></i></span>
-                                        <input type="hidden" value="3333" id="current_stock">
-                                    </div>
+<div class="container custom-cart-page">
+    <div class="custom-cart-header">
+        <h1 class="custom-cart-title">YOUR CART</h1>
+        <div class="custom-continue-shopping">
+            <a href="{{ route('front.product.collection.all') }}">
+                Continue Shopping <i class="fas fa-chevron-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <h6>PRODUCT(S)</h6><br>
+
+            @foreach ($cart as $key => $item)
+                @php
+                    $item_variant = App\Models\ItemVariant::where('id', $item->item_variant_id)->first();
+                    $item_price = $item->item->discount_price + ($item_variant != null ? $item_variant->additional_price : 0);
+                    $cartTotal += $item_price * $item->quantity;
+                @endphp
+
+                <div class="custom-product-item" id="cart_view_load" data-target="{{ route('cart.get.load') }}" data-key="{{ $key }}">
+                    <div class="separte_cart_product">
+                        <a class="custom-product-thumb" href="#">
+                            <img src="{{ asset('storage/items/' . $item->item->photo) }}" alt="{{ $item['name'] }}">
+                        </a>
+
+                        <div class="custom-product-info">
+                            <h4 class="custom-product-title">
+                                <a href="{{ route('front.product', $item->item->slug) }}">
+                                    {{ Str::limit($item->item->name, 45) }}
+                                </a>
+                            </h4>
+
+                            <p class="custom-product-meta">
+                                @if (isset($item_variant->variant->name))
+                                    {{ $item_variant->variant->name }}
                                 @endif
-                            </td>
-                            <td class="text-center text-lg itemPriceTotal">
-                                {{ PriceHelper::setCurrencyPrice($item_price * $item->quantity) }}</td>
-                            <td class="text-center">
-                                <a class="remove-from-cart"
-                                    href="{{ route('front.cart.destroy', $item->id) }}" data-toggle="tooltip"
-                                    title="Remove item">✖</a>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+
+                                @if (isset($item_variant->variant->size->name))
+                                    {{ $item_variant->variant->size->name }}
+                                @endif
+
+                                @if (!isset($item_variant->variant->name) && !isset($item_variant->variant->size->name))
+                                    {{ $item_variant->product_name ?? 'Basic Product' }}
+                                @endif
+                            </p>
+
+                            <p class="custom-product-brand">{{ $item->item->brand->name }}</p>
+
+                            <p class="custom-product-price">
+                                <span class="itemPrice">{{ PriceHelper::setCurrencyPrice($item_price) }}</span>
+                            </p>
+
+                            <p class="custom-product-subtotal">
+                                Subtotal:
+                                <span class="itemPriceTotal">{{ PriceHelper::setCurrencyPrice($item_price * $item->quantity) }}</span>
+                            </p>
+
+                            <div class="d-flex align-items-center mt-2">
+                                <label class="mr-2" for="quantity-{{ $loop->index }}">Quantity:</label>
+                               <div class="cart-controls-wrapper">
+                                <form action="{{ route('product.cart.update.single', ['id' => $item->id]) }}" method="POST">
+                                    @csrf
+                                    @method('POST')
+
+                                    <div class="custom-qty-selector">
+                                        <button type="button" class="decrease-qty-btn cartsubclick" data-target="#quantity-{{ $loop->index }}">-</button>
+
+                                        <input type="text" 
+                                            name="quantity" 
+                                            id="quantity-{{ $loop->index }}" 
+                                            class="qtyValue" 
+                                            value="{{ $item['quantity'] }}" 
+                                            readonly>
+
+                                        <button type="button" class="increase-qty-btn cartaddclick" data-target="#quantity-{{ $loop->index }}">+</button>
+                                    </div>
+                                </br>
+                                    <div class="custom-action-buttons">
+                                        <button type="submit" class="action-btn update-cart-btn">UPDATE CART</button>
+
+                                        <a href="{{ route('front.cart.destroy', $item->id) }}">
+                                            <button type="button" class="action-btn remove-btn">REMOVE</button>
+                                        </a>
+                                    </div>
+                                </form>
+                            </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+
+            <div class="mt-4">
+                <p>We guarantee secure shopping.</p>
+            </div>
+        </div>
+
+        <div class="col-md-4 mt-4">
+            <div class="custom-subtotal-card">
+                <div class="custom-subtotal-box">
+                    <h5 class="mb-3">SUBTOTAL</h5>
+                    <div class="custom-subtotal-line custom-subtotal-line-total">
+                        <span class="itemPriceGrandTotal">
+                            {{ PriceHelper::setCurrencyPrice($cartTotal) }}
+                        </span>
+                    </div>
+                </div>
+                <a href="{{ route('front.checkout.payment') }}">
+                    <button class="btn custom-checkout-btn">PROCEED TO CHECKOUT</button>
+                </a>
+            </div>
         </div>
     </div>
 </div>
 
-
-<div class="card mt-4">
-    <div class="card-body">
-        <div class="shopping-cart-footer">
-            {{-- <div class="column">
-                <form class="coupon-form" method="post" id="coupon_form" action="{{ route('front.promo.submit') }}">
-                    @csrf
-                    <input class="form-control form-control-sm" name="code" type="text"
-                        placeholder="{{ __('Coupon code') }}" required>
-                    <button class="btn btn-primary btn-sm"
-                        type="submit"><span>{{ __('Apply Coupon') }}</span></button>
-                </form>
-            </div> --}}
-
-            <div class="text-right text-lg column {{ Session::has('coupon') ? '' : 'd-none' }}"><span
-                    class="text-muted">{{ __('Discount') }}
-                    ({{ Session::has('coupon') ? Session::get('coupon')['code']['title'] : '' }}) : </span><span
-                    class="text-gray-dark">{{ PriceHelper::setCurrencyPrice(Session::has('coupon') ? Session::get('coupon')['discount'] : 0) }}</span>
-                    <a class="remove-from-cart btn btn-danger btn-sm "
-                                    href="{{ route('front.promo.destroy') }}" data-toggle="tooltip"
-                                    title="Remove item"><i class="icon-x"></i></a>
-            </div>
-
-            <div class="text-right column text-lg"><span class="text-muted">{{ __('Subtotal') }}: </span><span
-                    class="text-gray-dark itemPriceGrandTotal">{{ PriceHelper::setCurrencyPrice($cartTotal - (Session::has('coupon') ? Session::get('coupon')['discount'] : 0)) }}</span>
-            </div>
-
-
-        </div>
-        <div class="shopping-cart-footer d-flex justify-content-between align-items-center mt-4">
-            <div>
-                <a class="btn btn-outline-primary" href="{{ route('front.catalog') }}">
-                    <i class="icon-arrow-left"></i> {{ __('Back to Shopping') }}
-                </a>
-            </div>
-            <div>
-                <a class="btn btn-success px-4" href="{{ route('front.checkout.payment') }}">
-                    {{ __('Checkout') }}
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
 @push('js')
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        function updateItemTotal(qtyInput) {
-            var row = qtyInput.closest('tr');
-            var priceText = row.querySelector('.itemPrice').textContent.replace(/[^0-9.]/g, '');
-            var price = parseFloat(priceText) || 0;
-            var qty = parseInt(qtyInput.value, 10) || 0;
-            var total = price * qty;
-            row.querySelector('.itemPriceTotal').textContent = qtyInput.value && !isNaN(total)
-                ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(total)
-                : '';
-                updateGrandTotal();
-        }
-        function updateGrandTotal() {
-            let total = 0;
-            document.querySelectorAll('.itemPriceTotal').forEach(function (el) {
-                let value = el.textContent.replace(/[^0-9.]/g, '');
-                total += parseFloat(value) || 0;
-            });
-            document.querySelector('.itemPriceGrandTotal').textContent =
-                new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(total);
+document.addEventListener('DOMContentLoaded', function () {
+
+    // Function to update subtotal for an item
+    function updateItemTotal(qtyInput) {
+        const container = qtyInput.closest('.custom-product-item');
+        if (!container) return;
+
+        const priceEl = container.querySelector('.itemPrice');
+        const totalEl = container.querySelector('.itemPriceTotal');
+
+        const price = parseFloat(priceEl.textContent.replace(/[^0-9.]/g, '')) || 0;
+        const qty = parseInt(qtyInput.value, 10) || 0;
+        const total = price * qty;
+
+        if (totalEl) {
+            totalEl.textContent = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD'
+            }).format(total);
         }
 
-        document.querySelectorAll('.cartaddclick').forEach(function (btn) {
-            btn.addEventListener('click', function () {
-                var qtyInput = btn.parentElement.querySelector('.qtyValue');
-                var currentQty = parseInt(qtyInput.value, 10) || 0;
-                qtyInput.value = currentQty + 1;
-                updateItemTotal(qtyInput);
-            });
+        updateGrandTotal();
+    }
+
+    // Function to update overall cart total
+    function updateGrandTotal() {
+        let total = 0;
+        document.querySelectorAll('.itemPriceTotal').forEach(el => {
+            const value = parseFloat(el.textContent.replace(/[^0-9.]/g, '')) || 0;
+            total += value;
         });
 
-        document.querySelectorAll('.cartsubclick').forEach(function (btn) {
-            btn.addEventListener('click', function () {
-                var qtyInput = btn.parentElement.querySelector('.qtyValue');
-                var currentQty = parseInt(qtyInput.value, 10) || 0;
-                if (currentQty > 1) {
-                    qtyInput.value = currentQty - 1;
-                    updateItemTotal(qtyInput);
-                }
-            });
+        document.querySelectorAll('.itemPriceGrandTotal').forEach(el => {
+            el.textContent = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD'
+            }).format(total);
+        });
+    }
+
+    // Handle quantity increase
+    document.querySelectorAll('.cartaddclick').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const qtyInput = btn.closest('.custom-qty-selector').querySelector('.qtyValue');
+            qtyInput.value = parseInt(qtyInput.value, 10) + 1;
+            updateItemTotal(qtyInput);
         });
     });
+
+    // Handle quantity decrease
+    document.querySelectorAll('.cartsubclick').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const qtyInput = btn.closest('.custom-qty-selector').querySelector('.qtyValue');
+            const currentQty = parseInt(qtyInput.value, 10);
+            if (currentQty > 1) {
+                qtyInput.value = currentQty - 1;
+                updateItemTotal(qtyInput);
+            }
+        });
+    });
+
+    // Initialize totals on load
+    updateGrandTotal();
+});
 </script>
+
+
 @endpush

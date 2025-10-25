@@ -21,54 +21,23 @@
             <option>Chattogram</option>
             </select>
             <select class="form-select">
-            <option>All Districts</option>
-            <option>Habiganj</option>
-            <option>Sreemangal</option>
+              <option>All Districts</option>
+              @foreach ($districts as $district)
+                <option>{{ $district->name }}</option>
+              @endforeach
             </select>
         </div>
 
         <!-- Store List -->
         <div class="store-list">
-            <div class="store-item">
-            <h6 class="fw-bold">Apex - Sri Sri Kalibari Committee, Habiganj</h6>
-            <p class="mb-1 small">Shree Shree Kalibari Committee, Sadar Road, Hobigonj</p>
-            <p class="mb-0 text-primary"><i class="bi bi-telephone"></i> 01774813563</p>
-            </div>
-            <div class="store-item">
-            <h6 class="fw-bold">Apex - Sri Sri Kalibari Committee, Habiganj</h6>
-            <p class="mb-1 small">Shree Shree Kalibari Committee, Sadar Road, Hobigonj</p>
-            <p class="mb-0 text-primary"><i class="bi bi-telephone"></i> 01774813563</p>
-            </div>
-            <div class="store-item">
-            <h6 class="fw-bold">Apex - Sri Sri Kalibari Committee, Habiganj</h6>
-            <p class="mb-1 small">Shree Shree Kalibari Committee, Sadar Road, Hobigonj</p>
-            <p class="mb-0 text-primary"><i class="bi bi-telephone"></i> 01774813563</p>
-            </div>
-            <div class="store-item">
-            <h6 class="fw-bold">Apex - Sri Sri Kalibari Committee, Habiganj</h6>
-            <p class="mb-1 small">Shree Shree Kalibari Committee, Sadar Road, Hobigonj</p>
-            <p class="mb-0 text-primary"><i class="bi bi-telephone"></i> 01774813563</p>
-            </div>
-            <div class="store-item">
-            <h6 class="fw-bold">Apex - Sri Sri Kalibari Committee, Habiganj</h6>
-            <p class="mb-1 small">Shree Shree Kalibari Committee, Sadar Road, Hobigonj</p>
-            <p class="mb-0 text-primary"><i class="bi bi-telephone"></i> 01774813563</p>
-            </div>
-            <div class="store-item">
-            <h6 class="fw-bold">Apex - Sri Sri Kalibari Committee, Habiganj</h6>
-            <p class="mb-1 small">Shree Shree Kalibari Committee, Sadar Road, Hobigonj</p>
-            <p class="mb-0 text-primary"><i class="bi bi-telephone"></i> 01774813563</p>
-            </div>
-            <div class="store-item">
-            <h6 class="fw-bold">Apex - Harun Plaza, Habiganj</h6>
-            <p class="mb-1 small">Harun Plaza C/A, Sultanmamudpur, J.L No-17, Khatian No-5041</p>
-            <p class="mb-0 text-primary"><i class="bi bi-telephone"></i> 01708506804</p>
-            </div>
-            <div class="store-item">
-            <h6 class="fw-bold">Apex - Taraj Mansion, Sreemangal</h6>
-            <p class="mb-1 small">Taraj Mansion, Sreemongol</p>
-            <p class="mb-0 text-primary"><i class="bi bi-telephone"></i> 01732100000</p>
-            </div>
+          @foreach ($stores as $store)
+              <div class="store-item">
+              <h6 class="fw-bold">{{ $store->name }}</h6>
+              <p class="mb-1 small">{{ $store->address }}, {{ $store->area }}</p>
+              <p class="mb-0 text-primary"><i class="bi bi-telephone"></i> {{ $store->mobile }}</p>
+              </div>
+             @endforeach
+           
         </div>
         </div>
 

@@ -464,6 +464,7 @@ Route::group(['middleware' => 'maintainance'], function () {
 
 
         // ************************************ FRONTEND **********************************************
+        Route::get('/collections/all', [FrontendController::class, 'collectionAll'])->name('front.product.collection.all');
         Route::get('/search', [FrontendController::class, 'categoryBaseProduct'])->name('front.product.search');
         Route::get('/search-results', [FrontendController::class, 'productSearch'])->name('front.product.query');
         Route::get('/search-view',[FrontendController::class, 'showSearchProducts'])->name('front.show.search.product');
@@ -521,6 +522,9 @@ Route::group(['middleware' => 'maintainance'], function () {
         Route::post('/cart/submit', 'Front\CartController@store')->name('front.cart.submit');
         Route::get('product/add/cart', 'Front\CartController@addToCart')->name('product.addcart');
         Route::get('/product/cart/update/{id}', 'Front\CartController@update')->name('product.update.single');
+        Route::post('/cart/update/{id}', 'Front\CartController@updateSingle')->name('product.cart.update.single');
+
+
 
         Route::post('/promo/submit', 'Front\CartController@promoStore')->name('front.promo.submit');
         Route::get('/promo/destroy', 'Front\CartController@promoDelete')->name('front.promo.destroy');

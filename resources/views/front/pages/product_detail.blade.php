@@ -4,7 +4,6 @@
         $itemGalleries = App\Models\Gallery::where('item_id', $item_details->id)->get();
     @endphp
 
-
     <div class="test">
         <div class="container">
             <div class="row">

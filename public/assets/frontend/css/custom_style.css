@@ -24,6 +24,7 @@ input::-webkit-inner-spin-button {
     min-height: 450px;
     border-radius: 10px;
     padding: 25px 20px;
+    text-align: left;
 }
 .flex-r.login-wrapper {
     padding-bottom:40px;
@@ -1962,4 +1963,268 @@ input#searchInput_small_device{
 
 .pay-button-custom:hover {
     background-color: #0056b3;
+}
+
+
+
+/* cart page desing  */
+/* Custom Cart Page Styling */
+/* Custom Cart Page Styling */
+.custom-cart-page {
+    padding: 20px 0;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* --- Header Section --- */
+.custom-cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px; /* Increased margin for better separation */
+}
+
+.custom-cart-title {
+    font-size: 2.2rem; /* Slightly larger, matching the image */
+    font-weight: 500;
+}
+
+.custom-continue-shopping a {
+    color: #000;
+    text-decoration: none;
+    font-size: 15px; /* Smaller, like in the image */
+    font-weight: 500;
+}
+
+.custom-continue-shopping a:hover {
+    text-decoration: underline;
+}
+
+/* --- Product Section --- */
+.separte_cart_product {
+    display: flex;
+    align-items: flex-start;
+    padding: 20px 0;
+}
+.custom-product-item{
+    list-style: none;
+    margin-bottom: 35px;
+    margin-top: 0;
+    padding: 0 20px 1px;
+    background: #fafafa;
+}
+.custom-product-thumb {
+    width: 100px;
+    height: 100px;
+    margin-right: 20px;
+    flex-shrink: 0; /* Prevents image from shrinking */
+}
+
+.custom-product-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Changed to 'contain' or 'cover' depending on preferred look, but often backpacks look better with a white background on e-commerce sites */
+}
+
+.custom-product-info {
+    flex-grow: 1;
+    /* Changed to display flex in column direction to stack elements */
+    display: flex;
+    flex-direction: column;
+}
+
+.custom-product-title {
+    font-size: 15px; 
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.custom-product-meta {
+    font-size: 13px; /* For meta info like color/SKU */
+    color: #6c757d;
+    margin-bottom: 2px;
+}
+
+.custom-product-brand {
+     font-size: 13px; /* For brand name, slightly more prominent */
+    color: #000;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.custom-product-price {
+    font-size: 16px; /* Price font size */
+    font-weight: 600;
+    margin-top: 10px; /* Space above price */
+}
+/* --- New Wrapper for Horizontal Layout --- */
+.cart-controls-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 15px; 
+}
+
+.quantity-label {
+    font-size: 16px;
+    font-weight: 500;
+    /* Space between "Quantity:" and the selector box */
+    margin-right: 5px; 
+}
+
+
+/* --- Quantity Selector Styling (As a single merged unit) --- */
+
+.custom-qty-selector {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+}
+
+/* Base styles for all elements in the selector */
+.custom-qty-selector button,
+.custom-qty-selector input {
+    background: #fff;
+    border: 1px solid #ced4da;
+    height: 38px; 
+    font-size: 16px;
+    outline: none;
+    color: #000;
+    margin: 0; 
+    box-sizing: border-box; /* Ensures padding/border don't change the size unexpectedly */
+}
+
+.custom-qty-selector button {
+    padding: 0 10px;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.custom-qty-selector button:first-child {
+    /* Left button: rounded left corners, removes right border for merged look */
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    border-right: none;
+}
+.custom-qty-selector button:last-child {
+    /* Right button: rounded right corners, removes left border for merged look */
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-left: none;
+}
+
+.custom-qty-selector input {
+    width: 38px; 
+    text-align: center;
+    padding: 0;
+    border-radius: 0;
+}
+
+
+/* --- Action Buttons (UPDATE/REMOVE) Styling --- */
+
+.custom-action-buttons {
+    display: flex; 
+    gap: 10px; /* Space between UPDATE and REMOVE buttons */
+}
+
+.action-btn {
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #ced4da;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 8px 15px;
+    height: 38px; 
+    cursor: pointer;
+    text-transform: uppercase;
+    border-radius: 0;
+    outline: none;
+    line-height: 1.5; 
+}
+
+/* Optional: Adding some hover effects */
+.update-cart-btn:hover {
+    background-color: #f8f9fa;
+}
+.remove-btn:hover {
+    background-color: #f8d7da;
+    border-color: #dc3545;
+}
+
+/* --- Subtotal / Checkout Column --- */
+.custom-subtotal-card {
+    border: none;
+    padding: 0; 
+    background-color: #fff;
+    margin-top: 42px;
+}
+/* The main subtotal content box */
+.custom-subtotal-box {
+    background-color: #f8f8f8; 
+    padding: 30px;
+}
+
+.custom-subtotal-box h5 {
+    font-size: 13px; /* "SUBTOTAL" is smaller and uppercase */
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+}
+
+.custom-subtotal-line {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.custom-subtotal-line-total {
+    font-size: 15px;
+    font-weight: 600;
+    color: #000;
+}
+.custom-subtotal-line-total span:first-child {
+    font-weight: normal;
+}
+
+
+.custom-checkout-btn {
+    width: 100%;
+    background-color: #000 !important;
+    color: #fff !important;
+    border-color: #000 !important;
+    padding: 15px 0;
+    font-size: 18px; /* Slightly smaller to match the image */
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-top: 0; /* No margin-top if placed inside the subtotal box */
+    border-radius: 0;
+}
+
+.custom-checkout-btn:hover {
+    background-color: #ff4800 !important;
+    border-color: #ff4800 !important;
+}
+
+.custom-shipping-estimate {
+    padding: 20px 30px; /* Matches subtotal box padding */
+    margin-top: 0;
+    border-top: 1px solid #e9ecef;
+}
+
+.custom-shipping-estimate h6 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: #333;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+    .custom-cart-title {
+        font-size: 1.8rem;
+    }
+    .custom-subtotal-card {
+        margin-top: 20px;
+    }
 }

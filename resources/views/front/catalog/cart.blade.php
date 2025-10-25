@@ -15,23 +15,10 @@
     }
 @endphp
 @section('content')
-<div class="mt-4" style="margin-top: 90px"></div>
-    <!-- Page Title-->
-<div class="page-title mt-4">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <ul class="breadcrumbs">
-                    <li class="separator"></li>
-                    <li>{{__('Cart List')}}</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-  </div>
+<div class="mt-4" style="margin-top: 50px"></div>
 
   @if($cart && $cart->count() > 0)
-  <div class="container padding-bottom-3x mb-1">
+  <div class="padding-bottom-3x mb-1">
 
     <!-- Shopping Cart-->
     <div id="view_cart_load">
@@ -40,16 +27,16 @@
 
   </div>
   @else
-  <div class="container padding-bottom-3x mb-1">
+  <div class="padding-bottom-3x mb-1">
     <div class="card text-center">
       <div class="card-body padding-top-2x">
         <h3 class="card-title">{{__('Your shopping cart is empty.')}}</h3>
-       <a class="btn btn-outline-primary m-4" href="{{route('front.index')}}"><i class="icon-package pr-2"></i>{{__('View our products')}}</a></div>
+       <a class="btn btn-outline-primary m-4" href="{{route('front.product.collection.all')}}"><i class="icon-package pr-2"></i>{{__('View our products')}}</a></div>
       </div>
     </div>
   @endif
   <!-- Page Content-->
-<div class="mt-4" style="margin-top: 120px"></div>
+<div class="mt-4" style="margin-top: 50px"></div>
 
 @endsection
 
