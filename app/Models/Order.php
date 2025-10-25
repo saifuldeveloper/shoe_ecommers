@@ -53,4 +53,9 @@ class Order extends Model
     	return $this->hasMany('App\Models\Notification','order_id');
     }
 
+    public function orderDetails()
+    {
+    	return $this->hasMany(OrderDetails::class,'order_id');
+    }
+
 }

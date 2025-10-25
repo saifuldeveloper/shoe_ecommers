@@ -2,13 +2,14 @@
 
 namespace App\Helpers;
 
-use App\Models\AttributeOption;
-use App\Models\Currency;
 use App\Models\Item;
-use App\Models\PaymentSetting;
-use App\Models\Setting;
 use App\Models\State;
+use App\Models\Setting;
+use App\Models\Currency;
 use App\Models\Transaction;
+use App\Models\OrderDetails;
+use App\Models\PaymentSetting;
+use App\Models\AttributeOption;
 use Illuminate\Support\Facades\Session;
 
 class PriceHelper
@@ -200,86 +201,64 @@ class PriceHelper
         return $discount;
     }
 
+
     public static function OrderTotal($order, $trns = null)
     {
-    
-        $cart = json_decode($order->cart, true);
-        $total_tax = 0;
+        $orderDetails = OrderDetails::with('item')->where('order_id', $order->id)->get();
         $cart_total = 0;
-        $total = 0;
-
-        foreach ($cart as $key => $items) {
-            // $total += ($items['previous_price'] + $items['attribute_price']) * $items['quantity'];
-              $total += $items['item']['previous_price']   * $items['quantity'];
-            $cart_total = $total;
-            if (Item::where('id', $key)->exists()) {
-                $item = Item::findOrFail($key);
-                if (isset($item)) {
-
-                    if ($item && $item->tax) {
-                        $total_tax += $item::taxCalculate($item) * $items['qty'];
-                    }
-                }
+        $total_tax = 0;
+        foreach ($orderDetails as $detail) {
+            $item = $detail->item;
+            $cart_total += $detail->price * $detail->qty;
+            if ($item && $item->tax) {
+                $total_tax += $item::taxCalculate($item) * $detail->qty;
             }
         }
 
-        $shipping = [];
-        if (json_decode($order->shipping)) {
-            $shipping = json_decode($order->shipping, true);
-        }
+        // 🔹 Shipping data
+        $shipping = json_decode($order->shipping, true);
+        $shipping_price = $shipping['price'] ?? 0;
 
-        $discount = [];
-        if (json_decode($order->discount)) {
-            $discount = json_decode($order->discount, true);
-        }
+        // 🔹 Discount data
+        $discount = json_decode($order->discount, true);
+        $discount_amount = $discount['discount'] ?? 0;
 
-        $grand_total = ($cart_total + ($shipping ? $shipping['price'] : 0)) + $total_tax;
-        $grand_total = $grand_total - ($discount ? $discount['discount'] : 0);
-        $grand_total = $grand_total + $order->state_price;
+        // 🔹 Grand total calculation
+        $grand_total = ($cart_total + $shipping_price + $total_tax + $order->state_price) - $discount_amount;
 
+        // 🔹 Currency conversion
         $total_amount = round($grand_total * $order->currency_value, 2);
-        if (!$trns) {
-            $total_amount = self::testPrice($total_amount);
-        }
 
-        return $total_amount;
+        // 🔹 Return value (with or without testPrice)
+        return $trns ? $total_amount : self::testPrice($total_amount);
     }
+
+
     public static function OrderTotalChart($order)
     {
-        $cart = json_decode($order->cart, true);
 
+        $orderDetails = OrderDetails::with('item')->where('order_id', $order->id)->get();
         $total_tax = 0;
         $cart_total = 0;
-        $total = 0;
-        $option_price = 0;
+        foreach ($orderDetails as $detail) {
+            $item = $detail->item;
+            $quantity = $detail->qty;
+            $price = $detail->price;
+            $attribute_price = $detail->attribute_price ?? 0; //
 
-        foreach ($cart as $key => $items) {
-            $total += $items['main_price'] * $items['qty'];
-            $option_price += $items['attribute_price'];
-            $cart_total = $total + $option_price;
-            if (Item::where('id', $key)->exists()) {
-                $item = Item::findOrFail($key);
-                if (isset($item)) {
-                    if ($item && $item->tax) {
-                        $total_tax += $item::taxCalculate($item) * $items['qty'];
-                    }
-                }
+            $subtotal = ($price + $attribute_price) * $quantity;
+            $cart_total += $subtotal;
+            if ($item && $item->tax) {
+                $total_tax += $item::taxCalculate($item) * $quantity;
             }
         }
-
-        $shipping = [];
-        if (json_decode($order->shipping)) {
-            $shipping = json_decode($order->shipping, true);
-        }
-        $discount = [];
-        if (json_decode($order->discount)) {
-            $discount = json_decode($order->discount, true);
-        }
-
-        $grand_total = ($cart_total + ($shipping ? $shipping['price'] : 0)) + $total_tax;
-        $grand_total = $grand_total - ($discount ? $discount['discount'] : 0);
+        $shipping = json_decode($order->shipping, true);
+        $discount = json_decode($order->discount, true);
+        $shipping_cost = $shipping['price'] ?? 0;
+        $discount_amount = $discount['discount'] ?? 0;
+        $grand_total = ($cart_total + $total_tax + $shipping_cost) - $discount_amount;
         $curr = Currency::where('is_default', 1)->first();
-        $total_amount = round($grand_total * $curr->value, 2);
+        $total_amount = round($grand_total * ($curr->value ?? 1), 2);
 
         return $total_amount;
     }
@@ -287,25 +266,25 @@ class PriceHelper
     public static function cartTotal($cartt, $trns = null)
     {
         $total = 0;
-    
+
         foreach ($cartt as $key => $cart) {
             $itemTotal = ($cart['main_price'] + $cart['attribute_price']) * $cart['qty'];
             $total += $itemTotal;
         }
-    
+
         if (Session::has('currency')) {
             $curr = Currency::findOrFail(Session::get('currency'));
         } else {
             $curr = Currency::where('is_default', 1)->first();
         }
-    
+
         if ($trns) {
             if ($trns == 2) {
                 return $total;
             }
             return round($total / $curr->value, 2);
         }
-    
+
         $price = self::testPrice($total / $curr->value);
         return $price;
     }
@@ -490,9 +469,10 @@ class PriceHelper
         ];
         Session::put('shipping_address', $shipping);
     }
-    public static function totalCartQuantity(){
+    public static function totalCartQuantity()
+    {
         $cart = collect();
-        if(auth()->check()) {
+        if (auth()->check()) {
             $cart = \App\Models\Cart::where('user_id', auth()->user()->id)->get();
         } else {
             $cart = \App\Models\Cart::where('session_id', session()->get('cartSession'))->get();

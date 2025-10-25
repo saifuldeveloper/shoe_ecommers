@@ -93,7 +93,7 @@ class OrderController extends Controller
      */
     public function invoice($id)
     {
-        $order = Order::findOrfail($id);
+        $order = Order::with('orderDetails.item')->findOrfail($id);
         $cart = json_decode($order->cart, true);
         return view('back.order.invoice',compact('order','cart'));
     }

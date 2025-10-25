@@ -7,6 +7,7 @@ use App\{
     Models\Post,
     Models\User,
     Models\Order,
+    Models\OrderDetails,
     Helpers\ImageHelper,
     Helpers\PriceHelper
 };
@@ -136,13 +137,7 @@ class AccountRepository
     {
         $current_date = Carbon::now();
         $orders = Order::whereDate('created_at','=',$current_date)->get();
-        $total_items_qty = 0;
-        foreach($orders as $order){
-            $cart = json_decode($order->cart,true);
-            foreach($cart as $item){
-                $total_items_qty += $item['qty'];
-            }
-        }
+        $total_items_qty =OrderDetails::whereDate('created_at','=',$current_date)->sum('qty');
         return $total_items_qty;
     }
 
