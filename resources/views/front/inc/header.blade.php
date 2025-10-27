@@ -27,11 +27,11 @@
                                     <img src="{{ asset('assets/frontend/images/icon/user-icon.png') }}" height="30"
                                         alt=""></a>
                             </div>
-                           <div class="ps-user">
+                            <div class="ps-user">
                                 <a class="ps-user__toggle" href="{{ route('front.wishlist') }}">
                                     <span id="wishlist-count-header">
                                         <i class="">0</i> </span>
-                                    <i class="ps-icon-heart"></i> 
+                                    <i class="ps-icon-heart"></i>
                                 </a>
                             </div>
                             <div class="ps-user">
@@ -52,7 +52,8 @@
                                         </div>
                                         {{--  --}}
                                         <div class="cart-actions">
-                                            <a href="{{ route('front.checkout.payment') }}" class="btn btn-checkout">CHECK OUT NOW</a>
+                                            <a href="{{ route('front.checkout.payment') }}"
+                                                class="btn btn-checkout">CHECK OUT NOW</a>
                                             <a href="{{ route('front.cart') }}" class="btn btn-view">VIEW CART</a>
                                         </div>
                                     </div>
@@ -66,13 +67,14 @@
                                 <input id="searchInput" class="form-control border-0 ps-icon-search " type="text"
                                     placeholder="Search Product…" />
                             </div>
-                             <div id="productResultsModal" class="product-results-modal" style="display: none">
+                            <div id="productResultsModal" class="product-results-modal" style="display: none">
                                 <div class="modal-content_product">
                                     <h5 class="modal-heading_result">PRODUCT RESULTS</h5>
                                     <div id="productResultsContainer" class="results-grid">
-                                        </div>
+                                    </div>
                                     <div class="see-all-container">
-                                        <a href="#" class="see-all-link">SEE ALL RESULTS (<span id="totalResults">0</span>)</a>
+                                        <a href="#" class="see-all-link">SEE ALL RESULTS (<span
+                                                id="totalResults">0</span>)</a>
                                     </div>
                                 </div>
                             </div>
@@ -88,8 +90,9 @@
         <div class="container-fluid">
             <div class="navigation__column left d-lg-none d-md-none">
                 <div class="header__logo">
-                    <a class="ps-logo" href="{{ route("front.index") }}"><img src="{{ asset('assets/frontend/images/logo/logo.png') }}"
-                            alt="" style="height: 60px;" /></a>
+                    <a class="ps-logo" href="{{ route('front.index') }}"><img
+                            src="{{ asset('assets/frontend/images/logo/logo.png') }}" alt=""
+                            style="height: 60px;" /></a>
                 </div>
             </div>
             <div class="navigation__column center">
@@ -124,26 +127,41 @@
                                             </ul>
                                         @endif
                                     </div>
+                                    @php
+                                        $products = App\Models\Item::with( 'itemVariants.variant.color', 'itemVariants.variant.size')
+                                            ->where('category_id', $category->id)
+                                            ->where('status', 1)
+                                            ->orderBy('id', 'DESC')
+                                            ->get();
+
+                                        $colors = $products->flatMap(function ($product) {
+                                                return $product->itemVariants->pluck('variant.color.name')->filter();
+                                            })->unique()->values();
+
+                                        $sizes = $products->flatMap(function ($product) {
+                                                return $product->itemVariants->pluck('variant.size.name')->filter();
+                                            })->unique()->values();
+
+                                        $prices = $products
+                                            ->flatMap(function ($product) {
+                                                return $product->itemVariants->map(function ($variant) use ($product) {
+                                                    return $product->discount_price + ($variant->additional_price ?? 0);
+                                                });
+                                            })->filter()->unique()->values();
+
+                                    @endphp
                                     <div class="mega-column">
                                         <h4 class="mega-heading">
                                             By Color
                                         </h4>
                                         <ul class="mega-item">
-                                            <li>
-                                                <a href="{{ route('front.categories.products', 'mens') }}">Black</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('front.categories.products', 'mens') }}">Blue</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('front.categories.products', 'mens') }}">Brown</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('front.categories.products', 'mens') }}">Gray</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('front.categories.products', 'mens') }}">Green</a>
-                                            </li>
+                                            @foreach ($colors as $color)
+                                                <li style="display: block; margin-bottom: 5px;">
+                                                    <a href="">
+                                                         {{ $color }} 
+                                                        </a>
+                                                </li>
+                                            @endforeach
                                         </ul>
                                     </div>
                                     <div class="mega-column">
@@ -151,46 +169,24 @@
                                             By Price
                                         </h4>
                                         <ul class="mega-item">
-                                            <li>
-                                                <a href="{{ route('front.categories.products', 'mens') }}">Under
-                                                    Tk.1000</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('front.categories.products', 'mens') }}">Tk.1001 -
-                                                    Tk.1500</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('front.categories.products', 'mens') }}">Tk.1501 -
-                                                    Tk.2000</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('front.categories.products', 'mens') }}">Tk.2001 -
-                                                    Tk.3000</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('front.categories.products', 'mens') }}">Tk.3001 -
-                                                    Tk.4000</a>
-                                            </li>
+
+                                            @foreach ($prices as $price)
+                                                <li style="display: block; margin-bottom: 5px;">
+                                                    <a href="">
+                                                        Tk {{ $price }}
+                                                    </a>
+                                                </li>
+                                            @endforeach>
                                         </ul>
                                     </div>
                                     <div class="mega-column">
                                         <h4 class="mega-heading">By Size</h4>
                                         <ul class="mega-item">
-                                            <li>
-                                                <a href="{{ route('front.categories.products', 'mens') }}">6</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('front.categories.products', 'mens') }}">7</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('front.categories.products', 'mens') }}">8</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('front.categories.products', 'mens') }}">9</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('front.categories.products', 'mens') }}">10</a>
-                                            </li>
+                                            @foreach ($sizes as $size)
+                                                <li style="display:block; margin-bottom:5px;">
+                                                    <a href="">{{ $size }}</a>
+                                                </li>
+                                            @endforeach
                                         </ul>
                                     </div>
                                 </div>
@@ -205,66 +201,67 @@
                     </li>
                     <li class="menu-item menu-item-has-children mobile-only ">
                         <a class="ps-user__toggle" href="{{ route('front.wishlist') }}">
-                            <span id="wishlist-count-mobile"><i>0</i></span> <i
-                                class="ps-icon-heart"></i> </a>
+                            <span id="wishlist-count-mobile"><i>0</i></span> <i class="ps-icon-heart"></i> </a>
                     </li>
                 </ul>
             </div>
-        <div class="search-fixed" id="show_hide_cart">
-            
-               <button type="button"  id="openSearchBtn" class="ps-user__toggle sticky_search-toggle-btn">
-                        <i class="fa fa-search"></i>
+            <div class="search-fixed" id="show_hide_cart">
+
+                <button type="button" id="openSearchBtn" class="ps-user__toggle sticky_search-toggle-btn">
+                    <i class="fa fa-search"></i>
                 </button>
-            <div>
-                <div class="cart-container">
-                    <a class="ps-cart__toggle cart-icon" href="#">
-                        <span><i class="cart_count">{{ PriceHelper::totalCartQuantity() }}</i></span>
-                        <i class="ps-icon-shopping-cart"></i>
-                    </a>
-                    <div class="cart-dropdown" id="sticky_cart_bar">
-                        <div class="dropdown-cart-items">
-                            @include('includes.cart-items-dropdown')
-                        </div>
-                        {{--  --}}
-                        <div class="cart-actions">
-                            <a href="{{ route('front.checkout.payment') }}" class="btn btn-checkout">CHECK OUT NOW</a>
-                            <a href="{{ route('front.cart') }}" class="btn btn-view">VIEW CART</a>
+                <div>
+                    <div class="cart-container">
+                        <a class="ps-cart__toggle cart-icon" href="#">
+                            <span><i class="cart_count">{{ PriceHelper::totalCartQuantity() }}</i></span>
+                            <i class="ps-icon-shopping-cart"></i>
+                        </a>
+                        <div class="cart-dropdown" id="sticky_cart_bar">
+                            <div class="dropdown-cart-items">
+                                @include('includes.cart-items-dropdown')
+                            </div>
+                            {{--  --}}
+                            <div class="cart-actions">
+                                <a href="{{ route('front.checkout.payment') }}" class="btn btn-checkout">CHECK OUT
+                                    NOW</a>
+                                <a href="{{ route('front.cart') }}" class="btn btn-view">VIEW CART</a>
+                            </div>
                         </div>
                     </div>
+                    {{-- end cart  --}}
                 </div>
-                {{-- end cart  --}}
             </div>
-        </div>
 
             <div class="navigation__column right">
-                 <!-- USER + SEARCH ICON AREA -->
-                   <div class="ps-user">
+                <!-- USER + SEARCH ICON AREA -->
+                <div class="ps-user">
                     <button type="button" class="ps-user__toggle search-toggle-btn">
                         <i class="fa fa-search"></i>
                     </button>
-                      
+
                     <div class="search-box_small">
                         <div id="smallsearchModal" class="search-modal-container_small hidden">
-                        <div class="trending-section">
-                            <h3 class="section-title">TRENDING</h3>
-                            <div class="trending-tags">
+                            <div class="trending-section">
+                                <h3 class="section-title">TRENDING</h3>
+                                <div class="trending-tags">
                                     @foreach ($categories as $category)
-                                    <form action="{{ route('front.product.search') }}" method="GET" style="margin: 0;">
-                                        <input type="hidden" name="q" value="{{ $category->name }}">
-                                        <input type="hidden" name="type" value="product">
-                                        <button class="trend-tag ">
-                                            <i class="fas fa-search"></i> {{ $category->name }}
-                                        </button>
-                                    </form>
+                                        <form action="{{ route('front.product.search') }}" method="GET"
+                                            style="margin: 0;">
+                                            <input type="hidden" name="q" value="{{ $category->name }}">
+                                            <input type="hidden" name="type" value="product">
+                                            <button class="trend-tag ">
+                                                <i class="fas fa-search"></i> {{ $category->name }}
+                                            </button>
+                                        </form>
                                     @endforeach
                                 </div>
+                            </div>
+
+                            <div class="popular-products-section">
+                                <h3 class="section-title">POPULAR PRODUCTS</h3>
+                                <p>Products would be listed here...</p>
+                            </div>
                         </div>
-                        
-                        <div class="popular-products-section">
-                            <h3 class="section-title">POPULAR PRODUCTS</h3>
-                            <p>Products would be listed here...</p>
-                        </div>
-                    </div>
                     </div>
                 </div>
 
@@ -322,8 +319,8 @@
     <div id="searchModal" class="search-modal-container hidden">
         <div class="trending-section">
             <h3 class="section-title">TRENDING</h3>
-             <div class="trending-tags">
-                    @foreach ($categories as $category)
+            <div class="trending-tags">
+                @foreach ($categories as $category)
                     <form action="{{ route('front.product.search') }}" method="GET" style="margin: 0;">
                         <input type="hidden" name="q" value="{{ $category->name }}">
                         <input type="hidden" name="type" value="product">
@@ -331,10 +328,10 @@
                             <i class="fas fa-search"></i> {{ $category->name }}
                         </button>
                     </form>
-                    @endforeach
-                </div>
+                @endforeach
+            </div>
         </div>
-        
+
         <div class="popular-products-section">
             <h3 class="section-title">POPULAR PRODUCTS</h3>
             <p>Products would be listed here...</p>
@@ -342,30 +339,29 @@
     </div>
 </header>
 {{-- //small device search bar products  --}}
- <div class="small_ps-search d-flex align-items-center border rounded">
-    <input id="searchInput_small_device" class="form-control" type="text"
-        placeholder="Search Product…" />
+<div class="small_ps-search d-flex align-items-center border rounded">
+    <input id="searchInput_small_device" class="form-control" type="text" placeholder="Search Product…" />
 </div>
 <div class="small_device_container">
- <div id="productResultsModal_small" class="small_device_product-results-modal" style="display: none">
-    <div class="modal-content_product">
-        <h5 class="modal-heading_result">PRODUCT RESULTS</h5>
-        <div id="productResultsContainer_small" class="results-grid">
+    <div id="productResultsModal_small" class="small_device_product-results-modal" style="display: none">
+        <div class="modal-content_product">
+            <h5 class="modal-heading_result">PRODUCT RESULTS</h5>
+            <div id="productResultsContainer_small" class="results-grid">
             </div>
-        <div class="see-all-container">
-            <a href="#" class="see-all-link">SEE ALL RESULTS (<span id="totalProducts">0</span>)</a>
+            <div class="see-all-container">
+                <a href="#" class="see-all-link">SEE ALL RESULTS (<span id="totalProducts">0</span>)</a>
+            </div>
         </div>
     </div>
-</div>
 </div>
 
 {{-- sticky search icon click to modal and keyword base products modal  --}}
 {{-- sticky search icon click to modal and keyword base products modal  --}}
- <div id="searchModal_sticky_navbar" class="search-modal-overlay" >
+<div id="searchModal_sticky_navbar" class="search-modal-overlay">
     <span class="close-btn-top" id="closeSearchBtn_top">&times;</span>
     <div class="search-modal-content">
         <div class="search-modal-header">
-            <form class="search-form" >
+            <form class="search-form">
                 <input type="text" id="searchInput_sticky" class="search-input" placeholder="SEARCH" autofocus>
                 <button type="submit" class="search-btn">
                     <i class="fa fa-search"></i>
@@ -377,8 +373,8 @@
 <div id="category_show_sticky_navbar" class="search-modal-container_sticky">
     <div class="trending-section">
         <h3 class="section-title">TRENDING</h3>
-            <div class="trending-tags">
-                @foreach ($categories as $category)
+        <div class="trending-tags">
+            @foreach ($categories as $category)
                 <form action="{{ route('front.product.search') }}" method="GET" style="margin: 0;">
                     <input type="hidden" name="q" value="{{ $category->name }}">
                     <input type="hidden" name="type" value="product">
@@ -386,8 +382,8 @@
                         <i class="fas fa-search"></i> {{ $category->name }}
                     </button>
                 </form>
-                @endforeach
-            </div>
+            @endforeach
+        </div>
     </div>
     <div class="popular-products-section">
         <h3 class="section-title">POPULAR PRODUCTS</h3>
@@ -396,16 +392,17 @@
 </div>
 
 <div class="sticky_small_device_container">
- <div id="sticky_productResultsModal_small" class="sticky_small_device_product-results-modal" style="display: none">
-    <div class="modal-content_product">
-        <h5 class="modal-heading_result">PRODUCT RESULTS</h5>
-        <div id="sticky_productResultsContainer_small" class="results-grid">
+    <div id="sticky_productResultsModal_small" class="sticky_small_device_product-results-modal"
+        style="display: none">
+        <div class="modal-content_product">
+            <h5 class="modal-heading_result">PRODUCT RESULTS</h5>
+            <div id="sticky_productResultsContainer_small" class="results-grid">
             </div>
-        <div class="see-all-container">
-            <a href="#" class="see-all-link">SEE ALL RESULTS (<span id="totalProducts_sticky">0</span>)</a>
+            <div class="see-all-container">
+                <a href="#" class="see-all-link">SEE ALL RESULTS (<span id="totalProducts_sticky">0</span>)</a>
+            </div>
         </div>
     </div>
-</div>
 </div>
 
 
@@ -425,7 +422,7 @@
             container.addEventListener('mouseleave', () => {
                 hideTimeout = setTimeout(() => {
                     cartDropdown.classList.remove('active');
-                }, 200); 
+                }, 200);
             });
         });
 
@@ -459,106 +456,108 @@
 
         // Add the click listener
         menuToggle.addEventListener('click', function() {
-        body.classList.toggle('sidebar-open');
+            body.classList.toggle('sidebar-open');
         });
-   
 
-// ==click to search input field & show the modal dektop device
-// ==click to search input field & show the modal dektop device
-    document.addEventListener('DOMContentLoaded', function() {
-        const searchInput = document.getElementById('searchInput');
-        const searchModal = document.getElementById('searchModal');
-        const searchWrapper = document.querySelector('.search-dropdown-wrapper');
 
-        // Function to open the modal
-        function openModal() {
-            searchModal.classList.remove('hidden');
-        }
-        // Function to close the modal
-        function closeModal() {
-            searchModal.classList.add('hidden');
-        }
-        // 1. Open modal when the input is clicked/focused
-        searchInput.addEventListener('focus', openModal);
+        // ==click to search input field & show the modal dektop device
+        // ==click to search input field & show the modal dektop device
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const searchModal = document.getElementById('searchModal');
+            const searchWrapper = document.querySelector('.search-dropdown-wrapper');
 
-         // Check if the current value of the input has 3 or more characters
-        searchInput.addEventListener('input', function() {
-           
-            if (searchInput.value.length >= 3) {
-                closeModal();
-            } else {
-                if (searchModal.classList.contains('hidden')) {
-                    openModal();
-                }
+            // Function to open the modal
+            function openModal() {
+                searchModal.classList.remove('hidden');
             }
-        });
+            // Function to close the modal
+            function closeModal() {
+                searchModal.classList.add('hidden');
+            }
+            // 1. Open modal when the input is clicked/focused
+            searchInput.addEventListener('focus', openModal);
 
-        // 2. Hide modal when clicking anywhere OUTSIDE the search wrapper
-        document.addEventListener('click', function(event) {
-            if (!searchWrapper.contains(event.target)) {
-                closeModal();
-            }searchInput.addEventListener('input', closeModal);
-        });
+            // Check if the current value of the input has 3 or more characters
+            searchInput.addEventListener('input', function() {
 
-      document.addEventListener('click', function(event) {
-        const isClickOnInput = searchInput && searchInput.contains(event.target);
-        const isClickInsideModal = searchModal.contains(event.target);
-        if (!searchModal.classList.contains('hidden') && !isClickOnInput && !isClickInsideModal) {
-            closeModal();
-        }
-    });
-    });
-
-
-    //wishlist count shows 
-   // wishlist count shows
-    function updateWishlistCount() {
-        try {
-            let url = '{{ route('user.wishlist.count') }}';
-
-            $.ajax({
-                url: url,
-                type: 'GET',
-                dataType: 'json',
-                success: function(response) {
-                    console.log(response)
-                    if (response.count !== undefined) {
-                        $('#wishlist-count-header i').text(response.count);
-
-                        $('#wishlist-count-mobile i').text(response.count);
+                if (searchInput.value.length >= 3) {
+                    closeModal();
+                } else {
+                    if (searchModal.classList.contains('hidden')) {
+                        openModal();
                     }
-                },
-                error: function(xhr) {
-                    console.error("Failed to fetch wishlist count:", xhr);
-                    $('#wishlist-count-header i').text(0);
-                    $('#wishlist-count-mobile i').text(0);
                 }
             });
-        } catch(e) {
-            console.warn("Wishlist count route not found or error in script:", e);
+
+            // 2. Hide modal when clicking anywhere OUTSIDE the search wrapper
+            document.addEventListener('click', function(event) {
+                if (!searchWrapper.contains(event.target)) {
+                    closeModal();
+                }
+                searchInput.addEventListener('input', closeModal);
+            });
+
+            document.addEventListener('click', function(event) {
+                const isClickOnInput = searchInput && searchInput.contains(event.target);
+                const isClickInsideModal = searchModal.contains(event.target);
+                if (!searchModal.classList.contains('hidden') && !isClickOnInput && !isClickInsideModal) {
+                    closeModal();
+                }
+            });
+        });
+
+
+        //wishlist count shows 
+        // wishlist count shows
+        function updateWishlistCount() {
+            try {
+                let url = '{{ route('user.wishlist.count') }}';
+
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                        console.log(response)
+                        if (response.count !== undefined) {
+                            $('#wishlist-count-header i').text(response.count);
+
+                            $('#wishlist-count-mobile i').text(response.count);
+                        }
+                    },
+                    error: function(xhr) {
+                        console.error("Failed to fetch wishlist count:", xhr);
+                        $('#wishlist-count-header i').text(0);
+                        $('#wishlist-count-mobile i').text(0);
+                    }
+                });
+            } catch (e) {
+                console.warn("Wishlist count route not found or error in script:", e);
+            }
         }
-    }
-    $(document).ready(function() {
-        updateWishlistCount(); 
-    });
+        $(document).ready(function() {
+            updateWishlistCount();
+        });
     </script>
 
-<script>
-//input field keyword searchwise products modal products shows shows dektop device
-document.addEventListener('DOMContentLoaded', () => {
-    const searchInput = document.getElementById('searchInput');
-    const modal = document.getElementById('productResultsModal');
-    const resultsContainer = document.getElementById('productResultsContainer');
-    const totalResultsSpan = document.getElementById('totalResults');
-    const seeAllLink = document.querySelector('.see-all-link'); 
+    <script>
+        //input field keyword searchwise products modal products shows shows dektop device
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('searchInput');
+            const modal = document.getElementById('productResultsModal');
+            const resultsContainer = document.getElementById('productResultsContainer');
+            const totalResultsSpan = document.getElementById('totalResults');
+            const seeAllLink = document.querySelector('.see-all-link');
 
 
-    // --- Function to build the product HTML  ---
-     const PRODUCT_DETAIL_URL = "{{ route('front.product', ['slug' => ':slug']) }}";
-    function createProductHTML(product) {
-        const imageUrl = `/storage/items/${product.thumbnail}`; 
-        const productLink = PRODUCT_DETAIL_URL.replace(':slug', product.slug); 
-        return `
+            // --- Function to build the product HTML  ---
+            const PRODUCT_DETAIL_URL = "{{ route('front.product', ['slug' => ':slug']) }}";
+
+            function createProductHTML(product) {
+                const imageUrl = `/storage/items/${product.thumbnail}`;
+                const productLink = PRODUCT_DETAIL_URL.replace(':slug', product.slug);
+                return `
             <div class="product-item">
                 <a href="${productLink}">
                 <img src="${imageUrl}" alt="${product.name}">
@@ -569,152 +568,156 @@ document.addEventListener('DOMContentLoaded', () => {
                 </a>
             </div>
         `;
-    }
+            }
 
-    // --- Core Logic to Display Results 
-    function showProductResults(products, total, query) {
-        const productListViewRoute = '{{ route('front.show.search.product') }}';
-        resultsContainer.innerHTML = ''; 
+            // --- Core Logic to Display Results 
+            function showProductResults(products, total, query) {
+                const productListViewRoute = '{{ route('front.show.search.product') }}';
+                resultsContainer.innerHTML = '';
 
-        if (products.length === 0) {
-            // Show no results message
-            resultsContainer.innerHTML = '<p class="no-results-message" style="padding: 15px; text-align: center;">No products found matching your search.</p>';
-            totalResultsSpan.textContent = '0';
-        } else {
-            products.forEach(product => {
-                resultsContainer.innerHTML += createProductHTML(product);
-            });
+                if (products.length === 0) {
+                    // Show no results message
+                    resultsContainer.innerHTML =
+                        '<p class="no-results-message" style="padding: 15px; text-align: center;">No products found matching your search.</p>';
+                    totalResultsSpan.textContent = '0';
+                } else {
+                    products.forEach(product => {
+                        resultsContainer.innerHTML += createProductHTML(product);
+                    });
 
-            totalResultsSpan.textContent = total.toLocaleString();
-            seeAllLink.href = `${productListViewRoute}?q=${encodeURIComponent(query)}&type=product`;
-        }
-        modal.style.display = 'block';
-    }
-
-    // --- Debounce Function (from previous answer) ---
-    function debounce(func, delay) {
-        let timeout;
-        return function(...args) {
-            const context = this;
-            clearTimeout(timeout);
-            timeout = setTimeout(() => func.apply(context, args), delay);
-        };
-    }
-
-    // --- AJAX/Fetch Logic ---
-    function fetchProductResults(query) {
-         const SEARCH_ROUTE_URL = "{{ route('front.product.query') }}";
-         const url = SEARCH_ROUTE_URL + `?q=${encodeURIComponent(query)}`; 
-
-        // Optional: Add a loading state while fetching
-        resultsContainer.innerHTML = '<p class="loading-message" style="padding: 15px; text-align: center;">Searching...</p>';
-        modal.style.display = 'block'; 
-
-        fetch(url)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    totalResultsSpan.textContent = total.toLocaleString();
+                    seeAllLink.href = `${productListViewRoute}?q=${encodeURIComponent(query)}&type=product`;
                 }
-                return response.json();
-            })
-            .then(data => {
-                showProductResults(data.products, data.totalCount, query);
-            })
-            .catch(error => {
-                console.error('Error fetching search results:', error);
-                resultsContainer.innerHTML = '<p class="error-message" style="padding: 15px; text-align: center; color: red;">Failed to load results. Try again.</p>';
-                totalResultsSpan.textContent = '0';
                 modal.style.display = 'block';
+            }
+
+            // --- Debounce Function (from previous answer) ---
+            function debounce(func, delay) {
+                let timeout;
+                return function(...args) {
+                    const context = this;
+                    clearTimeout(timeout);
+                    timeout = setTimeout(() => func.apply(context, args), delay);
+                };
+            }
+
+            // --- AJAX/Fetch Logic ---
+            function fetchProductResults(query) {
+                const SEARCH_ROUTE_URL = "{{ route('front.product.query') }}";
+                const url = SEARCH_ROUTE_URL + `?q=${encodeURIComponent(query)}`;
+
+                // Optional: Add a loading state while fetching
+                resultsContainer.innerHTML =
+                    '<p class="loading-message" style="padding: 15px; text-align: center;">Searching...</p>';
+                modal.style.display = 'block';
+
+                fetch(url)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        showProductResults(data.products, data.totalCount, query);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching search results:', error);
+                        resultsContainer.innerHTML =
+                            '<p class="error-message" style="padding: 15px; text-align: center; color: red;">Failed to load results. Try again.</p>';
+                        totalResultsSpan.textContent = '0';
+                        modal.style.display = 'block';
+                    });
+            }
+
+            // --- Event Listener: The Final Connection ---
+            if (searchInput) {
+                searchInput.addEventListener('input', debounce((event) => {
+                    const query = event.target.value.trim();
+
+                    if (query.length >= 3) {
+                        fetchProductResults(query);
+                    } else {
+                        modal.style.display = 'none';
+                    }
+                }, 300));
+            }
+            document.addEventListener('click', (event) => {
+                const searchContainer = searchInput.closest('.ps-search');
+                if (!searchContainer.contains(event.target) && !modal.contains(event.target)) {
+                    modal.style.display = 'none';
+                }
             });
-    }
 
-    // --- Event Listener: The Final Connection ---
-     if (searchInput) {
-    searchInput.addEventListener('input', debounce((event) => {
-        const query = event.target.value.trim();
+        });
+    </script>
 
-        if (query.length >= 3) { 
-            fetchProductResults(query); 
-        } else {
-            modal.style.display = 'none'; 
-        }
-    }, 300)); 
-}
-    document.addEventListener('click', (event) => {
-        const searchContainer = searchInput.closest('.ps-search');
-        if (!searchContainer.contains(event.target) && !modal.contains(event.target)) {
-             modal.style.display = 'none';
-        }
-    });
+    <script>
+        //click to search icon show input field and click to input field show the modal mobile device
+        //click to search icon show input field and click to input field show the modal   mobile device
+        document.addEventListener("DOMContentLoaded", () => {
+            const searchToggleBtn = document.querySelector(".search-toggle-btn");
+            const smallPsSearch = document.querySelector(".small_ps-search");
+            const searchInput = document.getElementById("searchInput_small_device");
+            const searchModal = document.getElementById("smallsearchModal");
+            const searchBoxContainer = document.querySelector(".search-box_small");
 
-});
-</script>
+            if (searchToggleBtn && smallPsSearch && searchInput && searchModal && searchBoxContainer) {
+                // --- 1. Search Toggle Button Click Event: Toggles the visibility of the input box ---
+                searchToggleBtn.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    smallPsSearch.classList.toggle("active");
 
-<script>      
-//click to search icon show input field and click to input field show the modal mobile device
-//click to search icon show input field and click to input field show the modal   mobile device
-document.addEventListener("DOMContentLoaded", () => {
-    const searchToggleBtn = document.querySelector(".search-toggle-btn"); 
-    const smallPsSearch = document.querySelector(".small_ps-search");    
-    const searchInput = document.getElementById("searchInput_small_device"); 
-    const searchModal = document.getElementById("smallsearchModal");         
-    const searchBoxContainer = document.querySelector(".search-box_small");  
+                    if (smallPsSearch.classList.contains("active")) {
+                        searchInput.focus();
+                        searchModal.classList.add("hidden");
+                    } else {
+                        searchModal.classList.add("hidden");
+                    }
+                });
+                // --- 2. Input Field Click Event: Shows the Modal ---
+                searchInput.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    if (smallPsSearch.classList.contains("active")) {
+                        searchModal.classList.remove("hidden");
+                    }
+                });
 
-    if (searchToggleBtn && smallPsSearch && searchInput && searchModal && searchBoxContainer) {
-        // --- 1. Search Toggle Button Click Event: Toggles the visibility of the input box ---
-        searchToggleBtn.addEventListener("click", (e) => {
-            e.stopPropagation(); 
-            smallPsSearch.classList.toggle("active");
-            
-            if (smallPsSearch.classList.contains("active")) {
-                searchInput.focus(); 
-                searchModal.classList.add("hidden"); 
-            } else {
-                searchModal.classList.add("hidden");
+                // --- 3. Click Outside to Close: Hides Input Bar and Modal ---
+                document.addEventListener("click", (e) => {
+                    const isClickOutside = !smallPsSearch.contains(e.target) &&
+                        !searchModal.contains(e.target) &&
+                        !searchToggleBtn.contains(e.target);
+
+                    if (smallPsSearch.classList.contains("active") && isClickOutside) {
+                        smallPsSearch.classList.remove("active");
+                        searchModal.classList.add("hidden");
+                    }
+                });
+                document.addEventListener("keydown", (e) => {
+                    if (e.key === "Escape" && searchModal.classList.contains("hidden") === false) {
+                        searchModal.classList.add("hidden");
+                    }
+                });
             }
         });
-        // --- 2. Input Field Click Event: Shows the Modal ---
-        searchInput.addEventListener("click", (e) => {
-            e.stopPropagation(); 
-            if (smallPsSearch.classList.contains("active")) {
-                searchModal.classList.remove("hidden"); 
-            }
-        });
-        
-        // --- 3. Click Outside to Close: Hides Input Bar and Modal ---
-        document.addEventListener("click", (e) => {
-            const isClickOutside = !smallPsSearch.contains(e.target) && 
-                                   !searchModal.contains(e.target) && 
-                                   !searchToggleBtn.contains(e.target);
 
-            if (smallPsSearch.classList.contains("active") && isClickOutside) {
-                smallPsSearch.classList.remove("active");
-                searchModal.classList.add("hidden"); 
-            }
-        });
-         document.addEventListener("keydown", (e) => {
-            if (e.key === "Escape" && searchModal.classList.contains("hidden") === false) {
-                searchModal.classList.add("hidden");
-            }
-        });
-    }
-});
-
-//input field keyword searchwise products modal products shows shows
-document.addEventListener('DOMContentLoaded', () => {
-    const searchInput = document.getElementById('searchInput_small_device');
-    const modal = document.getElementById('productResultsModal_small');
-    const resultsContainer = document.getElementById('productResultsContainer_small');
-    const totalResultsSpan = document.getElementById('totalProducts');
-    const seeAllLink = document.querySelector('.see-all-link'); 
+        //input field keyword searchwise products modal products shows shows
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('searchInput_small_device');
+            const modal = document.getElementById('productResultsModal_small');
+            const resultsContainer = document.getElementById('productResultsContainer_small');
+            const totalResultsSpan = document.getElementById('totalProducts');
+            const seeAllLink = document.querySelector('.see-all-link');
 
 
-    // --- Function to build the product HTML  ---
-    const PRODUCT_DETAIL_URL = "{{ route('front.product', ['slug' => ':slug']) }}";
-    function createProductHTML(product) {
-        const imageUrl = `/storage/items/${product.thumbnail}`; 
-        const productLink = PRODUCT_DETAIL_URL.replace(':slug', product.slug); 
-        return `
+            // --- Function to build the product HTML  ---
+            const PRODUCT_DETAIL_URL = "{{ route('front.product', ['slug' => ':slug']) }}";
+
+            function createProductHTML(product) {
+                const imageUrl = `/storage/items/${product.thumbnail}`;
+                const productLink = PRODUCT_DETAIL_URL.replace(':slug', product.slug);
+                return `
             <div class="product-item">
                 <a href="${productLink}">
                 <img src="${imageUrl}" alt="${product.name}">
@@ -725,87 +728,90 @@ document.addEventListener('DOMContentLoaded', () => {
                 </a>
             </div>
         `;
-    }
-
-    // --- Core Logic to Display Results 
-    function showProductResults(products, total, query) {
-        const productListViewRoute = '{{ route('front.show.search.product') }}';
-        resultsContainer.innerHTML = ''; 
-
-        if (products.length === 0) {
-            // Show no results message
-            resultsContainer.innerHTML = '<p class="no-results-message" style="padding: 15px; text-align: center;">No products found matching your search.</p>';
-            totalResultsSpan.textContent = '0';
-        } else {
-            products.forEach(product => {
-                resultsContainer.innerHTML += createProductHTML(product);
-            });
-
-            totalResultsSpan.textContent = total.toLocaleString();
-            seeAllLink.href = `${productListViewRoute}?q=${encodeURIComponent(query)}&type=product`;
-        }
-        modal.style.display = 'block';
-    }
-
-    // --- Debounce Function (from previous answer) ---
-    function debounce(func, delay) {
-        let timeout;
-        return function(...args) {
-            const context = this;
-            clearTimeout(timeout);
-            timeout = setTimeout(() => func.apply(context, args), delay);
-        };
-    }
-
-    // --- AJAX/Fetch Logic ---
-    function fetchProductResults(query) {
-         const SEARCH_ROUTE_URL = "{{ route('front.product.query') }}";
-         const url = SEARCH_ROUTE_URL + `?q=${encodeURIComponent(query)}`; 
-
-        // Optional: Add a loading state while fetching
-        resultsContainer.innerHTML = '<p class="loading-message" style="padding: 15px; text-align: center;">Searching...</p>';
-        modal.style.display = 'block'; 
-
-        fetch(url)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                showProductResults(data.products, data.totalCount, query);
-            })
-            .catch(error => {
-                console.error('Error fetching search results:', error);
-                resultsContainer.innerHTML = '<p class="error-message" style="padding: 15px; text-align: center; color: red;">Failed to load results. Try again.</p>';
-                totalResultsSpan.textContent = '0';
-                modal.style.display = 'block';
-            });
-    }
-
-    // --- Event Listener: The Final Connection ---
-     if (searchInput) {
-        searchInput.addEventListener('input', debounce((event) => {
-            const query = event.target.value.trim();
-
-            if (query.length >= 3) { 
-                fetchProductResults(query); 
-            } else {
-                modal.style.display = 'none'; 
             }
-        }, 300)); 
-    }
-    document.addEventListener('click', (event) => {
-        const searchContainer = searchInput.closest('.small_ps-search');
-        if (!searchContainer.contains(event.target) && !modal.contains(event.target)) {
-             modal.style.display = 'none';
-        }
-    });
 
-});
-</script>
-<script>
+            // --- Core Logic to Display Results 
+            function showProductResults(products, total, query) {
+                const productListViewRoute = '{{ route('front.show.search.product') }}';
+                resultsContainer.innerHTML = '';
+
+                if (products.length === 0) {
+                    // Show no results message
+                    resultsContainer.innerHTML =
+                        '<p class="no-results-message" style="padding: 15px; text-align: center;">No products found matching your search.</p>';
+                    totalResultsSpan.textContent = '0';
+                } else {
+                    products.forEach(product => {
+                        resultsContainer.innerHTML += createProductHTML(product);
+                    });
+
+                    totalResultsSpan.textContent = total.toLocaleString();
+                    seeAllLink.href = `${productListViewRoute}?q=${encodeURIComponent(query)}&type=product`;
+                }
+                modal.style.display = 'block';
+            }
+
+            // --- Debounce Function (from previous answer) ---
+            function debounce(func, delay) {
+                let timeout;
+                return function(...args) {
+                    const context = this;
+                    clearTimeout(timeout);
+                    timeout = setTimeout(() => func.apply(context, args), delay);
+                };
+            }
+
+            // --- AJAX/Fetch Logic ---
+            function fetchProductResults(query) {
+                const SEARCH_ROUTE_URL = "{{ route('front.product.query') }}";
+                const url = SEARCH_ROUTE_URL + `?q=${encodeURIComponent(query)}`;
+
+                // Optional: Add a loading state while fetching
+                resultsContainer.innerHTML =
+                    '<p class="loading-message" style="padding: 15px; text-align: center;">Searching...</p>';
+                modal.style.display = 'block';
+
+                fetch(url)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        showProductResults(data.products, data.totalCount, query);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching search results:', error);
+                        resultsContainer.innerHTML =
+                            '<p class="error-message" style="padding: 15px; text-align: center; color: red;">Failed to load results. Try again.</p>';
+                        totalResultsSpan.textContent = '0';
+                        modal.style.display = 'block';
+                    });
+            }
+
+            // --- Event Listener: The Final Connection ---
+            if (searchInput) {
+                searchInput.addEventListener('input', debounce((event) => {
+                    const query = event.target.value.trim();
+
+                    if (query.length >= 3) {
+                        fetchProductResults(query);
+                    } else {
+                        modal.style.display = 'none';
+                    }
+                }, 300));
+            }
+            document.addEventListener('click', (event) => {
+                const searchContainer = searchInput.closest('.small_ps-search');
+                if (!searchContainer.contains(event.target) && !modal.contains(event.target)) {
+                    modal.style.display = 'none';
+                }
+            });
+
+        });
+    </script>
+    <script>
         const modal = document.getElementById('searchModal_sticky_navbar');
         const closeBtnTop = document.getElementById('closeSearchBtn_top');
         const btn = document.getElementById('openSearchBtn');
@@ -832,44 +838,43 @@ document.addEventListener('DOMContentLoaded', () => {
                 modal.style.display = "none";
             }
         };
-         closeBtnTop.onclick = function() {
+        closeBtnTop.onclick = function() {
             modal.style.display = "none";
         }
-  
     </script>
-<script>
-$(document).ready(function() {
-    // --- Element Declarations ---
-    const $searchInput = $('#searchInput_sticky');
-    const $categoryDropdown = $('#category_show_sticky_navbar'); 
-    const $productModal = $('#sticky_productResultsModal_small'); 
-    
-    // product result model
-    const $resultsContainer = $('#sticky_productResultsContainer_small');
-    const $totalResultsSpan = $('#totalProducts_sticky');
-    const $seeAllLink = $('.see-all-link');
+    <script>
+        $(document).ready(function() {
+            // --- Element Declarations ---
+            const $searchInput = $('#searchInput_sticky');
+            const $categoryDropdown = $('#category_show_sticky_navbar');
+            const $productModal = $('#sticky_productResultsModal_small');
 
-    // --- Configuration & Helpers (Blade routes) ---
+            // product result model
+            const $resultsContainer = $('#sticky_productResultsContainer_small');
+            const $totalResultsSpan = $('#totalProducts_sticky');
+            const $seeAllLink = $('.see-all-link');
 
-    const PRODUCT_DETAIL_URL = "{{ route('front.product', ['slug' => ':slug']) }}";
-    const PRODUCT_SEARCH_ROUTE = "{{ route('front.product.query') }}";
-    const PRODUCT_LIST_ROUTE = '{{ route('front.show.search.product') }}';
-    
-    // --- Debounce Function ---
-    function debounce(func, delay) {
-        let timeout;
-        return function(...args) {
-            const context = this;
-            clearTimeout(timeout);
-            timeout = setTimeout(() => func.apply(context, args), delay);
-        };
-    }
+            // --- Configuration & Helpers (Blade routes) ---
 
-    // --- Product HTML & Display Functions  ---
-    function createProductHTML(product) {
-        const imageUrl = `/storage/items/${product.thumbnail}`; 
-        const productLink = PRODUCT_DETAIL_URL.replace(':slug', product.slug); 
-        return `
+            const PRODUCT_DETAIL_URL = "{{ route('front.product', ['slug' => ':slug']) }}";
+            const PRODUCT_SEARCH_ROUTE = "{{ route('front.product.query') }}";
+            const PRODUCT_LIST_ROUTE = '{{ route('front.show.search.product') }}';
+
+            // --- Debounce Function ---
+            function debounce(func, delay) {
+                let timeout;
+                return function(...args) {
+                    const context = this;
+                    clearTimeout(timeout);
+                    timeout = setTimeout(() => func.apply(context, args), delay);
+                };
+            }
+
+            // --- Product HTML & Display Functions  ---
+            function createProductHTML(product) {
+                const imageUrl = `/storage/items/${product.thumbnail}`;
+                const productLink = PRODUCT_DETAIL_URL.replace(':slug', product.slug);
+                return `
             <div class="product-item">
                 <a href="${productLink}">
                 <img src="${imageUrl}" alt="${product.name}">
@@ -880,96 +885,99 @@ $(document).ready(function() {
                 </a>
             </div>
         `;
-    }
+            }
 
-    function showProductResults(products, total, query) {
-        $resultsContainer.empty();
-        
-        if (products.length === 0) {
-            $resultsContainer.html('<p class="no-results-message" style="padding: 15px; text-align: center;">No products found matching your search.</p>');
-            $totalResultsSpan.text('0');
-        } else {
-            let html = '';
-            products.forEach(product => {
-                html += createProductHTML(product);
-            });
-            $resultsContainer.html(html);
-            $totalResultsSpan.text(total.toLocaleString());
-            $seeAllLink.attr('href', `${PRODUCT_LIST_ROUTE}?q=${encodeURIComponent(query)}&type=product`);
-        }
-        
-        // show the product modal
-        $productModal.show(); 
-    }
+            function showProductResults(products, total, query) {
+                $resultsContainer.empty();
 
-    // --- AJAX Request Function ---
-    function fetchProductResults(query) {
-        const url = PRODUCT_SEARCH_ROUTE + `?q=${encodeURIComponent(query)}`;
-        
-        $resultsContainer.html('<p class="loading-message" style="padding: 15px; text-align: center;">Searching...</p>');
-        $productModal.show(); 
+                if (products.length === 0) {
+                    $resultsContainer.html(
+                        '<p class="no-results-message" style="padding: 15px; text-align: center;">No products found matching your search.</p>'
+                    );
+                    $totalResultsSpan.text('0');
+                } else {
+                    let html = '';
+                    products.forEach(product => {
+                        html += createProductHTML(product);
+                    });
+                    $resultsContainer.html(html);
+                    $totalResultsSpan.text(total.toLocaleString());
+                    $seeAllLink.attr('href', `${PRODUCT_LIST_ROUTE}?q=${encodeURIComponent(query)}&type=product`);
+                }
 
-        $.ajax({
-            url: url,
-            method: 'GET',
-            success: function(data) {
-                showProductResults(data.products, data.totalCount, query);
-            },
-            error: function(xhr, status, error) {
-                console.error('Error fetching search results:', status, error);
-                $resultsContainer.html('<p class="error-message" style="padding: 15px; text-align: center; color: red;">Failed to load results. Try again.</p>');
-                $totalResultsSpan.text('0');
+                // show the product modal
                 $productModal.show();
             }
-        });
-    }
 
-    // =======================================================
-    // --- A. Event Listener: CLICK (Category Dropdown) ---
-    // =======================================================
-    $searchInput.on('click', function(event) {
-        event.stopPropagation(); 
-        
-        const query = $(this).val().trim();
-        if (query.length < 3) {
-            $productModal.hide(); 
+            // --- AJAX Request Function ---
+            function fetchProductResults(query) {
+                const url = PRODUCT_SEARCH_ROUTE + `?q=${encodeURIComponent(query)}`;
 
-            $categoryDropdown.slideDown(200); 
-        }
-    });
+                $resultsContainer.html(
+                    '<p class="loading-message" style="padding: 15px; text-align: center;">Searching...</p>');
+                $productModal.show();
 
-    // =======================================================
-    // --- B. Event Listener: INPUT/TYPE (Product Modal) ---
-    // =======================================================
-    $searchInput.on('input', debounce(function() {
-        const query = $(this).val().trim();
-
-        if (query.length >= 3) { 
-            $categoryDropdown.slideUp(100); 
-            fetchProductResults(query); 
-        } else {
-            if ($(this).is(':focus')) {
-                $categoryDropdown.slideDown(200);
+                $.ajax({
+                    url: url,
+                    method: 'GET',
+                    success: function(data) {
+                        showProductResults(data.products, data.totalCount, query);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching search results:', status, error);
+                        $resultsContainer.html(
+                            '<p class="error-message" style="padding: 15px; text-align: center; color: red;">Failed to load results. Try again.</p>'
+                        );
+                        $totalResultsSpan.text('0');
+                        $productModal.show();
+                    }
+                });
             }
-            $productModal.hide(); 
-        }
-    }, 300)); 
 
-    // =======================================================
-    // --- C. Event Listener: Hide on Outside Click ---
-    // =======================================================
-    $(document).on('click', function(event) {
-        const $target = $(event.target);
-        if (!$target.is($searchInput) && !$target.closest($categoryDropdown).length) {
-            $categoryDropdown.slideUp(200); 
-        }
-        
-        if (!$target.is($searchInput) && !$target.closest($productModal).length) {
-            $productModal.hide(); 
-        }
-    });
-});
-</script> 
+            // =======================================================
+            // --- A. Event Listener: CLICK (Category Dropdown) ---
+            // =======================================================
+            $searchInput.on('click', function(event) {
+                event.stopPropagation();
 
- 
+                const query = $(this).val().trim();
+                if (query.length < 3) {
+                    $productModal.hide();
+
+                    $categoryDropdown.slideDown(200);
+                }
+            });
+
+            // =======================================================
+            // --- B. Event Listener: INPUT/TYPE (Product Modal) ---
+            // =======================================================
+            $searchInput.on('input', debounce(function() {
+                const query = $(this).val().trim();
+
+                if (query.length >= 3) {
+                    $categoryDropdown.slideUp(100);
+                    fetchProductResults(query);
+                } else {
+                    if ($(this).is(':focus')) {
+                        $categoryDropdown.slideDown(200);
+                    }
+                    $productModal.hide();
+                }
+            }, 300));
+
+            // =======================================================
+            // --- C. Event Listener: Hide on Outside Click ---
+            // =======================================================
+            $(document).on('click', function(event) {
+                const $target = $(event.target);
+                if (!$target.is($searchInput) && !$target.closest($categoryDropdown).length) {
+                    $categoryDropdown.slideUp(200);
+                }
+
+                if (!$target.is($searchInput) && !$target.closest($productModal).length) {
+                    $productModal.hide();
+                }
+            });
+        });
+    </script>
 @endpush
