@@ -196,9 +196,32 @@ class FrontendController extends Controller
     }
      public function categoryProduct($slug)
     {
+        $category = Category::where('slug',$slug)->first();
+        $constraint = request()->get('constraint');
+
+        $query = Item::with('itemVariants.variant.color', 'itemVariants.variant.size')
+        ->where('category_id', $category->id)
+        ->where('status', 1)
+        ->orderBy('id', 'DESC');
+
+
+        if ($constraint) {
+            $query->where(function ($q) use ($constraint) {
+                $q->where('discount_price', 'LIKE', "%{$constraint}%") 
+                ->orWhere('discount_price', 'LIKE', "%{$constraint}%") 
+                ->orWhereHas('itemVariants.variant.color', function ($color) use ($constraint) {
+                    $color->where('name', 'LIKE', "%{$constraint}%");
+                })
+                ->orWhereHas('itemVariants.variant.size', function ($size) use ($constraint) {
+                    $size->where('name', 'LIKE', "%{$constraint}%"); 
+                });
+            });
+        }
+         $products = $query->paginate(20);
+
+         //sub categorys and brands
         $subCategories = Subcategory::where('status',1)->latest()->get();
         $brands = Brand::where('status',1)->latest()->get();
-        $products = Item::with('iteamVariant')->where('status',1)->latest()->paginate(20);
         $allSize = Size::where('status',1)->latest()->get();
         $allColor  = Color::where('status',1)->latest()->get();
 

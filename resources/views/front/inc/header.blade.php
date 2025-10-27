@@ -121,7 +121,7 @@
                                                 @foreach ($category->subcategory as $sub)
                                                     <li>
                                                         <a
-                                                            href="{{ route('front.categories.products', 'mens') }}">{{ $sub->name }}</a>
+                                                            href="{{ route('front.categories.products', ['slug'=>$sub->slug]) }}">{{ $sub->name }}</a>
                                                     </li>
                                                 @endforeach
                                             </ul>
@@ -149,6 +149,10 @@
                                                 });
                                             })->filter()->unique()->values();
 
+                                            
+                                    @endphp
+                                    @php
+                                        $selected = strtolower(request()->get('constraint'));
                                     @endphp
                                     <div class="mega-column">
                                         <h4 class="mega-heading">
@@ -156,10 +160,13 @@
                                         </h4>
                                         <ul class="mega-item">
                                             @foreach ($colors as $color)
-                                                <li>
-                                                    <a href="">
-                                                         {{ $color }} 
-                                                        </a>
+                                               @php
+                                                    $isSelected = strtolower($color) === $selected;
+                                                @endphp
+                                                <li class="{{ $isSelected ? 'selected' : '' }}">
+                                                    <a href="{{ route('front.categories.products', ['slug' => $category->slug]) }}?constraint={{ strtolower($color) }}">
+                                                        {{ $color }}
+                                                    </a>
                                                 </li>
                                             @endforeach
                                         </ul>
@@ -171,8 +178,11 @@
                                         <ul class="mega-item">
 
                                             @foreach ($prices as $price)
-                                                <li>
-                                                    <a href="">
+                                             @php
+                                                    $isSelected = strtolower($price) === $selected;
+                                                @endphp
+                                                <li class="{{ $isSelected ? 'selected' : '' }}">
+                                                     <a href="{{ route('front.categories.products', ['slug' => $category->slug]) }}?constraint={{ strtolower($price) }}">
                                                         Tk {{ $price }}
                                                     </a>
                                                 </li>
@@ -183,8 +193,13 @@
                                         <h4 class="mega-heading">By Size</h4>
                                         <ul class="mega-item">
                                             @foreach ($sizes as $size)
-                                                <li>
-                                                    <a href="">{{ $size }}</a>
+                                              @php
+                                                    $isSelected = strtolower($size) === $selected;
+                                                @endphp
+                                                <li class="{{ $isSelected ? 'selected' : '' }}">
+                                                    <a href="{{ route('front.categories.products', ['slug' => $category->slug]) }}?constraint={{ strtolower($size) }}">
+                                                        {{ $size }}
+                                                    </a>
                                                 </li>
                                             @endforeach
                                         </ul>

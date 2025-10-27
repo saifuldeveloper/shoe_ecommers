@@ -15,7 +15,7 @@
     background-color: #f0f0f0;
 }
 .size-item.current {
-    background-color: #f59b34; /
+    background-color: #f59b34; 
     color: #fff;
     border-color: #f59b34;
 }
@@ -83,6 +83,10 @@
             </div>
     </div>
 
+@php
+    $selected = strtolower(request()->get('constraint'));
+@endphp
+
     <!-- Sidebar -->
     <div class="ps-sidebar" data-mh="product-listing">
         <aside class="ps-widget--sidebar ps-widget--category">
@@ -90,7 +94,11 @@
             <div class="ps-widget__content">
                 <ul class="ps-list--checked">
                     @foreach ($subCategories as $subCategory)
-                        <li class="sub-category-item" data-id="{{ $subCategory->id }}">
+                          @php
+                            $subCatName = $subCategory->name;
+                            $isSelected = ($selected === $subCatName);
+                        @endphp
+                        <li class="sub-category-item {{ $isSelected ? 'selected' : '' }}" data-id="{{ $subCategory->id }}">
                             <a href="javascript:void(0)">{{ $subCategory->name }}</a>
                         </li>
                     @endforeach
@@ -120,7 +128,11 @@
                         @foreach ($allSize->chunk(4) as $chunk)
                             <tr>
                                 @foreach ($chunk as $size)
-                                    <td class="size-item" data-value="{{ $size->id }}">{{ $size->name }}</td>
+                                  @php
+                                    $sizeName = strtolower($size->name);
+                                    $isSelected = ($selected === $sizeName);
+                                @endphp
+                                    <td class="size-item {{ $isSelected ? 'selected' : '' }}" data-value="{{ $size->id }}">{{ $size->name }}</td>
                                 @endforeach
                             </tr>
                         @endforeach
@@ -133,10 +145,15 @@
             <div class="ps-widget__header"><h3>Color</h3></div>
             <div class="ps-widget__content">
                 <ul class="ps-list--color">
-                    @foreach ($allColor as $color)
-                        <li class="color-item" data-value="{{ $color->id }}">
-                            <a href="javascript:void(0)" style="background-color: {{ $color->code ?? $color->name }}"></a>
-                        </li>
+                   @foreach ($allColor as $color)
+                      @php
+                        $colorName = strtolower($color->name);
+                        $isSelected = ($selected === $colorName);
+                    @endphp
+                       <li class="color-item {{ $isSelected ? 'selected' : '' }}" data-value="{{ $color->id }}">
+                        <a href="#" style="background-color: {{ $color->code ?? $color->name }}">
+                        </a>
+                    </li>
                     @endforeach
                 </ul>
             </div>

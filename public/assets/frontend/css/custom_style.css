@@ -2239,3 +2239,22 @@ input#searchInput_small_device{
   list-style: none;
   line-height: 2!important; 
 }
+
+.color-item.selected a {
+  border: 3px solid #000;   
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+  transform: scale(1.1);
+}
+.size-item.selected {
+  background-color: #f59b34; 
+    color: #fff;
+    border-color: #f59b34;
+}
+.sub-category-item.selected a{
+    border-color: #f59b34;
+}
+
+.mega-item li.selected a {
+    font-weight: bold;
+    color: #f59b34; 
+}
