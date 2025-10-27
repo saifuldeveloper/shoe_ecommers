@@ -121,7 +121,7 @@
                                                 @foreach ($category->subcategory as $sub)
                                                     <li>
                                                         <a
-                                                            href="{{ route('front.categories.products', 'mens') }}">{{ $sub->name }}</a>
+                                                            href="{{ route('front.categories.products', ['slug'=>$sub->slug]) }}">{{ $sub->name }}</a>
                                                     </li>
                                                 @endforeach
                                             </ul>
@@ -157,9 +157,9 @@
                                         <ul class="mega-item">
                                             @foreach ($colors as $color)
                                                 <li>
-                                                    <a href="">
-                                                         {{ $color }} 
-                                                        </a>
+                                                <a href="{{ route('front.categories.products', ['slug' => $category->slug]) }}?constraint={{ strtolower($color) }}">
+                                                    {{ $color }} 
+                                                </a>
                                                 </li>
                                             @endforeach
                                         </ul>
@@ -172,7 +172,7 @@
 
                                             @foreach ($prices as $price)
                                                 <li>
-                                                    <a href="">
+                                                     <a href="{{ route('front.categories.products', ['slug' => $category->slug]) }}?constraint={{ strtolower($price) }}">
                                                         Tk {{ $price }}
                                                     </a>
                                                 </li>
@@ -184,7 +184,9 @@
                                         <ul class="mega-item">
                                             @foreach ($sizes as $size)
                                                 <li>
-                                                    <a href="">{{ $size }}</a>
+                                                    <a href="{{ route('front.categories.products', ['slug' => $category->slug]) }}?constraint={{ strtolower($size) }}">
+                                                        {{ $size }}
+                                                    </a>
                                                 </li>
                                             @endforeach
                                         </ul>
