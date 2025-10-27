@@ -103,7 +103,7 @@
 
                     @foreach ($categories as $category)
                         <li class="menu-item menu-item-has-children has-mega-menu">
-                            <a href="{{ route('front.categories.products', 'mens') }}">{{ $category->name }}</a>
+                            <a href="#">{{ $category->name }}</a>
                             <div class="mega-menu">
                                 <div class="mega-wrap">
                                     <div class="mega-column">
@@ -124,6 +124,7 @@
                                             </ul>
                                         @endif
                                     </div>
+                                    
                                     <div class="mega-column">
                                         <h4 class="mega-heading">
                                             By Color
