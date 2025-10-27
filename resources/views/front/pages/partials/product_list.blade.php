@@ -41,7 +41,7 @@
                             <div>
                                 <a href="{{ route('front.product', $product->slug) }}">
                                 <span class="btn btn-dark shop-now-button">
-                                    shop now
+                                    Shop now
                                 </span>
                                 </a>
                             </div>
@@ -54,7 +54,7 @@
 
 @else
     <div class="col-12 text-center py-5">
-        <a href="{{ route('front.product', $product->slug) }}"><h4>No products found</h4></a>
+        <a><h4>No products found</h4></a>
     </div>
 @endif
 
