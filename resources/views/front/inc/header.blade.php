@@ -156,7 +156,7 @@
                                         </h4>
                                         <ul class="mega-item">
                                             @foreach ($colors as $color)
-                                                <li style="display: block; margin-bottom: 5px;">
+                                                <li>
                                                     <a href="">
                                                          {{ $color }} 
                                                         </a>
@@ -171,7 +171,7 @@
                                         <ul class="mega-item">
 
                                             @foreach ($prices as $price)
-                                                <li style="display: block; margin-bottom: 5px;">
+                                                <li>
                                                     <a href="">
                                                         Tk {{ $price }}
                                                     </a>
@@ -183,7 +183,7 @@
                                         <h4 class="mega-heading">By Size</h4>
                                         <ul class="mega-item">
                                             @foreach ($sizes as $size)
-                                                <li style="display:block; margin-bottom:5px;">
+                                                <li>
                                                     <a href="">{{ $size }}</a>
                                                 </li>
                                             @endforeach
