@@ -151,8 +151,7 @@
                         $isSelected = ($selected === $colorName);
                     @endphp
                        <li class="color-item {{ $isSelected ? 'selected' : '' }}" data-value="{{ $color->id }}">
-                        <a href="#"
-                        style="background-color: {{ $color->code ?? $color->name }}">
+                        <a href="#" style="background-color: {{ $color->code ?? $color->name }}">
                         </a>
                     </li>
                     @endforeach

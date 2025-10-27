@@ -2253,3 +2253,8 @@ input#searchInput_small_device{
 .sub-category-item.selected a{
     border-color: #f59b34;
 }
+
+.mega-item li.selected a {
+    font-weight: bold;
+    color: #f59b34; 
+}
