@@ -4969,7 +4969,7 @@ button.ps-btn--gray:before {
 }
 
 .mega-menu {
-  position: absolute;
+   position: absolute;
   top: 100%;
   left: 0;
   top: 100%;
@@ -5018,7 +5018,7 @@ button.ps-btn--gray:before {
   text-transform: uppercase;
 }
 .mega-menu .mega-column {
-  width: 20%;
+width: 20%;
   padding: 0 30px;
   border-right: 1px solid #d8d8d8;
 }
@@ -5026,8 +5026,8 @@ button.ps-btn--gray:before {
   border-right: 0;
 }
 .mega-menu .mega-item a {
-  display: block;
-  padding: 5px 0;
+   display: block; 
+   padding: 5px 0; 
   position: relative;
   font-family: "Montserrat", sans-serif;
   font-size: 14px;
@@ -5045,7 +5045,7 @@ button.ps-btn--gray:before {
   left: 0;
   content: "";
   width: 0;
-  height: 1px;
+   height: 1px; 
   background-color: #f59b34;
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;

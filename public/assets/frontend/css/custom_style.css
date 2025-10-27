@@ -2228,3 +2228,14 @@ input#searchInput_small_device{
         margin-top: 20px;
     }
 }
+
+
+.mega-item {
+  display: inline-flex;
+  flex-direction: column !important;
+}
+
+.mega-item li a{
+  list-style: none;
+  line-height: 2!important; 
+}
