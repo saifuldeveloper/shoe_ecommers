@@ -197,8 +197,8 @@
                                                     $isSelected = strtolower($size) === $selected;
                                                 @endphp
                                                 <li class="{{ $isSelected ? 'selected' : '' }}">
-                                                    <a href="{{ route('front.categories.products', ['slug' => $category->slug]) }}?constraint={{ strtolower($size) }}">
-                                                        {{ $size }}
+                                                   <a href="{{ route('front.categories.products', ['slug' => $category->slug]) }}?constraint={{ strtolower($size) }}">
+                                                       👞 {{ $size }}
                                                     </a>
                                                 </li>
                                             @endforeach
