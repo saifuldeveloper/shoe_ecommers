@@ -123,8 +123,10 @@
                                                 <img class="hover-img"
                                                     src="{{ asset('storage/items/' . $item->photo??"") }}"
                                                     alt="">
-                                                <a class="ps-shoe__favorite" href="#"><i
-                                                        class="ps-icon-heart"></i></a>
+                                                <a class="ps-shoe__favorite add-to-wishlist"  data-id="{{ $item->id }}">
+                                                    <i
+                                                        class="ps-icon-heart"></i>
+                                                    </a>
                                             </div>
                                             <div class="ps-shoe__content">
                                                 <div class="ps-shoe__detail">
@@ -293,7 +295,9 @@
                                         <img alt="" src="{{ asset('storage/items/' . $item->photo) }}" />
                                         <img class="hover-img" src="{{ asset('storage/items/' . $item->photo) }}"
                                             alt="">
-                                        <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
+                                        <a class="ps-shoe__favorite add-to-wishlist"  data-id="{{ $item->id }}">
+                                            <i class="ps-icon-heart"></i>
+                                        </a>
                                     </div>
                                     <div class="ps-shoe__content">
                                         <div class="ps-shoe__detail">
@@ -311,7 +315,9 @@
                                                 </p>
                                             </div>
                                             <div>
+                                                <a href="{{ route('front.product', $item->slug) }}"> 
                                                 <span class="btn btn-dark shop-now-button">Shop now</span>
+                                                </a>
                                             </div>
                                             {{-- @if($item->unique_colors->isNotEmpty())
                                                 <div class="text-center pb-2">
@@ -428,3 +434,71 @@
         <div id="contact-map" style="display:none;"></div>
     </div>
 @endsection
+
+
+
+
+
+@push('js')
+   <script>
+    $(document).ready(function() {
+        const csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+        $('.add-to-wishlist').on('click', function(e) {
+            e.preventDefault(); 
+            let itemId = $(this).data('id');
+            
+            let url = '{{ route('user.wishlist.store', ['id' => 'ITEM_ID']) }}';
+            url = url.replace('ITEM_ID', itemId); 
+
+            // Make the AJAX call
+            $.ajax({
+                url: url,
+                type: 'GET', 
+                dataType: 'json',
+                data: {
+                    _token: csrfToken, 
+                    id: itemId         
+                },
+                // ------------------------------------------
+
+                success: function(response) {
+                    if (response.status === 0 && response.link) {
+                        alert("Wishlist-এ যোগ করার জন্য আপনাকে লগইন করতে হবে।"); 
+                        window.location.href = response.link;
+                    } 
+                  else if (response.status === 1 || response.status === 2) {
+                    alert(response.message);
+                    updateWishlistCount();
+                }
+                },
+            
+            });
+        });
+    });
+
+    function updateWishlistCount() {
+        let url = '{{ route('user.wishlist.count') }}';
+
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                if (response.count !== undefined) {
+                    $('#wishlist-count-header i').text(response.count);
+                    $('#wishlist-count-mobile i').text(response.count);
+                }
+            },
+            error: function(xhr) {
+                console.error("Failed to fetch wishlist count:", xhr);
+                $('#wishlist-count-header i').text(0);
+                $('#wishlist-count-mobile i').text(0);
+            }
+        });
+    }
+
+    // Load count on page load too
+    // updateWishlistCount();
+</script>
+@endpush
