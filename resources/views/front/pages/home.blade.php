@@ -117,7 +117,7 @@
                                     <div class="ps-shoe mb-30">
                                         <a href="{{ route('front.product', $item->slug) }}">
                                             <div class="ps-shoe__thumbnail">
-                                                <div class="ps-badge"><span>New</span></div>
+                                      
                                                 <img alt=""
                                                     src="{{ asset('storage/items/' . $item->photo??"") }}" />
                                                 <img class="hover-img"
@@ -134,7 +134,7 @@
 
                                                 <div class="ps-shoe__variants">
                                                     <div>
-                                                        <a href="{{ route('front.product', $item->slug) }}" class="btn btn-dark shop-now-button">shop now</a>
+                                                        <a href="{{ route('front.product', $item->slug) }}" class="btn btn-dark shop-now-button">Shop now</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -287,9 +287,9 @@
                     @foreach($newArrivalItems as $item)
                         <div class="ps-shoes--carousel">
                             <div class="ps-shoe">
-                                <a href="{{ route('front.product', 'product-details') }}">
+                                <a href="{{ route('front.product', ['slug'=>$item->slug]) }}">
                                     <div class="ps-shoe__thumbnail">
-                                        {{-- <div class="ps-badge"><span>New</span></div> --}}
+                                        <div class="ps-badge"><span>New</span></div>
                                         <img alt="" src="{{ asset('storage/items/' . $item->photo) }}" />
                                         <img class="hover-img" src="{{ asset('storage/items/' . $item->photo) }}"
                                             alt="">
@@ -311,9 +311,9 @@
                                                 </p>
                                             </div>
                                             <div>
-                                                <span class="btn btn-dark shop-now-button">shop now</span>
+                                                <span class="btn btn-dark shop-now-button">Shop now</span>
                                             </div>
-                                            @if($item->unique_colors->isNotEmpty())
+                                            {{-- @if($item->unique_colors->isNotEmpty())
                                                 <div class="text-center pb-2">
                                                     <p class="ps-shoe__categories">
                                                         @foreach($item->unique_colors as $color)
@@ -332,7 +332,7 @@
                                                         @endforeach
                                                     </p>
                                                 </div>
-                                            @endif
+                                            @endif --}}
                                         </div>
                                     </div>
                                 </a>

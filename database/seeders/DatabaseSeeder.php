@@ -132,7 +132,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ContactMessagesTableSeeder::class);
         $this->call(OrderDetailsTableSeeder::class);
         $this->call(SocialMediaPostsTableSeeder::class);
-         $this->call(StoreLocationSeeder::class);
         $this->call(StoresTableSeeder::class);
     }
 }
