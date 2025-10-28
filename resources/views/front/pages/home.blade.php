@@ -133,8 +133,17 @@
                                                     <a class="ps-shoe__name" href="{{ route('front.product', $item->slug) }}">{{ $item->name??""}}</a>
                                                     <div> <span class="ps-shoe__price"> &#2547; {{ $item->discount_price??"" }}</span></div>
                                                 </div>
-
+                                        
                                                 <div class="ps-shoe__variants">
+                                                    {{-- <div class="ps-shoe__variant normal">
+                                                        <img alt="" src="images/shoe/a1.avif" /><img
+                                                        alt=""
+                                                        src="images/shoe/a2.avif"
+                                                        /><img alt="" src="images/shoe/a3.avif" /><img
+                                                        alt=""
+                                                        src="images/shoe/a4.avif"
+                                                        />
+                                                    </div> --}}
                                                     <div>
                                                         <a href="{{ route('front.product', $item->slug) }}" class="btn btn-dark shop-now-button">Shop now</a>
                                                     </div>
