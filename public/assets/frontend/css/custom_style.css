@@ -966,7 +966,7 @@ h5.modal_h5_title span{
 
     .cart-item-details p {
       font-size: 13px;
-      color: #777;
+      color: #000000;
       margin: 2px 0;
     }
 
@@ -974,12 +974,13 @@ h5.modal_h5_title span{
       font-size: 14px;
       font-weight: bold;
       margin-top: 4px;
+      color: #000000;
     }
 
     .cart-item-remove {
       font-size: 16px;
       cursor: pointer;
-      color: #888;
+      color: #000000;
       margin-left: 6px;
     }
 
@@ -992,7 +993,9 @@ h5.modal_h5_title span{
       border-bottom: 1px solid #eee;
       margin-right: 20px;
     }
-
+  .cart-total span{
+    color: #000000;
+  }
     /* Buttons */
     .cart-actions {
       padding: 10px;
