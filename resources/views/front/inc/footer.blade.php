@@ -10,7 +10,7 @@ $categories = \App\Models\Category::where('status',1)->orderBy('id','DESC')->get
 <div class="ps-footer bg--cover">
     <div class="ps-footer__content">
         <div class="ps-container">
-            <div class="row">
+            <div class="row footer_widget_responsive">
                 <div class="col-lg-3 col-md-3 col-sm-12 col-xs-6">
                     <aside class="ps-widget--footer ps-widget--info">
                         <header>
