@@ -3042,22 +3042,15 @@ button.ps-btn--gray:before {
 .ps-shoe:before {
   content: "";
   position: absolute;
-  top: -15px;
-  left: -15px;
-  width: calc(100% + 30px);
-  height: calc(100% + 108px);
-  border: 1px solid #000;
+  top: -1px;
+  left: -19px;
+  width: calc(100% + 34px);
+  height: calc(100% + 95px);
+  border: 1px solid #1615154b;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   z-index: 1000;
   visibility: hidden;
   opacity: 0;
-  -webkit-transform: scale(0.8, 0.8);
-  -moz-transform: scale(0.8, 0.8);
-  -ms-transform: scale(0.8, 0.8);
-  -o-transform: scale(0.8, 0.8);
-  transform: scale(0.8, 0.8);
-  -webkit-transition: all 0.3s ease;
-  -moz-transition: all 0.3s ease;
-  transition: all 0.3s ease;
 }
 .ps-shoe .ps-shoe__thumbnail {
   position: relative;
@@ -3090,7 +3083,7 @@ button.ps-btn--gray:before {
 }
 .ps-shoe .ps-shoe__variants {
   position: absolute;
-  top: 10px;
+  top: 20px;
   left: 0;
   width: 100%;
   z-index: 10003;
@@ -3148,13 +3141,13 @@ button.ps-btn--gray:before {
   position: relative;
   min-height: 60px;
   background-color: #fff;
+  text-align: center;
+  padding-bottom: 20px;
 }
 .ps-shoe .ps-shoe__name {
   font-family: "Archivo Narrow", sans-serif;
   font-size: 16px;
-  font-weight: 700;
   color: #5b5b5b;
-  line-height: 1.4em;
 }
 .ps-shoe .ps-shoe__name:hover {
   color: #f59b34;
@@ -3173,11 +3166,11 @@ button.ps-btn--gray:before {
 .ps-shoe .ps-shoe__price {
   display: inline-block;
   position: absolute;
-  top: 5px;
-  right: 10px;
   font-family: "Archivo Narrow", sans-serif;
-  font-size: 20px;
+  font-size: 17px;
+  font-weight: bold;
   color: #5b5b5b;
+  margin-left: -20px;
 }
 .ps-shoe .ps-shoe__price del {
   font-size: 16px;
@@ -8495,7 +8488,7 @@ html .bg--parallax {
   background-color: black;
   color: white;
   font-weight: bold;
-  padding: 12px 30px;
+  padding: 12px 12px;
   border: none;
   border-radius: 5px;
   width: 100%;
