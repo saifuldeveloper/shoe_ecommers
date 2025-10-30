@@ -876,12 +876,16 @@ h5.modal_h5_title span{
 @media (max-width: 380px) {
   .buy_now_btn{
     min-width: 0px;
-    width: 350px;
+    width: 280px;
   }
   .add_to_cartbtn{
     min-width: 0px;
-    width: 350px;
+    width: 213px;
   } 
+  .footer_widget_responsive{
+    display: flex;
+    flex-direction: column  ;
+  }
 }
 
 
