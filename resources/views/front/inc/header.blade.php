@@ -976,4 +976,9 @@
             });
         });
     </script>
+       <script>
+        window.addEventListener("load", function() {
+            document.body.classList.add("nav-loaded");
+        });
+        </script>
 @endpush
