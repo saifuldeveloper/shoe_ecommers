@@ -61,7 +61,6 @@ class CampaignController extends Controller
      */
     public function status($id,$status,$type)
     {
-
         if($type == 'is_feature' && $status == 1){
 
             if(CampaignItem::whereIsFeature(1)->count() == 10){
@@ -69,7 +68,13 @@ class CampaignController extends Controller
             }
         }
         $item = CampaignItem::findOrFail($id);
-        $item->update([$type => $status]);
+        if ($type === 'status') {
+            $statusValue = $status == 1 ? 'active' : 'inactive';
+            $item->update(['status' => $statusValue]);
+        } else {
+            $item->update([$type => $status]);
+        }
+        // $item->update([$type => $status]);
         return redirect()->route('back.campaign.index')->withSuccess(__('Status Updated Successfully.'));
     }
 
