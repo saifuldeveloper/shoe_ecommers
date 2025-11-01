@@ -8447,6 +8447,13 @@ html .bg--parallax {
   display: block;
 }
 
+body {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+body.nav-loaded {
+  opacity: 1;
+}
 /* Desktop/Laptop (992px এর বেশি হলে hide করবে) */
 @media (min-width: 992px) {
   .navigation__column.left,

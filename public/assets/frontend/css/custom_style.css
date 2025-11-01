@@ -1978,7 +1978,7 @@ input#searchInput_small_device{
 /* Custom Cart Page Styling */
 /* Custom Cart Page Styling */
 .custom-cart-page {
-    padding: 20px 0;
+    /* padding: 20px 0; */
     max-width: 1200px;
     margin: 0 auto;
 }
