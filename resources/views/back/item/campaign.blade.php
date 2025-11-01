@@ -109,17 +109,18 @@
                               <td><img src="{{url('/core/public/storage/images/'.$data->item->photo)}}" alt=""></td>
                               <td>{{$data->item->name}}</td>
                               <td> {{ PriceHelper::adminCurrencyPrice($data->item->discount_price) }}</td>
-                              <td>
+                             <td>
                                 <div class="dropdown">
-                                    <button class="btn btn-{{  $data->status == 1 ? 'success' : 'danger'  }} btn-sm  dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                      {{  $data->status == 1 ? __('Publish') : __('Unpublish')  }}
+                                    <button class="btn btn-{{ $data->status === 'active' ? 'success' : 'danger' }} btn-sm dropdown-toggle"
+                                    type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    {{ $data->status === 'active' ? __('Publish') : __('Unpublish') }}
                                     </button>
                                     <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">
-                                      <a class="dropdown-item" href="{{ route('back.campaign.status',[$data->id,1,'status']) }}">{{ __('Publish') }}</a>
-                                      <a class="dropdown-item" href="{{ route('back.campaign.status',[$data->id,0,'status']) }}">{{ __('Unpublish') }}</a>
+                                    <a class="dropdown-item" href="{{ route('back.campaign.status', [$data->id, 1, 'status']) }}">{{ __('Publish') }}</a>
+                                    <a class="dropdown-item" href="{{ route('back.campaign.status', [$data->id, 0, 'status']) }}">{{ __('Unpublish') }}</a>
                                     </div>
-                                  </div>
-                            </td>
+                                </div>
+                                </td>
                               <td>
                                 <div class="dropdown">
                                     <button class="btn btn-{{  $data->is_feature == 1 ? 'success' : 'danger'  }} btn-sm  dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
