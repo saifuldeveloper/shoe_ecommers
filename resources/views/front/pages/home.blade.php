@@ -77,7 +77,17 @@
             </div>
         </div>
     </div>
+  @php 
+    $products = App\Models\Item::with( 'itemVariants.variant.color', 'itemVariants.variant.size')
+        ->where('category_id', $category->id)
+        ->where('status', 1)
+        ->orderBy('id', 'DESC')
+        ->get();
 
+          $sizes = $products->flatMap(function ($product) {
+                    return $product->itemVariants->pluck('variant.size.name')->filter();
+                })->unique()->values();
+    @endphp
     <div class="ps-section--features-product ps-section masonry-root pb-30">
         <div class="ps-container">
             <div class="ps-section__header pb-40">
@@ -130,7 +140,8 @@
                                                             <div class="text-center pb-10">
                                                                     <p class="ps-shoe__categories pb-5">
                                                                         @foreach ($item->unique_sizes as $size)
-                                                                            <span>{{ $size }}</span>
+                                                                      
+                                                                          <a href="{{ route('front.categories.products', ['slug' => $category->slug]) }}?constraint={{ strtolower($size) }}">  {{ $size }} </a>
                                                                         @endforeach
                                                                     </p>
                                                                 </div>
@@ -160,7 +171,7 @@
                 <div class="row g-4">
                     <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
                         <a class="ps-offer d-block"
-                              href="{{ route('front.campaign') }}">>
+                              href="{{ route('front.campaign') }}">
                            
                             <img src="{{ asset('storage/banner/' . $thirdBanner['img1']) }}"
                                 alt="{{ $thirdBanner['title1'] ?? '' }}" class="img-fluid" />
@@ -262,6 +273,18 @@
         </div>
     </div> --}}
 
+    @php 
+    $products = App\Models\Item::with( 'itemVariants.variant.color', 'itemVariants.variant.size')
+        ->where('category_id', $category->id)
+        ->where('status', 1)
+        ->orderBy('id', 'DESC')
+        ->get();
+
+          $sizes = $products->flatMap(function ($product) {
+                    return $product->itemVariants->pluck('variant.size.name')->filter();
+                })->unique()->values();
+    @endphp
+
     <div class="ps-section ps-section--top-sales ps-owl-root">
         <div class="ps-container">
             <div class="ps-section__header">
@@ -309,7 +332,7 @@
                                             <div class="text-center pb-10">
                                                 <p class="ps-shoe__categories pb-5">
                                                     @foreach ($item->unique_sizes as $size)
-                                                        <span>{{ $size }}</span>
+                                                      <a href="{{ route('front.categories.products', ['slug' => $category->slug]) }}?constraint={{ strtolower($size) }}">  {{ $size }} </a>
                                                     @endforeach
                                                 </p>
                                             </div>

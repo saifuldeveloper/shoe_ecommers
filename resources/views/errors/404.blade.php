@@ -20,7 +20,7 @@
               </span>
               </p>
                 
-                <a href="/" class="btn"> <span>Return to Store</span></a>
+                <a href="/" class="btn_404"> <span>Return to Store</span></a>
                 <a href="{{ route('front.product.collection.all') }}" class="btn"><span> Shop the Collections</span> </a>
                 
               </div>

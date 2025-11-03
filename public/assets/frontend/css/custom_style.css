@@ -2272,7 +2272,7 @@ input#searchInput_small_device{
   text-align: center;
 }
 
-.btn {
+.btn_404 {
     background-color: #212121;
     color: #ffffff; 
     display: inline-block; 
@@ -2286,11 +2286,11 @@ input#searchInput_small_device{
 }
 
 /* Hover effect */
-.btn:hover {
+.btn_404:hover {
     background-color: #ffffff;
     color: #000;
     border: 1px solid #000;
 }
-.btn span {
+.btn_404 span {
     display: block;
 }
