@@ -35,7 +35,7 @@
                 <div class="row g-4">
                     @foreach ($featuredCategories as $category)
                         <div class="col-sm-6 col-xs-6 col-lg-3 col-xs-6">
-                            <a class="ps-offer d-block" href="#">
+                            <a class="ps-offer d-block"   href="{{ route('front.campaign') }}">
                                 <img src="{{ asset('storage/category/' . $category->photo) }}" alt="{{ $category->name }}"
                                     class="img-fluid" />
                             </a>
@@ -52,7 +52,7 @@
                 <div class="row g-4">
                     <div class="col-12">
                         <a class="ps-offer d-block"
-                            href="{{ preg_match('/^https?:\/\//', $heroBanner['url1']) ? $heroBanner['url1'] : '//' . $heroBanner['url1'] }}">
+                            href="{{ route('front.campaign') }}">
                             <img src="{{ asset('storage/banner/' . $heroBanner['img1']) }}"
                                 alt="{{ $heroBanner['title1'] ?? '' }}" class="img-fluid" />
                         </a>
@@ -68,7 +68,7 @@
                 <div class="row g-4">
                     <div class="col-12">
                         <a class="ps-offer d-block"
-                            href="{{ preg_match('/^https?:\/\//', $heroBanner['url2']) ? $heroBanner['url2'] : '//' . $heroBanner['url2'] }}">
+                              href="{{ route('front.campaign') }}">
                             <img src="{{ asset('storage/banner/' . $heroBanner['img2']) }}"
                                 alt="{{ $heroBanner['title2'] ?? '' }}" class="img-fluid" />
                         </a>
@@ -160,7 +160,8 @@
                 <div class="row g-4">
                     <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
                         <a class="ps-offer d-block"
-                            href="{{ preg_match('/^https?:\/\//', $thirdBanner['url1']) ? $thirdBanner['url1'] : '//' . $thirdBanner['url1'] }}">
+                              href="{{ route('front.campaign') }}">>
+                           
                             <img src="{{ asset('storage/banner/' . $thirdBanner['img1']) }}"
                                 alt="{{ $thirdBanner['title1'] ?? '' }}" class="img-fluid" />
                         </a>
@@ -168,7 +169,7 @@
 
                     <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
                         <a class="ps-offer d-block"
-                            href="{{ preg_match('/^https?:\/\//', $thirdBanner['url2']) ? $thirdBanner['url2'] : '//' . $thirdBanner['url2'] }}">
+                              href="{{ route('front.campaign') }}">
                             <img src="{{ asset('storage/banner/' . $thirdBanner['img2']) }}"
                                 alt="{{ $thirdBanner['title2'] ?? '' }}" class="img-fluid" />
                         </a>
