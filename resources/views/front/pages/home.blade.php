@@ -127,6 +127,13 @@
                                                     </div>
                                                     <div class="ps-shoe__variants">
                                                         <div>
+                                                            <div class="text-center pb-10">
+                                                                    <p class="ps-shoe__categories pb-5">
+                                                                        @foreach ($item->unique_sizes as $size)
+                                                                            <span>{{ $size }}</span>
+                                                                        @endforeach
+                                                                    </p>
+                                                                </div>
                                                             <a href="{{ route('front.product', $item->slug) }}"
                                                                 class="btn btn-dark shop-now-button">Shop now</a>
                                                         </div>
@@ -306,6 +313,7 @@
                                                 </p>
                                             </div>
                                             <div>
+                                              
                                                 <a href="{{ route('front.product', $item->slug) }}">
                                                     <span class="btn btn-dark shop-now-button">Shop now</span>
                                                 </a>
