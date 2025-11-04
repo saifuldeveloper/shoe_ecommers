@@ -21,8 +21,8 @@
               </p>
                 
                 <a href="/" class="btn_404"> <span>Return to Store</span></a>
-                <a href="{{ route('front.product.collection.all') }}" class="btn"><span> Shop the Collections</span> </a>
-                
+                <a href="{{ route('front.product.collection.all') }}" class="btn_404"><span> Shop the Collections</span> </a>
+                {{-- //change the clasname --}}
               </div>
             </div>
             </div>
