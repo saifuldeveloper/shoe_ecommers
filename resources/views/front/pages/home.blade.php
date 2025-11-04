@@ -79,7 +79,6 @@
     </div>
   @php 
     $products = App\Models\Item::with( 'itemVariants.variant.color', 'itemVariants.variant.size')
-        ->where('category_id', $category->id)
         ->where('status', 1)
         ->orderBy('id', 'DESC')
         ->get();
@@ -141,7 +140,7 @@
                                                                     <p class="ps-shoe__categories pb-5">
                                                                         @foreach ($item->unique_sizes as $size)
                                                                       
-                                                                          <a href="{{ route('front.categories.products', ['slug' => $category->slug]) }}?constraint={{ strtolower($size) }}">  {{ $size }} </a>
+                                                                          <a href="{{ route('front.categories.products', ['slug' => $item->category?->slug]) }}?constraint={{ strtolower($size) }}">  {{ $size }} </a>
                                                                         @endforeach
                                                                     </p>
                                                                 </div>
@@ -275,7 +274,6 @@
 
     @php 
     $products = App\Models\Item::with( 'itemVariants.variant.color', 'itemVariants.variant.size')
-        ->where('category_id', $category->id)
         ->where('status', 1)
         ->orderBy('id', 'DESC')
         ->get();
@@ -308,6 +306,7 @@
                     data-owl-mousedrag="on" data-owl-nav="false" data-owl-speed="5000">
 
                     @foreach ($newArrivalItems as $item)
+                
                         <div class="ps-shoes--carousel">
                             <div class="ps-shoe">
                                 <a href="{{ route('front.product', ['slug' => $item->slug]) }}">
@@ -332,7 +331,7 @@
                                             <div class="text-center pb-10">
                                                 <p class="ps-shoe__categories pb-5">
                                                     @foreach ($item->unique_sizes as $size)
-                                                      <a href="{{ route('front.categories.products', ['slug' => $category->slug]) }}?constraint={{ strtolower($size) }}">  {{ $size }} </a>
+                                                      <a href="{{ route('front.categories.products', ['slug' => $item->category?->slug]) }}?constraint={{ strtolower($size) }}">  {{ $size }} </a>
                                                     @endforeach
                                                 </p>
                                             </div>
