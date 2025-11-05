@@ -33,7 +33,11 @@
                                       @endphp
                                     @foreach ($sizes as $size)
                                     @if (isset($size->id))
-                                    <span for="size{{ $size->id }}">{{ $size->name }}</span>
+                                    <span for="size{{ $size->id }}">
+                                        
+                                    <a href="{{ route('front.product', ['slug' => $product->slug]) }}?size={{ $size->name }}"
+                                                                class="#">  {{ $size->name }}</a>  
+                                    </span>
                                     @endif
                                 @endforeach
                                 </p>
