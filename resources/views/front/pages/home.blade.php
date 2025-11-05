@@ -139,8 +139,9 @@
                                                             <div class="text-center pb-10">
                                                                     <p class="ps-shoe__categories pb-5">
                                                                         @foreach ($item->unique_sizes as $size)
-                                                                      
-                                                                          <a href="{{ route('front.categories.products', ['slug' => $item->category?->slug]) }}?constraint={{ strtolower($size) }}">  {{ $size }} </a>
+                                                                      <a href="{{ route('front.product', ['slug' => $item->slug]) }}?size={{ $size }}"
+                                                                class="#">{{ $size }}</a> 
+                                                                        
                                                                         @endforeach
                                                                     </p>
                                                                 </div>
@@ -330,8 +331,12 @@
 
                                             <div class="text-center pb-10">
                                                 <p class="ps-shoe__categories pb-5">
+                                                   {{-- @php  dd($item) @endphp --}}
                                                     @foreach ($item->unique_sizes as $size)
-                                                      <a href="{{ route('front.categories.products', ['slug' => $item->category?->slug]) }}?constraint={{ strtolower($size) }}">  {{ $size }} </a>
+                                              
+                                                     <a href="{{ route('front.product', ['slug' => $item->slug]) }}?size={{ $size }}"
+                                                                class="#">{{ $size }}</a> 
+                                                    {{-- <a href="{{ route('front.categories.products', ['slug' => $item->category?->slug]) }}?constraint={{ strtolower($size) }}">  {{ $size }} </a> --}}
                                                     @endforeach
                                                 </p>
                                             </div>
