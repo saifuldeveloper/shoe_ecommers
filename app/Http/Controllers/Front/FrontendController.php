@@ -349,8 +349,15 @@ class FrontendController extends Controller
         if (Setting::first()->is_campaign == 0) {
             return back();
         }
-        $compaign_items = CampaignItem::whereStatus(1)->orderby('id', 'desc')->get();
-        return view('front.campaign', ['campaign_items' => $compaign_items]);
+        $compaign_items = CampaignItem::whereStatus(1)->orderby('id', 'desc')->with('item')->paginate(10);
+
+        //sub categorys and brands
+        $subCategories = Subcategory::where('status',1)->latest()->get();
+        $brands = Brand::where('status',1)->latest()->get();
+        $allSize = Size::where('status',1)->latest()->get();
+        $allColor  = Color::where('status',1)->latest()->get();
+
+        return view('front.campaign', ['products' => $compaign_items],compact('subCategories','brands','allSize','allColor'));
     }
 
     // -------------------------------- CAMPAIGN ----------------------------------------

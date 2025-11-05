@@ -35,7 +35,7 @@
                 <div class="row g-4">
                     @foreach ($featuredCategories as $category)
                         <div class="col-sm-6 col-xs-6 col-lg-3 col-xs-6">
-                            <a class="ps-offer d-block" href="#">
+                            <a class="ps-offer d-block"   href="{{ route('front.campaign') }}">
                                 <img src="{{ asset('storage/category/' . $category->photo) }}" alt="{{ $category->name }}"
                                     class="img-fluid" />
                             </a>
@@ -52,7 +52,7 @@
                 <div class="row g-4">
                     <div class="col-12">
                         <a class="ps-offer d-block"
-                            href="{{ preg_match('/^https?:\/\//', $heroBanner['url1']) ? $heroBanner['url1'] : '//' . $heroBanner['url1'] }}">
+                            href="{{ route('front.campaign') }}">
                             <img src="{{ asset('storage/banner/' . $heroBanner['img1']) }}"
                                 alt="{{ $heroBanner['title1'] ?? '' }}" class="img-fluid" />
                         </a>
@@ -68,7 +68,7 @@
                 <div class="row g-4">
                     <div class="col-12">
                         <a class="ps-offer d-block"
-                            href="{{ preg_match('/^https?:\/\//', $heroBanner['url2']) ? $heroBanner['url2'] : '//' . $heroBanner['url2'] }}">
+                              href="{{ route('front.campaign') }}">
                             <img src="{{ asset('storage/banner/' . $heroBanner['img2']) }}"
                                 alt="{{ $heroBanner['title2'] ?? '' }}" class="img-fluid" />
                         </a>
@@ -77,7 +77,16 @@
             </div>
         </div>
     </div>
+  @php 
+    $products = App\Models\Item::with( 'itemVariants.variant.color', 'itemVariants.variant.size')
+        ->where('status', 1)
+        ->orderBy('id', 'DESC')
+        ->get();
 
+          $sizes = $products->flatMap(function ($product) {
+                    return $product->itemVariants->pluck('variant.size.name')->filter();
+                })->unique()->values();
+    @endphp
     <div class="ps-section--features-product ps-section masonry-root pb-30">
         <div class="ps-container">
             <div class="ps-section__header pb-40">
@@ -127,6 +136,14 @@
                                                     </div>
                                                     <div class="ps-shoe__variants">
                                                         <div>
+                                                            <div class="text-center pb-10">
+                                                                    <p class="ps-shoe__categories pb-5">
+                                                                        @foreach ($item->unique_sizes as $size)
+                                                                      
+                                                                          <a href="{{ route('front.categories.products', ['slug' => $item->category?->slug]) }}?constraint={{ strtolower($size) }}">  {{ $size }} </a>
+                                                                        @endforeach
+                                                                    </p>
+                                                                </div>
                                                             <a href="{{ route('front.product', $item->slug) }}"
                                                                 class="btn btn-dark shop-now-button">Shop now</a>
                                                         </div>
@@ -153,7 +170,8 @@
                 <div class="row g-4">
                     <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
                         <a class="ps-offer d-block"
-                            href="{{ preg_match('/^https?:\/\//', $thirdBanner['url1']) ? $thirdBanner['url1'] : '//' . $thirdBanner['url1'] }}">
+                              href="{{ route('front.campaign') }}">
+                           
                             <img src="{{ asset('storage/banner/' . $thirdBanner['img1']) }}"
                                 alt="{{ $thirdBanner['title1'] ?? '' }}" class="img-fluid" />
                         </a>
@@ -161,7 +179,7 @@
 
                     <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
                         <a class="ps-offer d-block"
-                            href="{{ preg_match('/^https?:\/\//', $thirdBanner['url2']) ? $thirdBanner['url2'] : '//' . $thirdBanner['url2'] }}">
+                              href="{{ route('front.campaign') }}">
                             <img src="{{ asset('storage/banner/' . $thirdBanner['img2']) }}"
                                 alt="{{ $thirdBanner['title2'] ?? '' }}" class="img-fluid" />
                         </a>
@@ -254,6 +272,17 @@
         </div>
     </div> --}}
 
+    @php 
+    $products = App\Models\Item::with( 'itemVariants.variant.color', 'itemVariants.variant.size')
+        ->where('status', 1)
+        ->orderBy('id', 'DESC')
+        ->get();
+
+          $sizes = $products->flatMap(function ($product) {
+                    return $product->itemVariants->pluck('variant.size.name')->filter();
+                })->unique()->values();
+    @endphp
+
     <div class="ps-section ps-section--top-sales ps-owl-root">
         <div class="ps-container">
             <div class="ps-section__header">
@@ -277,6 +306,7 @@
                     data-owl-mousedrag="on" data-owl-nav="false" data-owl-speed="5000">
 
                     @foreach ($newArrivalItems as $item)
+                
                         <div class="ps-shoes--carousel">
                             <div class="ps-shoe">
                                 <a href="{{ route('front.product', ['slug' => $item->slug]) }}">
@@ -301,11 +331,12 @@
                                             <div class="text-center pb-10">
                                                 <p class="ps-shoe__categories pb-5">
                                                     @foreach ($item->unique_sizes as $size)
-                                                        <span>{{ $size }}</span>
+                                                      <a href="{{ route('front.categories.products', ['slug' => $item->category?->slug]) }}?constraint={{ strtolower($size) }}">  {{ $size }} </a>
                                                     @endforeach
                                                 </p>
                                             </div>
                                             <div>
+                                              
                                                 <a href="{{ route('front.product', $item->slug) }}">
                                                     <span class="btn btn-dark shop-now-button">Shop now</span>
                                                 </a>
