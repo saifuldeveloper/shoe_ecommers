@@ -71,6 +71,13 @@ class AccountController extends Controller
         $earning_days =rtrim($earning_days, ", ");
         $check_income =rtrim($total_incomess, ", ");
 
+        //recently views
+        $viewed = session()->get('viewed_products', []);
+        $recently_viewed = Item::whereIn('id',  $viewed)
+            ->where('status', 1)
+            ->get();
+    
+
         return view('back.dashboard.index',[
             'totalUsers' => $this->repository->getTotalUsers(),
             'totalItems' => $this->repository->getTotalItems(),
@@ -101,6 +108,7 @@ class AccountController extends Controller
             'earning_days' => $earning_days,
             'order_sales' => $sales,
             'total_incomess' => $check_income,
+            'recently_viewed' =>$recently_viewed
         ]);
     }
 

@@ -550,6 +550,108 @@
             </div>
         </div>
     </div>
+     <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">{{__('Top Sales Products')}}</div>
+            </div>
+            <div class="card-body pb-0">
+                <div class="card-body">
+                    @if ($recently_viewed->count() > 0)
+                      <div class="gd-responsive-table">
+                          <table class="table table-bordered table-striped" id="recent-orders" width="100%" cellspacing="0">
+                          <thead>
+                              <th>{{ __('Product Name') }}</th>
+                              <th>{{ __('SKU') }}</th>
+                              <th>{{ __('Stock') }}</th>
+                              <th>{{ __('Discount Price') }}</th>
+                               <th>{{ __('Previous Price') }}</th>
+                          </thead>
+                          <tbody>
+                              @foreach($recently_viewed as $data)
+                              <tr>
+                                  <td>
+                                      <a href="">{{ $data->name}}</a>
+                                  </td>
+                                  <td>
+                                      <a href="">{{  $data->sku}}</a>
+                                  </td>
+                                  <td>
+                                      {{ $data->stock}}
+                                  </td>
+                                  <td>
+                                      {{$data->discount_price}}
+                                  </td>
+                                     <td>
+                                      {{$data->previous_price}}
+                                  </td>
+                              </tr>
+                              @endforeach
+                          </tbody>
+                          </table>
+                      </div>
+
+                      @else
+                      <p class="d-block text-center">
+                          {{ __('No Products Found') }}
+                      </p>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+  <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">{{__('Recently Views Products')}}</div>
+            </div>
+            <div class="card-body pb-0">
+                <div class="card-body">
+                    @if ($recently_viewed->count() > 0)
+                      <div class="gd-responsive-table">
+                          <table class="table table-bordered table-striped" id="recent-orders" width="100%" cellspacing="0">
+                          <thead>
+                              <th>{{ __('Product Name') }}</th>
+                              <th>{{ __('SKU') }}</th>
+                              <th>{{ __('Stock') }}</th>
+                              <th>{{ __('Discount Price') }}</th>
+                               <th>{{ __('Previous Price') }}</th>
+                          </thead>
+                          <tbody>
+                              @foreach($recently_viewed as $data)
+                              <tr>
+                                  <td>
+                                      <a href="">{{ $data->name}}</a>
+                                  </td>
+                                  <td>
+                                      <a href="">{{  $data->sku}}</a>
+                                  </td>
+                                  <td>
+                                      {{ $data->stock}}
+                                  </td>
+                                  <td>
+                                      {{$data->discount_price}}
+                                  </td>
+                                     <td>
+                                      {{$data->previous_price}}
+                                  </td>
+                              </tr>
+                              @endforeach
+                          </tbody>
+                          </table>
+                      </div>
+
+                      @else
+                      <p class="d-block text-center">
+                          {{ __('No Products Found') }}
+                      </p>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
