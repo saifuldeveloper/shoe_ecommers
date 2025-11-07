@@ -35,7 +35,7 @@
                 <div class="row g-4">
                     @foreach ($featuredCategories as $category)
                         <div class="col-sm-6 col-xs-6 col-lg-3 col-xs-6">
-                            <a class="ps-offer d-block"   href="{{ route('front.campaign') }}">
+                            <a class="ps-offer d-block"   href="{{ route('front.categories.products', ['slug'=>$category->slug]) }}">
                                 <img src="{{ asset('storage/category/' . $category->photo) }}" alt="{{ $category->name }}"
                                     class="img-fluid" />
                             </a>
