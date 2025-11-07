@@ -553,37 +553,29 @@
      <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <div class="card-title">{{__('Top Sales Products')}}</div>
+                <div class="card-title">{{__('Top Selling Products')}}</div>
             </div>
             <div class="card-body pb-0">
                 <div class="card-body">
-                    @if ($recently_viewed->count() > 0)
+                    @if ($topSellingProducts->count() > 0)
                       <div class="gd-responsive-table">
                           <table class="table table-bordered table-striped" id="recent-orders" width="100%" cellspacing="0">
                           <thead>
                               <th>{{ __('Product Name') }}</th>
-                              <th>{{ __('SKU') }}</th>
-                              <th>{{ __('Stock') }}</th>
-                              <th>{{ __('Discount Price') }}</th>
-                               <th>{{ __('Previous Price') }}</th>
+                              <th>{{ __('Quantity') }}</th>
+                              <th>{{ __('Total') }}</th>
                           </thead>
                           <tbody>
-                              @foreach($recently_viewed as $data)
+                              @foreach($topSellingProducts as $data)
                               <tr>
                                   <td>
-                                      <a href="">{{ $data->name}}</a>
+                                     {{ $data->item->name}}
                                   </td>
                                   <td>
-                                      <a href="">{{  $data->sku}}</a>
+                                     {{  $data->item->sku}}
                                   </td>
                                   <td>
-                                      {{ $data->stock}}
-                                  </td>
-                                  <td>
-                                      {{$data->discount_price}}
-                                  </td>
-                                     <td>
-                                      {{$data->previous_price}}
+                                      {{ $data->item->stock}}
                                   </td>
                               </tr>
                               @endforeach

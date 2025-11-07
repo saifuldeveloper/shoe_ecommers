@@ -76,7 +76,7 @@ class AccountController extends Controller
         $recently_viewed = Item::whereIn('id',  $viewed)
             ->where('status', 1)
             ->get();
-    
+        
 
         return view('back.dashboard.index',[
             'totalUsers' => $this->repository->getTotalUsers(),
@@ -95,7 +95,7 @@ class AccountController extends Controller
             'totalTicket' => $this->repository->getTotalTicket(),
             'totalBlog' => $this->repository->getTotalBlog(),
             'totalSubscriber' => $this->repository->getTotalSubscriber(),
-            'totalProductSale' => $this->repository->getTotalProductSale(),
+            'totalProductSale' => $this->repository->getTotalProductSale() ?? "",
             'totalCurrentMonthProductSale' => $this->repository->getcurrentMonthProductSale(),
             'totalTodayProductSale' => $this->repository->getTodayProductSale(),
             'totalLatYearProductSale' => $this->repository->getYearProductSale(),
@@ -108,7 +108,8 @@ class AccountController extends Controller
             'earning_days' => $earning_days,
             'order_sales' => $sales,
             'total_incomess' => $check_income,
-            'recently_viewed' =>$recently_viewed
+            'recently_viewed' =>$recently_viewed,
+            'topSellingProducts' => $this->repository->topSellingProducts(),
         ]);
     }
 
