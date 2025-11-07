@@ -305,11 +305,12 @@ class AccountRepository
         $endDate   = Carbon::now();
         $startDate = $endDate->copy()->subDays(30);
 
-      return OrderDetails::selectRaw('item_id')
+      return OrderDetails::selectRaw('item_id, SUM(total_price) AS total, SUM(qty) AS quantity')
         ->join('orders', 'orders.id', '=', 'order_details.order_id')
         ->where('orders.order_status', 'Delivered')
         ->whereBetween('orders.created_at', [$startDate, $endDate]) 
         ->groupBy('item_id')
+        ->orderByDesc('qty')
         ->limit(20)
         ->with('item') 
         ->get();

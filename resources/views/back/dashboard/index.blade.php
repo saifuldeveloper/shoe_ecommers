@@ -572,10 +572,10 @@
                                      {{ $data->item->name}}
                                   </td>
                                   <td>
-                                     {{  $data->item->sku}}
+                                     {{  $data->quantity}}
                                   </td>
                                   <td>
-                                      {{ $data->item->stock}}
+                                      {{ $data->total}}
                                   </td>
                               </tr>
                               @endforeach
