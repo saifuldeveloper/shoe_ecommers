@@ -143,7 +143,7 @@ class FrontendController extends Controller
     }
 
 
-    public function product($slug)
+    public function product(Request $request,$slug)
     {
         $item_details = Item::with('brand')->where('slug', $slug)->first();
         $related_products = Item::where('status', 1)
@@ -171,10 +171,19 @@ class FrontendController extends Controller
             ->where('status', 1)
             ->get();
 
+        //selected size
+        $item = Item::with('itemVariants.variant.size', 'itemVariants.variant.color')
+                ->where('slug', $slug)
+                ->firstOrFail();
+     
+       $size = $request->query('size'); 
+      
         return view('front.pages.product_detail', compact(
             'item_details',
             'related_products',
-            'recently_viewed'
+            'recently_viewed',
+            'item', 
+            'size'
         ));
 
     }

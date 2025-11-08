@@ -108,7 +108,7 @@ class AccountRepository
         foreach($orders as $order){
             $cart = json_decode($order->cart,true);
             foreach($cart as $item){
-                $total_items_qty += $item['qty'];
+                // $total_items_qty += $item['qty'];
             }
         }
         return $total_items_qty;
@@ -127,7 +127,7 @@ class AccountRepository
         foreach($orders as $order){
             $cart = json_decode($order->cart,true);
             foreach($cart as $item){
-                $total_items_qty += $item['qty'];
+                // $total_items_qty += $item['qty'];
             }
         }
         return $total_items_qty;
@@ -152,7 +152,7 @@ class AccountRepository
         foreach($orders as $order){
             $cart = json_decode($order->cart,true);
             foreach($cart as $item){
-                $total_items_qty += $item['qty'];
+                // $total_items_qty += $item['qty'];
             }
         }
         return $total_items_qty;
@@ -298,6 +298,22 @@ class AccountRepository
     public function getTotalSubscriber()
     {
         return Subscriber::count();
+    }
+
+    public function topSellingProducts()
+    {
+        $endDate   = Carbon::now();
+        $startDate = $endDate->copy()->subDays(30);
+
+      return OrderDetails::selectRaw('item_id, SUM(total_price) AS total, SUM(qty) AS quantity')
+        ->join('orders', 'orders.id', '=', 'order_details.order_id')
+        ->where('orders.order_status', 'Delivered')
+        ->whereBetween('orders.created_at', [$startDate, $endDate]) 
+        ->groupBy('item_id')
+        ->orderByDesc('qty')
+        ->limit(20)
+        ->with('item') 
+        ->get();
     }
 
 }

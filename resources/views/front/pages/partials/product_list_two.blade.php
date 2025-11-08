@@ -39,7 +39,7 @@
                 </div>
                 <div>
                     <a href="{{ route('front.product', $product->slug) }}">
-                    <span class="btn btn-dark shop-now-button">shop now</span>
+                    <span class="btn btn-dark shop-now-button">Shop now</span>
                     </a>
                 </div>
             </div>

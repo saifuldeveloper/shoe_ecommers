@@ -12,7 +12,7 @@ use App\Helpers\SmsHelper;
 use App\Models\Notification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-
+use App\Models\OrderDetails;
 class OrderController extends Controller
 {
 
@@ -122,17 +122,29 @@ class OrderController extends Controller
      */
     public function status($id,$field,$value)
     {
-
         $order = Order::find($id);
+        $hasDetails = OrderDetails::where('order_id', $order->id)->first();
+
         if($field == 'payment_status'){
             if($order['payment_status'] == 'Paid'){
                 return redirect()->route('back.order.index')->withErrors(__('Order is already paid.'));
             }
         }
-        if($field == 'order_status'){
-            if($order['order_status'] == 'Delivered'){
+        if ($field == 'order_status') {
+            if ($order['order_status'] == 'Delivered') {
                 return redirect()->route('back.order.index')->withErrors(__('Order is already Delivered.'));
             }
+
+            // 🔹 Order status update
+            $order->order_status = 'Delivered';
+            $order->save();
+
+            // 🔹 Related order details গুলোর status update
+            if ($hasDetails) {
+                OrderDetails::where('order_id', $order->id)->update(['status' => 'Delivered']);
+            }
+
+            return redirect()->route('back.order.index')->withSuccess(__('Order is already Delivered.'));
         }
         $order->update([$field => $value]);
         if($order->payment_status == 'Paid'){

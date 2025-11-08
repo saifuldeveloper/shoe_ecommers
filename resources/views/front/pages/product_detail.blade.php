@@ -77,11 +77,16 @@
                                             src="{{ asset('assets/frontend/images/icon_sizechar.png') }}" /> Size Chart</a>
                                 </div>
                                 <div class="size-option d-flex">
-                                    @foreach ($sizes as $size)
+                                    {{-- @foreach ($sizes as $size)
                                         <input type="radio" id="size{{ $size->id }}" name="size"
                                             value="{{ $size->id }}" checked>
                                         <label for="size{{ $size->id }}">{{ $size->name }}</label>
-                                    @endforeach
+                                    @endforeach --}}
+                                    @foreach ($sizes as $s)
+                                    <input type="radio" id="size{{ $s->id }}" name="size"
+                                        value="{{ $s->id }}" {{ strtolower($s->name) == strtolower($size) ? 'checked' : '' }}>
+                                    <label for="size{{ $s->id }}">{{ $s->name }}</label>
+                                @endforeach
                                 </div>
                             </div>
                         @endif
