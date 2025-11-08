@@ -100,9 +100,9 @@
                     <li class="menu-item menu-item-has-children dropdown">
                         <a href="{{ route('front.campaign') }}">Mega Deals </a>
                     </li>
-                    <li class="menu-item menu-item-has-children dropdown">
+                    {{-- <li class="menu-item menu-item-has-children dropdown">
                         <a href="{{ route('front.categories.products', 'sneakers') }}">Sneakers </a>
-                    </li>
+                    </li> --}}
 
                     @foreach ($categories as $category)
                         <li class="menu-item menu-item-has-children has-mega-menu">
