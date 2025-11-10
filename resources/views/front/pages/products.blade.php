@@ -63,6 +63,13 @@
                     </div>
                 </div>
             </div>
+            {{-- //compare button  --}}
+        <div class="compare-link open">
+        <a href="javascript:void(0)" data-compare-selected="">
+          <span class="compare-text">Compare</span>
+          <span class="countPill countPill--positive countPill--alt" data-compare-count="">7</span>
+        </a>
+      </div>
         <!-- Products Section -->
         <div class="row ps-product__columns" id="product-list">
             @include('front.pages.partials.product_list', ['products' => $products])

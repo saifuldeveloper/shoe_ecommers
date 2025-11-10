@@ -8628,3 +8628,29 @@ body.nav-loaded {
   visibility: visible;
   transform: translateY(0);
 }
+
+/* //compare link  */
+.compare-link {
+    position: fixed;
+    right: 50px;
+    top: 40%;
+    margin-top: 0;
+    z-index: 99999999;
+    max-width: none;
+}
+.compare-link a {
+    font-family: Montserrat, sans-serif;
+    font-size: 16px;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 500;
+    display: inline-block;
+    background: #000;
+    padding: 9px 28px 7px;
+    border: 1px solid #000;
+    border-radius: 3px;
+    letter-spacing: .02em;
+}
+.has_sticky .compare-link {
+    z-index: 3;
+}
