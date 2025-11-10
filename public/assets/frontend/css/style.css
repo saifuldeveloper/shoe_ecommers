@@ -8601,3 +8601,29 @@ body.nav-loaded {
   border-radius: 8px;
   background-color: #e9f3ff;
 }
+
+/* //compare style css  */
+.compare-button svg {
+    fill: #2d2d2d;
+    width: 490px;
+    height: 32px;
+    padding: 3px;
+    position: absolute;
+    top: 56px;
+}
+
+.ps-shoe__thumbnail .compare-button {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  position: absolute;
+  top: 10px;
+}
+
+/* Show compare button on hover */
+.ps-shoe__thumbnail:hover .compare-button {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
