@@ -8667,7 +8667,7 @@ body.nav-loaded {
     background: rgba(0, 0, 0, 0.8); 
     z-index: 999999;
     display: none; 
-    overflow: hidden;
+    overflow: auto;
 }
 
 .modal-overlay.is-visible {
@@ -8685,7 +8685,7 @@ body.nav-loaded {
     flex-direction: column;
     border-radius: 4px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-    overflow: hidden; 
+    /* overflow: auto;  */
 }
 
 /* --- Modal Header --- */
@@ -8730,7 +8730,7 @@ body.nav-loaded {
 
 .comparison-container {
     flex-grow: 1; 
-    overflow-y: hidden; 
+    overflow-y: auto; 
 }
 
 .comparison-scroll-wrapper {
@@ -8741,7 +8741,7 @@ body.nav-loaded {
 }
 
 .comparison-table {
-    width: 100%;
+    width: auto;
     border-collapse: collapse;
     table-layout: fixed; 
 }
@@ -8899,4 +8899,5 @@ body.nav-loaded {
 .product_data_compare {
     /* position: absolute;
     margin-top: 42px; */
+    overflow: auto;
 }

@@ -86,9 +86,6 @@
                       </a>
                     </div>
                     <table class="comparison-table">
-                       <thead>
-                   
-                          </thead>
                          <tbody class="product_data_compare">
                             <tr>
                                  <tr>
@@ -107,7 +104,87 @@
                                         <a href="javascript:void(0)" class="remove-product-btn">Remove</a>
                                     </div>
                                 </th>
+                                  <th class="product-col">
+                                    <div class="product-info">
+                                        <div class="product-image-box">
+                                         </div>
+                                        <span class="brand-name">HUSH PUPPIES</span>
+                                        <span class="product-name">Hush Puppies Men's ALEX Fisherman Style Belt Sandal</span>
+                                        <div class="price-box">
+                                            <span class="old-price">Tk 5,999.00</span>
+                                            <span class="current-price">Tk 3,000.00</span>
+                                        </div>
+                                        <button class="shop-now-btn">SHOP NOW</button>
+                                        <a href="javascript:void(0)" class="remove-product-btn">Remove</a>
+                                    </div>
+                                </th>
+                                  <th class="product-col">
+                                    <div class="product-info">
+                                        <div class="product-image-box">
+                                         </div>
+                                        <span class="brand-name">HUSH PUPPIES</span>
+                                        <span class="product-name">Hush Puppies Men's ALEX Fisherman Style Belt Sandal</span>
+                                        <div class="price-box">
+                                            <span class="old-price">Tk 5,999.00</span>
+                                            <span class="current-price">Tk 3,000.00</span>
+                                        </div>
+                                        <button class="shop-now-btn">SHOP NOW</button>
+                                        <a href="javascript:void(0)" class="remove-product-btn">Remove</a>
+                                    </div>
+                                </th>
                                 <th class="product-col">
+                                    <div class="product-info">
+                                        <div class="product-image-box">
+                                                                                </div>
+                                        <span class="brand-name">BATA</span>
+                                        <span class="product-name">Bata MACHO Men's Belt Sandal</span>
+                                        <div class="price-box">
+                                            <span class="current-price">Tk 1,299.00</span>
+                                        </div>
+                                        <button class="shop-now-btn">SHOP NOW</button>
+                                        <a href="javascript:void(0)" class="remove-product-btn">Remove</a>
+                                    </div>
+                                </th>
+                                  <th class="product-col">
+                                    <div class="product-info">
+                                        <div class="product-image-box">
+                                                                                </div>
+                                        <span class="brand-name">BATA</span>
+                                        <span class="product-name">Bata MACHO Men's Belt Sandal</span>
+                                        <div class="price-box">
+                                            <span class="current-price">Tk 1,299.00</span>
+                                        </div>
+                                        <button class="shop-now-btn">SHOP NOW</button>
+                                        <a href="javascript:void(0)" class="remove-product-btn">Remove</a>
+                                    </div>
+                                </th>
+                                  <th class="product-col">
+                                    <div class="product-info">
+                                        <div class="product-image-box">
+                                                                                </div>
+                                        <span class="brand-name">BATA</span>
+                                        <span class="product-name">Bata MACHO Men's Belt Sandal</span>
+                                        <div class="price-box">
+                                            <span class="current-price">Tk 1,299.00</span>
+                                        </div>
+                                        <button class="shop-now-btn">SHOP NOW</button>
+                                        <a href="javascript:void(0)" class="remove-product-btn">Remove</a>
+                                    </div>
+                                </th>
+                                  <th class="product-col">
+                                    <div class="product-info">
+                                        <div class="product-image-box">
+                                                                                </div>
+                                        <span class="brand-name">BATA</span>
+                                        <span class="product-name">Bata MACHO Men's Belt Sandal</span>
+                                        <div class="price-box">
+                                            <span class="current-price">Tk 1,299.00</span>
+                                        </div>
+                                        <button class="shop-now-btn">SHOP NOW</button>
+                                        <a href="javascript:void(0)" class="remove-product-btn">Remove</a>
+                                    </div>
+                                </th>
+                                  <th class="product-col">
                                     <div class="product-info">
                                         <div class="product-image-box">
                                                                                 </div>
@@ -147,7 +224,7 @@
                                 <td class="data-cell">Premium leather fisherman sandal...</td>
                                 <td class="data-cell">Comfortable, durable men's sandal...</td>
                             </tr>
-                            
+
                             <tr>
                                 <td class="attribute-col-label">AVAILABILITY</td>
                                 <td class="data-cell">In Stock</td>
