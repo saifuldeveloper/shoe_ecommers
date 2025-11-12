@@ -462,7 +462,7 @@ Route::group(['middleware' => 'maintainance'], function () {
         // ************************************ USER PANEL ENDS**********************************************
 
 
-
+   
         // ************************************ FRONTEND **********************************************
         Route::get('/collections/all', [FrontendController::class, 'collectionAll'])->name('front.product.collection.all');
         Route::get('/search', [FrontendController::class, 'categoryBaseProduct'])->name('front.product.search');
@@ -598,3 +598,9 @@ Route::get('/run/queue', function () {
     Artisan::call('queue:work --stop-when-empty');
     return "Queue is running";
 });
+
+
+Route::post('compare/add', [App\Http\Controllers\Front\CustomCompareController::class, 'add'])->name('compare.add');
+Route::post('compare/remove', [App\Http\Controllers\Front\CustomCompareController::class, 'remove'])->name('compare.remove');
+Route::post('compare/clear', [App\Http\Controllers\Front\CustomCompareController::class, 'clear'])->name('compare.clear');
+Route::get('compare/products', [App\Http\Controllers\Front\CustomCompareController::class, 'getProducts'])->name('compare.products');

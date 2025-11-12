@@ -63,6 +63,8 @@
                     </div>
                 </div>
             </div>
+         
+
         <!-- Products Section -->
         <div class="row ps-product__columns" id="product-list">
             @include('front.pages.partials.product_list', ['products' => $products])
@@ -235,4 +237,5 @@ $(document).on('click', '#pagination-links a', function(e) {
     filterProducts(page);
 });
 </script>
+
 @endpush
