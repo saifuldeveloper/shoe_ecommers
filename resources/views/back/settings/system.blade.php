@@ -42,12 +42,11 @@
                                 <div class="col-xl-3 col-lg-3">
                                     <div class="nav flex-column m-3 nav-pills nav-secondary" id="v-pills-tab" role="tablist"
                                         aria-orientation="vertical">
-                                        {{-- <a class="nav-link active" data-toggle="pill"
-                                            href="#basic">{{ __('Basic Information') }}</a> --}}
+                                        <a class="nav-link active" data-toggle="pill"
+                                            href="#basic">{{ __('Basic Information') }}</a>
                                         {{-- <a class="nav-link" data-toggle="pill"
                                             href="#theme">{{ __('Home Page Themes') }}</a> --}}
-                                        <a class="nav-link" data-toggle="pill" href="#me
-                                        ia">{{ __('Media') }}</a>
+                                        <a class="nav-link" data-toggle="pill" href="#media">{{ __('Media') }}</a>
                                         <a class="nav-link" data-toggle="pill" href="#seo">{{ __('Seo') }}</a>
                                        
                                         <a class="nav-link" data-toggle="pill" href="#custom_css"
@@ -91,7 +90,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-lg-8">
+                                                        {{-- <div class="col-lg-8">
                                                             <div class="form-group">
                                                                 <label for="primary_color">{{ __('Primary Colour Code') }}
                                                                     *</label>
@@ -100,8 +99,8 @@
                                                                     placeholder="{{ __('Enter Website Primary Colour Code') }}"
                                                                     value="{{ $setting->primary_color }}">
                                                             </div>
-                                                        </div>
-
+                                                        </div> --}}
+{{-- 
                                                         <div class="col-lg-8">
                                                             <div class="form-group">
                                                                 <label for="is_decimal">{{ __('Decimal Separator') }}
@@ -116,9 +115,9 @@
                                                                         Off</option>
                                                                 </select>
                                                             </div>
-                                                        </div>
+                                                        </div> --}}
 
-                                                        <div class="col-lg-8">
+                                                        {{-- <div class="col-lg-8">
                                                             <div class="form-group">
                                                                 <label
                                                                     for="currency_direction">{{ __('Currency Direction') }}
@@ -133,9 +132,9 @@
                                                                         {{ __('Right (100.00$)') }}</option>
                                                                 </select>
                                                             </div>
-                                                        </div>
+                                                        </div> --}}
 
-                                                        <div class="col-lg-8">
+                                                        {{-- <div class="col-lg-8">
                                                             <div class="form-group">
                                                                 <label
                                                                     for="decimal_separator">{{ __('Decimal Separator') }}
@@ -150,9 +149,9 @@
                                                                         {{ __('Dot (.)') }}</option>
                                                                 </select>
                                                             </div>
-                                                        </div>
+                                                        </div> --}}
 
-                                                        <div class="col-lg-8">
+                                                        {{-- <div class="col-lg-8">
                                                             <div class="form-group">
                                                                 <label
                                                                     for="thousand_separator">{{ __('Thousand Separator') }}
@@ -167,7 +166,7 @@
                                                                         {{ __('Dot (.)') }}</option>
                                                                 </select>
                                                             </div>
-                                                        </div>
+                                                        </div> --}}
 
                                                     </div>
 
