@@ -93,11 +93,13 @@
 						<tr>
 							<th> <input type="checkbox" data-target="product-bulk-delete" class="form-control bulk_all_delete"> </th>
 							<th>{{ __('Image') }}</th>
+							<th>{{ __('Sku') }}</th>
+                            
                             <th width="30%">{{ __('Name') }}</th>
                             <th>{{ __('Price') }}</th>
 							<th>{{ __('Status') }}</th>
-							<th>{{ __('Type') }}</th>
-							<th>{{ __('Item Type') }}</th>
+							{{-- <th>{{ __('Type') }}</th>
+							<th>{{ __('Item Type') }}</th> --}}
 							<th>{{ __('Actions') }}</th>
 						</tr>
 					</thead>

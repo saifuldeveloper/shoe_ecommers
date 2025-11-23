@@ -76,7 +76,7 @@
                         <span class="sub-item">{{ __('Campaign Offer') }}</span>
                     </a>
                 </li>
-                <li>
+                {{-- <li>
                     <a class="sub-link" href="{{ route('back.bulk.product.index') }}">
                         <span class="sub-item">{{ __('CSV Import & Export') }}</span>
                     </a>
@@ -84,7 +84,7 @@
                 <li>
                     <a class="sub-link" href="{{ route('back.review.index') }}">
                       <span class="sub-item">{{ __('Product Reviews') }}</span></a>
-                </li>
+                </li> --}}
             </ul>
         </div>
     </li>
@@ -275,14 +275,14 @@
                         <span class="sub-item">{{ __('SMS Settings') }}</span>
                     </a>
                 </li> --}}
-                <li>
+                {{-- <li>
                     <a class="sub-link" href="{{ route('back.subscribers.announcement') }}">
                       <span class="sub-item">{{ __('Announcement') }}</span></a>
                 </li>
                 <li>
                     <a class="sub-link" href="{{ route('back.cookie.alert') }}">
                       <span class="sub-item">{{ __('Cookies Alert') }}</span></a>
-                </li>
+                </li> --}}
 
                 {{-- <li>
                     <a class="sub-link" href="{{ route('back.setting.maintainance') }}">
@@ -351,12 +351,12 @@
     </li>
 
 
-    <li class="nav-item">
+    {{-- <li class="nav-item">
         <a href="{{ route('back.subscribers.index') }}">
             <i class="fab fa-telegram-plane"></i>
             <p>{{ __('Subscribers List') }}</p>
         </a>
-    </li>
+    </li> --}}
 
     <li class="nav-item">
         <a data-toggle="collapse" href="#user">

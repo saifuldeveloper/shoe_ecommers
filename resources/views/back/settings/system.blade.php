@@ -42,19 +42,20 @@
                                 <div class="col-xl-3 col-lg-3">
                                     <div class="nav flex-column m-3 nav-pills nav-secondary" id="v-pills-tab" role="tablist"
                                         aria-orientation="vertical">
-                                        <a class="nav-link active" data-toggle="pill"
-                                            href="#basic">{{ __('Basic Information') }}</a>
+                                        {{-- <a class="nav-link active" data-toggle="pill"
+                                            href="#basic">{{ __('Basic Information') }}</a> --}}
                                         {{-- <a class="nav-link" data-toggle="pill"
                                             href="#theme">{{ __('Home Page Themes') }}</a> --}}
-                                        <a class="nav-link" data-toggle="pill" href="#media">{{ __('Media') }}</a>
+                                        <a class="nav-link" data-toggle="pill" href="#me
+                                        ia">{{ __('Media') }}</a>
                                         <a class="nav-link" data-toggle="pill" href="#seo">{{ __('Seo') }}</a>
                                        
                                         <a class="nav-link" data-toggle="pill" href="#custom_css"
                                             id="newcss">{{ __('Custom Css') }}</a>
                                         <a class="nav-link" data-toggle="pill"
                                             href="#google_recaptcha">{{ __('Scripts') }}</a>
-                                        <a class="nav-link" data-toggle="pill"
-                                            href="#shop">{{ __('Shop & Checkout Page') }}</a>
+                                        {{-- <a class="nav-link" data-toggle="pill"
+                                            href="#shop">{{ __('Shop & Checkout Page') }}</a> --}}
                                         <a class="nav-link" data-toggle="pill"
                                             href="#footer">{{ __('Footer & Contact Page') }}</a>
                                     </div>

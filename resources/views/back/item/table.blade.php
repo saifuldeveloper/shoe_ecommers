@@ -11,6 +11,9 @@
         alt="Image Not Found">
     </td>
     <td>
+        {{ $data->sku }}
+    </td>
+    <td>
         {{ $data->name }}
     </td>
     <td>
@@ -27,7 +30,7 @@
             </div>
           </div>
     </td>
-    <td>
+    {{-- <td>
       <p class="
         @if($data->is_type == 'undefine')
         @else
@@ -43,7 +46,7 @@
     </td>
     <td>
       {{ucfirst($data->item_type)}}
-    </td>
+    </td> --}}
     <td>
         <div class="dropdown">
             <button class="btn btn-secondary btn-sm  dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
