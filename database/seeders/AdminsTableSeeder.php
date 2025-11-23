@@ -25,12 +25,12 @@ class AdminsTableSeeder extends Seeder
                 'name' => 'Admin',
                 'email' => 'admin@gmail.com',
                 'phone' => '01629552892',
-                'photo' => '1631023655pexels-moose-photos-1036627.jpg',
+                'photo' => 'OM_1763871787mNlXAJKO.png',
                 'role_id' => 1,
                 'password' => '$2y$10$sSOEgLz71CqkTogPNtBv6.g0fFNF8jsYuuqWNMcRwFtxEThctoBT.',
                 'email_token' => NULL,
                 'created_at' => '2018-03-01 05:27:08',
-                'updated_at' => '2021-12-04 11:04:55',
+                'updated_at' => '2025-11-23 04:23:07',
             ),
             1 => 
             array (
