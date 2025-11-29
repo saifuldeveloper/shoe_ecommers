@@ -6,7 +6,7 @@
         <td>
             {{ Str::limit(strip_tags($data->content), 250, '...') }}
         </td>
-        <td>
+        {{-- <td>
 
             <div class="dropdown">
                 <button class="btn btn-success btn-sm btn-rounded dropdown-toggle" type="button" id="dropdownMenuButton"
@@ -22,7 +22,7 @@
 
             </div>
 
-        </td>
+        </td> --}}
         <td>
             <div class="action-list">
                 <a class="btn btn-secondary btn-sm btn-rounded" href="{{ route('back.page.edit', [$data->id]) }}">
