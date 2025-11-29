@@ -16,7 +16,7 @@
                     <h3 class="mb-0 bc-title"><b>{{ __('Basic Information') }}</b></h3>
 
                 </div>
-            </div>
+            </div
         </div>
 
         <div class="row">
@@ -87,6 +87,15 @@
                                                                     class="form-control" id="home_page_title"
                                                                     placeholder="{{ __('Enter Home Page Title') }}"
                                                                     value="{{ $setting->home_page_title }}">
+                                                            </div>
+                                                        </div>
+                                                          <div class="col-lg-8">
+                                                            <div class="form-group">
+                                                                <label for="title">{{ __('WhatsApp Number') }}</label>
+                                                                <input type="text" name="whatsapp_number" class="form-control"
+                                                                    id="whatsapp_number"
+                                                                    placeholder="{{ __('Enter WhatsApp Number') }}"
+                                                                    value="{{ $setting->whatsapp_number }}">
                                                             </div>
                                                         </div>
 

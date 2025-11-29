@@ -7,20 +7,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
+    <!-- SEO Meta Tags-->
+    @yield('meta')
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link href="apple-touch-icon.png" rel="apple-touch-icon" />
-    <link href="favicon.png" rel="icon" />
-    <meta name="author" content="NOUTHEMES" />
+    <link rel="icon" type="image/png" href="{{ url('/storage/generalSettings/' . $setting->favicon) }}">
+    <link rel="apple-touch-icon" href="{{ url('/storage/generalSettings/' . $setting->favicon) }}">
+    <meta name="author" content="{{ $setting->title }}">
+    <meta name="distribution" content="web">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ url('/storage/generalSettings/' . $setting->favicon) }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url('/storage/generalSettings/' . $setting->favicon) }}">
+    <link rel="apple-touch-icon" sizes="167x167" href="{{ url('/storage/generalSettings/' . $setting->favicon) }}">
     <meta name="keywords" content="Default Description" />
-    <meta name="description" content="Default keyword" />
-    <title>Shoe - Homepage</title>
+    <title> {{ $setting->title }} </title>
+
+
     @stack('css')
     <!-- Fonts-->
     <link
         href="https://fonts.googleapis.com/css?family=Archivo+Narrow:300,400,700%7CMontserrat:300,400,500,600,700,800,900"
         rel="stylesheet" />
-          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <link href="{{ asset('assets/frontend/plugins/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/frontend/plugins/ps-icon/style.css') }}" rel="stylesheet" />
     <!-- CSS Library-->
@@ -37,7 +44,29 @@
     <link href="{{ asset('assets/frontend/plugins/revolution/css/layers.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/frontend/plugins/revolution/css/navigation.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/frontend/css/style.css') }}" rel="stylesheet" />
-     <link href="{{ asset('assets/frontend/css/custom_style.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/frontend/css/custom_style.css') }}" rel="stylesheet" />
+
+    <style>
+        {{ $setting->custom_css }}
+    </style>
+
+    {{-- Google AdSense Start --}}
+    @if ($setting->is_google_adsense == '1')
+        {!! $setting->google_adsense !!}
+    @endif
+    {{-- Google AdSense End --}}
+
+    {{-- Google AnalyTics Start --}}
+    @if ($setting->is_google_analytics == '1')
+        {!! $setting->google_analytics !!}
+    @endif
+    {{-- Google AnalyTics End --}}
+
+    {{-- Facebook pixel  Start --}}
+    @if ($setting->is_facebook_pixel == '1')
+        {!! $setting->facebook_pixel !!}
+    @endif
+    {{-- Facebook pixel End --}}
 
 </head>
 
@@ -54,7 +83,7 @@
 
     <!-- Bootstrap -->
     <script src="{{ asset('assets/frontend/plugins/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('assets/back/js/plugin/bootstrap-notify/bootstrap-notify.min.js') }}">
+    <script type="text/javascript" src="{{ asset('assets/back/js/plugin/bootstrap-notify/bootstrap-notify.min.js') }}">
     </script>
     <!-- Other JS plugins -->
     <script src="{{ asset('assets/frontend/plugins/jquery-bar-rating/dist/jquery.barrating.min.js') }}"></script>
@@ -118,10 +147,9 @@
                 });
             }
         });
-        
     </script>
-    
-@stack('js')
+
+    @stack('js')
 </body>
 
 </html>

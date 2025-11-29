@@ -87,6 +87,16 @@
 								</div>
 
 								<div class="form-group">
+									<label for="api_base_url">{{ __('Api Base url') }} *</label>
+									<input type="text" name="api_base_url" class="form-control" id="api_base_url"
+										placeholder="{{ __('Enter Api_base_url Number') }}" value="{{ old('api_base_url') }}">
+								</div>
+								<div class="form-group">
+									<label for="secret_key">{{ __('SECRET KEY') }} *</label>
+									<input type="text" name="secret_key" class="form-control" id="secret_key"
+										placeholder="{{ __('Enter SECRET KEY Number') }}" value="{{ old('secret_key') }}">
+								</div>
+								<div class="form-group">
 									<button type="submit"
 										class="btn btn-secondary ">{{ __('Submit') }}</button>
 								</div>

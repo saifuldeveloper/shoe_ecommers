@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('favicon')->nullable();
             $table->string('loader')->nullable();
             $table->boolean('is_loader')->default(false);
+            $table->string('whatsapp_number')->nullable();
             $table->string('feature_image')->nullable();
             $table->string('primary_color')->nullable()->default('#4f6df5');
             $table->text('overlay')->nullable();

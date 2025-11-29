@@ -21,6 +21,8 @@ return new class extends Migration
             $table->decimal('latitude', 10, 7)->nullable();
             $table->decimal('longitude', 10, 7)->nullable();
             $table->string('mobile');
+            $table->longText('api_base_url')->nullable();
+            $table->string('secret_key')->nullable();
             $table->timestamps();
         });
     }

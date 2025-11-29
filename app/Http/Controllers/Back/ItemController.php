@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Back;
 
 use App\{
     Models\Item,
+    Models\Store,
     Models\Gallery,
     Http\Requests\ItemRequest,
     Http\Controllers\Controller,
@@ -19,6 +20,7 @@ use App\Models\Size;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class ItemController extends Controller
 {
@@ -67,8 +69,8 @@ class ItemController extends Controller
         $orderby = $request->has('orderby') ? ($request->orderby ? $request->orderby : 'desc') : 'desc';
 
         $datas = Item::when($item_type, function ($query, $item_type) {
-                return $query->where('item_type', $item_type);
-            })
+            return $query->where('item_type', $item_type);
+        })
             ->when($is_type, function ($query, $is_type) {
                 if ($is_type != 'outofstock') {
                     return $query->where('is_type', $is_type);
@@ -159,7 +161,7 @@ class ItemController extends Controller
             } else {
                 return redirect(route('back.item.edit', $item->id))->withSuccess(__('Product Added Successfully.'));
             }
-         } catch (\Throwable $e) {
+        } catch (\Throwable $e) {
             DB::rollBack();
             return redirect()->back()->withErrors(__('Something went wrong.'))->withInput();
         }
@@ -379,4 +381,170 @@ class ItemController extends Controller
         $datas = Item::where('item_type', 'normal')->where('stock', 0)->get();
         return view('back.item.stockout', compact('datas'));
     }
+
+
+    // public function getLiveRetailQty($code)
+    // {
+    //     $totalRetailQty = 0;
+    //     $stores = Store::whereNotNull('api_base_url')
+    //         ->whereNotNull('secret_key')
+    //         ->get();
+
+    //     foreach ($stores as $store) {
+    //         try {
+
+    //             $apiUrl = rtrim($store->api_base_url, '/') . '/product/info';
+
+    //             $response = Http::timeout(3)->get($apiUrl, [
+    //                 'code' => $code,
+    //                 'secret_key' => $store->secret_key,
+    //             ]);
+
+    //             if ($response->successful()) {
+
+    //                 $json = $response->json();
+
+    //                 if (!empty($json['status']) && $json['status'] === true) {
+
+    //                     $qty = $json['data']['qty'] ?? 0;
+
+    //                     // SUM ALL STORE QTY
+    //                     $totalRetailQty += (int) $qty;
+    //                 }
+    //             }
+
+    //         } catch (\Throwable $e) {
+    //             // এক স্টোর fail হলে অন্যগুলো চলবে
+    //             continue;
+    //         }
+    //     }
+
+    //     return response()->json([
+    //         'qty' => $totalRetailQty
+    //     ]);
+    // }
+
+
+
+    // public function getLiveRetailQty($code)
+    // {
+    //     $totalRetailQty = 0;
+    //     $debug = [];
+
+    //     $stores = Store::whereNotNull('api_base_url')
+    //         ->whereNotNull('secret_key')
+    //         ->get();
+
+
+
+    //     foreach ($stores as $store) {
+    //         try {
+    //             $apiUrl = rtrim($store->api_base_url, '/') . '/product/info';
+    //             $response = Http::timeout(3)->get($apiUrl, [
+    //                 'code' => $code,
+    //                 'secret_key' => $store->secret_key,
+    //             ]);
+
+    //             if ($response->successful()) {
+    //                 $json = $response->json();
+    //                 // store-wise debug
+    //                 $debug[] = [
+    //                     'store' => $store->name ?? $store->id,
+    //                     'response' => $json
+    //                 ];
+
+    //                 if (!empty($json['status']) && $json['status'] === true) {
+    //                     $qty = $json['data']['qty'] ?? 0;
+    //                     $totalRetailQty += (int) $qty;
+    //                 }
+    //             } else {
+    //                 $debug[] = [
+    //                     'store' => $store->name ?? $store->id,
+    //                     'response' => 'HTTP FAILED'
+    //                 ];
+    //             }
+
+    //         } catch (\Throwable $e) {
+    //             $debug[] = [
+    //                 'store' => $store->name ?? $store->id,
+    //                 'error' => $e->getMessage()
+    //             ];
+    //             continue;
+    //         }
+    //     }
+
+    //     return response()->json([
+    //         'qty' => $totalRetailQty,
+    //         'debug' => $debug
+    //     ]);
+    // }
+
+
+
+
+
+    public function getLiveRetailQty($code)
+    {
+        $totalRetailQty = 0;
+        $storesOutput = [];
+
+        $stores = Store::whereNotNull('api_base_url')
+            ->whereNotNull('secret_key')
+            ->get();
+
+        foreach ($stores as $store) {
+            try {
+                $apiUrl = rtrim($store->api_base_url, '/') . '/product/info';
+
+                $response = Http::timeout(3)->get($apiUrl, [
+                    'code' => $code,
+                    'secret_key' => $store->secret_key,
+                ]);
+
+                if ($response->successful()) {
+                    $json = $response->json();
+
+                    if (!empty($json['status']) && $json['status'] === true) {
+
+                        $storeQty = (int) ($json['data']['qty'] ?? 0);
+                        $totalRetailQty += $storeQty;
+
+
+                        // dd($json['data']['product_variants']);
+                        // --- Variant List ---
+                        $variants = [];
+                        if (!empty($json['data']['product_variants']) && is_array($json['data']['product_variants'])) {
+                            foreach ($json['data']['product_variants'] as $variant) {
+                                $variants[] = [
+                                    'variant' => $variant['item_code'] ?? '',
+                                    'qty' => (int) ($variant['qty'] ?? 0),
+                                ];
+                            }
+                        }
+
+                        // Store Output
+                        $storesOutput[] = [
+                            'store' => $store->name ?? $store->id,
+                            'total_qty' => $storeQty,
+                            'variants' => $variants
+                        ];
+                    }
+
+                }
+
+            } catch (\Throwable $e) {
+                $storesOutput[] = [
+                    'store' => $store->name ?? $store->id,
+                    'error' => $e->getMessage()
+                ];
+                continue;
+            }
+        }
+
+        return response()->json([
+            'total_qty' => $totalRetailQty,
+            'stores' => $storesOutput
+        ]);
+    }
+
 }
