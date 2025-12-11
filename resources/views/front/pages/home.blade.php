@@ -294,7 +294,7 @@
 
                     <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                         <div class="ps-owl-actions">
-                            <a  style="color:#f59b34" href="{{ route('front.new.products') }}">
+                            <a target="__blank"  style="color:#f59b34" href="{{ route('front.new.products') }}">
                                 View All
                             </a>
                                  <a class="ps-prev" href="#">Prev</a><a class="ps-next" href="#">Next</a>
