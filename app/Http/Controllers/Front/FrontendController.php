@@ -672,4 +672,26 @@ class FrontendController extends Controller
         return view('front.pages.query_products',compact('products'));
     }
 
+
+
+     /**
+     * Summary of showSearchProducts
+     * @return void
+     */
+    public function newArrivalProduct()
+    {
+        $products = Item::with('itemVariants.variant.color', 'itemVariants.variant.size')
+              ->where('status', 1)->where('is_type', 'new')
+                ->paginate(20);
+
+        $subCategories = Subcategory::where('status',1)->latest()->get();
+        $brands = Brand::where('status',1)->latest()->get();
+        $allSize = Size::where('status',1)->latest()->get();
+        $allColor  = Color::where('status',1)->latest()->get();
+
+        return view('front.pages.new_arrival_products',compact('products','subCategories','brands','allSize','allColor'));
+    }
+
+
+
 }

@@ -11,7 +11,7 @@
                         <img alt="Slider Image" class="rev-slidebg" data-bgfit="cover" data-bgparallax="5"
                             data-bgposition="center center" data-bgrepeat="no-repeat" data-no-retina=""
                             src="{{ $slider->photo ? asset('storage/slider/' . $slider->photo) : asset('img/default.png') }}" />
-
+                    
                         <div class="tp-caption ps-banner__header"
                             data-frames='[{"delay":1000,"speed":1500,"frame":"0","from":"x:50px;opacity:0;","to":"o:1;","ease":"Power3.easeInOut"}]'
                             data-x="left" data-y="middle" id="layer-{{ $loop->iteration }}">
@@ -120,9 +120,9 @@
                         @foreach ($featured_items as $item)
                             <div class="grid-item {{ Str::slug($item->category->slug ?? '') }}">
                                 <div class="grid-item__content-wrapper">
-                                    <a href="{{ route('front.product', $item->slug) }}">
+                                    <a target="__blank"  href="{{ route('front.product', $item->slug) }}">
                                         <div class="ps-shoe mb-30">
-                                            <a href="{{ route('front.product', $item->slug) }}">
+                                            <a target="__blank" href="{{ route('front.product', $item->slug) }}">
                                                 <div class="ps-shoe__thumbnail">
                                                     <img alt="" src="{{ asset('storage/items/' . $item->photo ?? '') }}" />
                                                     <img class="hover-img" src="{{ asset('storage/items/' . $item->photo ?? '') }}"alt="">
@@ -131,7 +131,7 @@
                                                 </div>
                                                 <div class="ps-shoe__content">
                                                     <div class="ps-shoe__detail">
-                                                        <a class="ps-shoe__name"  href="{{ route('front.product', $item->slug) }}">{{ $item->name ?? '' }}</a>
+                                                        <a  class="ps-shoe__name"  href="{{ route('front.product', $item->slug) }}" target="__blank">{{ $item->name ?? '' }}</a>
                                                         <div> <span class="ps-shoe__price"> &#2547; {{ $item->discount_price ?? '' }}</span></div>
                                                     </div>
                                                     <div class="ps-shoe__variants">
@@ -139,14 +139,14 @@
                                                             <div class="text-center pb-10">
                                                                     <p class="ps-shoe__categories pb-5">
                                                                         @foreach ($item->unique_sizes as $size)
-                                                                      <a href="{{ route('front.product', ['slug' => $item->slug]) }}?size={{ $size }}"
-                                                                class="#">{{ $size }}</a> 
+                                                                      <a  href="{{ route('front.product', ['slug' => $item->slug]) }}?size={{ $size }}"
+                                                                class="#" target="__blank">{{ $size }}</a> 
                                                                         
                                                                         @endforeach
                                                                     </p>
                                                                 </div>
-                                                            <a href="{{ route('front.product', $item->slug) }}"
-                                                                class="btn btn-dark shop-now-button">Shop now</a>
+                                                            <a  href="{{ route('front.product', $item->slug) }}"
+                                                                class="btn btn-dark shop-now-button" target="__blank">Shop now</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -170,7 +170,7 @@
             <div class="ps-section__content pb-35">
                 <div class="row g-4">
                     <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-                        <a class="ps-offer d-block"
+                        <a target="__blank" class="ps-offer d-block"
                               href="{{ route('front.campaign') }}">
                            
                             <img src="{{ asset('storage/banner/' . $thirdBanner['img1']) }}"
@@ -179,7 +179,7 @@
                     </div>
 
                     <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-                        <a class="ps-offer d-block"
+                        <a target="__blank" class="ps-offer d-block"
                               href="{{ route('front.campaign') }}">
                             <img src="{{ asset('storage/banner/' . $thirdBanner['img2']) }}"
                                 alt="{{ $thirdBanner['title2'] ?? '' }}" class="img-fluid" />
@@ -294,7 +294,10 @@
 
                     <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                         <div class="ps-owl-actions">
-                            <a class="ps-prev" href="#">Prev</a><a class="ps-next" href="#">Next</a>
+                            <a  style="color:#f59b34" href="{{ route('front.new.products') }}">
+                                View All
+                            </a>
+                                 <a class="ps-prev" href="#">Prev</a><a class="ps-next" href="#">Next</a>
                         </div>
                     </div>
                 </div>
@@ -310,7 +313,7 @@
                 
                         <div class="ps-shoes--carousel">
                             <div class="ps-shoe">
-                                <a href="{{ route('front.product', ['slug' => $item->slug]) }}">
+                                <a target="__blank" href="{{ route('front.product', ['slug' => $item->slug]) }}">
                                     <div class="ps-shoe__thumbnail">
                                         {{-- <div class="ps-badge"><span>New</span></div> --}}
                                         <img alt="" src="{{ asset('storage/items/' . $item->photo) }}" />
@@ -334,7 +337,7 @@
                                                    {{-- @php  dd($item) @endphp --}}
                                                     @foreach ($item->unique_sizes as $size)
                                               
-                                                     <a href="{{ route('front.product', ['slug' => $item->slug]) }}?size={{ $size }}"
+                                                     <a target="__blank" href="{{ route('front.product', ['slug' => $item->slug]) }}?size={{ $size }}"
                                                                 class="#">{{ $size }}</a> 
                                                     {{-- <a href="{{ route('front.categories.products', ['slug' => $item->category?->slug]) }}?constraint={{ strtolower($size) }}">  {{ $size }} </a> --}}
                                                     @endforeach
@@ -342,7 +345,7 @@
                                             </div>
                                             <div>
                                               
-                                                <a href="{{ route('front.product', $item->slug) }}">
+                                                <a href="{{ route('front.product', $item->slug) }}" target="__blank">
                                                     <span class="btn btn-dark shop-now-button">Shop now</span>
                                                 </a>
                                             </div>
