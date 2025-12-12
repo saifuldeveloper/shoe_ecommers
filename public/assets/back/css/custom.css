@@ -487,3 +487,28 @@ input.btn.btn-primary.note-btn.note-btn-primary.note-video-btn {
     border: 1px solid #dc3545; /* Bootstrap red */
     border-radius: 0.25rem;
 }
+
+
+
+/* custom css  */
+.sticky-card {
+    position: fixed;
+    width: 24.5%;
+    top: 182px;
+    z-index: 1020;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.products_all_Cards{
+  margin-top: 100px;
+}
+.sticky-header-panel {
+    position: fixed;
+    width: 78%;
+    top: 79px;
+    z-index: 1020;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+    
+.create_products_Card{
+   margin-top: 100px;
+}

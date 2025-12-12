@@ -212,14 +212,14 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4">
-                <div class="card">
-                    <div class="card-body">
-                        <input type="hidden" class="check_button" name="is_button" value="0">
-                        <button type="submit" class="btn btn-secondary mr-2">{{ __('Save') }}</button>
-                    </div>
+            <div class="col-lg-4 ">
+            <div class="card sticky-card">
+                <div class="card-body">
+                    <input type="hidden" class="check_button" name="is_button" value="0">
+                    <button type="submit" class="btn btn-secondary mr-2">{{ __('Save') }}</button>
                 </div>
-                <div class="card">
+            </div>
+                <div class="card create_products_Card">
                     <div class="card-body">
                         <div class="form-group">
                             <label for="discount_price">{{ __('Current Price') }}

@@ -28,8 +28,8 @@
     <input type="hidden" id="product_url" value="{{route('back.item.index')}}">
 
 	<!-- DataTales -->
-	<div class="card shadow mb-4">
-		<div class="card-body">
+	<div class="card products_all_Cards shadow mb-4">
+		<div class="card-body ">
             @include('alerts.alerts')
             <form action="{{route('back.item.index')}}" method="GET">
                 <div class="product-filter-area">
