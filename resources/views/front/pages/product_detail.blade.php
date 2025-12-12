@@ -44,7 +44,7 @@
                     <!-- Product Details -->
                     <div class="col-md-6">
                         <h4 class="item-name"><strong>{{ $item_details->name ?? '' }}</strong></h4>
-                        <p><strong>Brand:</strong> {{ $item_details->brand->name ?? '' }}</p>
+                        {{-- <p><strong>Brand:</strong> {{ $item_details->brand->name ?? '' }}</p> --}}
                         @if ($item_details->code)
                             <p><strong>Product Code:</strong> {{ $item_details->code ?? '' }}</p>
                         @endif
