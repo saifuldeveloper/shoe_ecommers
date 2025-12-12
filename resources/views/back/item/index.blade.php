@@ -1,6 +1,5 @@
 @extends('master.back')
 
-
 @section('content')
 
 
@@ -9,7 +8,7 @@
 <div class="container-fluid">
 
 	<!-- Page Heading -->
-    <div class="card mb-4">
+   <div class="card mb-4 sticky-header-panel">
         <div class="card-body">
             <div class="d-sm-flex align-items-center justify-content-between">
                 <h3 class="mb-0 bc-title"><b>{{ __('All Products') }}</b></h3>

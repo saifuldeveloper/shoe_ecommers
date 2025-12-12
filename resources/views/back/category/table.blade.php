@@ -13,10 +13,17 @@
             <button class="btn btn-{{  $data->status == 1 ? 'success' : 'danger'  }} btn-sm  dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               {{  $data->status == 1 ? __('Enabled') : __('Disabled')  }}
             </button>
-            <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="{{ route('back.category.status',[$data->id,1]) }}">{{ __('Enable') }}</a>
-              <a class="dropdown-item" href="{{ route('back.category.status',[$data->id,0]) }}">{{ __('Disable') }}</a>
-            </div>
+          <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item {{ $data->status == 1 ? 'active' : '' }}" 
+            href="{{ route('back.category.status',[$data->id,1]) }}">
+              {{ __('Enable') }}
+          </a>
+
+          <a class="dropdown-item {{ $data->status == 0 ? 'active' : '' }}" 
+            href="{{ route('back.category.status',[$data->id,0]) }}">
+              {{ __('Disable') }}
+          </a>
+      </div>
           </div>
 
         </div>
