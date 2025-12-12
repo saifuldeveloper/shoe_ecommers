@@ -159,7 +159,6 @@ document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.itemPriceGrandTotal').forEach(el => {
             el.textContent = new Intl.NumberFormat('en-US', {
                 style: 'currency',
-                currency: 'USD'
             }).format(total);
         });
     }

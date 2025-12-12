@@ -504,6 +504,10 @@ Route::group(['middleware' => 'maintainance'], function () {
         Route::get('set/language/{id}', [FrontendController::class, 'language'])->name('front.language.setup');
 
 
+        //new reoutes
+        Route::get('products/newarrival', [FrontendController::class, 'newArrivalProduct'])->name('front.new.products');
+
+
 
         // ---------- EXTRA INDEX ROUTE ----------//
         Route::get('popular/category/get/{slug}/{type}/{check}', 'Front\HomeCustomizeController@CategoryGet')->name('front.popular.category');
