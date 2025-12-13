@@ -4,18 +4,7 @@
 @endsection
 @section('content')
 <div class="mt-4" style="margin-top: 40px"></div>
-    <!-- Page Title-->
-    {{-- <div class="page-title">
-        <div class="container">
-            <div class="column">
-                <ul class="breadcrumbs">
-                    <li><a href="{{ route('front.index') }}">{{ __('Home') }}</a> </li>
-                    <li class="separator"></li>
-                    <li>{{ __('Review your order and pay') }}</li>
-                </ul>
-            </div>
-        </div>
-    </div> --}}
+  
     <!-- Page Content-->
     <div class="container padding-bottom-3x mb-4  checkut-page">
         <div class="row">
@@ -332,45 +321,40 @@
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         const paymentCards = document.querySelectorAll('.payment-card-custom');
-        // SSLCOMMERZ-এর মতো গেটওয়ের ডিটেইলস-এর জন্য body element
+        // SSLCOMMERZ
         const paymentBodies = document.querySelectorAll('.payment-card-body'); 
-        // আপনার ফর্মে পাঠানোর জন্য HIDDEN input-এর ID যদি থাকে
+     
         const hiddenPaymentInput = document.getElementById('selected-payment-method');
 
-        // Body-গুলোকে প্রথমে লুকিয়ে ফেলার জন্য একটি CSS ক্লাস যোগ করুন
+        // Body-
         const styleSheet = document.createElement('style');
         styleSheet.textContent = '.payment-card-body { display: none; }';
         document.head.appendChild(styleSheet);
 
 
-        // 1. Selection ও Collapsible State আপডেট করার ফাংশন
+        // 1. Selection ও Collapsible State 
         function updateSelection(cardElement) {
-            // A. সব কার্ড থেকে 'selected' ক্লাস সরান
+          
             paymentCards.forEach(card => card.classList.remove('selected'));
-            
-            // B. সব বডি (Details) লুকিয়ে দিন
             paymentBodies.forEach(body => body.style.display = 'none');
-
-            // C. ক্লিক করা কার্ডটিকে 'selected' করুন
             cardElement.classList.add('selected');
             
-            // D. যদি কার্ডটির ভেতরে body থাকে, তবে তা দেখান (Collapsing/Expanding functionality)
             const cardBody = cardElement.querySelector('.payment-card-body');
             if (cardBody) {
-                cardBody.style.display = 'block'; // দেখানোর জন্য block করুন
+                cardBody.style.display = 'block'; 
             }
             
-            // E. hidden input আপডেট করুন (যদি আপনি ফর্মে এটি ব্যবহার করেন)
+    
             const method = cardElement.getAttribute('data-method');
             if (hiddenPaymentInput) {
                 hiddenPaymentInput.value = method;
             }
         }
 
-        // 2. Click Event Listener যুক্ত করা
+        // 2. Click Event Listener 
         paymentCards.forEach(card => {
             card.addEventListener('click', function() {
-                // রেডিও বাটন চেক করা
+                // radio btn
                 const radio = this.querySelector('.payment-radio-input');
                 if (radio) {
                     radio.checked = true;
@@ -379,14 +363,13 @@
             });
         });
 
-        // 3. Initial Setup: সবার আগে নির্বাচিত কার্ডটি (Default checked radio) ঠিক করা
+        // 3. Initial Setup: 
         const initiallyCheckedRadio = document.querySelector('.payment-card-custom .payment-radio-input:checked');
         if (initiallyCheckedRadio) {
-            // রেডিও বাটনটির অভিভাবক কার্ডটি খুঁজে বের করা
+          
             const initiallyCheckedCard = initiallyCheckedRadio.closest('.payment-card-custom');
             updateSelection(initiallyCheckedCard);
         } else if (paymentCards.length > 0) {
-            // যদি কিছুই checked না থাকে, তবে প্রথম কার্ডটি (SSLCOMMERZ) নির্বাচন করা
             updateSelection(paymentCards[0]);
         }
     });
