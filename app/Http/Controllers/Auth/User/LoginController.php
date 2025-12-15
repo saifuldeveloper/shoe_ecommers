@@ -14,6 +14,7 @@ use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Session;
+use App\Models\MemberShip;
 
 class LoginController extends Controller
 {
@@ -40,6 +41,17 @@ class LoginController extends Controller
 
     // Attempt to log the user in
     if (Auth::attempt(['email' => $request->login_email, 'password' => $request->login_password])) {
+      $user = Auth::user();
+      
+      //member ship create
+      MemberShip::firstOrCreate(
+        ['user_id' => $user->id],
+        [
+            'total_purchase' => 0,
+            'membership_level' => 'Normal',
+            'discount_percent' => 0,
+        ]
+    );
       // if successful, then redirect to their intended location
       $setting = Setting::first();
 
