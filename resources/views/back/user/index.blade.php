@@ -26,6 +26,8 @@
 							<th>{{ __('Name') }}</th>
 							<th>{{ __('Email') }}</th>
 							<th>{{ __('Phone') }}</th>
+							<th>{{ __('Discount') }}</th>
+							<th>{{ __('Total Purchase') }}</th>
 							<th>{{ __('Actions') }}</th>
 						</tr>
 					</thead>
