@@ -13,7 +13,7 @@ use App\Jobs\EmailSendJob;
 use App\Models\Subscriber;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-
+use App\Models\MemberShip;
 class UserRepository
 {
 
@@ -32,6 +32,15 @@ class UserRepository
         $verify = rand(pow(10, 6 - 1), pow(10, 6) - 1);
         $input['email_token'] = $verify;
         $user->fill($input)->save();
+
+        //registration user for membership
+        MemberShip::create([
+            'user_id' => $user->id,
+            'total_purchase' => 0,
+            'membership_level' => 'Normal',
+            'discount_percent' => 0,
+        ]);
+
 
 
         Notification::create(['user_id' => $user->id]);
