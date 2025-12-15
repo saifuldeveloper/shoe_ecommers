@@ -63,10 +63,17 @@ class UserRepository
 
     public function profileUpdate($request)
     {
-
         $input = $request->all();
         if ($request['user_id']) {
             $user = User::findOrFail($request['user_id']);
+
+            //member percentage update
+            $member = MemberShip::where('user_id', $user->id)->first();
+            if ($member) {
+                $member->discount_percent = $request['discount_percent'];
+                $member->save();
+            }
+
         } else {
             $user = Auth::user();
         }

@@ -37,6 +37,7 @@ return new class extends Migration
             $table->string('bill_country')->nullable();
             $table->string('bill_company')->nullable();
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }
