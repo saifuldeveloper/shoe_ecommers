@@ -305,17 +305,32 @@
         //    shipping calucation
         var selectElement = document.getElementById('shipping-charge');
 
-            selectElement.addEventListener('change', function() {
+            // selectElement.addEventListener('change', function() {
         
-            var selectedValue = parseFloat(this.value);
+            // var selectedValue = parseFloat(this.value);
 
-            var shippingPriceElements = document.querySelector('.shipping_price_set').innerText=selectedValue;
-            var grandTotalElement = document.querySelector('.grand_total_get');
-            var grandTotalText = grandTotalElement.innerText;
-            var grandTotalNumber = parseFloat(grandTotalText.replace(/[^\d.]/g, ''));
-            var total =grandTotalNumber + selectedValue;
-            var grandTotalElement = document.querySelector('.grand_total_set').innerText=total;
+            // var shippingPriceElements = document.querySelector('.shipping_price_set').innerText=selectedValue;
+            // var grandTotalElement = document.querySelector('.grand_total_get');
+            // var grandTotalText = grandTotalElement.innerText;
+            // var grandTotalNumber = parseFloat(grandTotalText.replace(/[^\d.]/g, ''));
+            // var total =grandTotalNumber + selectedValue;
+            // var grandTotalElement = document.querySelector('.grand_total_set').innerText=total;
 
+
+
+            selectElement.addEventListener('change', function() {
+                var selectedValue = parseFloat(this.value); // New Shipping Price
+
+                document.querySelector('.shipping_price_set').innerText = selectedValue;
+
+                var grandTotalElement = document.querySelector('.grand_total_set');
+
+                var grandTotalText = grandTotalElement.innerText;
+
+                var baseTotal = parseFloat(grandTotalText.replace(/[^\d.]/g, ''));
+
+                var total_with_shipping = baseTotal + selectedValue;
+                document.querySelector('.grand_total_set').innerText = total_with_shipping.toFixed(2); 
         });
     </script>
 
