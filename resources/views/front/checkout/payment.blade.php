@@ -26,6 +26,7 @@
         {{-- hidden inputs --}} 
         <input type="hidden" name="size" value="{{ Session::get('cart')['size'] ?? '' }}">
         <input type="hidden" name="payment_method" id="selected-payment-method" value="SSLCOMMERZ"> 
+        <input type="hidden" name="cat_total" value="{{ PriceHelper::setCurrencyPrice($cart_total) }}">
 
         {{-- =================================================== --}}
         {{-- DELIVERY SECTION (Shipping Details) --}}

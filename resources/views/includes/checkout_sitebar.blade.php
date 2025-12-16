@@ -46,6 +46,11 @@
                 <td>{{__('Shipping')}}:</td>
                 <td class="text-gray-dark "> <span class="shipping_price_set">0</span></td>
               </tr>
+
+              <tr>
+                <td>{{__('Special Offer')}}:</td>
+                <td class="text-gray-dark "> <span class="shipping_price_set">0</span></td>
+              </tr>
           
               <tr>
                 <td class="text-lg text-primary">{{__('Order total')}}</td>
