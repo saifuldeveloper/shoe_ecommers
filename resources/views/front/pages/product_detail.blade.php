@@ -1,9 +1,13 @@
 @extends('master.front')
+
+@section('meta')
+    <meta name="keywords" content="{{ $item_details->meta_keywords }}">
+    <meta name="description" content="{{ $item_details->meta_description }}">
+@endsection
 @section('content')
     @php
         $itemGalleries = App\Models\Gallery::where('item_id', $item_details->id)->get();
     @endphp
-
     <div class="test">
         <div class="container">
             <div class="row">
@@ -40,7 +44,7 @@
                     <!-- Product Details -->
                     <div class="col-md-6">
                         <h4 class="item-name"><strong>{{ $item_details->name ?? '' }}</strong></h4>
-                        <p><strong>Brand:</strong> {{ $item_details->brand->name ?? '' }}</p>
+                        {{-- <p><strong>Brand:</strong> {{ $item_details->brand->name ?? '' }}</p> --}}
                         @if ($item_details->code)
                             <p><strong>Product Code:</strong> {{ $item_details->code ?? '' }}</p>
                         @endif
@@ -83,10 +87,11 @@
                                         <label for="size{{ $size->id }}">{{ $size->name }}</label>
                                     @endforeach --}}
                                     @foreach ($sizes as $s)
-                                    <input type="radio" id="size{{ $s->id }}" name="size"
-                                        value="{{ $s->id }}" {{ strtolower($s->name) == strtolower($size) ? 'checked' : '' }}>
-                                    <label for="size{{ $s->id }}">{{ $s->name }}</label>
-                                @endforeach
+                                        <input type="radio" id="size{{ $s->id }}" name="size"
+                                            value="{{ $s->id }}"
+                                            {{ strtolower($s->name) == strtolower($size) ? 'checked' : '' }}>
+                                        <label for="size{{ $s->id }}">{{ $s->name }}</label>
+                                    @endforeach
                                 </div>
                             </div>
                         @endif
@@ -110,7 +115,7 @@
                                             value="{{ $color->id }}" checked>
                                         <label for="color{{ $color->id }}">
                                             <span class="color-circle"
-                                                style="background: {{ $color->code ?? '#000' }}; display:inline-block; width:20px; height:20px; border-radius:50%; border:1px solid #ccc; margin-right:5px;"></span>
+                                                style="background: {{ $color->code ?? '#000' }}; display:inline-block; width:20px; height:20px; border-radius:50%; border:1px solid #ccc; margin-top:8px;"></span>
 
                                         </label>
                                     @endforeach
@@ -131,8 +136,7 @@
                             <input type="number" id="qtyInput" class="form-control w-25 qtyValue" value="1"
                                 min="1" />
                         </div>
-                        <p><strong>Subtotal:</strong>
-                            ৳ <span id="subtotalDisplay"></span>
+                        <p><strong>Subtotal:</strong> ৳ <span id="subtotalDisplay"></span>
                         </p>
                         {{-- hidden inputs  --}}
                         <input type="hidden" value="{{ $item_details->id ?? '' }}" id="item_id">
@@ -412,126 +416,126 @@
 
         </div>
     </div>
-        @endsection
+@endsection
 
-        @push('js')
-            <script>
-                $(document).ready(function() {
-                    $('.zoom-gallery').magnificPopup({
-                        delegate: 'a',
-                        type: 'image',
-                        closeOnContentClick: false,
-                        closeBtnInside: false,
-                        mainClass: 'mfp-with-zoom mfp-img-mobile',
+@push('js')
+    <script>
+        $(document).ready(function() {
+            $('.zoom-gallery').magnificPopup({
+                delegate: 'a',
+                type: 'image',
+                closeOnContentClick: false,
+                closeBtnInside: false,
+                mainClass: 'mfp-with-zoom mfp-img-mobile',
 
-                        // If you enable allowHTMLInTemplate - 
-                        // make sure your HTML attributes are sanitized if they can be created by a non-admin user
-                        allowHTMLInTemplate: true,
-                        image: {
-                            verticalFit: true,
-                            titleSrc: function(item) {
-                                return item.el.attr('title') + ' &middot; <a class="image-source-link" href="' +
-                                    item.el.attr('data-source') + '" >image source</a>';
-                            }
-                        },
+                // If you enable allowHTMLInTemplate - 
+                // make sure your HTML attributes are sanitized if they can be created by a non-admin user
+                allowHTMLInTemplate: true,
+                image: {
+                    verticalFit: true,
+                    titleSrc: function(item) {
+                        return item.el.attr('title') + ' &middot; <a class="image-source-link" href="' +
+                            item.el.attr('data-source') + '" >image source</a>';
+                    }
+                },
 
-                        gallery: {
-                            enabled: true
-                        },
-                        zoom: {
-                            enabled: true,
-                            duration: 300, // don't foget to change the duration also in CSS
-                            opener: function(element) {
-                                return element.find('img');
-                            }
-                        }
-
-                    });
-                });
-            </script>
-            <script>
-                $(document).ready(function() {
-                    const csrfToken = $('meta[name="csrf-token"]').attr('content');
-
-                    $('.add-to-wishlist').on('click', function(e) {
-                        e.preventDefault();
-                        let itemId = $(this).data('id');
-
-                        let url = '{{ route('user.wishlist.store', ['id' => 'ITEM_ID']) }}';
-                        url = url.replace('ITEM_ID', itemId);
-
-                        // Make the AJAX call
-                        $.ajax({
-                            url: url,
-                            type: 'GET',
-                            dataType: 'json',
-                            data: {
-                                _token: csrfToken,
-                                id: itemId
-                            },
-                            // ------------------------------------------
-
-                            success: function(response) {
-                                if (response.status === 0 && response.link) {
-                                    alert("Wishlist-এ যোগ করার জন্য আপনাকে লগইন করতে হবে।");
-                                    window.location.href = response.link;
-                                } else if (response.status === 1 || response.status === 2) {
-                                    alert(response.message);
-                                    updateWishlistCount();
-                                }
-                            },
-
-                        });
-                    });
-                });
-
-                function updateWishlistCount() {
-                    let url = '{{ route('user.wishlist.count') }}';
-
-                    $.ajax({
-                        url: url,
-                        type: 'GET',
-                        dataType: 'json',
-                        success: function(response) {
-                            if (response.count !== undefined) {
-                                $('#wishlist-count-header i').text(response.count);
-                                $('#wishlist-count-mobile i').text(response.count);
-                            }
-                        },
-                        error: function(xhr) {
-                            console.error("Failed to fetch wishlist count:", xhr);
-                            $('#wishlist-count-header i').text(0);
-                            $('#wishlist-count-mobile i').text(0);
-                        }
-                    });
+                gallery: {
+                    enabled: true
+                },
+                zoom: {
+                    enabled: true,
+                    duration: 300, // don't foget to change the duration also in CSS
+                    opener: function(element) {
+                        return element.find('img');
+                    }
                 }
 
-                // Load count on page load too
-                updateWishlistCount();
-            </script>
-            <script>
-                function updateSubtotal() {
-                    const priceElement = document.getElementById('itemPrice');
-                    const qtyElement = document.getElementById('qtyInput');
-                    const subtotalDisplay = document.getElementById('subtotalDisplay');
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            const csrfToken = $('meta[name="csrf-token"]').attr('content');
 
-                    const unitPrice = parseFloat(priceElement.value);
-                    const quantity = parseInt(qtyElement.value);
+            $('.add-to-wishlist').on('click', function(e) {
+                e.preventDefault();
+                let itemId = $(this).data('id');
 
-                    if (isNaN(unitPrice) || isNaN(quantity) || quantity < 1) {
-                        subtotalDisplay.textContent = '0.00';
-                        return;
-                    }
-                    const newSubtotal = unitPrice * quantity;
-                    subtotalDisplay.textContent = newSubtotal.toFixed(2);
-                }
-                document.addEventListener('DOMContentLoaded', function() {
-                    const qtyInput = document.getElementById('qtyInput');
-                    if (qtyInput) {
-                        qtyInput.addEventListener('input', updateSubtotal);
+                let url = '{{ route('user.wishlist.store', ['id' => 'ITEM_ID']) }}';
+                url = url.replace('ITEM_ID', itemId);
 
-                        updateSubtotal();
-                    }
+                // Make the AJAX call
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        _token: csrfToken,
+                        id: itemId
+                    },
+                    // ------------------------------------------
+
+                    success: function(response) {
+                        if (response.status === 0 && response.link) {
+                            alert("Wishlist-এ যোগ করার জন্য আপনাকে লগইন করতে হবে।");
+                            window.location.href = response.link;
+                        } else if (response.status === 1 || response.status === 2) {
+                            alert(response.message);
+                            updateWishlistCount();
+                        }
+                    },
+
                 });
-            </script>
-        @endpush
+            });
+        });
+
+        function updateWishlistCount() {
+            let url = '{{ route('user.wishlist.count') }}';
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    if (response.count !== undefined) {
+                        $('#wishlist-count-header i').text(response.count);
+                        $('#wishlist-count-mobile i').text(response.count);
+                    }
+                },
+                error: function(xhr) {
+                    console.error("Failed to fetch wishlist count:", xhr);
+                    $('#wishlist-count-header i').text(0);
+                    $('#wishlist-count-mobile i').text(0);
+                }
+            });
+        }
+
+        // Load count on page load too
+        updateWishlistCount();
+    </script>
+    <script>
+        function updateSubtotal() {
+            const priceElement = document.getElementById('itemPrice');
+            const qtyElement = document.getElementById('qtyInput');
+            const subtotalDisplay = document.getElementById('subtotalDisplay');
+
+            const unitPrice = parseFloat(priceElement.value);
+            const quantity = parseInt(qtyElement.value);
+
+            if (isNaN(unitPrice) || isNaN(quantity) || quantity < 1) {
+                subtotalDisplay.textContent = '0.00';
+                return;
+            }
+            const newSubtotal = unitPrice * quantity;
+            subtotalDisplay.textContent = newSubtotal.toFixed(2);
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            const qtyInput = document.getElementById('qtyInput');
+            if (qtyInput) {
+                qtyInput.addEventListener('input', updateSubtotal);
+
+                updateSubtotal();
+            }
+        });
+    </script>
+@endpush

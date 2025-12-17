@@ -35,7 +35,7 @@
                                 </a>
                             </div>
                             <div class="ps-user">
-                                <a class="ps-user__toggle" href="#">
+                                <a class="ps-user__toggle" href="https://wa.me/88{{  $setting->whatsapp_number }}"  target="_blank">
                                     <img src="{{ asset('assets/frontend/images/whatsapp-icon.avif') }}"
                                         style="height: 32px;padding-top: 7px;" alt="">
                                 </a>
@@ -91,7 +91,7 @@
             <div class="navigation__column left d-lg-none d-md-none">
                 <div class="header__logo">
                     <a class="ps-logo" href="{{ route('front.index') }}"><img
-                            src="{{ asset('assets/frontend/images/logo/logo.png') }}" alt=""
+                            src="{{ url('/storage/generalSettings/' . $setting->logo) }}" alt=""
                             style="height: 60px;" /></a>
                 </div>
             </div>
@@ -100,9 +100,9 @@
                     <li class="menu-item menu-item-has-children dropdown">
                         <a href="{{ route('front.campaign') }}">Mega Deals </a>
                     </li>
-                    <li class="menu-item menu-item-has-children dropdown">
+                    {{-- <li class="menu-item menu-item-has-children dropdown">
                         <a href="{{ route('front.categories.products', 'sneakers') }}">Sneakers </a>
-                    </li>
+                    </li> --}}
 
                     @foreach ($categories as $category)
                         <li class="menu-item menu-item-has-children has-mega-menu">

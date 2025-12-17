@@ -18,7 +18,6 @@ class PaymentSettingsTableSeeder extends Seeder
 
         \DB::table('payment_settings')->delete();
         
-
         \DB::table('payment_settings')->insert(array (
             0 => 
             array (
@@ -32,14 +31,13 @@ class PaymentSettingsTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
-            
             1 => 
             array (
-                'id' => 2, 
+                'id' => 2,
                 'name' => 'SSLCOMMERZ',
-                'information' => NULL, 
-                'unique_keyword' => 'sslcommerz', 
-                'photo' => 'sslcommerz_logo.png', 
+                'information' => NULL,
+                'unique_keyword' => 'sslcommerz',
+                'photo' => 'sslcommerz_logo.png',
                 'text' => 'After clicking "Pay now" - you will be redirected to SSLCOMMERZ to complete your purchase securely.',
                 'status' => 'active',
                 'created_at' => NULL,

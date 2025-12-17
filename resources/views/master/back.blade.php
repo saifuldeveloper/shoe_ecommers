@@ -40,7 +40,6 @@
         <div class="main-header ">
             <!-- Logo Header -->
             <div class="logo-header">
-
                 <a href="{{ route('back.dashboard') }}" class="logo">
                     <img src="{{ $setting->logo ? url('/storage/generalSettings/' . $setting->logo) : url('/assets/images/placeholder.png') }}"
                         alt="navbar brand" class="navbar-brand">

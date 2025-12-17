@@ -16,7 +16,7 @@
                     <h3 class="mb-0 bc-title"><b>{{ __('Basic Information') }}</b></h3>
 
                 </div>
-            </div>
+            </div
         </div>
 
         <div class="row">
@@ -53,8 +53,8 @@
                                             id="newcss">{{ __('Custom Css') }}</a>
                                         <a class="nav-link" data-toggle="pill"
                                             href="#google_recaptcha">{{ __('Scripts') }}</a>
-                                        <a class="nav-link" data-toggle="pill"
-                                            href="#shop">{{ __('Shop & Checkout Page') }}</a>
+                                        {{-- <a class="nav-link" data-toggle="pill"
+                                            href="#shop">{{ __('Shop & Checkout Page') }}</a> --}}
                                         <a class="nav-link" data-toggle="pill"
                                             href="#footer">{{ __('Footer & Contact Page') }}</a>
                                     </div>
@@ -89,8 +89,17 @@
                                                                     value="{{ $setting->home_page_title }}">
                                                             </div>
                                                         </div>
+                                                          <div class="col-lg-8">
+                                                            <div class="form-group">
+                                                                <label for="title">{{ __('WhatsApp Number') }}</label>
+                                                                <input type="text" name="whatsapp_number" class="form-control"
+                                                                    id="whatsapp_number"
+                                                                    placeholder="{{ __('Enter WhatsApp Number') }}"
+                                                                    value="{{ $setting->whatsapp_number }}">
+                                                            </div>
+                                                        </div>
 
-                                                        <div class="col-lg-8">
+                                                        {{-- <div class="col-lg-8">
                                                             <div class="form-group">
                                                                 <label for="primary_color">{{ __('Primary Colour Code') }}
                                                                     *</label>
@@ -99,8 +108,8 @@
                                                                     placeholder="{{ __('Enter Website Primary Colour Code') }}"
                                                                     value="{{ $setting->primary_color }}">
                                                             </div>
-                                                        </div>
-
+                                                        </div> --}}
+{{-- 
                                                         <div class="col-lg-8">
                                                             <div class="form-group">
                                                                 <label for="is_decimal">{{ __('Decimal Separator') }}
@@ -115,9 +124,9 @@
                                                                         Off</option>
                                                                 </select>
                                                             </div>
-                                                        </div>
+                                                        </div> --}}
 
-                                                        <div class="col-lg-8">
+                                                        {{-- <div class="col-lg-8">
                                                             <div class="form-group">
                                                                 <label
                                                                     for="currency_direction">{{ __('Currency Direction') }}
@@ -132,9 +141,9 @@
                                                                         {{ __('Right (100.00$)') }}</option>
                                                                 </select>
                                                             </div>
-                                                        </div>
+                                                        </div> --}}
 
-                                                        <div class="col-lg-8">
+                                                        {{-- <div class="col-lg-8">
                                                             <div class="form-group">
                                                                 <label
                                                                     for="decimal_separator">{{ __('Decimal Separator') }}
@@ -149,9 +158,9 @@
                                                                         {{ __('Dot (.)') }}</option>
                                                                 </select>
                                                             </div>
-                                                        </div>
+                                                        </div> --}}
 
-                                                        <div class="col-lg-8">
+                                                        {{-- <div class="col-lg-8">
                                                             <div class="form-group">
                                                                 <label
                                                                     for="thousand_separator">{{ __('Thousand Separator') }}
@@ -166,7 +175,7 @@
                                                                         {{ __('Dot (.)') }}</option>
                                                                 </select>
                                                             </div>
-                                                        </div>
+                                                        </div> --}}
 
                                                     </div>
 

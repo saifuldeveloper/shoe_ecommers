@@ -359,7 +359,7 @@
         </div>
       </div>
 
-      <div class="col-xl-3 col-md-6">
+      {{-- <div class="col-xl-3 col-md-6">
         <div class="card card-stats card-round">
             <div class="card-body ">
                 <div class="row align-items-center">
@@ -377,7 +377,7 @@
                 </div>
             </div>
         </div>
-      </div>
+      </div> --}}
 
       <div class="col-xl-3 col-md-6">
         <div class="card card-stats card-round">
@@ -400,7 +400,7 @@
       </div>
 
 
-      <div class="col-xl-3 col-md-6">
+      {{-- <div class="col-xl-3 col-md-6">
         <div class="card card-stats card-round">
             <div class="card-body ">
                 <div class="row align-items-center">
@@ -418,11 +418,11 @@
                 </div>
             </div>
         </div>
-      </div>
+      </div> --}}
 
 
 
-      <div class="col-xl-3 col-md-6">
+      {{-- <div class="col-xl-3 col-md-6">
         <div class="card card-stats card-round">
             <div class="card-body ">
                 <div class="row align-items-center">
@@ -440,9 +440,9 @@
                 </div>
             </div>
         </div>
-      </div>
+      </div> --}}
 
-      <div class="col-xl-3 col-md-6">
+      {{-- <div class="col-xl-3 col-md-6">
         <div class="card card-stats card-round">
             <div class="card-body ">
                 <div class="row align-items-center">
@@ -460,7 +460,7 @@
                 </div>
             </div>
         </div>
-      </div>
+      </div> --}}
 
 
       <div class="col-xl-3 col-md-6">
@@ -494,8 +494,8 @@
                     </div>
                     <div class="col col-stats ml-3 ml-sm-0">
                         <div class="numbers">
-                            <p class="mb-0"><b>{{ __('Total Subscribers') }}</b></p>
-                            <h4 class="card-title">{{ $totalSubscriber }}</h4>
+                            {{-- <p class="mb-0"><b>{{ __('Total Subscribers') }}</b></p>
+                            <h4 class="card-title">{{ $totalSubscriber }}</h4> --}}
                         </div>
                     </div>
                 </div>

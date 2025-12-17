@@ -32,7 +32,7 @@ class EmailTemplatesTableSeeder extends Seeder
             array (
                 'id' => 2,
                 'type' => 'Registration',
-                'subject' => 'Welcome To Omnimart',
+                'subject' => 'Welcome To Avijatry',
                 'body' => '<p>Hello ; {user_name},</p><p>You have successfully registered to {site_title}, We wish you will have a wonderful experience using our service.</p><p>Thank You .<br></p>',
                 'created_at' => NULL,
                 'updated_at' => NULL,

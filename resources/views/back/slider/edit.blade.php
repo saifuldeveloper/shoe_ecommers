@@ -80,7 +80,7 @@
 												src="{{ $slider->photo ? url('/storage/slider/'.$slider->photo) : url('/assets/images/placeholder.png') }}"
 												alt="No Image Found">
 										<br>
-										<span id="chenge_label2" class="mt-1">{{$slider->home_page == 'theme3' || $slider->home_page == 'theme4' ? __('Image Size Should Be 1920 x 750') : __('Image Size Should Be 1000 x 530') }}</span>
+										<span id="chenge_label2" class="mt-1">{{$slider->home_page == 'theme3' || $slider->home_page == 'theme4' ? __('Image Size Should Be 1864 x 714') : __('Image Size Should Be 1000 x 530') }}</span>
 									</div>
 
 									<div class="form-group position-relative ">

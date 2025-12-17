@@ -92,7 +92,7 @@
                                                 <img class="admin-img" src="{{  url('/assets/images/placeholder.png') }}"
                                                     alt="No Image Found">
                                             <br>
-                                            <span id="chenge_label2" class="mt-1">{{ __('Image Size Should Be 968 x 530') }}</span>
+                                            <span id="chenge_label2" class="mt-1">{{ __('Image Size Should Be 1864 x 714') }}</span>
                                         </div>
 
                                         <div class="form-group position-relative ">

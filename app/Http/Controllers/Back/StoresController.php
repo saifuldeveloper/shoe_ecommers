@@ -50,6 +50,8 @@ class StoresController extends Controller
         $store->latitude = $request->latitude;
         $store->longitude = $request->longitude;
         $store->mobile = $request->mobile;
+        $store->api_base_url =$request->api_base_url;
+        $store->secret_key =$request->secret_key;
         $store->save();
         return redirect()->route('back.stores.index')->withSuccess(__('New Store Added Successfully.'));
     }
@@ -97,6 +99,8 @@ class StoresController extends Controller
             $store->latitude = $request->latitude;
             $store->longitude = $request->longitude;
             $store->mobile = $request->mobile;
+            $store->api_base_url =$request->api_base_url;
+            $store->secret_key =$request->secret_key;
             $store->save();
             return redirect()->route('back.stores.index')->withSuccess(__('Store Updated Successfully.'));
         }

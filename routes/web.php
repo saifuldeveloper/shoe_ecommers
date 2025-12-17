@@ -63,7 +63,7 @@ use App\Http\Controllers\Back\ShippingServiceController;
 use App\Http\Controllers\Back\AccountController as BackAccountController;
 use App\Http\Controllers\User\AccountController as UserAccountController;
 use App\Http\Controllers\Auth\User\LoginController as UserLoginController;
-use App\Http\Controllers\Auth\Back\LoginController  as BackLoginController;
+use App\Http\Controllers\Auth\Back\LoginController as BackLoginController;
 use App\Http\Controllers\Back\SocialMediaPostController;
 
 Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
@@ -82,7 +82,7 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
         //------------ DASHBOARD & PROFILE ------------
 
         Route::get('/contact/messages', [BackAccountController::class, 'contactMessage'])->name('back.contact-message');
-       
+
         Route::get('/', [BackAccountController::class, 'index'])->name('back.dashboard');
         Route::get('/profile', [BackAccountController::class, 'profileForm'])->name('back.profile');
         Route::post('/profile/update', [BackAccountController::class, 'updateProfile'])->name('back.profile.update');
@@ -115,6 +115,9 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
             Route::get('item/galleries/{item}', [ItemController::class, 'galleries'])->name('back.item.gallery');
             Route::post('item/galleries/update', [ItemController::class, 'galleriesUpdate'])->name('back.item.galleries.update');
             Route::delete('item/gallery/{gallery}/delete', [ItemController::class, 'galleryDelete'])->name('back.item.gallery.delete');
+            Route::get('/product/live-qty/{code}', [ItemController::class, 'getLiveRetailQty'])
+                ->name('product.live.qty');
+
             // Bulk product upload
             Route::get('/product/csv/export', [CsvProductController::class, 'export'])->name('back.csv.export');
             Route::get('bulk/product/index', [CsvProductController::class, 'index'])->name('back.bulk.product.index');
@@ -154,11 +157,11 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
             Route::get('brand/status/{id}/{status}/{type}', [BrandController::class, 'status'])->name('back.brand.status');
             Route::resource('brand', BrandController::class)->except(['show'])->names('back.brand');
 
-             //------------ COLOR ------------
+            //------------ COLOR ------------
             Route::get('color/status/{id}/{status}/{type}', [ColorController::class, 'status'])->name('back.color.status');
             Route::resource('color', ColorController::class)->except(['show'])->names('back.color');
 
-              //------------ SIZE ------------
+            //------------ SIZE ------------
             Route::get('size/status/{id}/{status}/{type}', [SizeController::class, 'status'])->name('back.size.status');
             Route::resource('size', SizeController::class)->except(['show'])->names('back.size');
 
@@ -174,7 +177,7 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
         Route::get('/notifications/clear', [NotificationController::class, 'clear_notf'])->name('back.notifications.clear');
 
         Route::get('socialmediapost/status/{id}/{status}', [SocialMediaPostController::class, 'status'])
-        ->name('back.socialmediapost.status');
+            ->name('back.socialmediapost.status');
         Route::resource('socialmediapost', SocialMediaPostController::class)->except(['show'])->names('back.socialmediapost');
 
         Route::group(['middleware' => 'permissions:Manage Categories'], function () {
@@ -182,7 +185,7 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
             Route::get('category/status/{id}/{status}', [CategoryController::class, 'status'])->name('back.category.status');
             Route::get('category/feature/{id}/{status}', [CategoryController::class, 'feature'])->name('back.category.feature');
 
-            Route::as('back.')->group(function () {
+            Route:: as('back.')->group(function () {
                 Route::resource('category', CategoryController::class)->except(['show']);
             });
             //------------ SUB CATEGORY ------------
@@ -371,16 +374,16 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
         });
 
         //-------------------------------- STORES MANAGEMENT ---------------------------------
-       
+
         Route::resource('districts', DistrictController::class)->names('back.districts');
-       
+
         Route::resource('stores', StoresController::class)->names('back.stores');
 
         Route::controller(UtilityController::class)->group(function () {
-        Route::get('/clear', 'clear')->name('clear-cache');
-        Route::get('/composer', 'composer')->name('composer');
-        Route::get('/iseed', 'iseed')->name('iseed');
-    });
+            Route::get('/clear', 'clear')->name('clear-cache');
+            Route::get('/composer', 'composer')->name('composer');
+            Route::get('/iseed', 'iseed')->name('iseed');
+        });
 
     });
 });
@@ -408,7 +411,7 @@ Route::group(['middleware' => 'maintainance'], function () {
             Route::get('/remove/account', [UserAccountController::class, 'removeAccount'])->name('user.account.remove');
 
             //------------ REGISTER ------------
-           Route::get('/register', [RegisterController::class, 'showForm'])->name('user.register');
+            Route::get('/register', [RegisterController::class, 'showForm'])->name('user.register');
             Route::post('/register-submit', [RegisterController::class, 'register'])->name('user.register.submit');
             Route::get('/verify-link/{token}', [RegisterController::class, 'verify'])->name('user.account.verify');
 
@@ -423,13 +426,13 @@ Route::group(['middleware' => 'maintainance'], function () {
             Route::get('/dashboard', [UserAccountController::class, 'index'])->name('user.dashboard');
             Route::get('/profile', [UserAccountController::class, 'profile'])->name('user.profile');
 
-             //USER UPDATE
-            Route::controller(UserDashboardController::class)->group(function(){
-                Route::get('account/profile','userProfile')->name('custom.profile');
-                Route::get('account/orders','orders')->name('custom.orders');
-                Route::get('account/order/details','orderDetails')->name('custom.order-details');
-                Route::get('account/edit/profile','editProfile')->name('custom.edit-profile');
-                Route::get('account/change/password','passwordChange')->name('custom.change-password');
+            //USER UPDATE
+            Route::controller(UserDashboardController::class)->group(function () {
+                Route::get('account/profile', 'userProfile')->name('custom.profile');
+                Route::get('account/orders', 'orders')->name('custom.orders');
+                Route::get('account/order/details', 'orderDetails')->name('custom.order-details');
+                Route::get('account/edit/profile', 'editProfile')->name('custom.edit-profile');
+                Route::get('account/change/password', 'passwordChange')->name('custom.change-password');
             });
             //------------ SETTING ------------
             Route::post('/profile/update', [UserAccountController::class, 'profileUpdate'])->name('user.profile.update');
@@ -445,7 +448,7 @@ Route::group(['middleware' => 'maintainance'], function () {
             Route::post('/ticket/reply/store', [TicketController::class, 'ticketReply'])->name('user.ticket.reply');
             Route::get('/ticket/delete/{id}', [TicketController::class, 'ticketDelete'])->name('user.ticket.delete');
 
-         
+
             //------------ ORDER ------------
             Route::get('/orders', [OrderController::class, 'index'])->name('user.order.index');
             Route::get('/order/print/{id}', [OrderController::class, 'printOrder'])->name('user.order.print');
@@ -456,7 +459,7 @@ Route::group(['middleware' => 'maintainance'], function () {
             Route::get('/wishlist/delete/{id}', [WishlistController::class, 'delete'])->name('user.wishlist.delete');
             Route::get('/wishlista/delete/all', [WishlistController::class, 'alldelete'])->name('user.wishlist.delete.all');
             Route::get('/wishlist/count', [WishlistController::class, 'getCount'])->name('user.wishlist.count');
-       
+
         });
 
 
@@ -466,12 +469,12 @@ Route::group(['middleware' => 'maintainance'], function () {
         // ************************************ USER PANEL ENDS**********************************************
 
 
-   
+
         // ************************************ FRONTEND **********************************************
         Route::get('/collections/all', [FrontendController::class, 'collectionAll'])->name('front.product.collection.all');
         Route::get('/search', [FrontendController::class, 'categoryBaseProduct'])->name('front.product.search');
         Route::get('/search-results', [FrontendController::class, 'productSearch'])->name('front.product.query');
-        Route::get('/search-view',[FrontendController::class, 'showSearchProducts'])->name('front.show.search.product');
+        Route::get('/search-view', [FrontendController::class, 'showSearchProducts'])->name('front.show.search.product');
 
         Route::get('/store-locator', [FrontendController::class, 'findStore'])->name('front.findStore');
         Route::get('/', [FrontendController::class, 'index'])->name('front.index');
