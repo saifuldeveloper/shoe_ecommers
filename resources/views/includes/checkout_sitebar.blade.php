@@ -42,26 +42,7 @@ $initial_grand_total = $base_total;
                 <td class="text-gray-dark grand_total_get">{{PriceHelper::setCurrencyPrice($cart_total)}}</td>
               </tr>
 
-              @if($tax != 0)
-              <tr>
-                <td>{{__('Estimated tax')}}:</td>
-                <td class="text-gray-dark">{{PriceHelper::setCurrencyPrice($tax)}}</td>
-              </tr>
-              @endif
-
-              {{-- @if (DB::table('states')->count() > 0)
-              <tr class="{{Auth::check() && Auth::user()->state_id ? '' : 'd-none'}} set__state_price_tr">
-                <td>{{__('State tax')}}:</td>
-                <td class="text-gray-dark set__state_price">{{PriceHelper::setCurrencyPrice(Auth::check() && Auth::user()->state_id ? ($cart_total*Auth::user()->state->price/100 ): 0)}}</td>
-              </tr>
-              @endif --}}
-
-              @if($discount)
-              <tr>
-                <td>{{__('Coupon discount')}}:</td>
-                <td class="text-danger">- {{PriceHelper::setCurrencyPrice($discount ? $discount['discount'] : 0)}}</td>
-              </tr>
-              @endif
+          
             
            
               <tr>
@@ -83,15 +64,16 @@ $initial_grand_total = $base_total;
                   </td>
               </tr>
           @endif
-              {{-- <tr>
-                <td class="text-lg text-primary">{{__('Order total')}}</td>
-                <td class="text-lg text-primary grand_total_set">{{PriceHelper::setCurrencyPrice($cart_total)}}</td>
-              </tr> --}}
-
+    
               <tr>
                <td class="text-lg text-primary">{{__('Order total')}}</td>
-               <td class="text-lg text-primary grand_total_set">{{PriceHelper::setCurrencyPrice($initial_grand_total)}}</td>
+               {{-- <td class="text-lg text-primary grand_total_set">{{PriceHelper::setCurrencyPrice($initial_grand_total)}}</td> --}}
+               <td class="text-lg text-primary grand_total_set"
+                    data-base-total="{{ $initial_grand_total }}">
+                    {{ PriceHelper::setCurrencyPrice($initial_grand_total) }}
+                </td>
              </tr>
+             
 
             </table>
           </section>
