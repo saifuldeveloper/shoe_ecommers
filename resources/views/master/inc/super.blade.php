@@ -202,6 +202,12 @@
           <p>{{ __('Customer List') }}</p></a>
     </li>
 
+     <li class="nav-item">
+        <a href="{{ route('back.offer.index') }}">
+          <i class="fas fa-users"></i>
+          <p>{{ __('Special Offer') }}</p></a>
+    </li>
+
     {{-- <li class="nav-item">
         <a href="{{ route('back.ticket.index') }}">
             <i class="fas fa-comments"></i>

@@ -1,3 +1,25 @@
+@php 
+ $specialOffer = App\Models\SpecialOffer::where('status',1)->first();
+  $special_offer_discount = 0;
+
+if ($specialOffer && $cart_total >= 5000) {
+    if ($specialOffer->discount_type == "flat") {
+        $special_offer_discount = $specialOffer->discount_value;
+    } elseif ($specialOffer->discount_type == "percentage") {
+        // Percentage discount
+        $special_offer_discount = ($cart_total * $specialOffer->discount_value) / 100;
+    }
+}
+
+// 2. Calculate the base total before shipping
+$base_total = $cart_total - $special_offer_discount;
+
+$initial_grand_total = $base_total;
+
+
+@endphp
+
+
 <div class="col-xl-4 col-lg-4">
     <aside class="sidebar">
       <div class="padding-top-2x hidden-lg-up"></div>
@@ -46,11 +68,31 @@
                 <td>{{__('Shipping')}}:</td>
                 <td class="text-gray-dark "> <span class="shipping_price_set">0</span></td>
               </tr>
-          
+              @if($specialOffer && $cart_total >= 5000)
               <tr>
+                  {{-- Display the offer name as a superscript --}}
+                  <td>{{__('Special Offer')}}: <sup>{{ $specialOffer->name }}</sup></td>
+                  <td class="text-gray-dark "> 
+                      <span class="special">
+                          @if($specialOffer->discount_type == "flat")
+                              {{ $specialOffer->discount_value }} 
+                          @else 
+                              {{ $specialOffer->discount_value }}%
+                          @endif
+                      </span>
+                  </td>
+              </tr>
+          @endif
+              {{-- <tr>
                 <td class="text-lg text-primary">{{__('Order total')}}</td>
                 <td class="text-lg text-primary grand_total_set">{{PriceHelper::setCurrencyPrice($cart_total)}}</td>
-              </tr>
+              </tr> --}}
+
+              <tr>
+               <td class="text-lg text-primary">{{__('Order total')}}</td>
+               <td class="text-lg text-primary grand_total_set">{{PriceHelper::setCurrencyPrice($initial_grand_total)}}</td>
+             </tr>
+
             </table>
           </section>
       <!-- Items in Cart Widget-->

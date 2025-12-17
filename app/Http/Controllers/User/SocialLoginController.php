@@ -13,6 +13,7 @@ use App\Jobs\EmailSendJob;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Socialite;
+use App\Models\MemberShip;
 
 class SocialLoginController extends Controller
 {
@@ -61,6 +62,17 @@ class SocialLoginController extends Controller
             Notification::create([
                 'user_id' => $user->id
             ]);
+
+            // Create membership
+            if($user){
+                MemberShip::create([
+                        'user_id' => $user->id,
+                        'total_purchase' => 0,
+                        'membership_level' => 'Normal',
+                        'discount_percent' => 0,
+                ]);
+            }
+      
 
             $emailData = [
                 'to' => $user->email,

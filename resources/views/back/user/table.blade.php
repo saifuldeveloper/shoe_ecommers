@@ -9,6 +9,12 @@
     <td>
         {{ $data->phone }}
     </td>
+     <td>
+       {{ $data->membership->discount_percent  ?? 0 }}
+    </td>
+      <td>
+       {{ $data->membership->total_purchase  ?? 0 }}
+    </td>
 
     <td>
         <div class="action-list">

@@ -82,6 +82,7 @@ class ShippingServiceController extends Controller
      */
     public function status($id,$status)
     {
+      
         ShippingService::find($id)->update(['status' => $status]);
    
         return redirect()->route('back.shipping.index')->withSuccess(__('Status Updated Successfully.'));

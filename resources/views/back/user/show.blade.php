@@ -55,6 +55,17 @@
                                         placeholder="{{ __('Password') }}" value="" ></td>
                                 </tr>
 
+                                 <tr>
+                                    <th>{{ __("Total Purchase") }}</th>
+                                     <td>{{ $user->membership->total_purchase  ?? 0 }}</td>
+                                 </tr>
+
+                                <tr>
+                                    <th>{{ __("Discount") }}</th>
+                                    <td><input type="text" name="discount_percent" class="form-control" id="text"
+                                       placeholder="{{ __('Discount percentage (e.g. 10)') }}" value="{{ $user->membership->discount_percent  ?? 0 }}" ></td>
+                                </tr>
+
                                 <tr>
                                     <th>{{ __("Total Orders") }}</th>
                                     <td>{{count($user->orders)}}</td>

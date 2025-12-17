@@ -20,6 +20,7 @@ use App\Helpers\PriceHelper;
 use App\Helpers\SmsHelper;
 use App\Models\Currency;
 use App\Models\Item;
+use App\Models\MemberShip;
 use App\Models\Setting;
 use App\Models\ShippingService;
 use App\Models\State;
@@ -345,6 +346,7 @@ class CheckoutController extends Controller
 
     public function checkout(Request $request)
     {
+        // dd($request->all());
         // laravel validation
         $request->validate([
             'ship_name' => 'required',
@@ -532,6 +534,7 @@ class CheckoutController extends Controller
                 }
             } else {
                 if ($payment['status']) {
+                 
                     return redirect()->route('front.checkout.success');
                 } else {
                     Session::put('message', $payment['message']);
@@ -593,6 +596,7 @@ class CheckoutController extends Controller
         if (Session::has('order_id')) {
             $order_id = Session::get('order_id');
             $order = Order::find($order_id);
+            // dd($order);
             $cart = json_decode($order->cart, true);
             $setting = Setting::first();
             if ($setting->is_twilio == 1) {
@@ -603,6 +607,14 @@ class CheckoutController extends Controller
                     $sms->SendSms($user_number, "'purchase'");
                 }
             }
+            //store the total price
+            $userId = auth()->id();
+            if($userId){
+                $memberShip = MemberShip::where('user_id',$userId)->first();
+                $memberShip->total_purchase = $order->state_price;
+                $memberShip->save();
+            }
+       
             return view('front.checkout.success', compact('order', 'cart'));
         }
         return redirect()->route('front.index');

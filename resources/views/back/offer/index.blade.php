@@ -9,7 +9,8 @@
     <div class="card mb-4">
         <div class="card-body">
             <div class="d-sm-flex align-items-center justify-content-between">
-                <h3 class=" mb-0 "><b>{{ __('Customers List') }}</b></h3>
+                <h3 class=" mb-0 "><b>{{ __('Offer List') }}</b></h3>
+				  <a class="btn btn-primary  btn-sm" href="{{route('back.offer.create')}}"><i class="fas fa-plus"></i> {{ __('Add') }}</a>
                 </div>
         </div>
     </div>
@@ -24,16 +25,15 @@
 					<thead>
 						<tr>
 							<th>{{ __('Name') }}</th>
-							<th>{{ __('Email') }}</th>
-							<th>{{ __('Phone') }}</th>
+							<th>{{ __('Discount Type') }}</th>
 							<th>{{ __('Discount') }}</th>
-							<th>{{ __('Total Purchase') }}</th>
+							<th>{{ __('Status') }}</th>
 							<th>{{ __('Actions') }}</th>
 						</tr>
 					</thead>
 
 					<tbody>
-              			@include('back.user.table',compact('datas'))
+              			@include('back.offer.table',compact('datas'))
 					</tbody>
 
 				</table>

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Back\FaqController;
+use App\Http\Controllers\Back\SpecialOfferController;
 use App\Http\Controllers\Back\TaxController;
 use App\Http\Controllers\Back\ItemController;
 use App\Http\Controllers\Back\MenuController;
@@ -201,7 +202,10 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
             Route::resource('user', UserController::class)
                 ->except(['create', 'store', 'edit'])
                 ->names('back.user');
-        });
+             });
+        
+            Route::resource('special/offer', SpecialOfferController::class)->except(['edit'])->names('back.offer');
+           Route::get('offer/status/{id}/{status}', [SpecialOfferController::class, 'status'])->name('back.offer.status');
 
         Route::group(['middleware' => 'permissions:Ecommerce'], function () {
             //------------ PROMO CODE ------------
@@ -553,7 +557,7 @@ Route::group(['middleware' => 'maintainance'], function () {
         Route::get('/checkout/review/payment', 'Front\CheckoutController@payment')->name('front.checkout.payment');
         Route::get('/checkout/state/setup', 'Front\CheckoutController@stateSetUp')->name('front.state.setup');
         Route::get('/checkout/shipping/setup', 'Front\CheckoutController@shippingSetUp')->name('front.shipping.setup');
-        Route::post('/checkout-submit', 'Front\CheckoutController@checkout')->name('front.checkout.submit');
+        Route::post('/checkout/submit', 'Front\CheckoutController@checkout')->name('front.checkout.submit');
         Route::get('/checkout/success', 'Front\CheckoutController@paymentSuccess')->name('front.checkout.success');
         Route::get('/checkout/cancle', 'Front\CheckoutController@paymentCancle')->name('front.checkout.cancle');
         Route::get('/checkout/redirect', 'Front\CheckoutController@paymentRedirect')->name('front.checkout.redirect');

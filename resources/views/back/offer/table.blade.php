@@ -1,43 +1,47 @@
 @foreach($datas as $data)
 <tr>
     <td>
-  <img src="{{ asset('storage/category/' . $data->photo) }}" alt="Category Image">
+        {{ $data->name }} 
     </td>
     <td>
-        {{ $data->name }}
+        {{ $data->discount_type }}
     </td>
-
     <td>
-
-        <div class="dropdown">
+        @if($data->discount_type == "flat")
+          {{ $data->discount_value }}
+        @else 
+           {{ $data->discount_value }}%
+        @endif
+     
+    </td>
+    <td>
+         <div class="dropdown">
             <button class="btn btn-{{  $data->status == 1 ? 'success' : 'danger'  }} btn-sm  dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               {{  $data->status == 1 ? __('Enabled') : __('Disabled')  }}
             </button>
           <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">
           <a class="dropdown-item {{ $data->status == 1 ? 'active' : '' }}" 
-            href="{{ route('back.category.status',[$data->id,1]) }}">
+            href="{{ route('back.offer.status',[$data->id,1]) }}">
               {{ __('Enable') }}
           </a>
 
           <a class="dropdown-item {{ $data->status == 0 ? 'active' : '' }}" 
-            href="{{ route('back.category.status',[$data->id,0]) }}">
+            href="{{ route('back.offer.status',[$data->id,0]) }}">
               {{ __('Disable') }}
           </a>
       </div>
           </div>
-
-        </div>
-
     </td>
+
     <td>
         <div class="action-list">
             <a class="btn btn-secondary btn-sm "
-                href="{{ route('back.category.edit',$data->id) }}">
-                <i class="fas fa-edit"></i>
+                href="{{ route('back.offer.show',$data->id) }}">
+                <i class="fas fa-eye"></i>
             </a>
             <a class="btn btn-danger btn-sm " data-toggle="modal"
                 data-target="#confirm-delete" href="javascript:;"
-                data-href="{{ route('back.category.destroy',$data->id) }}">
+                data-href="{{ route('back.offer.destroy',$data->id) }}">
                 <i class="fas fa-trash-alt"></i>
             </a>
         </div>

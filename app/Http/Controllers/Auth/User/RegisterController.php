@@ -50,6 +50,7 @@ class RegisterController extends Controller
     {   
         try{
             $this->repository->register($request);
+            
         }catch (\Exception $e){
            
         }

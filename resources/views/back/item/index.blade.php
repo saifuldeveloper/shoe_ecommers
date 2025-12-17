@@ -13,11 +13,15 @@
     <!-- Start of Main Content -->
     <div class="container-fluid">
 
-        <!-- Page Heading -->
-        <div class="card mb-4">
-            <div class="card-body">
-                <div class="d-sm-flex align-items-center justify-content-between">
-                    <h3 class="mb-0 bc-title"><b>{{ __('All Products') }}</b></h3>
+
+<!-- Start of Main Content -->
+<div class="container-fluid">
+
+	<!-- Page Heading -->
+   <div class="card mb-4 sticky-header-panel">
+        <div class="card-body">
+            <div class="d-sm-flex align-items-center justify-content-between">
+                <h3 class="mb-0 bc-title"><b>{{ __('All Products') }}</b></h3>
                     <div class="right">
                         <a href="{{ route('back.item.create') }}" class="btn btn-info btn-sm d-inline-block"><i
                                 class="fas fa-plus"></i>{{ __('Add Product') }}</a>
@@ -33,17 +37,32 @@
             </div>
         </div>
 
-        <input type="hidden" id="product_url" value="{{ route('back.item.index') }}">
+    <input type="hidden" id="product_url" value="{{route('back.item.index')}}">
 
-        <!-- DataTales -->
-        <div class="card shadow mb-4">
-            <div class="card-body">
-                @include('alerts.alerts')
-                <form action="{{ route('back.item.index') }}" method="GET">
-                    <div class="product-filter-area">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <h4 class="mb-2"><b>{{ __('Product Filter :') }}</b></h4>
+	<!-- DataTales -->
+	<div class="card products_all_Cards shadow mb-4">
+		<div class="card-body ">
+            @include('alerts.alerts')
+            <form action="{{route('back.item.index')}}" method="GET">
+                <div class="product-filter-area">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h4 class="mb-2"><b>{{ __('Product Filter :') }}</b></h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3 col-md-4 col-sm-6" >
+                            <div class="form-group px-0">
+                                <select class="form-control" name="is_type">
+                                    <option  disabled>{{__('Select Type')}}</option>
+                                    <option value="">{{__('All Type')}}</option>
+                                    <option value="undefine" {{request()->input('is_type') == 'undefine' ? 'selected' : ''}}>{{__('Undefine Product')}}</option>
+                                    <option value="new" {{request()->input('is_type') == 'new' ? 'selected' : ''}}>{{__('New Arrival')}}</option>
+                                    <option value="flash_deal" {{request()->input('is_type') == 'flash_deal' ? 'selected' : ''}}>{{__('Flash Deal Product')}}</option>
+                                    <option value="feature" {{request()->input('is_type') == 'feature' ? 'selected' : ''}}> {{__('Featured Product')}}</option>
+                                    <option value="best" {{request()->input('is_type') == 'best' ? 'selected' : ''}}>{{__('Best Product')}}</option>
+                                    <option value="top" {{request()->input('is_type') == 'top' ? 'selected' : ''}}>{{__('Top Product')}}</option>
+                                </select>
                             </div>
                         </div>
                         <div class="row">

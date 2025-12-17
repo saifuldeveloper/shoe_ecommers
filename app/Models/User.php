@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class User extends Authenticatable
+class User extends Authenticatable 
 {
+    use SoftDeletes;
     protected $fillable = [
         'first_name',
         'last_name',
@@ -31,6 +33,8 @@ class User extends Authenticatable
 
 
     ];
+
+     protected $dates = ['deleted_at'];
 
 
     protected $hidden = [
@@ -95,5 +99,12 @@ class User extends Authenticatable
                     $query->where('status', '=', 1);
                 })->count();
     }
+
+
+    public function membership()
+    {
+        return $this->hasOne(MemberShip::class, 'user_id');
+    }
+
 
 }
