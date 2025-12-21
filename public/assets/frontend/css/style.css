@@ -2727,7 +2727,7 @@ button.ps-btn--gray:before {
   padding-bottom: 10px;
 }
 .ps-banner .ps-banner__header:before {
-  content: "";
+  /* content: ""; */
   position: absolute;
   top: 100%;
   left: 0;
@@ -8901,4 +8901,10 @@ body.nav-loaded {
     /* position: absolute;
     margin-top: 42px; */
     overflow: auto;
+}
+
+.table.ps-cart__table img {
+    max-width: 70px;
+    max-height: 70px;
+    object-fit: cover;
 }
