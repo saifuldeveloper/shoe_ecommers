@@ -2727,7 +2727,7 @@ button.ps-btn--gray:before {
   padding-bottom: 10px;
 }
 .ps-banner .ps-banner__header:before {
-  content: "";
+  /* content: ""; */
   position: absolute;
   top: 100%;
   left: 0;
