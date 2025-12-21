@@ -8902,3 +8902,9 @@ body.nav-loaded {
     margin-top: 42px; */
     overflow: auto;
 }
+
+.table.ps-cart__table img {
+    max-width: 70px;
+    max-height: 70px;
+    object-fit: cover;
+}
