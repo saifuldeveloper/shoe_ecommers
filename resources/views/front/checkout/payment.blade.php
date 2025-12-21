@@ -303,34 +303,37 @@
         });
 
         //    shipping calucation
-        var selectElement = document.getElementById('shipping-charge');
+        // var selectElement = document.getElementById('shipping-charge');
+        //     selectElement.addEventListener('change', function() {
+        //         var selectedValue = parseFloat(this.value); // New Shipping Price
+        //         document.querySelector('.shipping_price_set').innerText = selectedValue;
+        //         var grandTotalElement = document.querySelector('.grand_total_set');
+        //         var grandTotalText = grandTotalElement.innerText;
+        //         var baseTotal = parseFloat(grandTotalText.replace(/[^\d.]/g, ''));
+        //         var total_with_shipping = baseTotal + selectedValue;
+        //         document.querySelector('.grand_total_set').innerText = total_with_shipping.toFixed(2); 
+        // });
 
-            // selectElement.addEventListener('change', function() {
-        
-            // var selectedValue = parseFloat(this.value);
+        document.addEventListener('DOMContentLoaded', function () {
 
-            // var shippingPriceElements = document.querySelector('.shipping_price_set').innerText=selectedValue;
-            // var grandTotalElement = document.querySelector('.grand_total_get');
-            // var grandTotalText = grandTotalElement.innerText;
-            // var grandTotalNumber = parseFloat(grandTotalText.replace(/[^\d.]/g, ''));
-            // var total =grandTotalNumber + selectedValue;
-            // var grandTotalElement = document.querySelector('.grand_total_set').innerText=total;
+            const shippingSelect = document.getElementById('shipping-charge');
+            const shippingPriceEl = document.querySelector('.shipping_price_set');
+            const grandTotalEl = document.querySelector('.grand_total_set');
 
-
-
-            selectElement.addEventListener('change', function() {
-                var selectedValue = parseFloat(this.value); // New Shipping Price
-
-                document.querySelector('.shipping_price_set').innerText = selectedValue;
-
-                var grandTotalElement = document.querySelector('.grand_total_set');
-
-                var grandTotalText = grandTotalElement.innerText;
-
-                var baseTotal = parseFloat(grandTotalText.replace(/[^\d.]/g, ''));
-
-                var total_with_shipping = baseTotal + selectedValue;
-                document.querySelector('.grand_total_set').innerText = total_with_shipping.toFixed(2); 
+            // Base total (shipping 
+            const baseTotal = parseFloat(grandTotalEl.dataset.baseTotal);
+            shippingSelect.addEventListener('change', function () {
+                let shippingCharge = parseFloat(this.value);
+                // Free shipping 
+                if (isNaN(shippingCharge)) {
+                    shippingCharge = 0;
+                }
+                // Shipping show
+                shippingPriceEl.innerText = shippingCharge.toFixed(2);
+                // FINAL calculation  base + shipping
+                let finalTotal = baseTotal + shippingCharge;
+                grandTotalEl.innerText = finalTotal.toFixed(2);
+            });
         });
     </script>
 
