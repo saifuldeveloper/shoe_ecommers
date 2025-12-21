@@ -118,6 +118,12 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
             Route::get('/product/live-qty/{code}', [ItemController::class, 'getLiveRetailQty'])
                 ->name('product.live.qty');
 
+            Route::get('item/restore/{id}', [ItemController::class, 'restore'])->name('back.item.restore');
+            Route::delete('item/forced/delete/{id}', [ItemController::class, 'forceDelete'])->name('back.item.forceDelete');
+
+
+
+
             // Bulk product upload
             Route::get('/product/csv/export', [CsvProductController::class, 'export'])->name('back.csv.export');
             Route::get('bulk/product/index', [CsvProductController::class, 'index'])->name('back.bulk.product.index');
@@ -160,10 +166,15 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
             //------------ COLOR ------------
             Route::get('color/status/{id}/{status}/{type}', [ColorController::class, 'status'])->name('back.color.status');
             Route::resource('color', ColorController::class)->except(['show'])->names('back.color');
+            Route::get('color/restore/{id}', [ColorController::class, 'restore'])->name('back.color.restore');
+            Route::delete('color/forced/delete/{id}', [ColorController::class, 'forceDelete'])->name('back.color.forceDelete');
+
 
             //------------ SIZE ------------
             Route::get('size/status/{id}/{status}/{type}', [SizeController::class, 'status'])->name('back.size.status');
             Route::resource('size', SizeController::class)->except(['show'])->names('back.size');
+            Route::get('size/restore/{id}', [SizeController::class, 'restore'])->name('back.size.restore');
+            Route::delete('size/forced/delete/{id}', [SizeController::class, 'forceDelete'])->name('back.size.forceDelete');
 
             //------------ REVIEW ----------------//
             Route::get('review/status/{id}/{status}', [ReviewController::class, 'status'])->name('back.review.status');
@@ -188,9 +199,17 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
             Route:: as('back.')->group(function () {
                 Route::resource('category', CategoryController::class)->except(['show']);
             });
+
+            Route::get('category/restore/{id}', [CategoryController::class, 'restore'])->name('back.category.restore');
+            Route::delete('category/forced/delete/{id}', [CategoryController::class, 'forceDelete'])->name('back.category.forceDelete');
+
             //------------ SUB CATEGORY ------------
             Route::get('subcategory/status/{id}/{status}', [SubCategoryController::class, 'status'])->name('back.subcategory.status');
             Route::resource('subcategory', SubCategoryController::class)->except(['show'])->names('back.subcategory');
+
+            Route::get('subcategory/restore/{id}', [SubCategoryController::class, 'restore'])->name('back.subcategory.restore');
+            Route::delete('subcategory/forced/delete/{id}', [SubCategoryController::class, 'forceDelete'])->name('back.subcategory.forceDelete');
+
 
             //------------ CHILD CATEGORY ------------
             Route::get('childcategory/status/{id}/{status}', [ChieldCategoryController::class, 'status'])->name('back.childcategory.status');
@@ -202,10 +221,10 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
             Route::resource('user', UserController::class)
                 ->except(['create', 'store', 'edit'])
                 ->names('back.user');
-             });
-        
-            Route::resource('special/offer', SpecialOfferController::class)->except(['edit'])->names('back.offer');
-           Route::get('offer/status/{id}/{status}', [SpecialOfferController::class, 'status'])->name('back.offer.status');
+        });
+
+        Route::resource('special/offer', SpecialOfferController::class)->except(['edit'])->names('back.offer');
+        Route::get('offer/status/{id}/{status}', [SpecialOfferController::class, 'status'])->name('back.offer.status');
 
         Route::group(['middleware' => 'permissions:Ecommerce'], function () {
             //------------ PROMO CODE ------------

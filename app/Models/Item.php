@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Variant;
 use App\Models\Wishlist;
 use App\Models\ItemVariant;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Database\Eloquent\Model;
@@ -12,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 class Item extends Model
 {
 
+    use SoftDeletes;
     protected $fillable = ['category_id', 'subcategory_id', 'childcategory_id', 'brand_id', 'name', 'slug', 'sku', 'code', 'tags', 'video', 'sort_details', 'specification_name', 'specification_description', 'is_specification', 'details', 'photo', 'thumbnail', 'discount_price', 'previous_price', 'stock', 'meta_keywords', 'meta_description', 'is_variant', 'variant_option', 'variant_value', 'status', 'is_type', 'tax_id', 'date', 'item_type', 'file', 'link', 'file_type', 'license_name', 'license_key', 'affiliate_link', "seller_id"];
 
 
@@ -168,6 +170,21 @@ class Item extends Model
 
     }
 
+
+    public function deletedBy()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
+    }
+    protected static function booted()
+    {
+        static::deleting(function ($factory) {
+            if (auth()->check()) {
+                $factory->deleted_by = auth()->id();
+                $factory->save();
+            }
+        });
+    }
+
     public function itemVariants()
     {
         return $this->hasMany(ItemVariant::class, );
@@ -195,6 +212,12 @@ class Item extends Model
             ->unique()
             ->values();
     }
+
+
+
+
+
+
 
 
 

@@ -13,8 +13,9 @@ class ColorController extends Controller
      */
     public function index()
     {
-        return view("back.color.index",[
-            'datas' => Color::orderBy('id','desc')->get()
+        return view("back.color.index", [
+            'datas' => Color::orderBy('id', 'desc')->get(),
+            'softdeletes' => Color::onlyTrashed()->get(),
         ]);
     }
 
@@ -51,7 +52,7 @@ class ColorController extends Controller
      * @param  int  $status
      * @return \Illuminate\Http\Response
      */
-    public function status($id,$status,$type)
+    public function status($id, $status, $type)
     {
         Color::find($id)->update([$type => $status]);
         return redirect()->route('back.color.index')->withSuccess(__('Status Updated Successfully.'));
@@ -63,8 +64,8 @@ class ColorController extends Controller
     public function edit(string $id)
     {
         $color = Color::find($id);
-        return view('back.color.edit',[
-            'color'=> $color
+        return view('back.color.edit', [
+            'color' => $color
         ]);
     }
 
@@ -74,8 +75,8 @@ class ColorController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'name' => 'required|unique:colors,name,'.$id,
-            'code' => 'required|unique:colors,code,'.$id,
+            'name' => 'required|unique:colors,name,' . $id,
+            'code' => 'required|unique:colors,code,' . $id,
         ]);
 
         $data = Color::find($id);
@@ -83,7 +84,7 @@ class ColorController extends Controller
         $data->code = $request->code;
         $data->save();
 
-        return redirect()->route('back.color.index')->withSuccess(__('Data Updated Successfully.'));    
+        return redirect()->route('back.color.index')->withSuccess(__('Data Updated Successfully.'));
     }
 
     /**
@@ -94,5 +95,26 @@ class ColorController extends Controller
         $data = Color::find($id);
         $data->delete();
         return redirect()->route('back.color.index')->withSuccess(__('Data Deleted Successfully.'));
+    }
+    public function restore($id)
+    {
+       $color = Color::onlyTrashed()->find($id);
+        if ($color) {
+            $color->restore();
+              return redirect()->route('back.color.index')->withSuccess(__('Data Restore Successfully.'));
+        } else {
+            return redirect()->route('back.color.index')->withSuccess(__('Color not found.'));
+        }
+    }
+
+    public function forceDelete($id)
+    {
+        $color = Color::onlyTrashed()->find($id);
+        if ($color) {
+            $color->forceDelete();
+             return redirect()->route('back.color.index')->withSuccess(__('Category Permanently Deleted Successfully.'));
+        } else {
+             return redirect()->route('back.color.index')->withSuccess(__('Color not found.'));
+        }
     }
 }

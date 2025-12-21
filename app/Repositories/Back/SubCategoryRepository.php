@@ -31,7 +31,7 @@ class SubCategoryRepository
     public function update($category, $request)
     {
         $input = $request->all();
-        
+
         $category->update($input);
     }
 
@@ -45,6 +45,28 @@ class SubCategoryRepository
     public function delete($category)
     {
         $category->delete();
+    }
+
+    public function restore($id)
+    {
+        $category = Subcategory::onlyTrashed()->find($id);
+        if ($category) {
+            $category->restore();
+            return ['message' => __('Subcategory Restored Successfully.'), 'status' => 1];
+        } else {
+            return ['message' => __('Subcategory not found.'), 'status' => 0];
+        }
+    }
+
+    public function forceDelete($id)
+    {
+        $category = Subcategory::onlyTrashed()->find($id);
+        if ($category) {
+            $category->forceDelete();
+            return ['message' => __('Subcategory Permanently Deleted Successfully.'), 'status' => 1];
+        } else {
+            return ['message' => __('Subcategory not found.'), 'status' => 0];
+        }
     }
 
 }

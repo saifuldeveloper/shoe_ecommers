@@ -22,6 +22,8 @@ return new class extends Migration {
             $table->string('photo')->nullable();
             $table->boolean('status')->default(1);
             $table->foreign('parent_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->softDeletes();
+            $table->unsignedBigInteger('deleted_by')->nullable();
             $table->timestamps();
         });
     }

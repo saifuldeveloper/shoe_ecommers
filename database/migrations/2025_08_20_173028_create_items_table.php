@@ -83,6 +83,9 @@ return new class extends Migration
             $table->index('status');
             $table->index('item_type');
             $table->index('is_type');
+            $table->softDeletes();
+            $table->unsignedBigInteger('deleted_by')->nullable();
+    
         });
     }
 

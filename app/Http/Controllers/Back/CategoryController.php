@@ -33,7 +33,8 @@ class CategoryController extends Controller
     public function index()
     {
         return view('back.category.index',[
-            'datas' => Category::orderBy('id','desc')->get()
+            'datas' => Category::orderBy('id','desc')->get(),
+            'softdeletes' => Category::onlyTrashed()->get(),
         ]);
     }
 
@@ -125,6 +126,26 @@ class CategoryController extends Controller
         return redirect()->route('back.category.index')->withError($mgs['message']);
        }
         
+    }
+
+    public function restore($id)
+    {
+        $mgs = $this->repository->restore($id);
+        if($mgs['status'] == 1){
+         return redirect()->route('back.category.index')->withSuccess($mgs['message']);
+        }else{
+         return redirect()->route('back.category.index')->withError($mgs['message']);   
+        }
+    }
+
+    public function forceDelete($id)
+    {
+        $mgs = $this->repository->forceDelete($id);
+        if($mgs['status'] == 1){
+         return redirect()->route('back.category.index')->withSuccess($mgs['message']);
+        }else{
+         return redirect()->route('back.category.index')->withError($mgs['message']);   
+        }
     }
 
 

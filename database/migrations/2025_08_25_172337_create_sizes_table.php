@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');                // e.g., Small, Medium, Large
             $table->boolean('status')->default(1); // Active/Inactive
+            $table->softDeletes();
+            $table->unsignedBigInteger('deleted_by')->nullable();
             $table->timestamps();
         });
     }

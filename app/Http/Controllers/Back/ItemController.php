@@ -87,7 +87,9 @@ class ItemController extends Controller
             ->get();
 
         return view('back.item.index', [
-            'datas' => $datas
+            'datas' => $datas,
+            'softDeletedItems' =>Item::onlyTrashed()->get()
+
         ]);
     }
 
@@ -263,6 +265,35 @@ class ItemController extends Controller
         $this->repository->delete($item);
         return redirect()->back()->withSuccess(__('Product Deleted Successfully.'));
     }
+
+
+    public function restore($id)
+    {
+        $mgs = $this->repository->restore($id);
+        if ($mgs['status'] == 1) {
+            return redirect()->route('back.item.index')->withSuccess($mgs['message']);
+        } else {
+            return redirect()->route('back.item.index')->withError($mgs['message']);
+        }
+    }
+
+    public function forceDelete($id)
+    {
+        $mgs = $this->repository->forceDelete($id);
+        if ($mgs['status'] == 1) {
+            return redirect()->route('back.item.index')->withSuccess($mgs['message']);
+        } else {
+            return redirect()->route('back.item.index')->withError($mgs['message']);
+        }
+    }
+
+
+
+
+
+
+
+
 
     /**
      * Show the form for editing the specified resource.

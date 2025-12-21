@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('name');                // e.g., Red, Blue, Green
             $table->string('code', 20)->nullable(); // Hex or RGB code (#FF0000)
             $table->boolean('status')->default(1); // Active/Inactive
+            $table->softDeletes();
+            $table->unsignedBigInteger('deleted_by')->nullable();
             $table->timestamps();
         });
     }

@@ -92,9 +92,32 @@ class CategoryRepository
         if ($check) {
             return ['message' => __('This Category allready used Home page section . Please change this category then delete this category'), 'status' => 0];
         } else {
-            ImageHelper::handleDeletedImage($category, 'photo', 'category');
+            // ImageHelper::handleDeletedImage($category, 'photo', 'category');
             $category->delete();
             return ['message' => __('Category Deleted Successfully.'), 'status' => 1];
+        }
+    }
+
+    public function restore($id)
+    {
+        $category = Category::onlyTrashed()->find($id);
+        if ($category) {
+            $category->restore();
+            return ['message' => __('Category Restored Successfully.'), 'status' => 1];
+        } else {
+            return ['message' => __('Category not found.'), 'status' => 0];
+        }
+    }
+
+    public function forceDelete($id)
+    {
+        $category = Category::onlyTrashed()->find($id);
+        if ($category) {
+            ImageHelper::handleDeletedImage($category, 'photo', 'category');
+            $category->forceDelete();
+            return ['message' => __('Category Permanently Deleted Successfully.'), 'status' => 1];
+        } else {
+            return ['message' => __('Category not found.'), 'status' => 0];
         }
     }
 }
