@@ -20,7 +20,8 @@ return new class extends Migration
             $table->string('currency_sign', 10);
             $table->decimal('currency_value', 10, 4)->default(1.0000);
             $table->timestamps();
-            
+            $table->softDeletes();
+            $table->unsignedBigInteger('deleted_by')->nullable();
             // Indexes for better performance
             $table->index('order_id');
             $table->index('txn_id');

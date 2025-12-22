@@ -99,6 +99,10 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
             Route::get('/order/print/{id}', [OrderController::class, 'printOrder'])->name('back.order.print');
             Route::get('/order/invoice/{id}', [OrderController::class, 'invoice'])->name('back.order.invoice');
             Route::get('/order/status/{id}/{field}/{value}', [OrderController::class, 'status'])->name('back.order.status');
+            Route::get('/order/restore/{id}', [OrderController::class, 'restore'])->name('back.order.restore');
+            Route::delete('/order/forced/delete/{id}', [OrderController::class, 'forceDelete'])->name('back.order.forceDelete');
+
+
         });
 
 

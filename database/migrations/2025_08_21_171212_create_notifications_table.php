@@ -17,6 +17,9 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->boolean('is_read')->default(false);
             $table->timestamps();
+
+            $table->softDeletes();
+            $table->unsignedBigInteger('deleted_by')->nullable();
             
             // Indexes for better performance
             $table->index('order_id');

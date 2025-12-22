@@ -1,13 +1,15 @@
 @foreach ($datas as $data)
     <tr id="order-bulk-delete">
-        <td><input type="checkbox" class="bulk-item" value="{{ $data->id }}"></td>
+        @if (!$isSoftDelete)
+            <td><input type="checkbox" class="bulk-item" value="{{ $data->id }}"></td>
+        @endif
 
         <td>
             {{ $data->transaction_number }}
         </td>
         <td>
-        
-            {{ json_decode(@$data->billing_info, true)['bill_first_name']??"" }}
+
+            {{ json_decode(@$data->billing_info, true)['bill_first_name'] ?? '' }}
         </td>
 
         <td>
@@ -54,16 +56,26 @@
         </td>
         <td>
             <div class="action-list">
-                <a class="btn btn-secondary btn-sm" href="{{ route('back.order.invoice', $data->id) }}">
-                    <i class="fas fa-eye"></i>
-                </a>
-                <a class="btn btn-info btn-sm " href="{{ route('back.order.edit', $data->id) }}">
-                    <i class="fas fa-pen"></i>
-                </a>
-                <a class="btn btn-danger btn-sm " data-toggle="modal" data-target="#confirm-delete" href="javascript:;"
-                    data-href="{{ route('back.order.delete', $data->id) }}">
-                    <i class="fas fa-trash-alt"></i>
-                </a>
+                @if ($isSoftDelete)
+                    <a class="btn btn-info btn-sm " href="{{ route('back.order.restore', $data->id) }}">
+                        <i class="fas fa-redo"></i>
+                    </a>
+                    <a class="btn btn-danger btn-sm " data-toggle="modal" data-target="#confirm-delete"
+                        href="javascript:;" data-href="{{ route('back.order.forceDelete', $data->id) }}">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                @else
+                    <a class="btn btn-secondary btn-sm" href="{{ route('back.order.invoice', $data->id) }}">
+                        <i class="fas fa-eye"></i>
+                    </a>
+                    <a class="btn btn-info btn-sm " href="{{ route('back.order.edit', $data->id) }}">
+                        <i class="fas fa-pen"></i>
+                    </a>
+                    <a class="btn btn-danger btn-sm " data-toggle="modal" data-target="#confirm-delete"
+                        href="javascript:;" data-href="{{ route('back.order.delete', $data->id) }}">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                @endif
 
             </div>
         </td>

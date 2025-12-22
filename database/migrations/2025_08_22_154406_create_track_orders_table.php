@@ -20,6 +20,9 @@ return new class extends Migration
             // Indexes for better performance
             $table->index('order_id');
             $table->index('created_at');
+
+            $table->softDeletes();
+            $table->unsignedBigInteger('deleted_by')->nullable();
         });
     }
 

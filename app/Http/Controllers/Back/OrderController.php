@@ -57,7 +57,9 @@ class OrderController extends Controller
                 $datas = Order::latest('id')->get();
             }
         }
-        return view('back.order.index',compact('datas'));
+
+        $softDeletedDatas = Order::onlyTrashed()->latest('id')->get();
+        return view('back.order.index',compact('datas','softDeletedDatas'));
     }
 
     
@@ -248,5 +250,41 @@ class OrderController extends Controller
         $order->delete();
         return redirect()->back()->withSuccess(__('Order Deleted Successfully.'));
     }
+
+
+    public function restore($id)
+    {
+        $order = Order::onlyTrashed()->findOrFail($id);
+        $order->restore();
+        if($order->tranaction()->onlyTrashed()->exists()){
+            $order->tranaction()->onlyTrashed()->first()->restore();
+        }
+        if(Notification::where('order_id',$id)->onlyTrashed()->exists()){
+            Notification::where('order_id',$id)->onlyTrashed()->restore();
+        }
+        if(TrackOrder::where('order_id',$id)->onlyTrashed()->exists()){
+            TrackOrder::where('order_id',$id)->onlyTrashed()->restore();
+        }
+        return redirect()->back()->withSuccess(__('Order Restored Successfully.'));
+    }
+
+    public function forceDelete($id)
+    {
+        $order = Order::onlyTrashed()->findOrFail($id);
+        if($order->tranaction()->onlyTrashed()->exists()){
+            $order->tranaction()->onlyTrashed()->first()->forceDelete();
+        }
+        if(Notification::where('order_id',$id)->onlyTrashed()->exists()){
+            Notification::where('order_id',$id)->onlyTrashed()->forceDelete();
+        }
+        if(TrackOrder::where('order_id',$id)->onlyTrashed()->exists()){
+            TrackOrder::where('order_id',$id)->onlyTrashed()->forceDelete();
+        }
+        $order->forceDelete();
+        return redirect()->back()->withSuccess(__('Order Permanently Deleted Successfully.'));
+    }
+
+
+
 
 }
