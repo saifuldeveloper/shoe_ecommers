@@ -8937,3 +8937,11 @@ body.nav-loaded {
     transform: scale(1.1);
     color: white;
 }
+
+.ps-shoe__favorite i {
+    color: #999;
+}
+
+.ps-shoe__favorite.active i {
+    color: #f5c518;
+}
