@@ -466,6 +466,7 @@
 
             $('.add-to-wishlist').on('click', function(e) {
                 e.preventDefault();
+                  let $this = $(this);
                 let itemId = $(this).data('id');
 
                 let url = '{{ route('user.wishlist.store', ['id' => 'ITEM_ID']) }}';
@@ -487,9 +488,15 @@
                             alert("Wishlist-এ যোগ করার জন্য আপনাকে লগইন করতে হবে।");
                             window.location.href = response.link;
                         } else if (response.status === 1 || response.status === 2) {
+                            $this.addClass('active');
                             alert(response.message);
                             updateWishlistCount();
                         }
+                    else if (response.status === 2) {
+                        $this.removeClass('active'); // normal
+                        alert(response.message);
+                        updateWishlistCount();
+                    }
                     },
 
                 });
