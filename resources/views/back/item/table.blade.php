@@ -22,11 +22,10 @@
         </td>
         @if (!$isSoftDelete)
             <td>
-                <button class="btn btn-sm btn-info" onclick="showLiveQty('{{ $data->sku }}')">
+                <button type="button" class="btn btn-sm btn-info" onclick="showLiveQty('{{ $data->sku }}')">
                     Stock
                 </button>
             </td>
-
             <td>
                 <div class="dropdown">
                     <button class="btn btn-{{ $data->status == 1 ? 'success' : 'danger' }} btn-sm  dropdown-toggle"
