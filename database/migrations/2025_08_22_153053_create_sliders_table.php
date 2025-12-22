@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('logo')->nullable();
             $table->text('details')->nullable();
             $table->boolean('home_page')->default(true);
+            $table->softDeletes();
+            $table->unsignedBigInteger('deleted_by')->nullable();
             $table->timestamps();
         });
     }

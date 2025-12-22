@@ -35,8 +35,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view('back.post.index',[
-            'datas' => Post::with('category')->orderBy('id','desc')->get()
+        return view('back.post.index', [
+            'datas' => Post::with('category')->orderBy('id', 'desc')->get(),
+            'softdeletes' => Post::onlyTrashed()->get(),
         ]);
     }
 
@@ -78,7 +79,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('back.post.edit',compact('post'));
+        return view('back.post.edit', compact('post'));
     }
 
     /**
@@ -92,7 +93,7 @@ class PostController extends Controller
     {
         $request->validate([
             'photo*' => 'image',
-            'title' => 'required|max:255|unique:posts,title,'.$post->id,
+            'title' => 'required|max:255|unique:posts,title,' . $post->id,
             'category_id' => 'required',
             'details' => 'required',
             'tags' => 'nullable|max:255'
@@ -115,10 +116,30 @@ class PostController extends Controller
     }
 
 
-    public function delete($key,$id)
+    public function delete($key, $id)
     {
-        $this->repository->photoDelete($key,$id);
+        $this->repository->photoDelete($key, $id);
         return back()->withSuccess(__('Photo Deleted Successfully.'));
 
+    }
+
+    public function restore($id)
+    {
+        $mgs = $this->repository->restore($id);
+        if ($mgs['status'] == 1) {
+            return redirect()->route('back.post.index')->withSuccess($mgs['message']);
+        } else {
+            return redirect()->route('back.post.index')->withError($mgs['message']);
+        }
+    }
+
+    public function forceDelete($id)
+    {
+        $mgs = $this->repository->forceDelete($id);
+        if ($mgs['status'] == 1) {
+            return redirect()->route('back.post.index')->withSuccess($mgs['message']);
+        } else {
+            return redirect()->route('back.post.index')->withError($mgs['message']);
+        }
     }
 }

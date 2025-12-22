@@ -20,7 +20,7 @@ class ServiceRepository
     public function store($request)
     {
         $input = $request->all();
-        $input['photo'] = ImageHelper::handleUploadedImage($request->file('photo'),'service');
+        $input['photo'] = ImageHelper::handleUploadedImage($request->file('photo'), 'service');
         Service::create($input);
     }
 
@@ -35,7 +35,7 @@ class ServiceRepository
     {
         $input = $request->all();
         if ($file = $request->file('photo')) {
-            $input['photo'] = ImageHelper::handleUpdatedUploadedImage($file,'service',$service,'service','photo');
+            $input['photo'] = ImageHelper::handleUpdatedUploadedImage($file, 'service', $service, 'service', 'photo');
         }
         $service->update($input);
     }
@@ -49,9 +49,33 @@ class ServiceRepository
 
     public function delete($service)
     {
-        
-        ImageHelper::handleDeletedImage($service,'photo','service');
+
+        ImageHelper::handleDeletedImage($service, 'photo', 'service');
         $service->delete();
+    }
+
+
+    public function restore($id)
+    {
+        $service = Service::onlyTrashed()->find($id);
+        if ($service) {
+            $service->restore();
+            return ['message' => __('Service Restored Successfully.'), 'status' => 1];
+        } else {
+            return ['message' => __('Service not found.'), 'status' => 0];
+        }
+    }
+
+    public function forceDelete($id)
+    {
+        $service = Service::onlyTrashed()->find($id);
+        if ($service) {
+            ImageHelper::handleDeletedImage($service, 'photo', 'service');
+            $service->forceDelete();
+            return ['message' => __('Service Permanently Deleted Successfully.'), 'status' => 1];
+        } else {
+            return ['message' => __('Service not found.'), 'status' => 0];
+        }
     }
 
 }

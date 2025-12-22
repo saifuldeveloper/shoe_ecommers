@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -19,12 +18,14 @@ return new class extends Migration
             $table->decimal('discount', 10, 2);
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->enum('type', ['percentage', 'fixed'])->default('percentage');
-            $table->timestamps();
-            
             // Indexes for better performance
             $table->index('code_name');
             $table->index('status');
             $table->index('type');
+            $table->softDeletes();
+            $table->unsignedBigInteger('deleted_by')->nullable();
+
+            $table->timestamps();
         });
     }
 

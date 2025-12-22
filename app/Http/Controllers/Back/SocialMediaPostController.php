@@ -20,7 +20,8 @@ class SocialMediaPostController extends Controller
     {
 
         return view('back.socialMediaPost.index', [
-            'datas' => $this->repository->all()
+            'datas' => $this->repository->all(),
+            'softdeletes' => SocialMediaPost::onlyTrashed()->get(),
         ]);
     }
 
@@ -66,6 +67,28 @@ class SocialMediaPostController extends Controller
 
         return redirect()->route('back.socialmediapost.index')->withSuccess(__('Social Media Post Deleted Successfully.'));
     }
+
+    public function restore($id)
+    {
+        $mgs = $this->repository->restore($id);
+        if ($mgs['status'] == 1) {
+            return redirect()->route('back.socialmediapost.index')->withSuccess($mgs['message']);
+        } else {
+            return redirect()->route('back.socialmediapost.index')->withError($mgs['message']);
+        }
+    }
+
+    public function forceDelete($id)
+    {
+        $mgs = $this->repository->forceDelete($id);
+        if ($mgs['status'] == 1) {
+            return redirect()->route('back.socialmediapost.index')->withSuccess($mgs['message']);
+        } else {
+            return redirect()->route('back.socialmediapost.index')->withError($mgs['message']);
+        }
+    }
+
+
 
     public function status($id, $status)
     {

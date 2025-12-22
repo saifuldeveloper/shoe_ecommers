@@ -29,8 +29,9 @@ class PromoCodeController extends Controller
      */
     public function index()
     {
-        return view('back.code.index',[
-            'datas' => PromoCode::orderBy('id','desc')->get()
+        return view('back.code.index', [
+            'datas' => PromoCode::orderBy('id', 'desc')->get(),
+            'softdeletes' => PromoCode::onlyTrashed()->get(),
         ]);
     }
 
@@ -52,9 +53,9 @@ class PromoCodeController extends Controller
      */
     public function store(PromoCodeRequest $request)
     {
-        $curr = Currency::where('is_default',1)->first();
+        $curr = Currency::where('is_default', 1)->first();
         $input = $request->all();
-        if($input['type'] == 'amount'){
+        if ($input['type'] == 'amount') {
             $input['discount'] = $input['discount'] / $curr->value;
         }
         PromoCode::create($input);
@@ -69,8 +70,8 @@ class PromoCodeController extends Controller
      */
     public function edit(PromoCode $code)
     {
-        $curr = Currency::where('is_default',1)->first();
-        return view('back.code.edit',compact('code','curr'));
+        $curr = Currency::where('is_default', 1)->first();
+        return view('back.code.edit', compact('code', 'curr'));
     }
 
 
@@ -81,7 +82,7 @@ class PromoCodeController extends Controller
      * @param  int  $pos
      * @return \Illuminate\Http\Response
      */
-    public function status($id,$status)
+    public function status($id, $status)
     {
         PromoCode::find($id)->update(['status' => $status]);
         return redirect()->route('back.code.index')->withSuccess(__('Status Updated Successfully.'));
@@ -96,9 +97,9 @@ class PromoCodeController extends Controller
      */
     public function update(PromoCodeRequest $request, PromoCode $code)
     {
-        $curr = Currency::where('is_default',1)->first();
+        $curr = Currency::where('is_default', 1)->first();
         $input = $request->all();
-        if($input['type'] == 'amount'){
+        if ($input['type'] == 'amount') {
             $input['discount'] = $input['discount'] / $curr->value;
         }
 
@@ -116,5 +117,28 @@ class PromoCodeController extends Controller
     {
         $code->delete();
         return redirect()->route('back.code.index')->withSuccess(__('Promo Code Deleted Successfully.'));
+    }
+
+
+    public function restore($id)
+    {
+        $promoCode = PromoCode::onlyTrashed()->find($id);
+        if ($promoCode) {
+            $promoCode->restore();
+            return redirect()->route('back.code.index')->withSuccess(__('Data RepromoCode Successfully.'));
+        } else {
+            return redirect()->route('back.code.index')->withSuccess(__('PromoCode not found.'));
+        }
+    }
+
+    public function forceDelete($id)
+    {
+        $promoCode = PromoCode::onlyTrashed()->find($id);
+        if ($promoCode) {
+            $promoCode->forceDelete();
+            return redirect()->route('back.code.index')->withSuccess(__('Category Permanently Deleted Successfully.'));
+        } else {
+            return redirect()->route('back.code.index')->withSuccess(__('PromoCode not found.'));
+        }
     }
 }

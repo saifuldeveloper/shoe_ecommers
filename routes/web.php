@@ -191,9 +191,14 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
         Route::get('/notification/delete/{id}', [NotificationController::class, 'delete'])->name('back.notification.delete');
         Route::get('/notifications/clear', [NotificationController::class, 'clear_notf'])->name('back.notifications.clear');
 
-        Route::get('socialmediapost/status/{id}/{status}', [SocialMediaPostController::class, 'status'])
-            ->name('back.socialmediapost.status');
+        //------------ SocialMediaPost ------------
+        Route::get('socialmediapost/status/{id}/{status}', [SocialMediaPostController::class, 'status'])->name('back.socialmediapost.status');
         Route::resource('socialmediapost', SocialMediaPostController::class)->except(['show'])->names('back.socialmediapost');
+
+        Route::get('socialmediapost/restore/{id}', [SocialMediaPostController::class, 'restore'])->name('back.socialmediapost.restore');
+        Route::delete('socialmediapost/forced/delete/{id}', [SocialMediaPostController::class, 'forceDelete'])->name('back.socialmediapost.forceDelete');
+
+
 
         Route::group(['middleware' => 'permissions:Manage Categories'], function () {
             //------------ CATEGORY ------------
@@ -234,9 +239,18 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
             //------------ PROMO CODE ------------
             Route::get('code/status/{id}/{status}', [PromoCodeController::class, 'status'])->name('back.code.status');
             Route::resource('code', PromoCodeController::class)->except(['show'])->names('back.code');
+
+            Route::get('code/restore/{id}', [PromoCodeController::class, 'restore'])->name('back.code.restore');
+            Route::delete('code/forced/delete/{id}', [PromoCodeController::class, 'forceDelete'])->name('back.code.forceDelete');
+
+
+
             //------------ TAX SETTING ------------
             Route::get('tax/status/{id}/{status}', [TaxController::class, 'status'])->name('back.tax.status');
             Route::resource('tax', TaxController::class)->except(['show'])->names('back.tax');
+            Route::get('tax/restore/{id}', [TaxController::class, 'restore'])->name('back.tax.restore');
+            Route::delete('tax/forced/delete/{id}', [TaxController::class, 'forceDelete'])->name('back.tax.forceDelete');
+
 
             Route::get('state/status/{id}/{status}', [StateController::class, 'status'])->name('back.state.status');
             Route::resource('state', StateController::class)->except(['show'])->names('back.state');
@@ -244,6 +258,10 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
             //------------ SHIPPING SERVICE ------------
             Route::get('shipping/status/{id}/{status}', [ShippingServiceController::class, 'status'])->name('back.shipping.status');
             Route::resource('shipping', ShippingServiceController::class)->except(['show'])->names('back.shipping');
+            
+            Route::get('shipping/restore/{id}', [ShippingServiceController::class, 'restore'])->name('back.shipping.restore');
+            Route::delete('shipping/forced/delete/{id}', [ShippingServiceController::class, 'forceDelete'])->name('back.shipping.forceDelete');
+
 
             //------------ CURRENCY ------------
             Route::get('currency/status/{id}/{status}', [CurrencyController::class, 'status'])->name('back.currency.status');
@@ -272,15 +290,15 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
         Route::group(['middleware' => 'permissions:Manage Blogs'], function () {
             // CATEGORY
             Route::get('bcategory/status/{id}/{status}', [BcategoryController::class, 'status'])->name('back.bcategory.status');
-            Route::resource('bcategory', BcategoryController::class)
-                ->except(['show'])
-                ->names('back.bcategory');
+            Route::resource('bcategory', BcategoryController::class)->except(['show'])->names('back.bcategory');
+            Route::get('bcategory/restore/{id}', [BcategoryController::class, 'restore'])->name('back.bcategory.restore');
+            Route::delete('bcategory/forced/delete/{id}', [BcategoryController::class, 'forceDelete'])->name('back.bcategory.forceDelete');
 
             // POST
-            Route::resource('post', PostController::class)
-                ->except(['show'])
-                ->names('back.post');
+            Route::resource('post', PostController::class)->except(['show'])->names('back.post');
             Route::delete('post/delete/{key}/{id}', [PostController::class, 'delete'])->name('back.post.photo.delete');
+            Route::get('post/restore/{id}', [PostController::class, 'restore'])->name('back.post.restore');
+            Route::delete('post/forced/delete/{id}', [PostController::class, 'forceDelete'])->name('back.post.forceDelete');
         });
 
         //------------ TRANSACTIONS ------------
@@ -307,23 +325,29 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
         //------------ SYSTEM USERS ------------
         Route::group(['middleware' => 'permissions:Manage System User'], function () {
             // ROLE
-            Route::resource('role', RoleController::class)
-                ->except(['show'])
-                ->names('back.role');
+            Route::resource('role', RoleController::class)->except(['show'])->names('back.role');
+            Route::get('role/restore/{id}', [RoleController::class, 'restore'])->name('back.role.restore');
+            Route::delete('role/forced/delete/{id}', [RoleController::class, 'forceDelete'])->name('back.role.forceDelete');
 
+            
             // STAFF
-            Route::resource('staff', StaffController::class)
-                ->except(['show'])
-                ->names('back.staff');
+            Route::resource('staff', StaffController::class)->except(['show'])->names('back.staff');
+            Route::get('staff/restore/{id}', [StaffController::class, 'restore'])->name('back.staff.restore');
+            Route::delete('staff/forced/delete/{id}', [StaffController::class, 'forceDelete'])->name('back.staff.forceDelete');
+
         });
 
         //------------ PAGES ------------
         Route::group(['middleware' => 'permissions:Manages Pages'], function () {
             // PAGE
             Route::get('page/pos/{id}/{pos}', [PageController::class, 'pos'])->name('back.page.pos');
-            Route::resource('page', PageController::class)
-                ->except(['show'])
-                ->names('back.page');
+            Route::resource('page', PageController::class)->except(['show'])->names('back.page');
+
+            Route::get('page/restore/{id}', [PageController::class, 'restore'])->name('back.page.restore');
+            Route::delete('page/forced/delete/{id}', [PageController::class, 'forceDelete'])->name('back.page.forceDelete');
+
+
+
         });
         Route::group(['middleware' => 'permissions:Manage Site'], function () {
             //------------ SOCIAL ------------
@@ -377,9 +401,15 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
             Route::get('language/status/{id}/{status}', [LanguageController::class, 'status'])->name('back.language.status');
             //------------ SLIDER ------------
             Route::resource('slider', SliderController::class)->except(['show'])->names('back.slider');
+            Route::get('slider/restore/{id}', [SliderController::class, 'restore'])->name('back.slider.restore');
+            Route::delete('slider/forced/delete/{id}', [SliderController::class, 'forceDelete'])->name('back.slider.forceDelete');
+
 
             //------------ SERVICE ------------
             Route::resource('service', ServiceController::class)->except(['show'])->names('back.service');
+            Route::get('service/restore/{id}', [ServiceController::class, 'restore'])->name('back.service.restore');
+            Route::delete('service/forced/delete/{id}', [ServiceController::class, 'forceDelete'])->name('back.service.forceDelete');
+
             // --------- Generate Sitemap ---------
             Route::get('/sitemap', [SitemapController::class, 'index'])->name('admin.sitemap.index');
             Route::get('/sitemap/add', [SitemapController::class, 'add'])->name('admin.sitemap.add');
@@ -399,8 +429,13 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
         //-------------------------------- STORES MANAGEMENT ---------------------------------
 
         Route::resource('districts', DistrictController::class)->names('back.districts');
+        Route::get('districts/restore/{id}', [DistrictController::class, 'restore'])->name('back.districts.restore');
+        Route::delete('districts/forced/delete/{id}', [DistrictController::class, 'forceDelete'])->name('back.districts.forceDelete');
+
 
         Route::resource('stores', StoresController::class)->names('back.stores');
+        Route::get('stores/restore/{id}', [StoresController::class, 'restore'])->name('back.stores.restore');
+        Route::delete('stores/forced/delete/{id}', [StoresController::class, 'forceDelete'])->name('back.stores.forceDelete');
 
         Route::controller(UtilityController::class)->group(function () {
             Route::get('/clear', 'clear')->name('clear-cache');

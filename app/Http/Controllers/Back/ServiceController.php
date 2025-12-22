@@ -35,8 +35,9 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        return view('back.service.index',[
-            'datas' => Service::orderBy('id','desc')->get()
+        return view('back.service.index', [
+            'datas' => Service::orderBy('id', 'desc')->get(),
+            'softdeletes' => Service::onlyTrashed()->get(),
         ]);
     }
 
@@ -75,7 +76,7 @@ class ServiceController extends Controller
      */
     public function edit(Service $service)
     {
-        return view('back.service.edit',compact('service'));
+        return view('back.service.edit', compact('service'));
     }
 
     /**
@@ -106,5 +107,25 @@ class ServiceController extends Controller
     {
         $this->repository->delete($service);
         return redirect()->route('back.service.index')->withSuccess(__('Service Deleted Successfully.'));
+    }
+
+    public function restore($id)
+    {
+        $mgs = $this->repository->restore($id);
+        if ($mgs['status'] == 1) {
+            return redirect()->route('back.service.index')->withSuccess($mgs['message']);
+        } else {
+            return redirect()->route('back.service.index')->withError($mgs['message']);
+        }
+    }
+
+    public function forceDelete($id)
+    {
+        $mgs = $this->repository->forceDelete($id);
+        if ($mgs['status'] == 1) {
+            return redirect()->route('back.service.index')->withSuccess($mgs['message']);
+        } else {
+            return redirect()->route('back.service.index')->withError($mgs['message']);
+        }
     }
 }

@@ -31,7 +31,8 @@ class RoleController extends Controller
     public function index()
     {
         return view('back.role.index',[
-            'datas' => Role::orderBy('id','desc')->get()
+            'datas' => Role::orderBy('id','desc')->get(),
+            'softdeletes' => Role::onlyTrashed()->get(),
         ]);
     }
 
@@ -104,5 +105,27 @@ class RoleController extends Controller
     {
         $role->delete();
         return redirect()->route('back.role.index')->withSuccess(__('Role Deleted Successfully.'));
+    }
+
+    public function restore($id)
+    {
+        $role = Role::onlyTrashed()->find($id);
+        if ($role) {
+            $role->restore();
+            return redirect()->route('back.role.index')->withSuccess(__('Data restore Successfully.'));
+        } else {
+            return redirect()->route('back.role.index')->withSuccess(__('Role not found.'));
+        }
+    }
+
+    public function forceDelete($id)
+    {
+        $role = Role::onlyTrashed()->find($id);
+        if ($role) {
+            $role->forceDelete();
+            return redirect()->route('back.role.index')->withSuccess(__('Category Permanently Deleted Successfully.'));
+        } else {
+            return redirect()->route('back.role.index')->withSuccess(__('Role not found.'));
+        }
     }
 }

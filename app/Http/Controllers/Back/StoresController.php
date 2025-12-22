@@ -15,7 +15,8 @@ class StoresController extends Controller
     public function index()
     {
         $stores = Store::with('district')->orderBy('id', 'DESC')->get();
-        return view("back.stores.index", compact("stores"));
+        $softdeletes = Store::onlyTrashed()->get();
+        return view("back.stores.index", compact('stores', 'softdeletes'));
     }
 
     /**
@@ -50,8 +51,8 @@ class StoresController extends Controller
         $store->latitude = $request->latitude;
         $store->longitude = $request->longitude;
         $store->mobile = $request->mobile;
-        $store->api_base_url =$request->api_base_url;
-        $store->secret_key =$request->secret_key;
+        $store->api_base_url = $request->api_base_url;
+        $store->secret_key = $request->secret_key;
         $store->save();
         return redirect()->route('back.stores.index')->withSuccess(__('New Store Added Successfully.'));
     }
@@ -69,10 +70,10 @@ class StoresController extends Controller
      */
     public function edit(string $id)
     {
-        $districts = District::orderBy('id','DESC')->get();
+        $districts = District::orderBy('id', 'DESC')->get();
         $store = Store::find($id);
-        return view('back.stores.edit', compact('districts','store'));
-       
+        return view('back.stores.edit', compact('districts', 'store'));
+
     }
 
     /**
@@ -99,8 +100,8 @@ class StoresController extends Controller
             $store->latitude = $request->latitude;
             $store->longitude = $request->longitude;
             $store->mobile = $request->mobile;
-            $store->api_base_url =$request->api_base_url;
-            $store->secret_key =$request->secret_key;
+            $store->api_base_url = $request->api_base_url;
+            $store->secret_key = $request->secret_key;
             $store->save();
             return redirect()->route('back.stores.index')->withSuccess(__('Store Updated Successfully.'));
         }
@@ -118,5 +119,27 @@ class StoresController extends Controller
             return redirect()->route('back.stores.index')->withSuccess(__('Store Deleted Successfully.'));
         }
         return redirect()->route('back.stores.index')->withErrors(__('Store Not Found.'));
+    }
+
+    public function restore($id)
+    {
+        $store = Store::onlyTrashed()->find($id);
+        if ($store) {
+            $store->restore();
+            return redirect()->route('back.stores.index')->withSuccess(__('Data Restore Successfully.'));
+        } else {
+            return redirect()->route('back.stores.index')->withSuccess(__('Store not found.'));
+        }
+    }
+
+    public function forceDelete($id)
+    {
+        $store = Store::onlyTrashed()->find($id);
+        if ($store) {
+            $store->forceDelete();
+            return redirect()->route('back.stores.index')->withSuccess(__('Category Permanently Deleted Successfully.'));
+        } else {
+            return redirect()->route('back.stores.index')->withSuccess(__('Store not found.'));
+        }
     }
 }

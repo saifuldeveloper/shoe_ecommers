@@ -28,8 +28,9 @@ class TaxController extends Controller
      */
     public function index()
     {
-        return view('back.tax.index',[
-            'datas' => Tax::orderBy('id','desc')->get()
+        return view('back.tax.index', [
+            'datas' => Tax::orderBy('id', 'desc')->get(),
+            'softdeletes' => Tax::onlyTrashed()->get()
         ]);
     }
 
@@ -64,7 +65,7 @@ class TaxController extends Controller
      */
     public function edit(Tax $tax)
     {
-        return view('back.tax.edit',compact('tax'));
+        return view('back.tax.edit', compact('tax'));
     }
 
 
@@ -75,7 +76,7 @@ class TaxController extends Controller
      * @param  int  $status
      * @return \Illuminate\Http\Response
      */
-    public function status($id,$status)
+    public function status($id, $status)
     {
         Tax::find($id)->update(['status' => $status]);
         return redirect()->route('back.tax.index')->withSuccess(__('Status Updated Successfully.'));
@@ -104,5 +105,28 @@ class TaxController extends Controller
     {
         $tax->delete();
         return redirect()->route('back.tax.index')->withSuccess(__('Tax Deleted Successfully.'));
+    }
+
+
+    public function restore($id)
+    {
+        $tax = Tax::onlyTrashed()->find($id);
+        if ($tax) {
+            $tax->restore();
+            return redirect()->route('back.tax.index')->withSuccess(__('Data Restore Successfully.'));
+        } else {
+            return redirect()->route('back.tax.index')->withSuccess(__('tax Service not found.'));
+        }
+    }
+
+    public function forceDelete($id)
+    {
+        $tax = Tax::onlyTrashed()->find($id);
+        if ($tax) {
+            $tax->forceDelete();
+            return redirect()->route('back.tax.index')->withSuccess(__('tax Service Permanently Deleted Successfully.'));
+        } else {
+            return redirect()->route('back.tax.index')->withSuccess(__('tax Service not found.'));
+        }
     }
 }

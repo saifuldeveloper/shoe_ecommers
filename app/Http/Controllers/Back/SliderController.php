@@ -36,7 +36,8 @@ class SliderController extends Controller
     public function index()
     {
         return view('back.slider.index', [
-            'datas' => Slider::orderBy('id', 'desc')->get()
+            'datas' => Slider::orderBy('id', 'desc')->get(),
+            'softdeletes' => Slider::onlyTrashed()->get(),
         ]);
     }
 
@@ -96,5 +97,25 @@ class SliderController extends Controller
     {
         $this->repository->delete($slider);
         return redirect()->route('back.slider.index')->withSuccess(__('Slider Deleted Successfully.'));
+    }
+
+    public function restore($id)
+    {
+        $mgs = $this->repository->restore($id);
+        if ($mgs['status'] == 1) {
+            return redirect()->route('back.slider.index')->withSuccess($mgs['message']);
+        } else {
+            return redirect()->route('back.slider.index')->withError($mgs['message']);
+        }
+    }
+
+    public function forceDelete($id)
+    {
+        $mgs = $this->repository->forceDelete($id);
+        if ($mgs['status'] == 1) {
+            return redirect()->route('back.slider.index')->withSuccess($mgs['message']);
+        } else {
+            return redirect()->route('back.slider.index')->withError($mgs['message']);
+        }
     }
 }

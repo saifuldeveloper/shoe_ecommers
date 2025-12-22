@@ -91,15 +91,15 @@ class PostRepository
 
     public function delete($post)
     {
-        $images = json_decode($post->photo, true);
-        foreach ($images as $image) {
-            // if (file_exists(base_path('../').'assets/images/'.$image)) {
-            //     unlink(base_path('../').'assets/images/'.$image);
-            // }
-            Storage::delete("blog" . '/' . $image);
-        }
+        // $images = json_decode($post->photo, true);
+        // foreach ($images as $image) {
+        //     Storage::delete("blog" . '/' . $image);
+        // }
         $post->delete();
     }
+
+
+
 
     /**
      * Delete post.
@@ -115,9 +115,44 @@ class PostRepository
         $delete_photo = $photos[$key];
 
         Storage::delete("images" . '/' . $delete_photo);
-       
+
         unset($photos[$key]);
         $new_photos = json_encode($photos, true);
         $post->update(['photo' => $new_photos]);
     }
+
+
+
+    public function restore($id)
+    {
+        $post = Post::onlyTrashed()->find($id);
+
+        if (!$post) {
+            return ['message' => __('Post not found.'), 'status' => 0];
+        }
+
+        $post->restore();
+
+        return ['message' => __('Post Restored Successfully.'), 'status' => 1];
+    }
+
+    public function forceDelete($id)
+    {
+        $post = Post::onlyTrashed()->find($id);
+
+        if (!$post) {
+            return ['message' => __('Post not found.'), 'status' => 0];
+        }
+
+        if ($post->photo) {
+            foreach (json_decode($post->photo, true) as $image) {
+                Storage::delete('blog/' . $image);
+            }
+        }
+
+        $post->forceDelete(); // 🔥 IMPORTANT
+
+        return ['message' => __('Post Permanently Deleted Successfully.'), 'status' => 1];
+    }
+
 }

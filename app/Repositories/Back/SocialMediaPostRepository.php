@@ -56,7 +56,31 @@ class SocialMediaPostRepository
     public function delete($post)
     {
 
-        ImageHelper::handleDeletedImage($post, 'photo', 'socialMediaPost');
+        // ImageHelper::handleDeletedImage($post, 'photo', 'socialMediaPost');
         $post->delete();
+    }
+
+
+    public function restore($id)
+    {
+        $socialMediaPost = SocialMediaPost::onlyTrashed()->find($id);
+        if ($socialMediaPost) {
+            $socialMediaPost->restore();
+            return ['message' => __('SocialMediaPost Restored Successfully.'), 'status' => 1];
+        } else {
+            return ['message' => __('SocialMediaPost not found.'), 'status' => 0];
+        }
+    }
+
+    public function forceDelete($id)
+    {
+        $socialMediaPost = SocialMediaPost::onlyTrashed()->find($id);
+        if ($socialMediaPost) {
+            ImageHelper::handleDeletedImage($id, 'photo', 'socialMediaPost');
+            $socialMediaPost->forceDelete();
+            return ['message' => __('SocialMediaPost Permanently Deleted Successfully.'), 'status' => 1];
+        } else {
+            return ['message' => __('SocialMediaPost not found.'), 'status' => 0];
+        }
     }
 }

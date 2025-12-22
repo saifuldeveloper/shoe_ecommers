@@ -29,7 +29,8 @@ class PageController extends Controller
     public function index()
     {
         return view('back.page.index',[
-            'datas' => Page::orderBy('id','desc')->get()
+            'datas' => Page::orderBy('id','desc')->get(),
+            'softdeletes' => Page::onlyTrashed()->get(),
         ]);
     }
 
@@ -104,4 +105,28 @@ class PageController extends Controller
         $page->delete();
         return redirect()->route('back.page.index')->withSuccess(__('Page Deleted Successfully.'));
     }
+
+     public function restore($id)
+    {
+       $page = Page::onlyTrashed()->find($id);
+        if ($page) {
+            $page->restore();
+              return redirect()->route('back.page.index')->withSuccess(__('Data Restore Successfully.'));
+        } else {
+            return redirect()->route('back.page.index')->withSuccess(__('Page not found.'));
+        }
+    }
+
+    public function forceDelete($id)
+    {
+        $page = Page::onlyTrashed()->find($id);
+        if ($page) {
+            $page->forceDelete();
+             return redirect()->route('back.page.index')->withSuccess(__('Category Permanently Deleted Successfully.'));
+        } else {
+             return redirect()->route('back.page.index')->withSuccess(__('Page not found.'));
+        }
+    }
+
+    
 }

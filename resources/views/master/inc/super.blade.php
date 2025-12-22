@@ -172,11 +172,11 @@
                         <span class="sub-item">{{ __('Shipping') }}</span>
                     </a>
                 </li>
-                <li>
+                {{-- <li>
                     <a class="sub-link" href="{{ route('back.state.index') }}">
                         <span class="sub-item">{{ __('State Charge') }}</span>
                     </a>
-                </li>
+                </li> --}}
                 <li>
                     <a class="sub-link" href="{{ route('back.tax.index') }}">
                         <span class="sub-item">{{ __('Tax') }}</span>

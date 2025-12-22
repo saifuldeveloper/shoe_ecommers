@@ -15,7 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug')->unique('slug');
+            $table->softDeletes();
+            $table->unsignedBigInteger('deleted_by')->nullable();
             $table->timestamps();
+
         });
     }
 

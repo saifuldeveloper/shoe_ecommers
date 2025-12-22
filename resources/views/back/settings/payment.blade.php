@@ -168,6 +168,10 @@
                                                                                 value="{{ $sslcommerz->name }}">
                                                                         </div>
 
+                                                                    
+                                                                        @if($sslcommerzData)
+                                                                           
+
                                                                         @foreach ($sslcommerzData as $pkey => $sslcommerzData)
                                                                             @if ($pkey == 'check_sandbox')
                                                                                 <div class="form-group  col-xl-4 col-md-6">
@@ -198,6 +202,8 @@
                                                                                 </div>
                                                                             @endif
                                                                         @endforeach
+
+                                                                        @endif
 
                                                                         <div class="form-group">
                                                                             <label for="text">{{ __('Enter Text') }}

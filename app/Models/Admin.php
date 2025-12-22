@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Admin extends Authenticatable
 {
+    use SoftDeletes;
     protected $guard = 'admin';
 
     protected $fillable = [
@@ -46,6 +48,21 @@ class Admin extends Authenticatable
         }else{
             return false;
         }
+    }
+
+
+    public function deletedBy()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
+    }
+    protected static function booted()
+    {
+        static::deleting(function ($factory) {
+            if (auth()->check()) {
+                $factory->deleted_by = auth()->id();
+                $factory->save();
+            }
+        });
     }
 
 }

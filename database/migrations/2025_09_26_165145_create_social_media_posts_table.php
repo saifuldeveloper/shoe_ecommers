@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('url');
             $table->enum('type', ['facebook', 'instagram', 'youtube', 'twitter', 'linkedin', 'other'])->default('other');
             $table->boolean('status')->default(true);
+            $table->softDeletes();
+            $table->unsignedBigInteger('deleted_by')->nullable();
             $table->timestamps();
         });
     }

@@ -34,7 +34,8 @@ class BcategoryController extends Controller
     public function index()
     {
         return view('back.bcategory.index',[
-            'datas' => Bcategory::orderBy('id','desc')->get()
+            'datas' => Bcategory::orderBy('id','desc')->get(),
+            'softdeletes' => Bcategory::onlyTrashed()->get(),
         ]);
     }
 
@@ -107,5 +108,28 @@ class BcategoryController extends Controller
     {
         $this->repository->delete($bcategory);
         return redirect()->route('back.bcategory.index')->withSuccess(__('Category Deleted Successfully.'));
+    }
+
+
+     public function restore($id)
+    {
+        $districts = Bcategory::onlyTrashed()->find($id);
+        if ($districts) {
+            $districts->restore();
+            return redirect()->route('back.bcategory.index')->withSuccess(__('Data Restore Successfully.'));
+        } else {
+            return redirect()->route('back.bcategory.index')->withSuccess(__('District not found.'));
+        }
+    }
+
+    public function forceDelete($id)
+    {
+        $bcategory = Bcategory::onlyTrashed()->find($id);
+        if ($bcategory) {
+            $bcategory->forceDelete();
+            return redirect()->route('back.bcategory.index')->withSuccess(__('Blog Category Permanently Deleted Successfully.'));
+        } else {
+            return redirect()->route('back.bcategory.index')->withSuccess(__('District not found.'));
+        }
     }
 }

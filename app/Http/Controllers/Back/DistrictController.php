@@ -14,7 +14,8 @@ class DistrictController extends Controller
     public function index()
     {
         $districts = District::orderBy('id', 'DESC')->get();
-        return view('back.district.index', compact('districts'));
+        $softdeletes = District::onlyTrashed()->get();
+        return view('back.district.index', compact('districts','softdeletes'));
     }
 
     /**
@@ -88,5 +89,28 @@ class DistrictController extends Controller
             return redirect()->route('back.districts.index')->withSuccess(__('District Deleted Successfully.'));
         }
         return redirect()->route('back.districts.index')->withErrors(__('District Not Found.'));
+    }
+
+
+    public function restore($id)
+    {
+        $districts = District::onlyTrashed()->find($id);
+        if ($districts) {
+            $districts->restore();
+            return redirect()->route('back.districts.index')->withSuccess(__('Data Restore Successfully.'));
+        } else {
+            return redirect()->route('back.districts.index')->withSuccess(__('District not found.'));
+        }
+    }
+
+    public function forceDelete($id)
+    {
+        $districts = District::onlyTrashed()->find($id);
+        if ($districts) {
+            $districts->forceDelete();
+            return redirect()->route('back.districts.index')->withSuccess(__('Category Permanently Deleted Successfully.'));
+        } else {
+            return redirect()->route('back.districts.index')->withSuccess(__('District not found.'));
+        }
     }
 }

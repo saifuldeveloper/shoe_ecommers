@@ -3,15 +3,31 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Bcategory extends Model
 {
-    protected $fillable = ['name','slug','status'];
+    use SoftDeletes;
+    protected $fillable = ['name', 'slug', 'status'];
     public $timestamps = false;
 
     public function posts()
     {
-        return $this->hasMany('App\Models\Post','category_id');
+        return $this->hasMany('App\Models\Post', 'category_id');
+    }
+
+    public function deletedBy()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
+    }
+    protected static function booted()
+    {
+        static::deleting(function ($factory) {
+            if (auth()->check()) {
+                $factory->deleted_by = auth()->id();
+                $factory->save();
+            }
+        });
     }
 
 

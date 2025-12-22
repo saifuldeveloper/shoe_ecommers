@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -17,8 +16,9 @@ return new class extends Migration
             $table->text('details');
             $table->string('photo')->nullable();
             $table->timestamps();
-            
             // Index for better performance
+            $table->softDeletes();
+            $table->unsignedBigInteger('deleted_by')->nullable();
             $table->index('title');
         });
     }

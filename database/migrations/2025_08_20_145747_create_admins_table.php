@@ -21,7 +21,8 @@ return new class extends Migration
             $table->string('password');
             $table->string('email_token')->nullable();
             $table->timestamps();
-
+            $table->softDeletes();
+            $table->unsignedBigInteger('deleted_by')->nullable();
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('set null');
         });
     }

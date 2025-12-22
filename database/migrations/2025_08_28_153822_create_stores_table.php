@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('mobile');
             $table->longText('api_base_url')->nullable();
             $table->string('secret_key')->nullable();
+            $table->softDeletes();
+            $table->unsignedBigInteger('deleted_by')->nullable();
             $table->timestamps();
         });
     }

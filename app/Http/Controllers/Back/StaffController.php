@@ -35,7 +35,8 @@ class StaffController extends Controller
     public function index()
     {
         return view('back.staff.index',[
-            'datas' => Admin::where('id','!=',1)->orderBy('id','desc')->get()
+            'datas' => Admin::where('id','!=',1)->orderBy('id','desc')->get(),
+            'softdeletes' => Admin::onlyTrashed()->get(),
         ]);
     }
 
@@ -116,5 +117,28 @@ class StaffController extends Controller
     {
         $this->repository->delete($staff);
         return redirect()->route('back.staff.index')->withSuccess(__('User Deleted Successfully.'));
+    }
+
+
+     public function restore($id)
+    {
+        $admin = Admin::onlyTrashed()->find($id);
+        if ($admin) {
+            $admin->restore();
+            return redirect()->route('back.staff.index')->withSuccess(__('Data restore Successfully.'));
+        } else {
+            return redirect()->route('back.staff.index')->withSuccess(__('staff not found.'));
+        }
+    }
+
+    public function forceDelete($id)
+    {
+        $staff = Admin::onlyTrashed()->find($id);
+        if ($staff) {
+            $staff->forceDelete();
+            return redirect()->route('back.staff.index')->withSuccess(__('staff Permanently Deleted Successfully.'));
+        } else {
+            return redirect()->route('back.staff.index')->withSuccess(__('Staff not found.'));
+        }
     }
 }

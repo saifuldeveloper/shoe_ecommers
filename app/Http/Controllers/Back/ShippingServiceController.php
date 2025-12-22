@@ -30,7 +30,8 @@ class ShippingServiceController extends Controller
     public function index()
     {
         return view('back.shipping.index',[
-            'datas' => ShippingService::get()
+            'datas' => ShippingService::get(),
+            'softdeletes' => ShippingService::onlyTrashed()->get()
         ]);
     }
 
@@ -126,5 +127,28 @@ class ShippingServiceController extends Controller
     {
         $shipping->delete();
         return redirect()->route('back.shipping.index')->withSuccess(__('Shipping Service Deleted Successfully.'));
+    }
+
+
+     public function restore($id)
+    {
+        $shipping = ShippingService::onlyTrashed()->find($id);
+        if ($shipping) {
+            $shipping->restore();
+            return redirect()->route('back.shipping.index')->withSuccess(__('Data Restore Successfully.'));
+        } else {
+            return redirect()->route('back.shipping.index')->withSuccess(__('shipping Service not found.'));
+        }
+    }
+
+    public function forceDelete($id)
+    {
+        $shipping = ShippingService::onlyTrashed()->find($id);
+        if ($shipping) {
+            $shipping->forceDelete();
+            return redirect()->route('back.stores.index')->withSuccess(__('shipping Service Permanently Deleted Successfully.'));
+        } else {
+            return redirect()->route('back.stores.index')->withSuccess(__('shipping Service not found.'));
+        }
     }
 }
