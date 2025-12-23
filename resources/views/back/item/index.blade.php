@@ -159,10 +159,10 @@
                             </thead>
 
                             <tbody>
-                                 @include('back.item.table', [
-                                        'datas' => $datas,
-                                        'isSoftDelete' => false
-                                    ])
+                                @include('back.item.table', [
+                                    'datas' => $datas,
+                                    'isSoftDelete' => false,
+                                ])
                             </tbody>
                         </table>
                     </div>
