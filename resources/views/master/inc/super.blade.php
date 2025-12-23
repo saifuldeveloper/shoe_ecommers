@@ -76,6 +76,11 @@
                         <span class="sub-item">{{ __('Campaign Offer') }}</span>
                     </a>
                 </li>
+                <li>
+                    <a class="sub-link" href="{{ route('back.campaign.offer.index') }}">
+                        <span class="sub-item">{{ __('Campaign') }}</span>
+                    </a>
+                </li>
                 {{-- <li>
                     <a class="sub-link" href="{{ route('back.bulk.product.index') }}">
                         <span class="sub-item">{{ __('CSV Import & Export') }}</span>

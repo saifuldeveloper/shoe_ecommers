@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Back\FaqController;
 use App\Http\Controllers\Back\SpecialOfferController;
+use App\Http\Controllers\Back\TopCampaignController;
 use App\Http\Controllers\Back\TaxController;
 use App\Http\Controllers\Back\ItemController;
 use App\Http\Controllers\Back\MenuController;
@@ -141,6 +142,12 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
             // Campaign offer
             Route::resource('/campaign', CampaignController::class)->except(['show'])->names('back.campaign');
             Route::get('campaign/status/{id}/{status}/{type}', [CampaignController::class, 'status'])->name('back.campaign.status');
+            //Top Campaign offer
+            Route::resource('/campaign/offer', TopCampaignController::class)->except(['show'])->names('back.campaign.offer');
+          Route::get(
+    'campaign-offer/status/{id}/{status}',
+    [TopCampaignController::class, 'status']
+            )->name('back.campaign.offer.status');
 
             // --------- DIGITAL PRODUCT -----------//
             Route::get('/digital/create', [ItemController::class, 'deigitalItemCreate'])->name('back.digital.item.create');
