@@ -22,6 +22,31 @@ class TopCampaignController extends Controller
         return view('back.item.top_campaign_create');
     }
 
+    public function edit($id)
+    {
+        $data = TopCampaignOffer::findOrFail($id);
+        return view('back.item.edit_top_campaign',compact('data'));
+    }
+
+   public function update(Request $request, $id)
+    {
+        $request->validate([
+            'campaign_title'   => 'required|string|max:255',
+        ]);
+
+        $item = TopCampaignOffer::findOrFail($id);
+
+        $item->update([
+            'campaign_title'   => $request->campaign_title,
+        ]);
+
+        return redirect()
+            ->route('back.campaign.offer.index')
+            ->withSuccess(__('Campaign Updated Successfully.'));
+    }
+
+
+
     public function store(Request $request)
     {
        $request->validate([
