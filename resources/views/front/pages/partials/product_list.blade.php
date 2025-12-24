@@ -10,9 +10,8 @@
                         <img class="hover-img" 
                              src="{{ $product->photo ? (file_exists(public_path('storage/items/'.$product->photo)) ? url('storage/items/'.$product->photo) : url('assets/images/'.$product->photo)) : url('assets/images/default.jpg') }}" 
                              alt="Image Not Found">
-
                        <a href="#" 
-                        class="ps-shoe__favorite add-to-wishlist" 
+                        class="ps-shoe__favorite add-to-wishlist"
                         data-id="{{ $product->id }}">
                             <i class="ps-icon-heart"></i>
                         </a>
@@ -112,6 +111,7 @@
 
         $('.add-to-wishlist').on('click', function(e) {
             e.preventDefault(); 
+            let $this = $(this);
             let itemId = $(this).data('id');
             
             let url = '{{ route('user.wishlist.store', ['id' => 'ITEM_ID']) }}';
@@ -134,9 +134,15 @@
                         window.location.href = response.link;
                     } 
                   else if (response.status === 1 || response.status === 2) {
+                    $this.addClass('active');
                     alert(response.message);
                     updateWishlistCount();
                 }
+                else if (response.status === 2) {
+                        $this.removeClass('active'); // normal
+                        alert(response.message);
+                        updateWishlistCount();
+                    }
                 },
             
             });

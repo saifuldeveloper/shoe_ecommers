@@ -8908,3 +8908,40 @@ body.nav-loaded {
     max-height: 70px;
     object-fit: cover;
 }
+
+.product-image-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.video-play-icon {
+   position: absolute;
+    top: -1px;
+    right: 83px;
+    width: 45px;
+    height: 45px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    font-size: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.video-play-icon:hover {
+    background: red;
+    transform: scale(1.1);
+    color: white;
+}
+
+.ps-shoe__favorite i {
+    color: #999;
+}
+
+.ps-shoe__favorite.active i {
+    color: #f5c518;
+}

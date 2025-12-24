@@ -466,36 +466,50 @@
         $(document).ready(function() {
             const csrfToken = $('meta[name="csrf-token"]').attr('content');
 
-            $('.add-to-wishlist').on('click', function(e) {
-                e.preventDefault();
-                let itemId = $(this).data('id');
+           $('.add-to-wishlist').on('click', function (e) {
+        e.preventDefault();
 
-                let url = '{{ route('user.wishlist.store', ['id' => 'ITEM_ID']) }}';
-                url = url.replace('ITEM_ID', itemId);
+        let $this = $(this);
+        let itemId = $this.data('id');
 
-                // Make the AJAX call
-                $.ajax({
-                    url: url,
-                    type: 'GET',
-                    dataType: 'json',
-                    data: {
-                        _token: csrfToken,
-                        id: itemId
-                    },
-                    // ------------------------------------------
+        let url = '{{ route('user.wishlist.store', ['id' => 'ITEM_ID']) }}';
+        url = url.replace('ITEM_ID', itemId);
 
-                    success: function(response) {
-                        if (response.status === 0 && response.link) {
-                            alert("Wishlist-এ যোগ করার জন্য আপনাকে লগইন করতে হবে।");
-                            window.location.href = response.link;
-                        } else if (response.status === 1 || response.status === 2) {
-                            alert(response.message);
-                            updateWishlistCount();
-                        }
-                    },
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                _token: csrfToken,
+                id: itemId
+            },
 
-                });
-            });
+            success: function (response) {
+
+                // Login required
+                if (response.status === 0 && response.link) {
+                    alert("Wishlist-এ যোগ করার জন্য আপনাকে লগইন করতে হবে।");
+                    window.location.href = response.link;
+                }
+
+                // Added to wishlist
+                else if (response.status === 1) {
+                    $this.addClass('active');
+                    alert(response.message);
+                    updateWishlistCount();
+                }
+
+                // Removed from wishlist
+                else if (response.status === 2) {
+                    $this.removeClass('active');
+                    alert(response.message);
+                    updateWishlistCount();
+                }
+            }
+        });
+    });
+
+
         });
 
         function updateWishlistCount() {

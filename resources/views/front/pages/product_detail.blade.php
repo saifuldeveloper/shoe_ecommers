@@ -20,9 +20,16 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12">
                     <div class="col-md-6">
+                    
                         <img src="{{ asset('storage/items/' . $item_details->photo ?? '') }}"
                             class="img-fluid border mb-3 image-detail-main-image popup-image" alt="Product" />
-
+                         @if(!empty($item_details->video))
+                            <a href="{{ $item_details->video }}" 
+                            class="video-play-icon popup-video" 
+                            target="_blank">
+                                ▶
+                            </a>
+                        @endif
                         <div class="d-flex">
                             <div class="owl-slider zoom-gallery product-slider" data-owl-auto="true" data-owl-dots="false"
                                 data-owl-duration="1000" data-owl-gap="10" data-owl-item="4" data-owl-item-lg="6"
@@ -459,6 +466,7 @@
 
             $('.add-to-wishlist').on('click', function(e) {
                 e.preventDefault();
+                  let $this = $(this);
                 let itemId = $(this).data('id');
 
                 let url = '{{ route('user.wishlist.store', ['id' => 'ITEM_ID']) }}';
@@ -480,9 +488,15 @@
                             alert("Wishlist-এ যোগ করার জন্য আপনাকে লগইন করতে হবে।");
                             window.location.href = response.link;
                         } else if (response.status === 1 || response.status === 2) {
+                            $this.addClass('active');
                             alert(response.message);
                             updateWishlistCount();
                         }
+                    else if (response.status === 2) {
+                        $this.removeClass('active'); // normal
+                        alert(response.message);
+                        updateWishlistCount();
+                    }
                     },
 
                 });
