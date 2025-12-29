@@ -45,14 +45,17 @@
             </div>
         </div>
     </div>
-
+   @php
+        $slug = basename($heroBanner['url1']);
+         $slug2 = basename($heroBanner['url2']);
+    @endphp
     <div class="ps-section">
         <div class="ps-container">
             <div class="ps-section__content pb-35">
                 <div class="row g-4">
                     <div class="col-12">
                         <a class="ps-offer d-block"
-                            href="{{ route('front.campaign') }}">
+                           href="{{ route('products.campaign.unique', $slug) }}">
                             <img src="{{ asset('storage/banner/' . $heroBanner['img1']) }}"
                                 alt="{{ $heroBanner['title1'] ?? '' }}" class="img-fluid" />
                         </a>
@@ -62,13 +65,14 @@
         </div>
     </div>
 
+ 
     <div class="ps-section">
         <div class="ps-container">
             <div class="ps-section__content">
                 <div class="row g-4">
                     <div class="col-12">
                         <a class="ps-offer d-block"
-                              href="{{ route('front.campaign') }}">
+                              href="{{ route('products.campaign.unique', $slug2) }}">
                             <img src="{{ asset('storage/banner/' . $heroBanner['img2']) }}"
                                 alt="{{ $heroBanner['title2'] ?? '' }}" class="img-fluid" />
                         </a>

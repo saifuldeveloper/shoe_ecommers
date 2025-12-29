@@ -3,6 +3,17 @@
     <td>
         {{ $data->campaign_title }}
     </td>
+   <td>
+    <span id="url-{{ $data->id }}">
+        {{ url('/campaign/'.$data->campaign_slug) }}
+    </span>
+
+    <button type="button"
+            class="btn btn-sm btn-outline-primary"
+            onclick="copyUrl('{{ $data->id }}')">
+        Copy
+    </button>
+</td>
 
     <td>
 
@@ -24,11 +35,9 @@
             </a>
         </div>
     </div>
-
-
         </div>
-
     </td>
+   
     <td>
         <div class="action-list">
             <a class="btn btn-secondary btn-sm "
@@ -44,3 +53,15 @@
     </td>
 </tr>
 @endforeach
+
+<script>
+function copyUrl(id) {
+    const text = document.getElementById('url-' + id).innerText;
+
+    navigator.clipboard.writeText(text).then(function () {
+    
+    }).catch(function () {
+        alert('Failed to copy');
+    });
+}
+</script>
