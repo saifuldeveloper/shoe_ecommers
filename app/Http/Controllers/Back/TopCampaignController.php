@@ -7,6 +7,8 @@ use App\Models\TopCampaignItem;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use App\Models\TopCampaignOffer;
+use Illuminate\Support\Str;
+
 class TopCampaignController extends Controller
 {
 
@@ -65,8 +67,19 @@ class TopCampaignController extends Controller
         'campaign_title' => 'required|string|max:255',
         ]);
 
+         $slug = Str::slug($request->campaign_title);
+
+        // make sure it is unique
+        $original = $slug;
+        $i = 1;
+        while (TopCampaignOffer::where('campaign_slug', $slug)->exists()) {
+        $slug = $original.'-'.$i;
+            $i++;
+        }
+        
         TopCampaignOffer::create([
             'campaign_title' => $request->campaign_title,
+             'campaign_slug'  => $slug,
         ]);
 
     return redirect()
@@ -149,5 +162,7 @@ class TopCampaignController extends Controller
         $data->delete();
         return redirect()->route('back.campaign.offer.index')->withSuccess(__('Product Delete Successfully Successfully.'));
     }
+
+
 
 }

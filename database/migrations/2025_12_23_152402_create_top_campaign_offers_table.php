@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('top_campaign_offers', function (Blueprint $table) {
             $table->id();
             $table->string('campaign_title')->nullable();
+             $table->string('campaign_slug')->unique();
             $table->dateTime('campaign_end_date')->nullable();
             $table->boolean('campaign_status')->default(false);
             $table->timestamps();

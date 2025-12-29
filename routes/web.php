@@ -149,7 +149,7 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
             Route::post('campaign-offer/store',[TopCampaignController::class, 'campaignStore'])->name('back.campaign.offer.add');
             Route::get('campaign-offer/status/{id}/{status}/{type}', [TopCampaignController::class, 'campaignStatus'])->name('back.campaign.type.status');
             Route::delete('campaign-offer/delete/{id}', [TopCampaignController::class, 'campaignofferDelete'])->name('back.campaign.offer.product.delete');
-          
+           
             // --------- DIGITAL PRODUCT -----------//
             Route::get('/digital/create', [ItemController::class, 'deigitalItemCreate'])->name('back.digital.item.create');
             Route::post('/digital/store', [ItemController::class, 'deigitalItemStore'])->name('back.digital.item.store');
@@ -550,7 +550,12 @@ Route::group(['middleware' => 'maintainance'], function () {
         Route::get('/collections/{slug}', [FrontendController::class, 'categoryProduct'])->name('front.categories.products');
         Route::get('/campaign/products', [FrontendController::class, 'compaignProduct'])->name('front.campaign');
         Route::get('/products/filter', [FrontendController::class, 'filterProducts'])->name('products.filter');
+        
+        //unique campaign products
+        Route::get('/campaign/unique/products/{slug}', [FrontendController::class, 'uniqueCampaign'])->name('products.campaign.unique');
 
+
+        //wishlist products
         Route::get('/wishlist', [FrontendController::class, 'wishlist'])->name('front.wishlist');
         Route::get('/cart', [FrontendController::class, 'cart'])->name('frontd.mycarts');
 

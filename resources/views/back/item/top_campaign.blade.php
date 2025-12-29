@@ -38,6 +38,7 @@
                         <thead>
                             <tr>
                                 <th>{{ __('Name') }}</th>
+                                 <th>{{ __('URL') }}</th>
                                 <th>{{ __('Status') }}</th>
                                 <th>{{ __('Actions') }}</th>
                             </tr>
@@ -112,7 +113,6 @@
                         <th width="40%">{{ __('Name') }}</th>
                         <th>{{ __('Price') }}</th>
                         <th>{{ __('Status') }}</th>
-                        <th>{{ __('Show Home Page') }}</th>
                         <th>{{ __('Action') }}</th>
                     </tr>
                 </thead>
@@ -138,17 +138,7 @@
                                     </div>
                                 </div>
                                 </td>
-                              <td>
-                                <div class="dropdown">
-                                    <button class="btn btn-{{  $data->is_feature == 1 ? 'success' : 'danger'  }} btn-sm  dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                      {{  $data->is_feature == 1 ? __('Active') : __('Deactive')  }}
-                                    </button>
-                                    <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">
-                                      <a class="dropdown-item" href="{{ route('back.campaign.type.status',[$data->id,1,'is_feature']) }}">{{ __('Active') }}</a>
-                                      <a class="dropdown-item" href="{{ route('back.campaign.type.status',[$data->id,0,'is_feature']) }}">{{ __('Deactive') }}</a>
-                                    </div>
-                                  </div>
-                            </td>
+                           
                               <td>
                                 <a class="btn btn-danger btn-sm " data-toggle="modal"
                                     data-target="#confirm-delete" href="javascript:;"
