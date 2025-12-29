@@ -17,6 +17,7 @@ return new class extends Migration
              $table->string('campaign_slug')->unique();
             $table->dateTime('campaign_end_date')->nullable();
             $table->boolean('campaign_status')->default(false);
+            $table->boolean('campaig_product_charge')->default(true);
             $table->timestamps();
         });
     }

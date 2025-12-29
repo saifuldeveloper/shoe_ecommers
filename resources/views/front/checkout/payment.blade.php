@@ -133,15 +133,29 @@
         {{-- =================================================== --}}
         <div class="checkout-form-card">
             <h2 class="section-title">Shipping method</h2>
-             @php
+            @php
             $shippings = DB::table('shipping_services')->where('status', 1)->get();
+            $freeShipping = false;
+            foreach ($cart as $cartItem) {
+                $exists = DB::table('top_campaign_items')
+                            ->where('item_id', $cartItem->item_id)
+                            ->exists();
+                if ($exists) {
+                    $freeShipping = true;
+                    break;
+                }
+            }
         @endphp
             <div class="form-group-custom">
                 <label for="shipping-charge">Shipping</label>
                 <select name="shipping_charge" id="shipping-charge" class="form-select-custom">
-                    @foreach ($shippings as $item)
-                        <option value="{{ $item->price }}">{{ $item->title }}</option>
-                    @endforeach
+                    @if ($freeShipping)
+                        <option value="0">Free Delivery</option>
+                    @else
+                        @foreach ($shippings as $item)
+                            <option value="{{ $item->price }}">{{ $item->title }}</option>
+                        @endforeach
+                    @endif
                 </select>
                
             </div>

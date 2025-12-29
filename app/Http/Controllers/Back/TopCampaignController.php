@@ -36,36 +36,15 @@ class TopCampaignController extends Controller
         return view('back.item.top_campaign_create');
     }
 
-    public function edit($id)
-    {
-        $data = TopCampaignOffer::findOrFail($id);
-        return view('back.item.edit_top_campaign',compact('data'));
-    }
-
-   public function update(Request $request, $id)
-    {
-        $request->validate([
-            'campaign_title'   => 'required|string|max:255',
-        ]);
-
-        $item = TopCampaignOffer::findOrFail($id);
-
-        $item->update([
-            'campaign_title'   => $request->campaign_title,
-        ]);
-
-        return redirect()
-            ->route('back.campaign.offer.index')
-            ->withSuccess(__('Campaign Updated Successfully.'));
-    }
-
-
 
     public function store(Request $request)
     {
        $request->validate([
         'campaign_title' => 'required|string|max:255',
+        'campaig_product_charge' =>'required'
         ]);
+        $deliveryCharge = $request->has('campaig_product_charge') ? 1 : 0;
+
 
          $slug = Str::slug($request->campaign_title);
 
@@ -79,7 +58,8 @@ class TopCampaignController extends Controller
         
         TopCampaignOffer::create([
             'campaign_title' => $request->campaign_title,
-             'campaign_slug'  => $slug,
+            'campaign_slug'  => $slug,
+            'campaig_product_charge'  => $deliveryCharge,
         ]);
 
     return redirect()
@@ -87,6 +67,32 @@ class TopCampaignController extends Controller
         ->with('success', 'Campaign Offer created successfully!');
     }
 
+    
+    public function edit($id)
+    {
+        $data = TopCampaignOffer::findOrFail($id);
+        return view('back.item.edit_top_campaign',compact('data'));
+    }
+
+   public function update(Request $request, $id)
+    {
+        $request->validate([
+            'campaign_title'   => 'required|string|max:255',
+        ]);
+
+         $deliveryCharge = $request->has('campaig_product_charge') ? 1 : 0;
+
+        $item = TopCampaignOffer::findOrFail($id);
+
+        $item->update([
+            'campaign_title'   => $request->campaign_title,
+            'campaig_product_charge' => $deliveryCharge
+        ]);
+
+        return redirect()
+            ->route('back.campaign.offer.index')
+            ->withSuccess(__('Campaign Updated Successfully.'));
+    }
 
 
     public function destroy($id)

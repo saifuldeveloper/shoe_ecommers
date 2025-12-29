@@ -47,6 +47,13 @@
                                required>
                     </div>
 
+                     <div class="form-group">
+                     <input type="checkbox" id="campaig_product_charge" name="campaig_product_charge" value="1" 
+                            {{ $data->campaig_product_charge ? 'checked' : '' }}>
+                        <label for="campaig_product_charge">Delivery Charge</label>
+
+                    </div>
+
                     <!-- Submit Button -->
                     <div class="form-group mt-3">
                         <button type="submit" class="btn btn-primary">
