@@ -13,4 +13,14 @@ class CampaignItem extends Model
     {
        return $this->belongsTo(Item::class, 'item_id', 'id');
     }
+
+    public function campaignItem()
+    {
+        return $this->belongsTo(
+            TopCampaignOffer::class,
+            'campaign_id',
+            'id'
+        );
+    }
+
 }
