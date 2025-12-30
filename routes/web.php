@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Back\FaqController;
 use App\Http\Controllers\Back\SpecialOfferController;
 use App\Http\Controllers\Back\TopCampaignController;
+use App\Http\Controllers\Back\HomeBannerSectionTwo;
+use App\Http\Controllers\Back\HomeBannerSectionOne;
 use App\Http\Controllers\Back\TaxController;
 use App\Http\Controllers\Back\ItemController;
 use App\Http\Controllers\Back\MenuController;
@@ -388,6 +390,10 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
             Route::post('home-page/feature/category/category/update', [HomePageController::class, 'feature_category_update'])->name('back.feature.category.update');
             Route::post('home-page4/banner/update', [HomePageController::class, 'homepage4update'])->name('back.home_page4.banner.update');
             Route::post('home-page4/category/update', [HomePageController::class, 'homepage4categoryupdate'])->name('back.home4.category.update');
+
+            //Home banner section
+            Route::resource('/first/home-page',HomeBannerSectionOne::class)->names('back.first.home.page');
+            Route::resource('second/home-page',HomeBannerSectionTwo::class)->names('back.second.home.page');
 
             //----------- SECTION SETTING -----------//
             Route::get('/setting/section', [SettingController::class, 'section'])->name('back.setting.section');
