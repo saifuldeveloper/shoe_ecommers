@@ -71,11 +71,11 @@
                         <span class="sub-item">{{ __('Stock Out Products') }}</span>
                     </a>
                 </li>
-                <li>
+                {{-- <li>
                     <a class="sub-link" href="{{ route('back.campaign.index') }}">
                         <span class="sub-item">{{ __('Campaign Offer') }}</span>
                     </a>
-                </li>
+                </li> --}}
                 <li>
                     <a class="sub-link" href="{{ route('back.campaign.offer.index') }}">
                         <span class="sub-item">{{ __('Campaign') }}</span>
@@ -240,6 +240,16 @@
                 <li>
                     <a class="sub-link" href="{{ route('back.homePage') }}">
                         <span class="sub-item">{{ __('Home Page') }}</span>
+                    </a>
+                </li>
+                 <li>
+                    <a class="sub-link" href="{{ route('back.first.home.page.index') }}">
+                        <span class="sub-item">{{ __('First Hero Section') }}</span>
+                    </a>
+                </li>
+                 <li>
+                    <a class="sub-link" href="{{ route('back.second.home.page.index') }}">
+                        <span class="sub-item">{{ __('Second Hero Section') }}</span>
                     </a>
                 </li>
                 <li>

@@ -45,37 +45,32 @@
             </div>
         </div>
     </div>
-   @php
-        $slug = basename($heroBanner['url1']);
-         $slug2 = basename($heroBanner['url2']);
-    @endphp
-    <div class="ps-section">
-        <div class="ps-container">
-            <div class="ps-section__content pb-35">
-                <div class="row g-4">
-                    <div class="col-12">
-                        <a class="ps-offer d-block"
-                           href="{{ route('products.campaign.unique', $slug) }}">
-                            <img src="{{ asset('storage/banner/' . $heroBanner['img1']) }}"
-                                alt="{{ $heroBanner['title1'] ?? '' }}" class="img-fluid" />
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+  
 
+    @php 
+       $firstBanners = App\Models\FirstHeroSection::all();
+
+    @endphp
  
     <div class="ps-section">
         <div class="ps-container">
             <div class="ps-section__content">
                 <div class="row g-4">
                     <div class="col-12">
-                        <a class="ps-offer d-block"
-                              href="{{ route('products.campaign.unique', $slug2) }}">
-                            <img src="{{ asset('storage/banner/' . $heroBanner['img2']) }}"
-                                alt="{{ $heroBanner['title2'] ?? '' }}" class="img-fluid" />
-                        </a>
+                        @foreach ($firstBanners as $banner)
+                        @php
+                             $unqiue_slug = basename($banner->url_first);
+                        @endphp
+                            <a class="ps-offer d-block"
+                              href="{{ route('products.campaign.unique', $unqiue_slug) }}">
+                            <img src="{{ $banner->banner_first
+                        ? (file_exists(public_path('storage/' . $banner->banner_first))
+                            ? url('storage/' . $banner->banner_first)
+                            : url('assets/images/' . $banner->banner_first))
+                        : url('assets/images/default.jpg') }}"
+                                alt="#" class="img-fluid" />
+                            </a>
+                        @endforeach
                     </div>
                 </div>
             </div>
