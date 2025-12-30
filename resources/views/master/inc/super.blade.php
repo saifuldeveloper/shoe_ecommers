@@ -237,11 +237,11 @@
                         <span class="sub-item">{{ __('Menu Builder') }}</span>
                     </a>
                 </li> --}}
-                <li>
+                {{-- <li>
                     <a class="sub-link" href="{{ route('back.homePage') }}">
                         <span class="sub-item">{{ __('Home Page') }}</span>
                     </a>
-                </li>
+                </li> --}}
                  <li>
                     <a class="sub-link" href="{{ route('back.first.home.page.index') }}">
                         <span class="sub-item">{{ __('First Hero Section') }}</span>
