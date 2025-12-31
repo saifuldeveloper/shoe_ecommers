@@ -285,6 +285,11 @@
                         <span class="sub-item">{{ __('Social Login') }}</span>
                     </a>
                 </li>
+                <li>
+                    <a class="sub-link" href="{{ route('admin.reward.point.system') }}">
+                        <span class="sub-item">{{ __('Reward Point Setting') }}</span>
+                    </a>
+                </li>
 
                 {{-- <li>
                     <a class="sub-link" href="{{ route('back.setting.email') }}">
