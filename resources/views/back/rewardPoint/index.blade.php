@@ -11,21 +11,38 @@
                     {{ __('Reward Point Setting') }}
                 </h3>
             </div>
-
+            @if (session('success'))
+                <div class="alert alert-success mt-2">
+                    {{ session('success') }}
+                </div>
+            @endif
             <hr>
 
-            <form action="#" method="POST">
+            <form action="{{ route('admin.reward.point.system.update') }}" method="POST">
                 @csrf
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label>Sold amount per point *</label>
-                        <input type="number" class="form-control" placeholder="100">
+                       <input
+                        type="number"
+                        class="form-control"
+                        name="sold_amount_per_point"
+                        placeholder="100"
+                        value="{{ old('sold_amount_per_point', $settings->sold_amount_per_point ?? '') }}"
+                    >
+
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label>Minimum sold amount to get point *</label>
-                        <input type="number" class="form-control" placeholder="1000">
+                        <input
+                        type="number"
+                        class="form-control"
+                        name="min_sold_amount_to_get_point"
+                        placeholder="1000"
+                        value="{{ old('min_sold_amount_to_get_point', $settings->min_sold_amount_to_get_point ?? '') }}"
+                    >
                     </div>
 
                 </div>
@@ -38,22 +55,37 @@
 
                     <div class="col-md-6 mb-3">
                         <label>Redeem amount per unit point</label>
-                        <input type="text" class="form-control" placeholder="Redeem amount per unit point">
+                       <input
+                            type="number"
+                            class="form-control"
+                            name="redeem_amount_per_unit_point"
+                            value="{{ old('redeem_amount_per_unit_point', $settings->redeem_amount_per_unit_point ?? '') }}"
+                        >
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label>Minimum order total to redeem points</label>
-                        <input type="text" class="form-control" placeholder="Minimum order total to redeem points">
+                        <input type="number" class="form-control" name="min_order_total_to_redeem_points"  value="{{ old('min_order_total_to_redeem_points', $settings->min_order_total_to_redeem_points ?? '') }}" placeholder="Minimum order total to redeem points">
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label>Maximum redeem point per order</label>
-                        <input type="text" class="form-control" placeholder="Maximum redeem point per order">
+                       <input
+                        type="number"
+                        class="form-control"
+                        name="max_redeem_point_per_order"
+                        value="{{ old('max_redeem_point_per_order', $settings->max_redeem_point_per_order ?? '') }}"
+                    >
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label>Minimum redeem point</label>
-                        <input type="text" class="form-control" placeholder="Minimum redeem point">
+                        <input
+                            type="number"
+                            class="form-control"
+                            name="min_redeem_point"
+                            value="{{ old('min_redeem_point', $settings->min_redeem_point ?? '') }}"
+                        >
                     </div>
 
                 </div>
