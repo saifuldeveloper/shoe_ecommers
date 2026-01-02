@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
-use App\Models\CampaignItem;
+use App\Models\TopCampaignItem;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use App\Models\TopCampaignOffer;
+use Illuminate\Support\Str;
+
 class TopCampaignController extends Controller
 {
 
@@ -16,12 +18,56 @@ class TopCampaignController extends Controller
         $this->middleware('adminlocalize');
     }
 
+    public function index()
+    {
+        $datas = TopCampaignOffer::orderBy('id','desc')->get();
+        $products = Item::whereStatus(1)->select('name','id')->orderBy('id','desc')->get();
+
+        return view('back.item.top_campaign',[
+            'datas' => $datas,
+            'products' => $products,
+            'items' => TopCampaignItem::with('campaignItem')->orderby('id','desc')->get()
+        ]);
+    }
+
 
     public function create()
     {
         return view('back.item.top_campaign_create');
     }
 
+
+    public function store(Request $request)
+    {
+       $request->validate([
+        'campaign_title' => 'required|string|max:255',
+        'campaig_product_charge' =>'required'
+        ]);
+        $deliveryCharge = $request->has('campaig_product_charge') ? 1 : 0;
+
+
+         $slug = Str::slug($request->campaign_title);
+
+        // make sure it is unique
+        $original = $slug;
+        $i = 1;
+        while (TopCampaignOffer::where('campaign_slug', $slug)->exists()) {
+        $slug = $original.'-'.$i;
+            $i++;
+        }
+        
+        TopCampaignOffer::create([
+            'campaign_title' => $request->campaign_title,
+            'campaign_slug'  => $slug,
+            'campaig_product_charge'  => $deliveryCharge,
+        ]);
+
+    return redirect()
+        ->route('back.campaign.offer.index')
+        ->with('success', 'Campaign Offer created successfully!');
+    }
+
+    
     public function edit($id)
     {
         $data = TopCampaignOffer::findOrFail($id);
@@ -34,41 +80,18 @@ class TopCampaignController extends Controller
             'campaign_title'   => 'required|string|max:255',
         ]);
 
+         $deliveryCharge = $request->has('campaig_product_charge') ? 1 : 0;
+
         $item = TopCampaignOffer::findOrFail($id);
 
         $item->update([
             'campaign_title'   => $request->campaign_title,
+            'campaig_product_charge' => $deliveryCharge
         ]);
 
         return redirect()
             ->route('back.campaign.offer.index')
             ->withSuccess(__('Campaign Updated Successfully.'));
-    }
-
-
-
-    public function store(Request $request)
-    {
-       $request->validate([
-        'campaign_title' => 'required|string|max:255',
-        ]);
-
-        TopCampaignOffer::create([
-            'campaign_title' => $request->campaign_title,
-        ]);
-
-    return redirect()
-        ->route('back.campaign.offer.index')
-        ->with('success', 'Campaign Offer created successfully!');
-    }
-
-    public function index()
-    {
-        $datas = TopCampaignOffer::orderBy('id','desc')->get();
-        return view('back.item.top_campaign',[
-            'datas' => $datas,
-            'items' => CampaignItem::orderby('id','desc')->get()
-        ]);
     }
 
 
@@ -101,19 +124,51 @@ class TopCampaignController extends Controller
             ->withSuccess(__('Status Updated Successfully.'));
     }
 
-     // public function store(Request $request)
-    // {
-    //     $request->validate([
-    //         'item_id' => 'required'
-    //     ]);
-    //     if(CampaignItem::whereItemId($request->item_id)->exists()){
-    //         return redirect()->route('back.campaign.offer.index')->withError(__('Allready Added This Product.'));
+    public function campaignStore(Request $request)
+    {
+        // return $request->all();
+        $request->validate([
+            'item_id' => 'required',
+            'campaign_id' => 'required'
+        ]);
+        if(TopCampaignItem::whereItemId($request->item_id)->exists()){
+            return redirect()->route('back.campaign.offer.index')->withError(__('Allready Added This Product.'));
 
-    //     }
-    //     $data = new CampaignItem();
-    //     $data->create($request->all());
-    //     return redirect()->route('back.campaign.offer.index')->withSuccess(__('New Product Added Successfully.'));
+        }
+        $data = new TopCampaignItem();
+        $data->create($request->all());
+        return redirect()->route('back.campaign.offer.index')->withSuccess(__('New Product Added Successfully.'));
 
-    // }
+    }
+
+    //change the campaign status
+     public function campaignStatus($id,$status,$type)
+    {
+        if($type == 'is_feature' && $status == 1){
+
+            if(TopCampaignItem::whereIsFeature(1)->count() == 10){
+                return redirect()->route('back.campaign.offer.index')->withError(__('10 products are allready added to feature'));
+            }
+        }
+        $item = TopCampaignItem::findOrFail($id);
+        if ($type === 'status') {
+            $statusValue = $status == 1 ? 'active' : 'inactive';
+            $item->update(['status' => $statusValue]);
+        } else {
+            $item->update([$type => $status]);
+        }
+     
+        return redirect()->route('back.campaign.offer.index')->withSuccess(__('Status Updated Successfully.'));
+    }
+
+    //delete
+    public function campaignofferDelete($id)
+    {
+        $data = TopCampaignItem::findOrFail($id);
+        $data->delete();
+        return redirect()->route('back.campaign.offer.index')->withSuccess(__('Product Delete Successfully Successfully.'));
+    }
+
+
 
 }

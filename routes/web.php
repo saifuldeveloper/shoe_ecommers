@@ -2,12 +2,15 @@
 
 // ************************************ ADMIN PANEL **********************************************
 
+use App\Http\Controllers\Back\RewardPointSystemController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Back\FaqController;
 use App\Http\Controllers\Back\SpecialOfferController;
 use App\Http\Controllers\Back\TopCampaignController;
+use App\Http\Controllers\Back\HomeBannerSectionTwo;
+use App\Http\Controllers\Back\HomeBannerSectionOne;
 use App\Http\Controllers\Back\TaxController;
 use App\Http\Controllers\Back\ItemController;
 use App\Http\Controllers\Back\MenuController;
@@ -142,13 +145,14 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
             // Campaign offer
             Route::resource('/campaign', CampaignController::class)->except(['show'])->names('back.campaign');
             Route::get('campaign/status/{id}/{status}/{type}', [CampaignController::class, 'status'])->name('back.campaign.status');
+          
             //Top Campaign offer
             Route::resource('/campaign/offer', TopCampaignController::class)->except(['show'])->names('back.campaign.offer');
-          Route::get(
-    'campaign-offer/status/{id}/{status}',
-    [TopCampaignController::class, 'status']
-            )->name('back.campaign.offer.status');
-
+            Route::get('campaign-offer/status/{id}/{status}',[TopCampaignController::class, 'status'])->name('back.campaign.offer.status');
+            Route::post('campaign-offer/store',[TopCampaignController::class, 'campaignStore'])->name('back.campaign.offer.add');
+            Route::get('campaign-offer/status/{id}/{status}/{type}', [TopCampaignController::class, 'campaignStatus'])->name('back.campaign.type.status');
+            Route::delete('campaign-offer/delete/{id}', [TopCampaignController::class, 'campaignofferDelete'])->name('back.campaign.offer.product.delete');
+           
             // --------- DIGITAL PRODUCT -----------//
             Route::get('/digital/create', [ItemController::class, 'deigitalItemCreate'])->name('back.digital.item.create');
             Route::post('/digital/store', [ItemController::class, 'deigitalItemStore'])->name('back.digital.item.store');
@@ -388,6 +392,10 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
             Route::post('home-page4/banner/update', [HomePageController::class, 'homepage4update'])->name('back.home_page4.banner.update');
             Route::post('home-page4/category/update', [HomePageController::class, 'homepage4categoryupdate'])->name('back.home4.category.update');
 
+            //Home banner section
+            Route::resource('/first/home-page',HomeBannerSectionOne::class)->names('back.first.home.page');
+            Route::resource('second/home-page',HomeBannerSectionTwo::class)->names('back.second.home.page');
+
             //----------- SECTION SETTING -----------//
             Route::get('/setting/section', [SettingController::class, 'section'])->name('back.setting.section');
             Route::get('/setting/storage', [SettingController::class, 'storage'])->name('back.setting.storage');
@@ -423,6 +431,14 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
             Route::post('/sitemap/store', [SitemapController::class, 'store'])->name('admin.sitemap.store');
             Route::delete('/sitemap/delete/{id}/', [SitemapController::class, 'delete'])->name('admin.sitemap.delete');
             Route::post('/sitemap/download', [SitemapController::class, 'download'])->name('admin.sitemap.download');
+       
+            //reward point system
+            Route::get('/reward-point-setting',[RewardPointSystemController::class,'index'])->name('admin.reward.point.system');
+            Route::post('/reward-point-setting',[RewardPointSystemController::class,'update'])->name('admin.reward.point.system.update');
+       
+       
+       
+       
         });
 
         Route::group(['middleware' => 'permissions:Subscribers List'], function () {
@@ -549,7 +565,12 @@ Route::group(['middleware' => 'maintainance'], function () {
         Route::get('/collections/{slug}', [FrontendController::class, 'categoryProduct'])->name('front.categories.products');
         Route::get('/campaign/products', [FrontendController::class, 'compaignProduct'])->name('front.campaign');
         Route::get('/products/filter', [FrontendController::class, 'filterProducts'])->name('products.filter');
+        
+        //unique campaign products
+        Route::get('/campaign/unique/products/{slug}', [FrontendController::class, 'uniqueCampaign'])->name('products.campaign.unique');
 
+
+        //wishlist products
         Route::get('/wishlist', [FrontendController::class, 'wishlist'])->name('front.wishlist');
         Route::get('/cart', [FrontendController::class, 'cart'])->name('frontd.mycarts');
 

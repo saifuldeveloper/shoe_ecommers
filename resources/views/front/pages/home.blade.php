@@ -45,33 +45,32 @@
             </div>
         </div>
     </div>
+  
 
-    <div class="ps-section">
-        <div class="ps-container">
-            <div class="ps-section__content pb-35">
-                <div class="row g-4">
-                    <div class="col-12">
-                        <a class="ps-offer d-block"
-                            href="{{ route('front.campaign') }}">
-                            <img src="{{ asset('storage/banner/' . $heroBanner['img1']) }}"
-                                alt="{{ $heroBanner['title1'] ?? '' }}" class="img-fluid" />
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    @php 
+       $firstBanners = App\Models\FirstHeroSection::all();
 
+    @endphp
+ 
     <div class="ps-section">
         <div class="ps-container">
             <div class="ps-section__content">
                 <div class="row g-4">
                     <div class="col-12">
-                        <a class="ps-offer d-block"
-                              href="{{ route('front.campaign') }}">
-                            <img src="{{ asset('storage/banner/' . $heroBanner['img2']) }}"
-                                alt="{{ $heroBanner['title2'] ?? '' }}" class="img-fluid" />
-                        </a>
+                        @foreach ($firstBanners as $banner)
+                        @php
+                             $unqiue_slug = basename($banner->url_first);
+                        @endphp
+                            <a class="ps-offer d-block"
+                              href="{{ route('products.campaign.unique', $unqiue_slug) }}">
+                            <img src="{{ $banner->banner_first
+                        ? (file_exists(public_path('storage/' . $banner->banner_first))
+                            ? url('storage/' . $banner->banner_first)
+                            : url('assets/images/' . $banner->banner_first))
+                        : url('assets/images/default.jpg') }}"
+                                alt="#" class="img-fluid" />
+                            </a>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -163,28 +162,33 @@
         </div>
     </div>
 
+    @php 
+       $secondBanners = App\Models\SecondHeroSection::all();
 
+    @endphp
 
     <div class="ps-section pt-35">
         <div class="ps-container">
             <div class="ps-section__content pb-35">
                 <div class="row g-4">
                     <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-                        <a target="__blank" class="ps-offer d-block"
-                              href="{{ route('front.campaign') }}">
-                           
-                            <img src="{{ asset('storage/banner/' . $thirdBanner['img1']) }}"
-                                alt="{{ $thirdBanner['title1'] ?? '' }}" class="img-fluid" />
-                        </a>
+                        @foreach ($secondBanners as $banner)
+                        @php
+                             $unqiue_slug = basename($banner->url_second);
+                        @endphp
+                            <a class="ps-offer d-block"
+                              href="{{ route('products.campaign.unique', $unqiue_slug) }}">
+                            <img src="{{ $banner->banner_second
+                        ? (file_exists(public_path('storage/' . $banner->banner_second))
+                            ? url('storage/' . $banner->banner_second)
+                            : url('assets/images/' . $banner->banner_second))
+                        : url('assets/images/default.jpg') }}"
+                                alt="#" class="img-fluid" />
+                            </a>
+                        @endforeach
                     </div>
 
-                    <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-                        <a target="__blank" class="ps-offer d-block"
-                              href="{{ route('front.campaign') }}">
-                            <img src="{{ asset('storage/banner/' . $thirdBanner['img2']) }}"
-                                alt="{{ $thirdBanner['title2'] ?? '' }}" class="img-fluid" />
-                        </a>
-                    </div>
+                   
                 </div>
             </div>
         </div>

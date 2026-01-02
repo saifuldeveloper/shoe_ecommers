@@ -95,6 +95,7 @@
                                     </div>
                             </form>
                         </div>
+                        
                         <div class="tab-pane fade show " id="v-pills-t1" role="tabpanel" aria-labelledby="v-pills-t1-tab">
                             <form class="admin-form" action="{{route('back.first.banner.update')}}" method="POST" enctype="multipart/form-data">
                                 @csrf

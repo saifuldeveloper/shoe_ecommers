@@ -46,6 +46,10 @@
                                value="{{ old('campaign_title') }}"
                                required>
                     </div>
+                     <div class="form-group">
+                       <input type="checkbox" required id="campaig_product_charge" name="campaig_product_charge" value="1">
+                    <label for="campaig_product_charge">Delivery Charge</label><br>
+                    </div>
 
                     <!-- Submit Button -->
                     <div class="form-group mt-3">

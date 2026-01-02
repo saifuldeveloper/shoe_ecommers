@@ -53,11 +53,11 @@
 
 <div class="ps-products-wrap pt-80 pb-80">
     <div class="ps-products" data-mh="product-listing">
-        @if($campaign_setting->is_campaign == 1)
+      
         <div class="collection-wrapper page-header">
-          <h2>  <span> {{ $campaign_setting->campaign_title }}</span></h2>
+          <h2>  <span> {{ $campaign->campaign_title }}</span></h2>
          </div>
-         @endif
+      
         <div class="ps-product-action">
             <div class="ps-product__filter">
                     <select class="ps-select selectpicker sort-select" name="sort_price">

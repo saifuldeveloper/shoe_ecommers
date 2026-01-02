@@ -12,10 +12,10 @@
     <div class="card mb-4">
         <div class="card-body">
             <div class="d-sm-flex align-items-center justify-content-between">
-                        <h3 class="mb-0 bc-title"><b>{{ __('Add Campaign Offer') }}</b></h3>
+                        <h3 class="mb-0 bc-title"><b>{{ __('Edit Campaign Offer') }}</b></h3>
                         <div class="right">
                             <a href="{{ route('back.campaign.offer.index') }}" class="btn btn-info btn-sm d-inline-block">
-                                {{ __('Back campaign') }}
+                                {{ __('Back') }}
                             </a>
                          
                         </div>
@@ -47,10 +47,17 @@
                                required>
                     </div>
 
+                     <div class="form-group">
+                     <input type="checkbox" id="campaig_product_charge" name="campaig_product_charge" value="1" 
+                            {{ $data->campaig_product_charge ? 'checked' : '' }}>
+                        <label for="campaig_product_charge">Delivery Charge</label>
+
+                    </div>
+
                     <!-- Submit Button -->
                     <div class="form-group mt-3">
                         <button type="submit" class="btn btn-primary">
-                            {{ __('Update Campaign Offer') }}
+                            {{ __('Update') }}
                         </button>
                     </div>
 

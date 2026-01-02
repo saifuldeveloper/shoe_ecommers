@@ -43,7 +43,8 @@ use Illuminate\Support\Facades\Config;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
-
+use App\Models\TopCampaignOffer;
+use App\Models\TopCampaignItem;
 class FrontendController extends Controller
 {
 
@@ -355,18 +356,18 @@ class FrontendController extends Controller
 
     public function compaignProduct()
     {
-        if (Setting::first()->is_campaign == 0) {
-            return back();
-        }
-        $compaign_items = CampaignItem::whereStatus(1)->orderby('id', 'desc')->with('item')->paginate(10);
+        // if (Setting::first()->is_campaign == 0) {
+        //     return back();
+        // }
+        // $compaign_items = CampaignItem::whereStatus(1)->orderby('id', 'desc')->with('item')->paginate(10);
 
-        //sub categorys and brands
-        $subCategories = Subcategory::where('status',1)->latest()->get();
-        $brands = Brand::where('status',1)->latest()->get();
-        $allSize = Size::where('status',1)->latest()->get();
-        $allColor  = Color::where('status',1)->latest()->get();
+        // //sub categorys and brands
+        // $subCategories = Subcategory::where('status',1)->latest()->get();
+        // $brands = Brand::where('status',1)->latest()->get();
+        // $allSize = Size::where('status',1)->latest()->get();
+        // $allColor  = Color::where('status',1)->latest()->get();
 
-        return view('front.campaign', ['products' => $compaign_items],compact('subCategories','brands','allSize','allColor'));
+        // return view('front.campaign', ['products' => $compaign_items],compact('subCategories','brands','allSize','allColor'));
     }
 
     // -------------------------------- CAMPAIGN ----------------------------------------
@@ -692,6 +693,26 @@ class FrontendController extends Controller
         return view('front.pages.new_arrival_products',compact('products','subCategories','brands','allSize','allColor'));
     }
 
+
+    //unique campaign products
+    public function uniqueCampaign($slug)
+    {
+
+        $campaign = TopCampaignOffer::where('campaign_slug',$slug)->where('campaign_status',1)->firstOrFail();
+
+         $campaign_items = TopCampaignItem::with('item')
+            ->where('campaign_id', $campaign->id)
+            ->orderBy('id', 'desc')
+            ->paginate(12);
+
+        //sub categorys and brands
+        $subCategories = Subcategory::where('status',1)->latest()->get();
+        $brands = Brand::where('status',1)->latest()->get();
+        $allSize = Size::where('status',1)->latest()->get();
+        $allColor  = Color::where('status',1)->latest()->get();
+
+        return view('front.campaign', ['products' => $campaign_items],compact('subCategories','brands','allSize','allColor','campaign'));
+    }
 
 
 }
