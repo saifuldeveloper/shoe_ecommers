@@ -25,12 +25,12 @@ class AdminsTableSeeder extends Seeder
                 'name' => 'Admin',
                 'email' => 'admin@gmail.com',
                 'phone' => '01629552892',
-                'photo' => 'OM_1763871787mNlXAJKO.png',
+                'photo' => 'OM_1764073016ihmaRB1W.png',
                 'role_id' => 1,
                 'password' => '$2y$10$sSOEgLz71CqkTogPNtBv6.g0fFNF8jsYuuqWNMcRwFtxEThctoBT.',
                 'email_token' => NULL,
-                'created_at' => '2018-03-01 05:27:08',
-                'updated_at' => '2025-11-23 04:23:07',
+                'created_at' => '2018-03-01 11:27:08',
+                'updated_at' => '2025-11-25 18:16:56',
             ),
             1 => 
             array (
@@ -42,8 +42,8 @@ class AdminsTableSeeder extends Seeder
                 'role_id' => 1,
                 'password' => '$2y$10$cl6qNdVuAhzJyaaLACVxGOQhlYf7n/UgLrwW0vx9QDGlZyKGM97mm',
                 'email_token' => NULL,
-                'created_at' => '2021-12-05 16:24:50',
-                'updated_at' => '2021-12-05 16:24:50',
+                'created_at' => '2021-12-05 22:24:50',
+                'updated_at' => '2021-12-05 22:24:50',
             ),
             2 => 
             array (
@@ -55,8 +55,8 @@ class AdminsTableSeeder extends Seeder
                 'role_id' => 1,
                 'password' => '$2y$10$ULKlqy2RTu7hnHmjego8WODXhJs6y0IR3TB7upBXLl4xjpPfDYOdy',
                 'email_token' => NULL,
-                'created_at' => '2021-12-05 16:24:50',
-                'updated_at' => '2021-12-05 16:24:50',
+                'created_at' => '2021-12-05 22:24:50',
+                'updated_at' => '2021-12-05 22:24:50',
             ),
         ));
         

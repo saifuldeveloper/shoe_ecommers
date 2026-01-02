@@ -27,8 +27,8 @@ class SocialMediaPostsTableSeeder extends Seeder
                 'url' => 'image1.jpg',
                 'type' => 'facebook',
                 'status' => 1,
-                'created_at' => '2025-10-14 05:54:53',
-                'updated_at' => '2025-10-14 05:54:53',
+                'created_at' => '2025-10-14 11:54:53',
+                'updated_at' => '2025-10-14 11:54:53',
             ),
             1 => 
             array (
@@ -38,8 +38,8 @@ class SocialMediaPostsTableSeeder extends Seeder
                 'url' => 'https://instagram.com/p/abcde',
                 'type' => 'instagram',
                 'status' => 1,
-                'created_at' => '2025-10-14 05:54:53',
-                'updated_at' => '2025-10-14 05:54:53',
+                'created_at' => '2025-10-14 11:54:53',
+                'updated_at' => '2025-10-14 11:54:53',
             ),
             2 => 
             array (
@@ -49,8 +49,8 @@ class SocialMediaPostsTableSeeder extends Seeder
                 'url' => 'https://youtube.com/watch?v=xyz123',
                 'type' => 'youtube',
                 'status' => 1,
-                'created_at' => '2025-10-14 05:54:53',
-                'updated_at' => '2025-10-14 05:54:53',
+                'created_at' => '2025-10-14 11:54:53',
+                'updated_at' => '2025-10-14 11:54:53',
             ),
             3 => 
             array (
@@ -60,8 +60,8 @@ class SocialMediaPostsTableSeeder extends Seeder
                 'url' => 'https://twitter.com/status/987654',
                 'type' => 'twitter',
                 'status' => 1,
-                'created_at' => '2025-10-14 05:54:53',
-                'updated_at' => '2025-10-14 05:54:53',
+                'created_at' => '2025-10-14 11:54:53',
+                'updated_at' => '2025-10-14 11:54:53',
             ),
             4 => 
             array (
@@ -71,8 +71,8 @@ class SocialMediaPostsTableSeeder extends Seeder
                 'url' => 'https://linkedin.com/company/your-company',
                 'type' => 'linkedin',
                 'status' => 1,
-                'created_at' => '2025-10-14 05:54:53',
-                'updated_at' => '2025-10-14 05:59:34',
+                'created_at' => '2025-10-14 11:54:53',
+                'updated_at' => '2025-10-14 11:59:34',
             ),
             5 => 
             array (
@@ -82,8 +82,8 @@ class SocialMediaPostsTableSeeder extends Seeder
                 'url' => 'https://example.com/blog/special-campaign',
                 'type' => 'other',
                 'status' => 1,
-                'created_at' => '2025-10-14 05:54:53',
-                'updated_at' => '2025-10-14 05:54:53',
+                'created_at' => '2025-10-14 11:54:53',
+                'updated_at' => '2025-10-14 11:54:53',
             ),
             6 => 
             array (
@@ -93,8 +93,8 @@ class SocialMediaPostsTableSeeder extends Seeder
                 'url' => 'https://example.com/blog/special-campaign',
                 'type' => 'other',
                 'status' => 1,
-                'created_at' => '2025-10-14 05:54:53',
-                'updated_at' => '2025-10-14 05:54:53',
+                'created_at' => '2025-10-14 11:54:53',
+                'updated_at' => '2025-10-14 11:54:53',
             ),
             7 => 
             array (
@@ -104,8 +104,8 @@ class SocialMediaPostsTableSeeder extends Seeder
                 'url' => 'http://shoe_ecommers.test/admin/socialmediapost/8/edit',
                 'type' => 'facebook',
                 'status' => 1,
-                'created_at' => '2025-10-14 05:54:53',
-                'updated_at' => '2025-10-14 05:59:27',
+                'created_at' => '2025-10-14 11:54:53',
+                'updated_at' => '2025-10-14 11:59:27',
             ),
             8 => 
             array (
@@ -115,8 +115,8 @@ class SocialMediaPostsTableSeeder extends Seeder
                 'url' => 'https://instagram.com/p/abcde',
                 'type' => 'instagram',
                 'status' => 1,
-                'created_at' => '2025-10-14 05:54:53',
-                'updated_at' => '2025-10-14 05:54:53',
+                'created_at' => '2025-10-14 11:54:53',
+                'updated_at' => '2025-10-14 11:54:53',
             ),
             9 => 
             array (
@@ -126,8 +126,8 @@ class SocialMediaPostsTableSeeder extends Seeder
                 'url' => 'https://youtube.com/watch?v=xyz123',
                 'type' => 'youtube',
                 'status' => 1,
-                'created_at' => '2025-10-14 05:54:53',
-                'updated_at' => '2025-10-14 05:54:53',
+                'created_at' => '2025-10-14 11:54:53',
+                'updated_at' => '2025-10-14 11:54:53',
             ),
             10 => 
             array (
@@ -137,8 +137,8 @@ class SocialMediaPostsTableSeeder extends Seeder
                 'url' => 'https://twitter.com/status/987654',
                 'type' => 'twitter',
                 'status' => 1,
-                'created_at' => '2025-10-14 05:54:53',
-                'updated_at' => '2025-10-14 05:54:53',
+                'created_at' => '2025-10-14 11:54:53',
+                'updated_at' => '2025-10-14 11:54:53',
             ),
             11 => 
             array (
@@ -148,8 +148,8 @@ class SocialMediaPostsTableSeeder extends Seeder
                 'url' => 'https://linkedin.com/company/your-company',
                 'type' => 'linkedin',
                 'status' => 1,
-                'created_at' => '2025-10-14 05:54:53',
-                'updated_at' => '2025-10-14 05:59:12',
+                'created_at' => '2025-10-14 11:54:53',
+                'updated_at' => '2025-10-14 11:59:12',
             ),
             12 => 
             array (
@@ -159,8 +159,8 @@ class SocialMediaPostsTableSeeder extends Seeder
                 'url' => 'https://example.com/blog/special-campaign',
                 'type' => 'other',
                 'status' => 1,
-                'created_at' => '2025-10-14 05:54:53',
-                'updated_at' => '2025-10-14 05:54:53',
+                'created_at' => '2025-10-14 11:54:53',
+                'updated_at' => '2025-10-14 11:54:53',
             ),
             13 => 
             array (
@@ -170,8 +170,8 @@ class SocialMediaPostsTableSeeder extends Seeder
                 'url' => 'https://example.com/blog/special-campaign',
                 'type' => 'other',
                 'status' => 1,
-                'created_at' => '2025-10-14 05:54:53',
-                'updated_at' => '2025-10-14 05:54:53',
+                'created_at' => '2025-10-14 11:54:53',
+                'updated_at' => '2025-10-14 11:54:53',
             ),
         ));
         

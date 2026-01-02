@@ -43,6 +43,86 @@ class GalleriesTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
+            3 => 
+            array (
+                'id' => 4,
+                'item_id' => 12,
+                'photo' => '7F7qIMG_2047.JPG',
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
+            4 => 
+            array (
+                'id' => 5,
+                'item_id' => 12,
+                'photo' => 'Onp9IMG_2048.JPG',
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
+            5 => 
+            array (
+                'id' => 6,
+                'item_id' => 12,
+                'photo' => 'l6GvIMG_2049.JPG',
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
+            6 => 
+            array (
+                'id' => 7,
+                'item_id' => 15,
+                'photo' => 'uzcoIMG_8560 copy_1200x800.jpg',
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
+            7 => 
+            array (
+                'id' => 8,
+                'item_id' => 15,
+                'photo' => 'qy3UIMG_8561 copy_1200x800.jpg',
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
+            8 => 
+            array (
+                'id' => 9,
+                'item_id' => 15,
+                'photo' => '7eeIIMG_8562 copy_1200x800.jpg',
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
+            9 => 
+            array (
+                'id' => 10,
+                'item_id' => 15,
+                'photo' => '5kkuIMG_8563 copy_1200x800.jpg',
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
+            10 => 
+            array (
+                'id' => 11,
+                'item_id' => 15,
+                'photo' => 'vKNMIMG_8564 copy_1200x800.jpg',
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
+            11 => 
+            array (
+                'id' => 12,
+                'item_id' => 15,
+                'photo' => 'wkJqIMG_8565 copy_1200x800.jpg',
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
+            12 => 
+            array (
+                'id' => 13,
+                'item_id' => 15,
+                'photo' => 'QTPTIMG_8566 copy_1200x800.jpg',
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
         ));
         
         

@@ -26,8 +26,8 @@ class SubcategoriesTableSeeder extends Seeder
                 'slug' => 'Men',
                 'category_id' => 1,
                 'status' => 1,
-                'created_at' => '2025-09-23 18:39:39',
-                'updated_at' => '2025-09-23 18:39:39',
+                'created_at' => '2025-09-24 00:39:39',
+                'updated_at' => '2025-09-24 00:39:39',
             ),
             1 => 
             array (
@@ -36,8 +36,8 @@ class SubcategoriesTableSeeder extends Seeder
                 'slug' => 'Women',
                 'category_id' => 1,
                 'status' => 1,
-                'created_at' => '2025-09-23 18:40:01',
-                'updated_at' => '2025-09-23 18:40:01',
+                'created_at' => '2025-09-24 00:40:01',
+                'updated_at' => '2025-09-24 00:40:01',
             ),
             2 => 
             array (
@@ -46,8 +46,8 @@ class SubcategoriesTableSeeder extends Seeder
                 'slug' => 'Kids',
                 'category_id' => 1,
                 'status' => 1,
-                'created_at' => '2025-09-23 18:41:13',
-                'updated_at' => '2025-09-23 18:41:13',
+                'created_at' => '2025-09-24 00:41:13',
+                'updated_at' => '2025-09-24 00:41:13',
             ),
             3 => 
             array (
@@ -56,8 +56,8 @@ class SubcategoriesTableSeeder extends Seeder
                 'slug' => 'Accessories',
                 'category_id' => 1,
                 'status' => 1,
-                'created_at' => '2025-09-23 18:41:40',
-                'updated_at' => '2025-09-23 18:41:40',
+                'created_at' => '2025-09-24 00:41:40',
+                'updated_at' => '2025-09-24 00:41:40',
             ),
         ));
         

@@ -29,10 +29,10 @@ class CategoriesTableSeeder extends Seeder
                 'menu_serial' => 1,
                 'is_featured' => 1,
                 'featured_serial' => 1,
-                'photo' => 'H5k7men.avif',
+                'photo' => 'OM_1766037843xUatm6VD.jpg',
                 'status' => 1,
-                'created_at' => '2025-09-23 18:39:39',
-                'updated_at' => '2025-09-23 18:39:39',
+                'created_at' => '2025-09-24 00:39:39',
+                'updated_at' => '2025-12-18 12:04:03',
             ),
             1 => 
             array (
@@ -44,10 +44,10 @@ class CategoriesTableSeeder extends Seeder
                 'menu_serial' => 2,
                 'is_featured' => 1,
                 'featured_serial' => 2,
-                'photo' => 'bqsfwomen.avif',
+                'photo' => 'OM_1766036936tWlT3qtF.jpg',
                 'status' => 1,
-                'created_at' => '2025-09-23 18:40:01',
-                'updated_at' => '2025-09-23 18:40:01',
+                'created_at' => '2025-09-24 00:40:01',
+                'updated_at' => '2025-12-18 11:48:56',
             ),
             2 => 
             array (
@@ -59,10 +59,10 @@ class CategoriesTableSeeder extends Seeder
                 'menu_serial' => 3,
                 'is_featured' => 1,
                 'featured_serial' => 3,
-                'photo' => '8vkgkids.avif',
+                'photo' => 'OM_1766038926fgwbpIMe.jpg',
                 'status' => 1,
-                'created_at' => '2025-09-23 18:41:13',
-                'updated_at' => '2025-09-23 18:41:13',
+                'created_at' => '2025-09-24 00:41:13',
+                'updated_at' => '2025-12-18 12:22:06',
             ),
             3 => 
             array (
@@ -74,10 +74,10 @@ class CategoriesTableSeeder extends Seeder
                 'menu_serial' => 0,
                 'is_featured' => 1,
                 'featured_serial' => 4,
-                'photo' => 'OM_1760421533Ib1Pq8UL.jpeg',
+                'photo' => 'OM_1765430027HR8D7cUN.jpg',
                 'status' => 1,
-                'created_at' => '2025-09-23 18:41:40',
-                'updated_at' => '2025-10-14 05:58:53',
+                'created_at' => '2025-09-24 00:41:40',
+                'updated_at' => '2025-12-18 12:23:07',
             ),
         ));
         

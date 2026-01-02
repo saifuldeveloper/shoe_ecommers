@@ -23,7 +23,7 @@ class SettingsTableSeeder extends Seeder
             array (
                 'id' => 1,
                 'title' => 'Avijatry',
-                'logo' => 'OM_17561720314UFA7P9L.png',
+                'logo' => 'OM_1764072745Hu3bdbUS.png',
                 'favicon' => '1629651232pre.png',
                 'loader' => '16388581681_D-ZiKd0B00tdifaB2X3tKQ.gif',
                 'is_loader' => 1,

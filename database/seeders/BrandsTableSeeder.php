@@ -26,7 +26,7 @@ class BrandsTableSeeder extends Seeder
                 'slug' => 'Avijatry',
                 'photo' => 'M5s6logo.png',
                 'status' => 'active',
-                'is_popular' => 0,
+                'is_popular' => 1,
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),

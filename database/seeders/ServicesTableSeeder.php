@@ -51,7 +51,7 @@ class ServicesTableSeeder extends Seeder
                 'id' => 34,
                 'title' => 'Free Worldwide Shipping',
                 'details' => 'Free shipping for all orders over $100 Contrary to popular belie',
-                'photo' => '162196463701.png',
+                'photo' => 'OM_1766389931gVsekmpu.JPG',
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
