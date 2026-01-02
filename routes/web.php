@@ -2,6 +2,7 @@
 
 // ************************************ ADMIN PANEL **********************************************
 
+use App\Http\Controllers\Back\RewardPointSystemController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
@@ -430,6 +431,14 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
             Route::post('/sitemap/store', [SitemapController::class, 'store'])->name('admin.sitemap.store');
             Route::delete('/sitemap/delete/{id}/', [SitemapController::class, 'delete'])->name('admin.sitemap.delete');
             Route::post('/sitemap/download', [SitemapController::class, 'download'])->name('admin.sitemap.download');
+       
+            //reward point system
+            Route::get('/reward-point-setting',[RewardPointSystemController::class,'index'])->name('admin.reward.point.system');
+            Route::post('/reward-point-setting',[RewardPointSystemController::class,'update'])->name('admin.reward.point.system.update');
+       
+       
+       
+       
         });
 
         Route::group(['middleware' => 'permissions:Subscribers List'], function () {
