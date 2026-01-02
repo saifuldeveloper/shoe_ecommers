@@ -17,7 +17,6 @@ $base_total = $cart_total - $special_offer_discount;
 $initial_grand_total = $base_total;
 
 // auth user
-$user = auth()->user()->id;
   $rewardPoint = 0;
     $rewardSetting = DB::table('reward_point_systems')->first();
 
