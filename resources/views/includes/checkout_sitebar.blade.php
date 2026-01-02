@@ -16,6 +16,19 @@ $base_total = $cart_total - $special_offer_discount;
 
 $initial_grand_total = $base_total;
 
+// auth user
+$user = auth()->user()->id;
+  $rewardPoint = 0;
+    $rewardSetting = DB::table('reward_point_systems')->first();
+
+    if ($rewardSetting) {
+        $minAmount = $rewardSetting->min_sold_amount_to_get_point;
+        $perPointAmount = $rewardSetting->sold_amount_per_point;
+
+        if ($cart_total >= $minAmount && $perPointAmount > 0) {
+            $rewardPoint = floor($cart_total / $perPointAmount);
+        }
+    }
 
 @endphp
 
@@ -41,7 +54,14 @@ $initial_grand_total = $base_total;
                 <td>{{__('Cart Subtotal')}}:</td>
                 <td class="text-gray-dark grand_total_get">{{PriceHelper::setCurrencyPrice($cart_total)}}</td>
               </tr>
-
+              @if($rewardPoint > 0)
+            <tr>
+                <td>{{ __('Reward Point Earn') }}:</td>
+                <td class="text-success fw-bold">
+                    {{ $rewardPoint }} {{ __('Point') }}
+                </td>
+            </tr>
+            @endif
           
             
            

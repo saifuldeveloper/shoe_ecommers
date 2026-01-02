@@ -66,6 +66,14 @@
         </div>
         </div>  
 
+         <div class="stat-card">
+        <div class="icon green"><i class="fa fa-shopping-cart"></i></div>
+        <div class="stat-info">
+            <h4>Reward Point</h4>
+          <p>{{ auth()->user()->reward_point }}</p>
+        </div>
+        </div>  
+
     </div>
   </div>
 </div>

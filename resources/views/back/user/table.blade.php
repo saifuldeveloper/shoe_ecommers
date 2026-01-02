@@ -9,6 +9,9 @@
     <td>
         {{ $data->phone }}
     </td>
+      <td>
+       {{ $data->reward_point  ?? 0 }}
+    </td>
      <td>
        {{ $data->membership->discount_percent  ?? 0 }}
     </td>

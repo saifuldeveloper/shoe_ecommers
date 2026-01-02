@@ -26,6 +26,7 @@ use App\Models\ShippingService;
 use App\Models\State;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Mollie\Laravel\Facades\Mollie;
 use Stripe\Price;
@@ -346,7 +347,7 @@ class CheckoutController extends Controller
 
     public function checkout(Request $request)
     {
-        // dd($request->all());
+        // dd($request->reward_point);
         // laravel validation
         $request->validate([
             'ship_name' => 'required',
@@ -534,7 +535,11 @@ class CheckoutController extends Controller
                 }
             } else {
                 if ($payment['status']) {
-                 
+                    $user = Auth::user();
+                     if ($user) {
+                        $user->reward_point += (int) $request->reward_point;
+                        $user->save();
+                    }
                     return redirect()->route('front.checkout.success');
                 } else {
                     Session::put('message', $payment['message']);
