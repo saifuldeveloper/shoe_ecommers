@@ -347,7 +347,6 @@ class CheckoutController extends Controller
 
     public function checkout(Request $request)
     {
-        // dd($request->reward_point);
         // laravel validation
         $request->validate([
             'ship_name' => 'required',
