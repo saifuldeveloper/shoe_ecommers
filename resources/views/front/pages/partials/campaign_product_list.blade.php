@@ -60,65 +60,96 @@
 
 
 @push('js')
-   <script>
-    $(document).ready(function() {
-        const csrfToken = $('meta[name="csrf-token"]').attr('content');
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function() {
+            const csrfToken = $('meta[name="csrf-token"]').attr('content');
+            $(document).on('click', '.add-to-wishlist', function(e) {
+                e.preventDefault();
+                let $this = $(this);
+                let itemId = $this.data('id');
+                let url = '{{ route('user.wishlist.store', ['id' => 'ITEM_ID']) }}';
+                url = url.replace('ITEM_ID', itemId);
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        _token: csrfToken,
+                        id: itemId
+                    },
+                    success: function(response) {
 
-        $('.add-to-wishlist').on('click', function(e) {
-            e.preventDefault(); 
-            let itemId = $(this).data('id');
-            
-            let url = '{{ route('user.wishlist.store', ['id' => 'ITEM_ID']) }}';
-            url = url.replace('ITEM_ID', itemId); 
+                        // Login required
+                        if (response.status === 0 && response.link) {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Login Required',
+                                text: "Wishlist-এ যোগ করার জন্য আপনাকে লগইন করতে হবে।",
+                                confirmButtonText: 'Login'
+                            }).then(() => {
+                                window.location.href = response.link;
+                            });
+                        }
 
-            // Make the AJAX call
-            $.ajax({
-                url: url,
-                type: 'GET', 
-                dataType: 'json',
-                data: {
-                    _token: csrfToken, 
-                    id: itemId         
-                },
-                // ------------------------------------------
+                        // Added to wishlist
+                        else if (response.status === 1) {
+                            $this.addClass('active');
+                            Swal.fire({
+                                icon: 'success',
+                                title: response.message,
+                                // text: response.message,
+                                timer: 3000,
+                                showConfirmButton: false
+                            });
+                            updateWishlistCount();
+                        }
 
-                success: function(response) {
-                    if (response.status === 0 && response.link) {
-                        alert("Wishlist-এ যোগ করার জন্য আপনাকে লগইন করতে হবে।"); 
-                        window.location.href = response.link;
-                    } 
-                  else if (response.status === 1 || response.status === 2) {
-                    alert(response.message);
-                    updateWishlistCount();
-                }
-                },
-            
+                        // Removed from wishlist
+                        else if (response.status === 2) {
+                            $this.removeClass('active');
+                            Swal.fire({
+                                icon: 'success',
+                                title: response.message,
+                                // text: response.message,
+                                timer: 3000,
+                                showConfirmButton: false
+                            });
+                            updateWishlistCount();
+                        }
+                    },
+                    error: function(xhr) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Something went wrong. Please try again.'
+                        });
+                    }
+                });
             });
         });
-    });
 
-    function updateWishlistCount() {
-        let url = '{{ route('user.wishlist.count') }}';
+        function updateWishlistCount() {
+            let url = '{{ route('user.wishlist.count') }}';
 
-        $.ajax({
-            url: url,
-            type: 'GET',
-            dataType: 'json',
-            success: function(response) {
-                if (response.count !== undefined) {
-                    $('#wishlist-count-header i').text(response.count);
-                    $('#wishlist-count-mobile i').text(response.count);
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    const count = response.count || 0;
+                    $('#wishlist-count-header i').text(count);
+                    $('#wishlist-count-mobile i').text(count);
+                },
+                error: function(xhr) {
+                    console.error("Failed to fetch wishlist count:", xhr);
+                    $('#wishlist-count-header i').text(0);
+                    $('#wishlist-count-mobile i').text(0);
                 }
-            },
-            error: function(xhr) {
-                console.error("Failed to fetch wishlist count:", xhr);
-                $('#wishlist-count-header i').text(0);
-                $('#wishlist-count-mobile i').text(0);
-            }
-        });
-    }
+            });
+        }
 
-    // Load count on page load too
-    // updateWishlistCount();
-</script>
+        // Optional: Load count on page load
+        updateWishlistCount();
+    </script>
 @endpush

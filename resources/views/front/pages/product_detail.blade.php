@@ -20,13 +20,11 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12">
                     <div class="col-md-6">
-                    
+
                         <img src="{{ asset('storage/items/' . $item_details->photo ?? '') }}"
                             class="img-fluid border mb-3 image-detail-main-image popup-image" alt="Product" />
-                         @if(!empty($item_details->video))
-                            <a href="{{ $item_details->video }}" 
-                            class="video-play-icon popup-video" 
-                            target="_blank">
+                        @if (!empty($item_details->video))
+                            <a href="{{ $item_details->video }}" class="video-play-icon popup-video" target="_blank">
                                 ▶
                             </a>
                         @endif
@@ -460,19 +458,16 @@
             });
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function() {
             const csrfToken = $('meta[name="csrf-token"]').attr('content');
-
-            $('.add-to-wishlist').on('click', function(e) {
+            $(document).on('click', '.add-to-wishlist', function(e) {
                 e.preventDefault();
-                  let $this = $(this);
-                let itemId = $(this).data('id');
-
+                let $this = $(this);
+                let itemId = $this.data('id');
                 let url = '{{ route('user.wishlist.store', ['id' => 'ITEM_ID']) }}';
                 url = url.replace('ITEM_ID', itemId);
-
-                // Make the AJAX call
                 $.ajax({
                     url: url,
                     type: 'GET',
@@ -481,24 +476,53 @@
                         _token: csrfToken,
                         id: itemId
                     },
-                    // ------------------------------------------
-
                     success: function(response) {
+
+                        // Login required
                         if (response.status === 0 && response.link) {
-                            alert("Wishlist-এ যোগ করার জন্য আপনাকে লগইন করতে হবে।");
-                            window.location.href = response.link;
-                        } else if (response.status === 1 || response.status === 2) {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Login Required',
+                                text: "Wishlist-এ যোগ করার জন্য আপনাকে লগইন করতে হবে।",
+                                confirmButtonText: 'Login'
+                            }).then(() => {
+                                window.location.href = response.link;
+                            });
+                        }
+
+                        // Added to wishlist
+                        else if (response.status === 1) {
                             $this.addClass('active');
-                            alert(response.message);
+                            Swal.fire({
+                                icon: 'success',
+                                title: response.message,
+                                // text: response.message,
+                                timer: 3000,
+                                showConfirmButton: false
+                            });
                             updateWishlistCount();
                         }
-                    else if (response.status === 2) {
-                        $this.removeClass('active'); // normal
-                        alert(response.message);
-                        updateWishlistCount();
-                    }
-                    },
 
+                        // Removed from wishlist
+                        else if (response.status === 2) {
+                            $this.removeClass('active');
+                            Swal.fire({
+                                icon: 'success',
+                                title: response.message,
+                                // text: response.message,
+                                timer: 3000,
+                                showConfirmButton: false
+                            });
+                            updateWishlistCount();
+                        }
+                    },
+                    error: function(xhr) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Something went wrong. Please try again.'
+                        });
+                    }
                 });
             });
         });
@@ -511,10 +535,9 @@
                 type: 'GET',
                 dataType: 'json',
                 success: function(response) {
-                    if (response.count !== undefined) {
-                        $('#wishlist-count-header i').text(response.count);
-                        $('#wishlist-count-mobile i').text(response.count);
-                    }
+                    const count = response.count || 0;
+                    $('#wishlist-count-header i').text(count);
+                    $('#wishlist-count-mobile i').text(count);
                 },
                 error: function(xhr) {
                     console.error("Failed to fetch wishlist count:", xhr);
@@ -524,7 +547,7 @@
             });
         }
 
-        // Load count on page load too
+        // Optional: Load count on page load
         updateWishlistCount();
     </script>
     <script>
