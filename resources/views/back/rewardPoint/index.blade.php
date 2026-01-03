@@ -53,7 +53,7 @@
 
                 <div class="row" style="margin-top:25px;">
 
-                    <div class="col-md-6 mb-3">
+                     <div class="col-md-6 mb-3">
                         <label>Redeem amount per unit point</label>
                        <input
                             type="number"
@@ -66,10 +66,10 @@
                     <div class="col-md-6 mb-3">
                         <label>Minimum order total to redeem points</label>
                         <input type="number" class="form-control" name="min_order_total_to_redeem_points"  value="{{ old('min_order_total_to_redeem_points', $settings->min_order_total_to_redeem_points ?? '') }}" placeholder="Minimum order total to redeem points">
-                    </div>
+                    </div> 
 
-                    <div class="col-md-6 mb-3">
-                        <label>Maximum redeem point per order</label>
+                    {{-- <div class="col-md-6 mb-3">
+                        <label>Minimum redeem point per order</label>
                        <input
                         type="number"
                         class="form-control"
@@ -86,7 +86,7 @@
                             name="min_redeem_point"
                             value="{{ old('min_redeem_point', $settings->min_redeem_point ?? '') }}"
                         >
-                    </div>
+                    </div>  --}}
 
                 </div>
 

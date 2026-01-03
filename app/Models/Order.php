@@ -27,7 +27,8 @@ class Order extends Model
         'currency_value',
         'tax',
         'state_price',
-        'state'
+        'state',
+        'is_reward_point_used'
     ];
 
     public function user()

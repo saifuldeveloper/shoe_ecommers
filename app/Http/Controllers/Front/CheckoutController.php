@@ -282,7 +282,6 @@ class CheckoutController extends Controller
 
     public function shippingStore(Request $request)
     {
-        // dd("ok shipping store");
         $shippingData = [
             'ship_name' => $request->ship_name,
             'ship_phone' => $request->ship_phone,
@@ -347,6 +346,7 @@ class CheckoutController extends Controller
 
     public function checkout(Request $request)
     {
+        // dd($request->all());
         // laravel validation
         $request->validate([
             'ship_name' => 'required',
@@ -535,10 +535,26 @@ class CheckoutController extends Controller
             } else {
                 if ($payment['status']) {
                     $user = Auth::user();
-                     if ($user) {
-                        $user->reward_point += (int) $request->reward_point;
-                        $user->save();
+                 if ($user) {
+                //  Add earned reward point
+                if ($request->filled('reward_point')) {
+                    $user->reward_point += (int) $request->reward_point;
+                }
+                //  Deduct redeemed reward point
+                
+                if ($request->filled('user_reward_point')) {
+                     Session::put('used_reward_point', (int) $request->user_reward_point);
+                    $usedPoint = (int) $request->user_reward_point;
+                    // Safety check (never negative)
+                    if ($usedPoint > 0 && $user->reward_point >= $usedPoint) {
+                        $user->reward_point -= $usedPoint;
                     }
+                }else{
+                     Session::put('used_reward_point', (int) $request->user_reward_point);
+                }
+
+                $user->save();
+            }
                     return redirect()->route('front.checkout.success');
                 } else {
                     Session::put('message', $payment['message']);
@@ -611,6 +627,12 @@ class CheckoutController extends Controller
                     $sms->SendSms($user_number, "'purchase'");
                 }
             }
+            $used_reward =  Session::get('used_reward_point');
+            if($used_reward){
+                $order->is_reward_point_used = 1;
+                $order->save();
+            }
+
             //store the total price
             $userId = auth()->id();
             if($userId){
@@ -618,7 +640,7 @@ class CheckoutController extends Controller
                 $memberShip->total_purchase = $order->state_price;
                 $memberShip->save();
             }
-       
+            
             return view('front.checkout.success', compact('order', 'cart'));
         }
         return redirect()->route('front.index');
