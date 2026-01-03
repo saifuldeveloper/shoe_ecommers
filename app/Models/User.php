@@ -29,8 +29,8 @@ class User extends Authenticatable
         'bill_country',
         'bill_company',
         'state_id',
-        'email_verify'
-
+        'email_verify',
+        'reward_point'
 
     ];
 

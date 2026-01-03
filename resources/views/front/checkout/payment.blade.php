@@ -2,6 +2,21 @@
 @section('title')
     {{ __('Payment') }}
 @endsection
+
+@php 
+ $rewardPoint = 0;
+    $rewardSetting = DB::table('reward_point_systems')->first();
+
+    if ($rewardSetting) {
+        $minAmount = $rewardSetting->min_sold_amount_to_get_point;
+        $perPointAmount = $rewardSetting->sold_amount_per_point;
+
+        if ($cart_total >= $minAmount && $perPointAmount > 0) {
+            $rewardPoint = floor($cart_total / $perPointAmount);
+        }
+    }
+@endphp
+
 @section('content')
 <div class="mt-4" style="margin-top: 40px"></div>
   
@@ -27,7 +42,9 @@
         <input type="hidden" name="size" value="{{ Session::get('cart')['size'] ?? '' }}">
         <input type="hidden" name="payment_method" id="selected-payment-method" value="SSLCOMMERZ"> 
         <input type="hidden" name="cat_total" value="{{ PriceHelper::setCurrencyPrice($cart_total) }}">
-
+        @if($rewardPoint > 0)
+        <input type="hidden" name="reward_point" value="{{ $rewardPoint }}">
+      @endif
         {{-- =================================================== --}}
         {{-- DELIVERY SECTION (Shipping Details) --}}
         {{-- =================================================== --}}

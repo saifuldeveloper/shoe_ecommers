@@ -10,4 +10,6 @@ class RewardPointSystem extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
+
+    protected $table = 'reward_point_systems';
 }
