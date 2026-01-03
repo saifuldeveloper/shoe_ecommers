@@ -3,15 +3,26 @@
     <div class="ps-banner">
         <div class="rev_slider fullscreenbanner" id="home-banner">
             <ul>
-                @php $sliders = App\Models\Slider::get(); @endphp
+                @php
+                    function isMobileDevice()
+                    {
+                        return preg_match(
+                            '/Mobile|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i',
+                            $_SERVER['HTTP_USER_AGENT'],
+                        );
+                    }
+                $sliders = App\Models\Slider::get(); @endphp
                 @foreach ($sliders as $slider)
                     <li class="ps-banner {{ $loop->iteration % 2 == 0 ? 'ps-banner--white' : '' }}" data-hideafterloop="0"
                         data-hideslideonmobile="off" data-index="rs-{{ $loop->iteration }}" data-rotate="0"
                         data-slotamount="default" data-transition="random">
-                        <img alt="Slider Image" class="rev-slidebg" data-bgfit="cover" data-bgparallax="5"
-                            data-bgposition="center center" data-bgrepeat="no-repeat" data-no-retina=""
-                            src="{{ $slider->photo ? asset('storage/slider/' . $slider->photo) : asset('img/default.png') }}" />
+                        <a href="{{ $slider->link }}">
+                            <img alt="Slider Image" class="rev-slidebg" data-bgfit="cover" data-bgparallax="5"
+                                data-bgposition="center center" data-bgrepeat="no-repeat" data-no-retina=""
+                                src="{{ isMobileDevice() ? ($slider->mobile_photo ? asset('storage/slider/' . $slider->mobile_photo): asset('img/default.png'))
+                                    : ($slider->photo ? asset('storage/slider/' . $slider->photo) : asset('img/default.png')) }}" />
 
+                        </a>
                         <div class="tp-caption ps-banner__header"
                             data-frames='[{"delay":1000,"speed":1500,"frame":"0","from":"x:50px;opacity:0;","to":"o:1;","ease":"Power3.easeInOut"}]'
                             data-x="left" data-y="middle" id="layer-{{ $loop->iteration }}">

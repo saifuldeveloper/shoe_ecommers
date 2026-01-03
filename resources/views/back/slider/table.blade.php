@@ -5,6 +5,11 @@
                 alt="Image Not Found">
         </td>
 
+                <td>
+            <img src="{{ $data->photo ? url('/storage/slider/' . $data->mobile_photo) : url('/assets/images/placeholder.png') }}"
+                alt="Image Not Found">
+        </td>
+
         {{-- <td>
             @if ($data->home_page != 'theme4')
                 {{ $data->title }}
