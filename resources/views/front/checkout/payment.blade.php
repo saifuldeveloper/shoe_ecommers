@@ -15,6 +15,11 @@
             $rewardPoint = floor($cart_total / $perPointAmount);
         }
     }
+    //used reward point
+     if($rewardSetting) {
+        $usedRewardPoint =    floor($cart_total / $rewardSetting->redeem_amount_per_unit_point);
+     }
+
 @endphp
 
 @section('content')
@@ -42,6 +47,10 @@
         <input type="hidden" name="size" value="{{ Session::get('cart')['size'] ?? '' }}">
         <input type="hidden" name="payment_method" id="selected-payment-method" value="SSLCOMMERZ"> 
         <input type="hidden" name="cat_total" value="{{ PriceHelper::setCurrencyPrice($cart_total) }}">
+         <input type="hidden" name="order_id" value="{{ PriceHelper::setCurrencyPrice($cart_total) }}">
+        @if($usedRewardPoint > 0)
+            <input type="hidden" name="user_reward_point" value="{{ $usedRewardPoint }}">
+        @endif
         @if($rewardPoint > 0)
         <input type="hidden" name="reward_point" value="{{ $rewardPoint }}">
       @endif
