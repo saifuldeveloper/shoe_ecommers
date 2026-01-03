@@ -215,7 +215,7 @@ $initial_grand_total = $base_total;
                 @endif
             @endif
         @if(!Auth::check())
-         <button class="redeem-btn">Redeem Reward Point</button>
+         <a href="{{ route('user.login') }}" class="redeem-btn">Redeem Reward Point</a>
         @endif
   @endforeach
 
