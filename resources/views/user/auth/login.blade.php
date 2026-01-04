@@ -43,7 +43,7 @@
         </div>
 
         <div class="check">
-          <a href="#recover">Forgot Password?</a>
+          <a href="{{ route('user.forgot') }}">Forgot Password?</a>
         </div>
         <input class="login-submit" type="submit" value="Log In">
       </form>

@@ -54,6 +54,7 @@ use App\Http\Controllers\Back\SubscriberController;
 use App\Http\Controllers\Back\TranactionController;
 use App\Http\Controllers\Utility\UtilityController;
 use App\Http\Controllers\Auth\Back\ForgotController;
+use App\Http\Controllers\Auth\User\ForgotController as UserForgotController;
 use App\Http\Controllers\Back\SocialMediaController;
 use App\Http\Controllers\Back\SubCategoryController;
 use App\Http\Controllers\Back\EmailSettingController;
@@ -497,10 +498,10 @@ Route::group(['middleware' => 'maintainance'], function () {
             Route::get('/verify-link/{token}', [RegisterController::class, 'verify'])->name('user.account.verify');
 
             //------------ FORGOT ------------
-            Route::get('/forgot', [ForgotController::class, 'showForm'])->name('user.forgot');
-            Route::post('/forgot-submit', [ForgotController::class, 'forgot'])->name('user.forgot.submit');
-            Route::get('/change-password/{token}', [ForgotController::class, 'showChangePassForm'])->name('user.change.token');
-            Route::post('/change-password-submit', [ForgotController::class, 'changepass'])->name('user.change.password');
+            Route::get('/forgot', [UserForgotController::class, 'showForm'])->name('user.forgot');
+            Route::post('/forgot-submit', [UserForgotController::class, 'forgot'])->name('user.forgot.submit');
+            Route::get('/change-password/{token}', [UserForgotController::class, 'showChangePassForm'])->name('user.change.token');
+            Route::post('/change-password-submit', [UserForgotController::class, 'changepass'])->name('user.change.password');
 
 
             //------------ DASHBOARD ------------
