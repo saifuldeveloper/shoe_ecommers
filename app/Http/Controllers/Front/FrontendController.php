@@ -45,6 +45,8 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use App\Models\TopCampaignOffer;
 use App\Models\TopCampaignItem;
+use Illuminate\Support\Facades\DB;
+
 class FrontendController extends Controller
 {
 
@@ -114,6 +116,19 @@ class FrontendController extends Controller
         $socialPosts = SocialMediaPost::where('status', 1)->latest()->get();
         $newArrivalItems = Item::with('itemVariants.variant.color', 'itemVariants.variant.size')->where('status', 1)->where('is_type', 'new')->latest()->get();
 
+        //top selling products
+         $topSellingItems = Item::with('itemVariants.variant.color', 'itemVariants.variant.size')
+            ->join('order_details', 'items.id', '=', 'order_details.item_id')
+            ->join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->select(
+                'items.*',
+                DB::raw('SUM(order_details.qty) as total_sold')
+            )
+            ->where('items.status', 1)
+            ->groupBy('items.id')
+            ->orderByDesc('total_sold')
+            ->limit(10)
+            ->get();
 
         return view('front.pages.home',compact(
             'posts',
@@ -123,7 +138,8 @@ class FrontendController extends Controller
             'thirdBanner',
             'socialPosts',
             'newArrivalItems',
-            'menuCategories'
+            'menuCategories',
+            'topSellingItems'
         ));
 
     }

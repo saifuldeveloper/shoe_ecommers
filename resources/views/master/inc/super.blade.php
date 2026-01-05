@@ -290,12 +290,13 @@
                         <span class="sub-item">{{ __('Reward Point Setting') }}</span>
                     </a>
                 </li>
-
-                {{-- <li>
+                <li>
                     <a class="sub-link" href="{{ route('back.setting.email') }}">
                         <span class="sub-item">{{ __('Email Settings') }}</span>
                     </a>
                 </li>
+                {{--
+                
                 <li>
                     <a class="sub-link" href="{{ route('back.setting.sms') }}">
                         <span class="sub-item">{{ __('SMS Settings') }}</span>

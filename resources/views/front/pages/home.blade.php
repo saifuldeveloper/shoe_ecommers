@@ -410,6 +410,87 @@
         </div>
     </div>
 
+    {{-- /// top selling products --}}
+
+     <div class="ps-section ps-section--top-sales ps-owl-root">
+        <div class="ps-container">
+            <div class="ps-section__header">
+                <div class="row">
+                    <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                        <h3 class="ps-section__title">- Top Selling Products</h3>
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <div class="ps-owl-actions">
+                            {{-- <a target="__blank"  style="color:#f59b34" href="{{ route('front.new.products') }}">
+                                View All
+                            </a> --}}
+                                 <a class="ps-prev" href="#">Prev</a><a class="ps-next" href="#">Next</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ps-section__content">
+                <div class="ps-owl--colection owl-slider" data-owl-auto="true" data-owl-dots="false"
+                    data-owl-duration="1000" data-owl-gap="30" data-owl-item="4" data-owl-item-lg="4"
+                    data-owl-item-md="3" data-owl-item-sm="2" data-owl-item-xs="2" data-owl-loop="true"
+                    data-owl-mousedrag="on" data-owl-nav="false" data-owl-speed="5000">
+
+                    @foreach ($topSellingItems as $item)
+                
+                        <div class="ps-shoes--carousel">
+                            <div class="ps-shoe">
+                                <a target="__blank" href="{{ route('front.product', ['slug' => $item->slug]) }}">
+                                    <div class="ps-shoe__thumbnail">
+                                        {{-- <div class="ps-badge"><span>New</span></div> --}}
+                                        <img alt="" src="{{ asset('storage/items/' . $item->photo) }}" />
+                                        <img class="hover-img" src="{{ asset('storage/items/' . $item->photo) }}"
+                                            alt="">
+                                        <a class="ps-shoe__favorite add-to-wishlist" data-id="{{ $item->id }}">
+                                            <i class="ps-icon-heart"></i>
+                                        </a>
+                                    </div>
+                                    <div class="ps-shoe__content">
+                                        <div class="ps-shoe__detail">
+                                            <a class="ps-shoe__name" href="#">{{ $item->name }}</a>
+                                            <div> <span class="ps-shoe__price"> &#2547; {{ $item->discount_price }}</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="ps-shoe__variants">
+
+                                            <div class="text-center pb-10">
+                                                <p class="ps-shoe__categories pb-5">
+                                                
+                                                    @foreach ($item->unique_sizes as $size)
+                                              
+                                                     <a target="__blank" href="{{ route('front.product', ['slug' => $item->slug]) }}?size={{ $size }}"
+                                                                class="#">{{ $size }}</a> 
+                                              
+                                                    @endforeach
+                                                </p>
+                                            </div>
+                                            <div>
+                                              
+                                                <a href="{{ route('front.product', $item->slug) }}" target="__blank">
+                                                    <span class="btn btn-dark shop-now-button">Shop now</span>
+                                                </a>
+                                            </div>
+                                       
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    @endforeach
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- //blog section --}}
     <div class="ps-section ps-home-blog">
         <div class="ps-container">
             <div class="ps-section__header">

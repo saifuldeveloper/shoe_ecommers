@@ -16,18 +16,44 @@ $base_total = $cart_total - $special_offer_discount;
 
 $initial_grand_total = $base_total;
 
-// auth user
+// reward point system
   $rewardPoint = 0;
     $rewardSetting = DB::table('reward_point_systems')->first();
 
     if ($rewardSetting) {
         $minAmount = $rewardSetting->min_sold_amount_to_get_point;
         $perPointAmount = $rewardSetting->sold_amount_per_point;
-
+        
         if ($cart_total >= $minAmount && $perPointAmount > 0) {
             $rewardPoint = floor($cart_total / $perPointAmount);
         }
     }
+
+    //auth user reward point
+    $authUserRewardPoint = 0;
+ 
+    if (Auth::check()) {
+        $authUserRewardPoint = Auth::user()->reward_point ?? 0;
+    }
+
+    //eligible reward point
+        $minRedeemPoint = 0;
+        $showRewardPoint = false;
+        if ($rewardSetting) {
+            $minRedeemPoint = $rewardSetting->min_order_total_to_redeem_points;
+        }
+
+        if (
+            Auth::check() &&
+            Auth::user()->reward_point >= $minRedeemPoint
+        ) {
+            $showRewardPoint = true;
+        }
+
+  //used reward point
+     if($rewardSetting) {
+        $usedRewardPoint =    floor($cart_total / $rewardSetting->redeem_amount_per_unit_point);
+     }
 
 @endphp
 
@@ -171,6 +197,26 @@ $initial_grand_total = $base_total;
               {{$item->quantity}} x {{ PriceHelper::setCurrencyPrice($item_price) }}
           </div>
       </div>
+   
+        @if(Auth::check() && $authUserRewardPoint > 0)
+            @if($showRewardPoint)
+            <table class="table">
+                <tr>
+                    <td>{{ __('Total Reward Point') }}:</td>
+                    <td class="text-gray-dark grand_total_get">{{$authUserRewardPoint}}</td>
+                </tr>
+                @if($usedRewardPoint > 0)
+                    <p class="text-success">
+                        You can redeem up to <strong>{{ $usedRewardPoint }}</strong> reward points.
+                    </p>
+                @endif
+
+                </table>
+                @endif
+            @endif
+        @if(!Auth::check())
+         <a href="{{ route('user.login') }}" class="redeem-btn">Redeem Reward Point</a>
+        @endif
   @endforeach
 
 

@@ -8954,3 +8954,19 @@ body.nav-loaded {
 .ps-shoe__favorite.active i {
     color: #f5c518;
 }
+
+.redeem-btn {
+    background-color: #0d6efd; /* Blue color */
+    color: #ffffff;
+    border: none;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .redeem-btn:hover {
+    background-color: #0b5ed7;
+  }
