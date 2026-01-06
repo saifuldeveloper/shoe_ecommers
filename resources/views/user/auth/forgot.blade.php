@@ -1,9 +1,6 @@
 @extends('master.front')
 @push('css')
   <style>
-    .card {
-        border-radius: 10px;
-    }
 
   </style>
 @endpush
@@ -12,17 +9,28 @@
     {{ __('Password Reset') }}
 @endsection
 
-
 @section('content')
-<!-- Page Content -->
-<div class="container d-flex justify-content-center align-items-center" style="min-height: 70vh;">
-    <div class="row w-100 justify-content-center">
-        <div class="col-lg-6 col-md-8 col-sm-10">
+
+<div class="container">
+ 
+    <div class="row justify-content-center align-items-center forgot-wrapper">
+        <div class="col-lg-5 col-md-7 col-sm-10">
+                @if(Session::has('success'))
+                <div class="alert alert-success">
+                        {{ Session::get('success') }}
+                    </div>
+                @endif </br>
+
+                @if(Session::has('error'))
+                <div class="alert alert-error">
+                        {{ Session::get('error') }}
+                    </div>
+                @endif </br>
             <form class="card shadow-sm" method="POST" action="{{ route('user.forgot.submit') }}">
                 @csrf
 
                 <div class="card-body p-4">
-                    <h4 class="text-center mb-4">
+                    <h4 class="text-center mb-5">
                         {{ __('Forgot your password?') }}
                     </h4>
 
@@ -64,4 +72,5 @@
         </div>
     </div>
 </div>
+
 @endsection
