@@ -23,9 +23,9 @@
                 <div class="alert alert-danger">{{ $message }}</div>
             @enderror
         <div class="input-box">
-          <label for="email">E-mail <span style="color:red">*</span></label>
+          <label for="email">E-mail/Mobile No <span style="color:red">*</span></label>
           <div class=" flex-r input">
-            <input type="email"  name="login_email" autocomplete="off" placeholder="{{ __('Enter your email') }}" value="{{old('login_email')}}">
+            <input type="text"  name="login_email" autocomplete="off" placeholder="{{ __('Enter your email') }}" value="{{old('login_email')}}">
           </div>
           @error('login_email')
               <p class="message-danger">{{$message}}</p>
