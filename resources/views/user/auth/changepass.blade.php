@@ -1,43 +1,69 @@
-@extends('master.back-login')
+@extends('master.front')
+@push('css')
+  <style>
 
+  </style>
+@endpush
+
+@section('title')
+    {{ __('Password Reset') }}
+@endsection
 @section('content')
+<div class="container" style="margin-top: 35px;">
+    <div class="row justify-content-center align-items-center forgot-wrapper" >
+        <div class="col-lg-5 col-md-7 col-sm-10">
 
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
 
-        <div class="wrapper wrapper-login">
-            <div class="container container-login animated fadeIn">
-                <h3 class="text-center">{{ __('Change Password') }}</h3>
-                <div class="login-form">
+                    <h4 class="text-center mb-4">{{ __('Change Password') }}</h4>
+
+                    {{-- Session / Validation Messages --}}
+                    @include('alerts.alerts')
 
                     <form action="{{ route('user.change.password') }}" method="POST">
-
                         @csrf
 
-                        @include('alerts.alerts')
-
-
-
-                        <div class="form-group form-floating-label">
-                            <input id="new_password" name="new_password" type="password" class="form-control input-border-bottom" >
-                            <label for="new_password" class="placeholder">{{ __('New Password') }}</label>
-                            
+                        <div class="mb-3">
+                            <label for="new_password" class="form-label">
+                                {{ __('New Password') }}
+                            </label>
+                            <input
+                                id="new_password"
+                                name="new_password"
+                                type="password"
+                                class="form-control"
+                                required
+                            >
                         </div>
 
-                        <div class="form-group form-floating-label">
-                            <input id="renew_password" name="renew_password" type="password" class="form-control input-border-bottom" >
-                            <label for="renew_password" class="placeholder">{{ __('Re-Type New Password') }}</label>
-                            
+                        <div class="mb-3">
+                            <label for="renew_password" class="form-label">
+                                {{ __('Re-Type New Password') }}
+                            </label>
+                            <input
+                                id="renew_password"
+                                name="renew_password"
+                                type="password"
+                                class="form-control"
+                                required
+                            >
                         </div>
 
                         <input type="hidden" name="file_token" value="{{ $token }}">
 
-                        <div class="form-action mb-3">
-                            <button type="submit" class="btn btn-secondary  btn-login">{{ __('Change Password') }}</button>
+                        <div class="d-grid mt-4" style="margin-top: 10px;">
+                            <button type="submit" class="btn btn-primary" >
+                                {{ __('Change Password') }}
+                            </button>
                         </div>
 
                     </form>
+
                 </div>
             </div>
+
         </div>
-
-
+    </div>
+</div>
 @endsection
