@@ -42,6 +42,9 @@ class OrdersTableSeeder extends Seeder
                 'state' => NULL,
                 'created_at' => '2025-11-29 12:57:34',
                 'updated_at' => '2025-11-29 13:03:21',
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
+                'is_reward_point_used' => 0,
             ),
             1 => 
             array (
@@ -66,6 +69,9 @@ class OrdersTableSeeder extends Seeder
                 'state' => NULL,
                 'created_at' => '2025-12-09 16:23:04',
                 'updated_at' => '2025-12-09 16:23:04',
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
+                'is_reward_point_used' => 0,
             ),
             2 => 
             array (
@@ -90,6 +96,9 @@ class OrdersTableSeeder extends Seeder
                 'state' => NULL,
                 'created_at' => '2025-12-09 16:31:46',
                 'updated_at' => '2025-12-09 16:31:46',
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
+                'is_reward_point_used' => 0,
             ),
             3 => 
             array (
@@ -114,6 +123,9 @@ class OrdersTableSeeder extends Seeder
                 'state' => NULL,
                 'created_at' => '2025-12-11 21:37:26',
                 'updated_at' => '2025-12-11 21:37:26',
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
+                'is_reward_point_used' => 0,
             ),
         ));
         

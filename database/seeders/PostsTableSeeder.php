@@ -32,6 +32,8 @@ class PostsTableSeeder extends Seeder
                 'meta_descriptions' => 'It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.',
                 'created_at' => '2021-05-31 19:48:23',
                 'updated_at' => '2021-09-23 04:27:53',
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
             ),
             1 => 
             array (
@@ -46,6 +48,8 @@ class PostsTableSeeder extends Seeder
                 'meta_descriptions' => 'It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.',
                 'created_at' => '2021-05-31 19:48:23',
                 'updated_at' => '2021-09-23 04:28:04',
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
             ),
             2 => 
             array (
@@ -60,6 +64,8 @@ class PostsTableSeeder extends Seeder
                 'meta_descriptions' => 'It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.',
                 'created_at' => '2021-05-31 19:48:23',
                 'updated_at' => '2021-09-23 04:28:15',
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
             ),
         ));
         

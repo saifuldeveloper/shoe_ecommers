@@ -123,6 +123,14 @@ class GalleriesTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
+            13 => 
+            array (
+                'id' => 14,
+                'item_id' => 16,
+                'photo' => 'TqHy7316229_2_300x.webp',
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
         ));
         
         

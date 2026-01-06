@@ -133,5 +133,12 @@ class DatabaseSeeder extends Seeder
         $this->call(OrderDetailsTableSeeder::class);
         $this->call(SocialMediaPostsTableSeeder::class);
         $this->call(StoresTableSeeder::class);
+        $this->call(FirstHeroSectionsTableSeeder::class);
+        $this->call(MemberShipsTableSeeder::class);
+        $this->call(RewardPointSystemsTableSeeder::class);
+        $this->call(SecondHeroSectionsTableSeeder::class);
+        $this->call(SpecialOffersTableSeeder::class);
+        $this->call(TopCampaignItemsTableSeeder::class);
+        $this->call(TopCampaignOffersTableSeeder::class);
     }
 }

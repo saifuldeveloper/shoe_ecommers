@@ -27,6 +27,8 @@ class NotificationsTableSeeder extends Seeder
                 'is_read' => 0,
                 'created_at' => '2025-12-09 15:59:45',
                 'updated_at' => '2025-12-09 15:59:45',
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
             ),
         ));
         

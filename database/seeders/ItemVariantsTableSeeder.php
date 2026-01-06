@@ -1083,6 +1083,34 @@ class ItemVariantsTableSeeder extends Seeder
                 'created_at' => '2025-11-30 10:58:07',
                 'updated_at' => '2025-12-20 14:18:16',
             ),
+            76 => 
+            array (
+                'id' => 93,
+                'item_id' => 16,
+                'variant_sku' => 'Bkasdf',
+                'variant_id' => 36,
+                'position' => 1,
+                'item_code' => 'Black/42/asdf',
+                'additional_cost' => 120.0,
+                'additional_price' => 120.0,
+                'qty' => 0.0,
+                'created_at' => '2026-01-06 05:49:50',
+                'updated_at' => '2026-01-06 05:49:50',
+            ),
+            77 => 
+            array (
+                'id' => 94,
+                'item_id' => 16,
+                'variant_sku' => 'asdf',
+                'variant_id' => 40,
+                'position' => 2,
+                'item_code' => 'Black/41/asdf',
+                'additional_cost' => 150.0,
+                'additional_price' => 150.0,
+                'qty' => 0.0,
+                'created_at' => '2026-01-06 05:49:50',
+                'updated_at' => '2026-01-06 05:49:50',
+            ),
         ));
         
         

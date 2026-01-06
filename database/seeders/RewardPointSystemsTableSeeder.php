@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class TrackOrdersTableSeeder extends Seeder
+class RewardPointSystemsTableSeeder extends Seeder
 {
 
     /**
@@ -16,7 +16,7 @@ class TrackOrdersTableSeeder extends Seeder
     {
         
 
-        \DB::table('track_orders')->delete();
+        \DB::table('reward_point_systems')->delete();
         
         
         

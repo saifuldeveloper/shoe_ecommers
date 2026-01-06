@@ -27,6 +27,7 @@ class SettingsTableSeeder extends Seeder
                 'favicon' => '1629651232pre.png',
                 'loader' => '16388581681_D-ZiKd0B00tdifaB2X3tKQ.gif',
                 'is_loader' => 1,
+                'whatsapp_number' => NULL,
                 'feature_image' => '1600622296topic.jpg',
                 'primary_color' => '#FF0707',
                 'overlay' => NULL,

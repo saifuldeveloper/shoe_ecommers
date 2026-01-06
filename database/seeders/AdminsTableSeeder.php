@@ -31,6 +31,8 @@ class AdminsTableSeeder extends Seeder
                 'email_token' => NULL,
                 'created_at' => '2018-03-01 11:27:08',
                 'updated_at' => '2025-11-25 18:16:56',
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
             ),
             1 => 
             array (
@@ -44,6 +46,8 @@ class AdminsTableSeeder extends Seeder
                 'email_token' => NULL,
                 'created_at' => '2021-12-05 22:24:50',
                 'updated_at' => '2021-12-05 22:24:50',
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
             ),
             2 => 
             array (
@@ -57,6 +61,8 @@ class AdminsTableSeeder extends Seeder
                 'email_token' => NULL,
                 'created_at' => '2021-12-05 22:24:50',
                 'updated_at' => '2021-12-05 22:24:50',
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
             ),
         ));
         

@@ -60,6 +60,8 @@ class ItemsTableSeeder extends Seeder
                 'is_type' => 'feature',
                 'created_at' => '2025-10-14 11:54:53',
                 'updated_at' => '2025-10-14 11:54:53',
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
             ),
             1 => 
             array (
@@ -102,6 +104,8 @@ class ItemsTableSeeder extends Seeder
                 'is_type' => 'feature',
                 'created_at' => '2025-10-14 11:54:53',
                 'updated_at' => '2025-10-14 11:54:53',
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
             ),
             2 => 
             array (
@@ -144,6 +148,8 @@ class ItemsTableSeeder extends Seeder
                 'is_type' => 'feature',
                 'created_at' => '2025-10-14 11:54:53',
                 'updated_at' => '2025-10-14 11:54:53',
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
             ),
             3 => 
             array (
@@ -186,6 +192,8 @@ class ItemsTableSeeder extends Seeder
                 'is_type' => 'feature',
                 'created_at' => '2025-10-14 11:54:53',
                 'updated_at' => '2025-10-14 11:54:53',
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
             ),
             4 => 
             array (
@@ -228,6 +236,8 @@ class ItemsTableSeeder extends Seeder
                 'is_type' => 'new',
                 'created_at' => '2025-10-14 11:54:53',
                 'updated_at' => '2025-10-14 11:54:53',
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
             ),
             5 => 
             array (
@@ -270,6 +280,8 @@ class ItemsTableSeeder extends Seeder
                 'is_type' => 'new',
                 'created_at' => '2025-10-14 11:54:53',
                 'updated_at' => '2025-10-14 11:54:53',
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
             ),
             6 => 
             array (
@@ -312,6 +324,8 @@ class ItemsTableSeeder extends Seeder
                 'is_type' => 'new',
                 'created_at' => '2025-10-14 11:54:53',
                 'updated_at' => '2025-10-14 11:54:53',
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
             ),
             7 => 
             array (
@@ -354,6 +368,8 @@ class ItemsTableSeeder extends Seeder
                 'is_type' => 'new',
                 'created_at' => '2025-10-14 11:54:53',
                 'updated_at' => '2025-10-14 11:54:53',
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
             ),
             8 => 
             array (
@@ -396,6 +412,8 @@ class ItemsTableSeeder extends Seeder
                 'is_type' => NULL,
                 'created_at' => '2025-10-14 11:54:53',
                 'updated_at' => '2025-10-14 11:54:53',
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
             ),
             9 => 
             array (
@@ -438,6 +456,8 @@ class ItemsTableSeeder extends Seeder
                 'is_type' => 'new',
                 'created_at' => '2025-10-14 11:54:53',
                 'updated_at' => '2025-10-14 11:54:53',
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
             ),
             10 => 
             array (
@@ -480,6 +500,8 @@ class ItemsTableSeeder extends Seeder
                 'is_type' => 'new',
                 'created_at' => '2025-10-14 11:54:53',
                 'updated_at' => '2025-10-14 11:54:53',
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
             ),
             11 => 
             array (
@@ -530,6 +552,8 @@ including versions of Lorem Ipsum.</p>',
                 'is_type' => 'undefined',
                 'created_at' => '2025-11-27 16:03:46',
                 'updated_at' => '2025-11-29 11:24:54',
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
             ),
             12 => 
             array (
@@ -572,6 +596,8 @@ including versions of Lorem Ipsum.</p>',
                 'is_type' => 'new',
                 'created_at' => '2025-11-29 12:40:03',
                 'updated_at' => '2025-11-29 12:40:03',
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
             ),
             13 => 
             array (
@@ -614,6 +640,8 @@ including versions of Lorem Ipsum.</p>',
                 'is_type' => 'top',
                 'created_at' => '2025-11-29 14:57:18',
                 'updated_at' => '2025-11-29 14:57:18',
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
             ),
             14 => 
             array (
@@ -656,6 +684,52 @@ including versions of Lorem Ipsum.</p>',
                 'is_type' => 'best',
                 'created_at' => '2025-11-30 10:58:07',
                 'updated_at' => '2025-11-30 10:58:07',
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
+            ),
+            15 => 
+            array (
+                'id' => 16,
+                'category_id' => 2,
+                'subcategory_id' => NULL,
+                'childcategory_id' => NULL,
+                'tax_id' => 1,
+                'brand_id' => 1,
+                'name' => 'WOmen',
+                'slug' => 'women',
+                'sku' => 'asdf',
+                'code' => NULL,
+                'tags' => 'asdf',
+                'photo' => 'OM_1767678590tUVUB8uY.webp',
+                'thumbnail' => 'OM_1767678590mxIP0dJl.webp',
+                'video' => NULL,
+                'file' => NULL,
+                'file_type' => NULL,
+                'link' => NULL,
+                'sort_details' => 'asdf',
+                'details' => '<p>asf</p>',
+                'specification_name' => '["as"]',
+                'specification_description' => '["ss"]',
+                'is_specification' => 1,
+                'discount_price' => 500.0,
+                'previous_price' => 400.0,
+                'stock' => 0,
+                'license_name' => NULL,
+                'license_key' => NULL,
+                'item_type' => 'normal',
+                'affiliate_link' => NULL,
+                'meta_keywords' => 'as',
+                'meta_description' => 'as',
+                'is_variant' => 1,
+                'variant_option' => '["Color","Size"]',
+                'variant_value' => '["Black","42","41"]',
+                'status' => 1,
+                'date' => NULL,
+                'is_type' => 'top',
+                'created_at' => '2026-01-06 05:49:50',
+                'updated_at' => '2026-01-06 05:49:50',
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
             ),
         ));
         
