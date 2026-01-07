@@ -131,6 +131,46 @@ class GalleriesTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
+            14 => 
+            array (
+                'id' => 15,
+                'item_id' => 17,
+                'photo' => 'M4tl5615013_2_300x.avif',
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
+            15 => 
+            array (
+                'id' => 16,
+                'item_id' => 18,
+                'photo' => 'eBMA6018200_2_300x.avif',
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
+            16 => 
+            array (
+                'id' => 18,
+                'item_id' => 19,
+                'photo' => 'ETOC2_14134402-efec-43f8-b885-8ce16d82270d_300x.webp',
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
+            17 => 
+            array (
+                'id' => 19,
+                'item_id' => 19,
+                'photo' => '2yxu7316229_2_300x.webp',
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
+            18 => 
+            array (
+                'id' => 20,
+                'item_id' => 19,
+                'photo' => 'zLYJ5013223_1_1024x1024.webp',
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
         ));
         
         

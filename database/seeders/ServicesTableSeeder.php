@@ -22,9 +22,9 @@ class ServicesTableSeeder extends Seeder
             0 => 
             array (
                 'id' => 31,
-                'title' => 'Secure Online Payment',
-                'details' => 'We posess SSL / Secure Certificate',
-                'photo' => '162196474904.png',
+                'title' => 'Fast Delivery',
+                'details' => 'Get fast and hassle-free delivery of your orders to your doorstep. Ensuring a seamless and hassle-free experience.',
+                'photo' => 'OM_17677645651AyF2SiN.png',
                 'created_at' => NULL,
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
@@ -33,9 +33,9 @@ class ServicesTableSeeder extends Seeder
             1 => 
             array (
                 'id' => 32,
-                'title' => '24/7 Customer Support',
-                'details' => 'Friendly 24/7 customer support',
-                'photo' => '162196471103.png',
+                'title' => 'Super Deals',
+                'details' => 'Stay updated on all our latest news, offers, and campaigns.',
+                'photo' => 'OM_17677645914ZwPQ3kW.svg',
                 'created_at' => NULL,
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
@@ -44,20 +44,9 @@ class ServicesTableSeeder extends Seeder
             2 => 
             array (
                 'id' => 33,
-                'title' => 'Money Back Guarantee',
-                'details' => 'We return money within 30 days',
-                'photo' => '162196467602.png',
-                'created_at' => NULL,
-                'updated_at' => NULL,
-                'deleted_at' => NULL,
-                'deleted_by' => NULL,
-            ),
-            3 => 
-            array (
-                'id' => 34,
-                'title' => 'Free Worldwide Shipping',
-                'details' => 'Free shipping for all orders over $100 Contrary to popular belie',
-                'photo' => 'OM_1766389931gVsekmpu.JPG',
+                'title' => 'Avijatry Rewords',
+                'details' => 'Unlock a world of exciting benefits with Apex Rewards loyalty program.',
+                'photo' => 'OM_1767764602z0amXZWP.svg',
                 'created_at' => NULL,
                 'updated_at' => NULL,
                 'deleted_at' => NULL,

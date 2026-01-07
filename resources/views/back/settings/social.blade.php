@@ -25,7 +25,7 @@
                         <div class="col-4 col-md-3">
                             <div class="nav flex-column m-3 nav-pills nav-secondary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 
-                                    <a class="nav-link active" data-toggle="pill" href="#facebook">{{ __('Facebook') }}</a>
+                                    {{-- <a class="nav-link active" data-toggle="pill" href="#facebook">{{ __('Facebook') }}</a> --}}
                                     <a class="nav-link" data-toggle="pill" href="#google">{{ __('Google') }}</a>
 
 
@@ -46,7 +46,7 @@
                                         <!-- Tab panes -->
                                         <div class="tab-content">
 
-                                          <div id="facebook" class="container tab-pane active"><br>
+                                          <div id="facebook" class="container tab-pane "><br>
 
                                             <div class="row justify-content-center">
 
@@ -85,7 +85,7 @@
 
                                           </div>
 
-                                          <div id="google" class="container tab-pane"><br>
+                                          <div id="google" class="container tab-pane active"><br>
 
                                             <div class="row justify-content-center">
 

@@ -415,7 +415,7 @@
             <div class="ps-section__header">
                 <div class="row">
                     <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
-                        <h3 class="ps-section__title">- Top Selling Products</h3>
+                        <h3 class="ps-section__title">- Top  Products</h3>
                     </div>
 
                     <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">

@@ -61,7 +61,6 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12">
                     <div class="col-md-6">
-
                         <img src="{{ asset('storage/items/' . $item_details->photo ?? '') }}"
                             class="img-fluid border mb-3 image-detail-main-image popup-image" alt="Product" />
                         @if (!empty($item_details->video))
@@ -469,15 +468,13 @@
 @push('js')
     <script>
         $(document).ready(function() {
+            // Initialize zoom-gallery normally
             $('.zoom-gallery').magnificPopup({
                 delegate: 'a',
                 type: 'image',
                 closeOnContentClick: false,
                 closeBtnInside: false,
                 mainClass: 'mfp-with-zoom mfp-img-mobile',
-
-                // If you enable allowHTMLInTemplate - 
-                // make sure your HTML attributes are sanitized if they can be created by a non-admin user
                 allowHTMLInTemplate: true,
                 image: {
                     verticalFit: true,
@@ -486,21 +483,54 @@
                             item.el.attr('data-source') + '" >image source</a>';
                     }
                 },
-
                 gallery: {
                     enabled: true
                 },
                 zoom: {
                     enabled: true,
-                    duration: 300, // don't foget to change the duration also in CSS
+                    duration: 300,
                     opener: function(element) {
                         return element.find('img');
                     }
                 }
+            });
 
+            $('.image-detail-main-image').on('click', function() {
+                var items = [{
+                    src: $(this).attr('src'),
+                    title: 'Main Image',
+                    type: 'image'
+                }];
+
+                $('.zoom-gallery a').each(function() {
+                    items.push({
+                        src: $(this).attr('href'),
+                        title: $(this).attr('title'),
+                        type: 'image'
+                    });
+                });
+
+                $.magnificPopup.open({
+                    items: items,
+                    gallery: {
+                        enabled: true
+                    },
+                    type: 'image',
+                    closeOnContentClick: false,
+                    closeBtnInside: false,
+                    mainClass: 'mfp-with-zoom mfp-img-mobile',
+                    zoom: {
+                        enabled: true,
+                        duration: 300,
+                        opener: function(element) {
+                            return element;
+                        }
+                    }
+                });
             });
         });
     </script>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function() {

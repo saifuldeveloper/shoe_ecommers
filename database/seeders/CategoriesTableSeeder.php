@@ -29,12 +29,14 @@ class CategoriesTableSeeder extends Seeder
                 'menu_serial' => 1,
                 'is_featured' => 1,
                 'featured_serial' => 1,
+                'is_banner' => 1,
+                'banner_serial' => 0,
                 'photo' => 'OM_1766037843xUatm6VD.jpg',
                 'status' => 1,
                 'deleted_at' => NULL,
                 'deleted_by' => NULL,
                 'created_at' => '2025-09-24 00:39:39',
-                'updated_at' => '2025-12-18 12:04:03',
+                'updated_at' => '2026-01-07 03:13:15',
             ),
             1 => 
             array (
@@ -46,12 +48,14 @@ class CategoriesTableSeeder extends Seeder
                 'menu_serial' => 2,
                 'is_featured' => 1,
                 'featured_serial' => 2,
+                'is_banner' => 1,
+                'banner_serial' => 0,
                 'photo' => 'OM_1766036936tWlT3qtF.jpg',
                 'status' => 1,
                 'deleted_at' => NULL,
                 'deleted_by' => NULL,
                 'created_at' => '2025-09-24 00:40:01',
-                'updated_at' => '2025-12-18 11:48:56',
+                'updated_at' => '2026-01-07 03:18:31',
             ),
             2 => 
             array (
@@ -63,12 +67,14 @@ class CategoriesTableSeeder extends Seeder
                 'menu_serial' => 3,
                 'is_featured' => 1,
                 'featured_serial' => 3,
+                'is_banner' => 1,
+                'banner_serial' => 0,
                 'photo' => 'OM_1766038926fgwbpIMe.jpg',
                 'status' => 1,
                 'deleted_at' => NULL,
                 'deleted_by' => NULL,
                 'created_at' => '2025-09-24 00:41:13',
-                'updated_at' => '2025-12-18 12:22:06',
+                'updated_at' => '2026-01-07 03:13:34',
             ),
             3 => 
             array (
@@ -80,12 +86,14 @@ class CategoriesTableSeeder extends Seeder
                 'menu_serial' => 0,
                 'is_featured' => 1,
                 'featured_serial' => 4,
+                'is_banner' => 1,
+                'banner_serial' => 0,
                 'photo' => 'OM_1765430027HR8D7cUN.jpg',
                 'status' => 1,
                 'deleted_at' => NULL,
                 'deleted_by' => NULL,
                 'created_at' => '2025-09-24 00:41:40',
-                'updated_at' => '2025-12-18 12:23:07',
+                'updated_at' => '2026-01-07 08:04:08',
             ),
         ));
         
