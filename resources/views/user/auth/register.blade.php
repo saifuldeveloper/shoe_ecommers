@@ -95,6 +95,24 @@
                           <p class="message-danger">{{$message}}</p>
                           @endif
                     </div>
+                    @php
+                    $reward = \App\Models\ManageRewardPoint::first();
+                     @endphp
+                @if($reward->status == 1)
+                        <div class="input-box">
+                            <label for="password">Reward Point <small class="text-muted">
+                (Use reward points if enabled)
+            </small> <span style="color:red">*</span></label>
+                            <div class="flex-r input show_hide_password">
+                                <input type="text"
+                                name="reward_point"
+                                value="{{ $reward->reward_point ?? 0 }}"
+                                readonly>
+                            
+                            </div>
+                        </div>
+                    @endif
+
                       <input type="text" name="honeypot" id="honeypot" value="" style="display:none;">
                         @if ($setting->recaptcha == 1)
                         <div class="col-lg-12">

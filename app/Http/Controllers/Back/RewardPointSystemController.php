@@ -16,7 +16,7 @@ class RewardPointSystemController extends Controller
     {
        $settings = RewardPointSystem::first();
 
-      return view('back.rewardPoint.index', compact('settings'));
+       return view('back.rewardPoint.index', compact('settings'));
     }
 
     /**
