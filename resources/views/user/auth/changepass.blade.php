@@ -33,6 +33,7 @@
                                 name="new_password"
                                 type="password"
                                 class="form-control"
+                                placeholder="New Password"
                                 required
                             >
                         </div>
@@ -46,11 +47,12 @@
                                 name="renew_password"
                                 type="password"
                                 class="form-control"
+                                placeholder="Re-Type New Password"
                                 required
                             >
                         </div>
 
-                        <input type="hidden" name="file_token" value="{{ $token }}">
+                       <input type="hidden" name="phone" value="{{ session('reset_phone') }}">
 
                         <div class="d-grid mt-4" style="margin-top: 10px;">
                             <button type="submit" class="btn btn-primary" >

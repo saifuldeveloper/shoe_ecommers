@@ -299,7 +299,7 @@
                     <a class="sub-link" href="{{ route('back.setting.email') }}">
                         <span class="sub-item">{{ __('Email Settings') }}</span>
                     </a>
-                </li> --}}
+                </li>
                 {{--
                 
                 <li>
