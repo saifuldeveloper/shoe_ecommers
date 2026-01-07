@@ -43,7 +43,7 @@
         <div class="ps-container">
             <div class="ps-section__content">
                 <div class="row g-4">
-                    @foreach ($featuredCategories as $category)
+                    @foreach ($bannerCategories as $category)
                         <div class="col-sm-6 col-xs-6 col-lg-3 col-xs-6">
                             <a class="ps-offer d-block"
                                 href="{{ route('front.categories.products', ['slug' => $category->slug]) }}">
@@ -327,7 +327,7 @@
                                 href="{{ route('front.new.products') }}">
                                 View All
                             </a>
-                            <a class="ps-prev" href="#">Prev</a><a class="ps-next" href="#">Next</a>
+                            <a class="ps-prev" href="#">&#10094;</a><a class="ps-next" href="#">&#10095;</a>
                         </div>
                     </div>
                 </div>
@@ -417,15 +417,16 @@
             <div class="ps-section__header">
                 <div class="row">
                     <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
-                        <h3 class="ps-section__title">- Top Selling Products</h3>
+                        <h3 class="ps-section__title">- Top  Products</h3>
                     </div>
 
                     <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                         <div class="ps-owl-actions">
-                            {{-- <a target="__blank"  style="color:#f59b34" href="{{ route('front.new.products') }}">
+                            {{-- <a target="__blank"  style="color:#f59b34;padding-right:15px;" href="{{ route('front.top-sell.products') }}">
                                 View All
                             </a> --}}
-                                 <a class="ps-prev" href="#">Prev</a><a class="ps-next" href="#">Next</a>
+                                 {{-- <a class="ps-prev" href="#">Prev</a><a class="ps-next" href="#">Next</a> --}}
+                                 <a class="ps-prev" href="#">&#10094;</a><a class="ps-next" href="#">&#10095;</a>
                         </div>
                     </div>
                 </div>
@@ -437,7 +438,7 @@
                     data-owl-item-md="3" data-owl-item-sm="2" data-owl-item-xs="2" data-owl-loop="true"
                     data-owl-mousedrag="on" data-owl-nav="false" data-owl-speed="5000">
 
-                    @foreach ($topSellingItems as $item)
+                    @foreach ($manulTopItems as $item)
                 
                         <div class="ps-shoes--carousel">
                             <div class="ps-shoe">

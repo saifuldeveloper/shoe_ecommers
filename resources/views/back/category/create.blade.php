@@ -75,6 +75,20 @@
 								</div>
 
 								<div class="form-group">
+									<label for="is_banner">{{ __('Show in Banner?') }}</label>
+									<select name="is_banner" id="is_banner" class="form-control">
+										<option value="0" selected>{{ __('No') }}</option>
+										<option value="1">{{ __('Yes') }}</option>
+									</select>
+								</div>
+
+								<div class="form-group">
+									<label for="banner_serial">{{ __('Banner Serial') }}</label>
+									<input type="number" name="banner_serial" class="form-control" id="banner_serial"
+										placeholder="{{ __('Enter Menu Serial Number') }}" value="{{ old('banner_serial', 0) }}">
+								</div>
+
+								<div class="form-group">
 									<label for="is_featured">{{ __('Show as Featured?') }}</label>
 									<select name="is_featured" id="is_featured" class="form-control">
 										<option value="0" selected>{{ __('No') }}</option>

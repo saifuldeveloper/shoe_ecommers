@@ -70,54 +70,61 @@ class FrontendController extends Controller
     }
 
     // -------------------------------- HOME ----------------------------------------
-    public function findStore(){
+    public function findStore()
+    {
         $districts = District::latest('id')->get();
-        $stores =Store::latest('id')->get();
+        $stores = Store::latest('id')->get();
 
-         return view('front.pages.store_locator',compact('districts','stores'));
+        return view('front.pages.store_locator', compact('districts', 'stores'));
     }
 
     public function collectionAll()
     {
-        $subCategories = Subcategory::where('status',1)->latest()->get();
-        $brands = Brand::where('status',1)->latest()->get();
-        $products = Item::with('iteamVariant')->where('status',1)->latest()->paginate(20);
-        $allSize = Size::where('status',1)->latest()->get();
-        $allColor  = Color::where('status',1)->latest()->get();
+        $subCategories = Subcategory::where('status', 1)->latest()->get();
+        $brands = Brand::where('status', 1)->latest()->get();
+        $products = Item::with('iteamVariant')->where('status', 1)->latest()->paginate(20);
+        $allSize = Size::where('status', 1)->latest()->get();
+        $allColor = Color::where('status', 1)->latest()->get();
 
-        return view('front.pages.collecton_all_products',compact('subCategories','brands','products','allSize','allColor'));
+        return view('front.pages.collecton_all_products', compact('subCategories', 'brands', 'products', 'allSize', 'allColor'));
     }
 
 
     public function index()
     {
         $menuCategories = Category::where('is_in_menu', 1)
-        ->where('status', 1)
-        ->orderBy('menu_serial', 'asc')
-        ->get();
+            ->where('status', 1)
+            ->orderBy('menu_serial', 'asc')
+            ->get();
 
         $menuCategoryIds = $menuCategories->pluck('id');
 
         $featured_items = Item::where('status', 1)
-        ->where('is_type', 'feature')
-        ->whereIn('category_id', $menuCategoryIds)
-        ->latest()
-        ->get();
+            ->where('is_type', 'feature')
+            ->whereIn('category_id', $menuCategoryIds)
+            ->latest()
+            ->get();
 
         $posts = Post::latest('id')->take(3)->get();
         $featuredCategories = Category::where('is_featured', 1)
-                                  ->where('status', 1)
-                                  ->orderBy('id', 'asc')
-                                  ->get();
+            ->where('status', 1)
+            ->orderBy('featured_serial', 'asc')
+            ->get();
+
+
+        $bannerCategories = Category::where('is_banner', 1)
+            ->where('status', 1)
+            ->orderBy('banner_serial', 'asc')
+            ->get();
 
         $homeCustomize = HomeCutomize::first();
         $heroBanner = json_decode($homeCustomize->hero_banner, true);
-        $thirdBanner  = json_decode($homeCustomize->banner_third, true);
+        $thirdBanner = json_decode($homeCustomize->banner_third, true);
         $socialPosts = SocialMediaPost::where('status', 1)->latest()->get();
         $newArrivalItems = Item::with('itemVariants.variant.color', 'itemVariants.variant.size')->where('status', 1)->where('is_type', 'new')->latest()->get();
 
         //top selling products
-         $topSellingItems = Item::with('itemVariants.variant.color', 'itemVariants.variant.size')
+        $topSellingItems = Item::with('itemVariants.variant.color', 'itemVariants.variant.size')
             ->join('order_details', 'items.id', '=', 'order_details.item_id')
             ->join('orders', 'order_details.order_id', '=', 'orders.id')
             ->select(
@@ -130,16 +137,23 @@ class FrontendController extends Controller
             ->limit(10)
             ->get();
 
-        return view('front.pages.home',compact(
+            $manulTopItems=Item::with('itemVariants.variant.color', 'itemVariants.variant.size')
+            ->where('status', 1)->where('is_type', 'top')
+            ->paginate(20);
+
+
+        return view('front.pages.home', compact(
             'posts',
             'featured_items',
+            'bannerCategories',
             'featuredCategories',
             'heroBanner',
             'thirdBanner',
             'socialPosts',
             'newArrivalItems',
             'menuCategories',
-            'topSellingItems'
+            'topSellingItems',
+            'manulTopItems'
         ));
 
     }
@@ -160,20 +174,20 @@ class FrontendController extends Controller
     }
 
 
-    public function product(Request $request,$slug)
+    public function product(Request $request, $slug)
     {
         $item_details = Item::with('brand')->where('slug', $slug)->first();
         $related_products = Item::where('status', 1)
-                        ->where('id', '!=', $item_details->id)
-                        ->where(function ($query) use ($item_details) {
-                            $query->where('category_id', $item_details->category_id)
-                                ->orWhere('subcategory_id', $item_details->subcategory_id)
-                                ->orWhere('childcategory_id', $item_details->childcategory_id)
-                                ->orWhere('brand_id', $item_details->brand_id);
-                        })
-                        ->inRandomOrder()
-                        ->take(8)
-                        ->get();
+            ->where('id', '!=', $item_details->id)
+            ->where(function ($query) use ($item_details) {
+                $query->where('category_id', $item_details->category_id)
+                    ->orWhere('subcategory_id', $item_details->subcategory_id)
+                    ->orWhere('childcategory_id', $item_details->childcategory_id)
+                    ->orWhere('brand_id', $item_details->brand_id);
+            })
+            ->inRandomOrder()
+            ->take(8)
+            ->get();
         // Get existing viewed product IDs from session (or empty array)
         $viewed = session()->get('viewed_products', []);
 
@@ -182,7 +196,7 @@ class FrontendController extends Controller
             $viewed[] = $item_details->id;
             session()->put('viewed_products', $viewed);
         }
-        
+
         $recently_viewed = Item::where('id', '!=', $item_details->id)
             ->whereIn('id', session('viewed_products', []))
             ->where('status', 1)
@@ -190,68 +204,68 @@ class FrontendController extends Controller
 
         //selected size
         $item = Item::with('itemVariants.variant.size', 'itemVariants.variant.color')
-                ->where('slug', $slug)
-                ->firstOrFail();
-     
-       $size = $request->query('size'); 
-      
+            ->where('slug', $slug)
+            ->firstOrFail();
+
+        $size = $request->query('size');
+
         return view('front.pages.product_detail', compact(
             'item_details',
             'related_products',
             'recently_viewed',
-            'item', 
+            'item',
             'size'
         ));
 
     }
-     public function wishlist()
+    public function wishlist()
     {
-        if(!Auth::check()){
+        if (!Auth::check()) {
             return redirect()->route('user.login');
         }
         $wishlists = Wishlist::whereUserId(Auth::user()->id)->pluck('item_id')->toArray();
-        $wishlist_items = Item::where('status','=',1)->whereIn('id',$wishlists)->latest('id')->get();
-       
-        return view('front.pages.wishlist',compact('wishlist_items'));
+        $wishlist_items = Item::where('status', '=', 1)->whereIn('id', $wishlists)->latest('id')->get();
+
+        return view('front.pages.wishlist', compact('wishlist_items'));
 
     }
-       public function cart()
+    public function cart()
     {
         return view('front.pages.wishlist');
 
     }
-     public function categoryProduct($slug)
+    public function categoryProduct($slug)
     {
-        $category = Category::where('slug',$slug)->first();
+        $category = Category::where('slug', $slug)->first();
         $constraint = request()->get('constraint');
 
         $query = Item::with('itemVariants.variant.color', 'itemVariants.variant.size')
-        ->where('category_id', $category->id)
-        ->where('status', 1)
-        ->orderBy('id', 'DESC');
+            ->where('category_id', $category->id)
+            ->where('status', 1)
+            ->orderBy('id', 'DESC');
 
 
         if ($constraint) {
             $query->where(function ($q) use ($constraint) {
-                $q->where('discount_price', 'LIKE', "%{$constraint}%") 
-                ->orWhere('discount_price', 'LIKE', "%{$constraint}%") 
-                ->orWhereHas('itemVariants.variant.color', function ($color) use ($constraint) {
-                    $color->where('name', 'LIKE', "%{$constraint}%");
-                })
-                ->orWhereHas('itemVariants.variant.size', function ($size) use ($constraint) {
-                    $size->where('name', 'LIKE', "%{$constraint}%"); 
-                });
+                $q->where('discount_price', 'LIKE', "%{$constraint}%")
+                    ->orWhere('discount_price', 'LIKE', "%{$constraint}%")
+                    ->orWhereHas('itemVariants.variant.color', function ($color) use ($constraint) {
+                        $color->where('name', 'LIKE', "%{$constraint}%");
+                    })
+                    ->orWhereHas('itemVariants.variant.size', function ($size) use ($constraint) {
+                        $size->where('name', 'LIKE', "%{$constraint}%");
+                    });
             });
         }
-         $products = $query->paginate(20);
+        $products = $query->paginate(20);
 
-         //sub categorys and brands
-        $subCategories = Subcategory::where('status',1)->latest()->get();
-        $brands = Brand::where('status',1)->latest()->get();
-        $allSize = Size::where('status',1)->latest()->get();
-        $allColor  = Color::where('status',1)->latest()->get();
+        //sub categorys and brands
+        $subCategories = Subcategory::where('status', 1)->latest()->get();
+        $brands = Brand::where('status', 1)->latest()->get();
+        $allSize = Size::where('status', 1)->latest()->get();
+        $allColor = Color::where('status', 1)->latest()->get();
 
-        return view('front.pages.products',compact('subCategories','brands','products','allSize','allColor'));
+        return view('front.pages.products', compact('subCategories', 'brands', 'products', 'allSize', 'allColor'));
 
     }
 
@@ -265,7 +279,7 @@ class FrontendController extends Controller
         });
 
         $query->when($request->brand_id, function ($q) use ($request) {
-            return $q->where('brand_id', $request->brand_id); 
+            return $q->where('brand_id', $request->brand_id);
         });
 
         // color filter
@@ -282,16 +296,16 @@ class FrontendController extends Controller
             });
         });
 
-    
+
         if ($request->filled('sort_by')) {
-            $sortOrder = $request->sort_by == '1' ? 'asc' : 'desc'; 
-            $query->orderBy('discount_price', $sortOrder); 
+            $sortOrder = $request->sort_by == '1' ? 'asc' : 'desc';
+            $query->orderBy('discount_price', $sortOrder);
         }
 
         $products = $query->paginate(20);
 
         return response()->json([
-            'products'=> view('front.pages.partials.product_list', compact('products'))->render(),
+            'products' => view('front.pages.partials.product_list', compact('products'))->render(),
             'pagination' => view('front.pages.partials.pagination', compact('products'))->render(),
         ]);
     }
@@ -321,8 +335,8 @@ class FrontendController extends Controller
         if (Setting::first()->is_blog == 0)
             return back();
 
-        if ($request->ajax()){
-           return view('front.blog.list', ['posts' => $this->repository->displayPosts($request)]);
+        if ($request->ajax()) {
+            return view('front.blog.list', ['posts' => $this->repository->displayPosts($request)]);
         }
         return view('front.blog.index', [
             'posts' => $this->repository->displayPosts($request),
@@ -424,7 +438,7 @@ class FrontendController extends Controller
             return back();
         }
 
-        
+
         $districts = District::orderBy('name')->get(['id', 'name']);
         $stores = Store::with('district:id,name')
             ->get(['id', 'district_id', 'name', 'area', 'address', 'mobile', 'latitude', 'longitude']);
@@ -449,17 +463,17 @@ class FrontendController extends Controller
     public function contactSubmit(Request $request)
     {
         $request->validate([
-            'name'        => 'required|max:50',
-            'email'       => 'required|email|max:50',
-            'phone'       => 'required|digits:11',
+            'name' => 'required|max:50',
+            'email' => 'required|email|max:50',
+            'phone' => 'required|digits:11',
             'description' => 'required|max:250',
         ]);
 
         // Save to database
-        $contact              = new ContactMessage();
-        $contact->name        = $request->name;
-        $contact->email       = $request->email;
-        $contact->phone       = $request->phone;
+        $contact = new ContactMessage();
+        $contact->name = $request->name;
+        $contact->email = $request->email;
+        $contact->phone = $request->phone;
         $contact->description = $request->description;
         $contact->save();
 
@@ -639,26 +653,28 @@ class FrontendController extends Controller
     /**
      * CategoryBased product search
      */
-    public function categoryBaseProduct(Request $request){
-        $query = $request->input('q');    
-        $type = $request->input('type');  
+    public function categoryBaseProduct(Request $request)
+    {
+        $query = $request->input('q');
+        $type = $request->input('type');
 
-        $category = Category::where('name','like','%'.$query. '%')->first();
+        $category = Category::where('name', 'like', '%' . $query . '%')->first();
         $products = [];
-        if($category){
-           $products =  Item::where('category_id',$category->id)->paginate(5);
+        if ($category) {
+            $products = Item::where('category_id', $category->id)->paginate(5);
         }
 
-        return view('front.pages.search_products',compact('products'));
+        return view('front.pages.search_products', compact('products'));
     }
 
-     /**
-      * Summary of productSearch
-      * @param \Illuminate\Http\Request $request
-      * @return \Illuminate\Http\JsonResponse
-      */
-     public function productSearch(Request $request){
-        $query = $request->input('q');    
+    /**
+     * Summary of productSearch
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function productSearch(Request $request)
+    {
+        $query = $request->input('q');
 
         if (empty($query)) {
             return response()->json([
@@ -666,68 +682,81 @@ class FrontendController extends Controller
                 'totalCount' => 0,
             ]);
         }
-        
-        $products = Item::where('name','like','%'.$query. '%')->limit(3)->get();
+
+        $products = Item::where('name', 'like', '%' . $query . '%')->limit(3)->get();
         $totalCount = Item::where('name', 'like', '%' . $query . '%')->count();
-      
-         return response()->json([
-                'products' => $products,
-                'totalCount' => $totalCount, 
-            ]);
+
+        return response()->json([
+            'products' => $products,
+            'totalCount' => $totalCount,
+        ]);
     }
-    
+
     /**
      * Summary of showSearchProducts
      * @return void
      */
     public function showSearchProducts(Request $request)
     {
-        $query = $request->input('q');    
+        $query = $request->input('q');
 
         $products = Item::where('name', 'like', '%' . $query . '%')->paginate(5);
 
-        return view('front.pages.query_products',compact('products'));
+        return view('front.pages.query_products', compact('products'));
     }
 
 
 
-     /**
+    /**
      * Summary of showSearchProducts
      * @return void
      */
     public function newArrivalProduct()
     {
         $products = Item::with('itemVariants.variant.color', 'itemVariants.variant.size')
-              ->where('status', 1)->where('is_type', 'new')
-                ->paginate(20);
+            ->where('status', 1)->where('is_type', 'new')
+            ->paginate(20);
 
-        $subCategories = Subcategory::where('status',1)->latest()->get();
-        $brands = Brand::where('status',1)->latest()->get();
-        $allSize = Size::where('status',1)->latest()->get();
-        $allColor  = Color::where('status',1)->latest()->get();
+        $subCategories = Subcategory::where('status', 1)->latest()->get();
+        $brands = Brand::where('status', 1)->latest()->get();
+        $allSize = Size::where('status', 1)->latest()->get();
+        $allColor = Color::where('status', 1)->latest()->get();
 
-        return view('front.pages.new_arrival_products',compact('products','subCategories','brands','allSize','allColor'));
+        return view('front.pages.new_arrival_products', compact('products', 'subCategories', 'brands', 'allSize', 'allColor'));
     }
 
+    public function topSellProduct()
+    {
+        $products = Item::with('itemVariants.variant.color', 'itemVariants.variant.size')
+            ->where('status', 1)->where('is_type', 'top')
+            ->paginate(20);
+
+        $subCategories = Subcategory::where('status', 1)->latest()->get();
+        $brands = Brand::where('status', 1)->latest()->get();
+        $allSize = Size::where('status', 1)->latest()->get();
+        $allColor = Color::where('status', 1)->latest()->get();
+        return view('front.pages.top_sell', compact('products', 'subCategories', 'brands', 'allSize', 'allColor'));
+
+    }
 
     //unique campaign products
     public function uniqueCampaign($slug)
     {
 
-        $campaign = TopCampaignOffer::where('campaign_slug',$slug)->where('campaign_status',1)->firstOrFail();
+        $campaign = TopCampaignOffer::where('campaign_slug', $slug)->where('campaign_status', 1)->firstOrFail();
 
-         $campaign_items = TopCampaignItem::with('item')
+        $campaign_items = TopCampaignItem::with('item')
             ->where('campaign_id', $campaign->id)
             ->orderBy('id', 'desc')
             ->paginate(12);
 
         //sub categorys and brands
-        $subCategories = Subcategory::where('status',1)->latest()->get();
-        $brands = Brand::where('status',1)->latest()->get();
-        $allSize = Size::where('status',1)->latest()->get();
-        $allColor  = Color::where('status',1)->latest()->get();
+        $subCategories = Subcategory::where('status', 1)->latest()->get();
+        $brands = Brand::where('status', 1)->latest()->get();
+        $allSize = Size::where('status', 1)->latest()->get();
+        $allColor = Color::where('status', 1)->latest()->get();
 
-        return view('front.campaign', ['products' => $campaign_items],compact('subCategories','brands','allSize','allColor','campaign'));
+        return view('front.campaign', ['products' => $campaign_items], compact('subCategories', 'brands', 'allSize', 'allColor', 'campaign'));
     }
 
 

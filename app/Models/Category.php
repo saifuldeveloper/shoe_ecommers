@@ -15,6 +15,8 @@ class Category extends Model
         'status',
         'is_in_menu',
         'menu_serial',
+        'is_banner',
+        'banner_serial',
         'is_featured',
         'featured_serial',
         'parent_id',

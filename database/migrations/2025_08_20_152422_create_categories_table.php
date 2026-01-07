@@ -19,6 +19,8 @@ return new class extends Migration {
             $table->unsignedInteger('menu_serial')->default(0);
             $table->tinyInteger('is_featured')->default(0)->index();
             $table->unsignedInteger('featured_serial')->default(0);
+            $table->tinyInteger('is_banner')->default(0)->index();
+            $table->tinyInteger('banner_serial')->default(0)->index();
             $table->string('photo')->nullable();
             $table->boolean('status')->default(1);
             $table->foreign('parent_id')->references('id')->on('categories')->onDelete('cascade');

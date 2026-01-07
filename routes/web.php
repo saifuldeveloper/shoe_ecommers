@@ -597,6 +597,7 @@ Route::group(['middleware' => 'maintainance'], function () {
 
         //new reoutes
         Route::get('products/newarrival', [FrontendController::class, 'newArrivalProduct'])->name('front.new.products');
+        Route::get('products/top-sell', [FrontendController::class, 'topSellProduct'])->name('front.top-sell.products');
 
 
 
