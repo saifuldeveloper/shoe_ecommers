@@ -24,8 +24,10 @@ class RolesTableSeeder extends Seeder
                 'id' => 1,
                 'name' => 'test',
                 'section' => '["Manage Categories","Manage Products","Manage Orders","Transactions","Ecommerce","Customer List","Manages Tickets","Manage Site","Manage Faqs Contents","Manage Blogs","Manages Pages","Subscribers List","Manage System User"]',
-                'created_at' => '2021-12-05 16:24:27',
-                'updated_at' => '2021-12-05 16:24:27',
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
+                'created_at' => '2021-12-05 22:24:27',
+                'updated_at' => '2021-12-05 22:24:27',
             ),
         ));
         

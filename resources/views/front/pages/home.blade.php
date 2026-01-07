@@ -3,15 +3,26 @@
     <div class="ps-banner">
         <div class="rev_slider fullscreenbanner" id="home-banner">
             <ul>
-                @php $sliders = App\Models\Slider::get(); @endphp
+                @php
+                    function isMobileDevice()
+                    {
+                        return preg_match(
+                            '/Mobile|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i',
+                            $_SERVER['HTTP_USER_AGENT'],
+                        );
+                    }
+                $sliders = App\Models\Slider::get(); @endphp
                 @foreach ($sliders as $slider)
                     <li class="ps-banner {{ $loop->iteration % 2 == 0 ? 'ps-banner--white' : '' }}" data-hideafterloop="0"
                         data-hideslideonmobile="off" data-index="rs-{{ $loop->iteration }}" data-rotate="0"
                         data-slotamount="default" data-transition="random">
-                        <img alt="Slider Image" class="rev-slidebg" data-bgfit="cover" data-bgparallax="5"
-                            data-bgposition="center center" data-bgrepeat="no-repeat" data-no-retina=""
-                            src="{{ $slider->photo ? asset('storage/slider/' . $slider->photo) : asset('img/default.png') }}" />
-                    
+                        <a href="{{ $slider->link }}">
+                            <img alt="Slider Image" class="rev-slidebg" data-bgfit="cover" data-bgparallax="5"
+                                data-bgposition="center center" data-bgrepeat="no-repeat" data-no-retina=""
+                                src="{{ isMobileDevice() ? ($slider->mobile_photo ? asset('storage/slider/' . $slider->mobile_photo): asset('img/default.png'))
+                                    : ($slider->photo ? asset('storage/slider/' . $slider->photo) : asset('img/default.png')) }}" />
+
+                        </a>
                         <div class="tp-caption ps-banner__header"
                             data-frames='[{"delay":1000,"speed":1500,"frame":"0","from":"x:50px;opacity:0;","to":"o:1;","ease":"Power3.easeInOut"}]'
                             data-x="left" data-y="middle" id="layer-{{ $loop->iteration }}">
@@ -28,14 +39,14 @@
             </ul>
         </div>
     </div>
-
     <div class="ps-section pt-35">
         <div class="ps-container">
-            <div class="ps-section__content pb-35">
+            <div class="ps-section__content">
                 <div class="row g-4">
                     @foreach ($featuredCategories as $category)
                         <div class="col-sm-6 col-xs-6 col-lg-3 col-xs-6">
-                            <a class="ps-offer d-block"   href="{{ route('front.categories.products', ['slug'=>$category->slug]) }}">
+                            <a class="ps-offer d-block"
+                                href="{{ route('front.categories.products', ['slug' => $category->slug]) }}">
                                 <img src="{{ asset('storage/category/' . $category->photo) }}" alt="{{ $category->name }}"
                                     class="img-fluid" />
                             </a>
@@ -45,30 +56,28 @@
             </div>
         </div>
     </div>
-  
 
-    @php 
-       $firstBanners = App\Models\FirstHeroSection::all();
 
+    @php
+        $firstBanners = App\Models\FirstHeroSection::all();
     @endphp
- 
+
     <div class="ps-section">
         <div class="ps-container">
             <div class="ps-section__content">
                 <div class="row g-4">
-                    <div class="col-12">
+                    <div class="col-12 col-sm-12 col-lg-12">
                         @foreach ($firstBanners as $banner)
-                        @php
-                             $unqiue_slug = basename($banner->url_first);
-                        @endphp
-                            <a class="ps-offer d-block"
-                              href="{{ route('products.campaign.unique', $unqiue_slug) }}">
-                            <img src="{{ $banner->banner_first
-                        ? (file_exists(public_path('storage/' . $banner->banner_first))
-                            ? url('storage/' . $banner->banner_first)
-                            : url('assets/images/' . $banner->banner_first))
-                        : url('assets/images/default.jpg') }}"
-                                alt="#" class="img-fluid" />
+                            @php
+                                $unqiue_slug = basename($banner->url_first);
+                            @endphp
+                            <a class="ps-offer d-block" href="{{ route('products.campaign.unique', $unqiue_slug) }}">
+                                <img src="{{ $banner->banner_first
+                                    ? (file_exists(public_path('storage/' . $banner->banner_first))
+                                        ? url('storage/' . $banner->banner_first)
+                                        : url('assets/images/' . $banner->banner_first))
+                                    : url('assets/images/default.jpg') }}"
+                                    alt="#" class="img-fluid" style="padding-top: 35px;" />
                             </a>
                         @endforeach
                     </div>
@@ -76,39 +85,46 @@
             </div>
         </div>
     </div>
-  @php 
-    $products = App\Models\Item::with( 'itemVariants.variant.color', 'itemVariants.variant.size')
-        ->where('status', 1)
-        ->orderBy('id', 'DESC')
-        ->get();
+    @php
+        $products = App\Models\Item::with('itemVariants.variant.color', 'itemVariants.variant.size')
+            ->where('status', 1)
+            ->orderBy('id', 'DESC')
+            ->get();
 
-          $sizes = $products->flatMap(function ($product) {
-                    return $product->itemVariants->pluck('variant.size.name')->filter();
-                })->unique()->values();
+        $sizes = $products
+            ->flatMap(function ($product) {
+                return $product->itemVariants->pluck('variant.size.name')->filter();
+            })
+            ->unique()
+            ->values();
     @endphp
     <div class="ps-section--features-product ps-section masonry-root pb-30">
         <div class="ps-container">
             <div class="ps-section__header pb-40">
-                <h3 class="ps-section__title">- Features Products</h3>
-
-                <ul class="ps-masonry__filter">
-                    <li class="current">
-                        <a data-filter="*" href="#">All <sup>{{ $featured_items->count() }}</sup></a>
-                    </li>
-                    @foreach ($menuCategories as $cat)
-                        @php
-                            $count = $featured_items->where('category_id', $cat->id)->count();
-                        @endphp
-
-                        @if ($count > 0)
-                            <li>
-                                <a data-filter=".{{ Str::slug($cat->slug) }}" href="#">
-                                    {{ $cat->name }} <sup>{{ $count }}</sup>
-                                </a>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12  col-lg-12">
+                        <h3 class="ps-section__title">- Features Products</h3>
+                        <ul class="ps-masonry__filter">
+                            <li class="current">
+                                <a data-filter="*" href="#">All <sup>{{ $featured_items->count() }}</sup></a>
                             </li>
-                        @endif
-                    @endforeach
-                </ul>
+                            @foreach ($menuCategories as $cat)
+                                @php
+                                    $count = $featured_items->where('category_id', $cat->id)->count();
+                                @endphp
+
+                                @if ($count > 0)
+                                    <li>
+                                        <a data-filter=".{{ Str::slug($cat->slug) }}" href="#">
+                                            {{ $cat->name }} <sup>{{ $count }}</sup>
+                                        </a>
+                                    </li>
+                                @endif
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+
             </div>
 
             <div class="ps-section__content">
@@ -119,33 +135,41 @@
                         @foreach ($featured_items as $item)
                             <div class="grid-item {{ Str::slug($item->category->slug ?? '') }}">
                                 <div class="grid-item__content-wrapper">
-                                    <a target="__blank"  href="{{ route('front.product', $item->slug) }}">
+                                    <a target="__blank" href="{{ route('front.product', $item->slug) }}">
                                         <div class="ps-shoe mb-30">
                                             <a target="__blank" href="{{ route('front.product', $item->slug) }}">
                                                 <div class="ps-shoe__thumbnail">
-                                                    <img alt="" src="{{ asset('storage/items/' . $item->photo ?? '') }}" />
-                                                    <img class="hover-img" src="{{ asset('storage/items/' . $item->photo ?? '') }}"alt="">
-                                                    <a class="ps-shoe__favorite add-to-wishlist"data-id="{{ $item->id }}"><i class="ps-icon-heart"></i>
+                                                    <img alt=""
+                                                        src="{{ asset('storage/items/' . $item->photo ?? '') }}" />
+                                                    <img class="hover-img"
+                                                        src="{{ asset('storage/items/' . $item->photo ?? '') }}"alt="">
+                                                    <a
+                                                        class="ps-shoe__favorite add-to-wishlist"data-id="{{ $item->id }}"><i
+                                                            class="ps-icon-heart"></i>
                                                     </a>
                                                 </div>
                                                 <div class="ps-shoe__content">
                                                     <div class="ps-shoe__detail">
-                                                        <a  class="ps-shoe__name"  href="{{ route('front.product', $item->slug) }}" target="__blank">{{ $item->name ?? '' }}</a>
-                                                        <div> <span class="ps-shoe__price"> &#2547; {{ $item->discount_price ?? '' }}</span></div>
+                                                        <a class="ps-shoe__name"
+                                                            href="{{ route('front.product', $item->slug) }}"
+                                                            target="__blank">{{ $item->name ?? '' }}</a>
+                                                        <div> <span class="ps-shoe__price"> &#2547;
+                                                                {{ $item->discount_price ?? '' }}</span></div>
                                                     </div>
                                                     <div class="ps-shoe__variants">
                                                         <div>
                                                             <div class="text-center pb-10">
-                                                                    <p class="ps-shoe__categories pb-5">
-                                                                        @foreach ($item->unique_sizes as $size)
-                                                                      <a  href="{{ route('front.product', ['slug' => $item->slug]) }}?size={{ $size }}"
-                                                                class="#" target="__blank">{{ $size }}</a> 
-                                                                        
-                                                                        @endforeach
-                                                                    </p>
-                                                                </div>
-                                                            <a  href="{{ route('front.product', $item->slug) }}"
-                                                                class="btn btn-dark shop-now-button" target="__blank">Shop now</a>
+                                                                <p class="ps-shoe__categories pb-5">
+                                                                    @foreach ($item->unique_sizes as $size)
+                                                                        <a href="{{ route('front.product', ['slug' => $item->slug]) }}?size={{ $size }}"
+                                                                            class="#"
+                                                                            target="__blank">{{ $size }}</a>
+                                                                    @endforeach
+                                                                </p>
+                                                            </div>
+                                                            <a href="{{ route('front.product', $item->slug) }}"
+                                                                class="btn btn-dark shop-now-button" target="__blank">Shop
+                                                                now</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -162,34 +186,32 @@
         </div>
     </div>
 
-    @php 
-       $secondBanners = App\Models\SecondHeroSection::all();
+    @php
+        $secondBanners = App\Models\SecondHeroSection::all();
 
     @endphp
 
     <div class="ps-section pt-35">
         <div class="ps-container">
             <div class="ps-section__content pb-35">
-                <div class="row g-4">
-                    <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-                        @foreach ($secondBanners as $banner)
+                <div class="row">
+                    @foreach ($secondBanners as $banner)
                         @php
-                             $unqiue_slug = basename($banner->url_second);
+                            $unique_slug = basename($banner->url_second);
                         @endphp
-                            <a class="ps-offer d-block"
-                              href="{{ route('products.campaign.unique', $unqiue_slug) }}">
-                            <img src="{{ $banner->banner_second
-                        ? (file_exists(public_path('storage/' . $banner->banner_second))
-                            ? url('storage/' . $banner->banner_second)
-                            : url('assets/images/' . $banner->banner_second))
-                        : url('assets/images/default.jpg') }}"
-                                alt="#" class="img-fluid" />
+                        <div class="col-6 col-md-6 col-sm-6 mb-3">
+                            <a class="ps-offer d-block" href="{{ route('products.campaign.unique', $unique_slug) }}">
+                                <img src="{{ $banner->banner_second
+                                    ? (file_exists(public_path('storage/' . $banner->banner_second))
+                                        ? url('storage/' . $banner->banner_second)
+                                        : url('assets/images/' . $banner->banner_second))
+                                    : url('assets/images/default.jpg') }}"
+                                    alt="#" class="img-fluid w-100" style="padding-top: 30px;" />
                             </a>
-                        @endforeach
-                    </div>
-
-                   
+                        </div>
+                    @endforeach
                 </div>
+
             </div>
         </div>
     </div>
@@ -277,15 +299,18 @@
         </div>
     </div> --}}
 
-    @php 
-    $products = App\Models\Item::with( 'itemVariants.variant.color', 'itemVariants.variant.size')
-        ->where('status', 1)
-        ->orderBy('id', 'DESC')
-        ->get();
+    @php
+        $products = App\Models\Item::with('itemVariants.variant.color', 'itemVariants.variant.size')
+            ->where('status', 1)
+            ->orderBy('id', 'DESC')
+            ->get();
 
-          $sizes = $products->flatMap(function ($product) {
-                    return $product->itemVariants->pluck('variant.size.name')->filter();
-                })->unique()->values();
+        $sizes = $products
+            ->flatMap(function ($product) {
+                return $product->itemVariants->pluck('variant.size.name')->filter();
+            })
+            ->unique()
+            ->values();
     @endphp
 
     <div class="ps-section ps-section--top-sales ps-owl-root">
@@ -298,10 +323,11 @@
 
                     <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                         <div class="ps-owl-actions">
-                            <a target="__blank"  style="color:#f59b34" href="{{ route('front.new.products') }}">
+                            <a target="__blank" style="color:#f59b34;padding-right:15px;"
+                                href="{{ route('front.new.products') }}">
                                 View All
                             </a>
-                                 <a class="ps-prev" href="#">Prev</a><a class="ps-next" href="#">Next</a>
+                            <a class="ps-prev" href="#">Prev</a><a class="ps-next" href="#">Next</a>
                         </div>
                     </div>
                 </div>
@@ -314,7 +340,6 @@
                     data-owl-mousedrag="on" data-owl-nav="false" data-owl-speed="5000">
 
                     @foreach ($newArrivalItems as $item)
-                
                         <div class="ps-shoes--carousel">
                             <div class="ps-shoe">
                                 <a target="__blank" href="{{ route('front.product', ['slug' => $item->slug]) }}">
@@ -338,17 +363,17 @@
 
                                             <div class="text-center pb-10">
                                                 <p class="ps-shoe__categories pb-5">
-                                                   {{-- @php  dd($item) @endphp --}}
+                                                    {{-- @php  dd($item) @endphp --}}
                                                     @foreach ($item->unique_sizes as $size)
-                                              
-                                                     <a target="__blank" href="{{ route('front.product', ['slug' => $item->slug]) }}?size={{ $size }}"
-                                                                class="#">{{ $size }}</a> 
-                                                    {{-- <a href="{{ route('front.categories.products', ['slug' => $item->category?->slug]) }}?constraint={{ strtolower($size) }}">  {{ $size }} </a> --}}
+                                                        <a target="__blank"
+                                                            href="{{ route('front.product', ['slug' => $item->slug]) }}?size={{ $size }}"
+                                                            class="#">{{ $size }}</a>
+                                                        {{-- <a href="{{ route('front.categories.products', ['slug' => $item->category?->slug]) }}?constraint={{ strtolower($size) }}">  {{ $size }} </a> --}}
                                                     @endforeach
                                                 </p>
                                             </div>
                                             <div>
-                                              
+
                                                 <a href="{{ route('front.product', $item->slug) }}" target="__blank">
                                                     <span class="btn btn-dark shop-now-button">Shop now</span>
                                                 </a>
@@ -547,54 +572,73 @@
 
 
 @push('js')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function() {
             const csrfToken = $('meta[name="csrf-token"]').attr('content');
+            $(document).on('click', '.add-to-wishlist', function(e) {
+                e.preventDefault();
+                let $this = $(this);
+                let itemId = $this.data('id');
+                let url = '{{ route('user.wishlist.store', ['id' => 'ITEM_ID']) }}';
+                url = url.replace('ITEM_ID', itemId);
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        _token: csrfToken,
+                        id: itemId
+                    },
+                    success: function(response) {
 
-           $('.add-to-wishlist').on('click', function (e) {
-        e.preventDefault();
+                        // Login required
+                        if (response.status === 0 && response.link) {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Login Required',
+                                text: "Wishlist-এ যোগ করার জন্য আপনাকে লগইন করতে হবে।",
+                                confirmButtonText: 'Login'
+                            }).then(() => {
+                                window.location.href = response.link;
+                            });
+                        }
 
-        let $this = $(this);
-        let itemId = $this.data('id');
+                        // Added to wishlist
+                        else if (response.status === 1) {
+                            $this.addClass('active');
+                            Swal.fire({
+                                icon: 'success',
+                                title: response.message,
+                                // text: response.message,
+                                timer: 3000,
+                                showConfirmButton: false
+                            });
+                            updateWishlistCount();
+                        }
 
-        let url = '{{ route('user.wishlist.store', ['id' => 'ITEM_ID']) }}';
-        url = url.replace('ITEM_ID', itemId);
-
-        $.ajax({
-            url: url,
-            type: 'GET',
-            dataType: 'json',
-            data: {
-                _token: csrfToken,
-                id: itemId
-            },
-
-            success: function (response) {
-
-                // Login required
-                if (response.status === 0 && response.link) {
-                    alert("Wishlist-এ যোগ করার জন্য আপনাকে লগইন করতে হবে।");
-                    window.location.href = response.link;
-                }
-
-                // Added to wishlist
-                else if (response.status === 1) {
-                    $this.addClass('active');
-                    alert(response.message);
-                    updateWishlistCount();
-                }
-
-                // Removed from wishlist
-                else if (response.status === 2) {
-                    $this.removeClass('active');
-                    alert(response.message);
-                    updateWishlistCount();
-                }
-            }
-        });
-    });
-
-
+                        // Removed from wishlist
+                        else if (response.status === 2) {
+                            $this.removeClass('active');
+                            Swal.fire({
+                                icon: 'success',
+                                title: response.message,
+                                // text: response.message,
+                                timer: 3000,
+                                showConfirmButton: false
+                            });
+                            updateWishlistCount();
+                        }
+                    },
+                    error: function(xhr) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Something went wrong. Please try again.'
+                        });
+                    }
+                });
+            });
         });
 
         function updateWishlistCount() {
@@ -605,10 +649,9 @@
                 type: 'GET',
                 dataType: 'json',
                 success: function(response) {
-                    if (response.count !== undefined) {
-                        $('#wishlist-count-header i').text(response.count);
-                        $('#wishlist-count-mobile i').text(response.count);
-                    }
+                    const count = response.count || 0;
+                    $('#wishlist-count-header i').text(count);
+                    $('#wishlist-count-mobile i').text(count);
                 },
                 error: function(xhr) {
                     console.error("Failed to fetch wishlist count:", xhr);
@@ -618,7 +661,7 @@
             });
         }
 
-        // Load count on page load too
-        // updateWishlistCount();
+        // Optional: Load count on page load
+        updateWishlistCount();
     </script>
 @endpush

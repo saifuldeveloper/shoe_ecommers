@@ -58,13 +58,11 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12">
                     <div class="col-md-6">
-                    
+
                         <img src="{{ asset('storage/items/' . $item_details->photo ?? '') }}"
                             class="img-fluid border mb-3 image-detail-main-image popup-image" alt="Product" />
-                         @if(!empty($item_details->video))
-                            <a href="{{ $item_details->video }}" 
-                            class="video-play-icon popup-video" 
-                            target="_blank">
+                        @if (!empty($item_details->video))
+                            <a href="{{ $item_details->video }}" class="video-play-icon popup-video" target="_blank">
                                 ▶
                             </a>
                         @endif
@@ -501,53 +499,91 @@
             });
         });
     </script>
-
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-$(document).ready(function () {
+        $(document).ready(function() {
+            const csrfToken = $('meta[name="csrf-token"]').attr('content');
+            $(document).on('click', '.add-to-wishlist', function(e) {
+                e.preventDefault();
+                let $this = $(this);
+                let itemId = $this.data('id');
+                let url = '{{ route('user.wishlist.store', ['id' => 'ITEM_ID']) }}';
+                url = url.replace('ITEM_ID', itemId);
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        _token: csrfToken,
+                        id: itemId
+                    },
+                    success: function(response) {
 
-    const csrfToken = $('meta[name="csrf-token"]').attr('content');
+                        // Login required
+                        if (response.status === 0 && response.link) {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Login Required',
+                                text: "Wishlist-এ যোগ করার জন্য আপনাকে লগইন করতে হবে।",
+                                confirmButtonText: 'Login'
+                            }).then(() => {
+                                window.location.href = response.link;
+                            });
+                        }
 
-    $('.add-to-wishlist').on('click', function (e) {
-        e.preventDefault();
+                        // Added to wishlist
+                        else if (response.status === 1) {
+                            $this.addClass('active');
+                            Swal.fire({
+                                icon: 'success',
+                                title: response.message,
+                                // text: response.message,
+                                timer: 3000,
+                                showConfirmButton: false
+                            });
+                            updateWishlistCount();
+                        }
 
-        let $this = $(this);
-        let itemId = $this.data('id');
+                        // Removed from wishlist
+                        else if (response.status === 2) {
+                            $this.removeClass('active');
+                            Swal.fire({
+                                icon: 'success',
+                                title: response.message,
+                                // text: response.message,
+                                timer: 3000,
+                                showConfirmButton: false
+                            });
+                            updateWishlistCount();
+                        }
+                    },
+                    error: function(xhr) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Something went wrong. Please try again.'
+                        });
+                    }
+                });
+            });
+        });
 
-        let url = '{{ route('user.wishlist.store', ['id' => 'ITEM_ID']) }}';
-        url = url.replace('ITEM_ID', itemId);
+        function updateWishlistCount() {
+            let url = '{{ route('user.wishlist.count') }}';
 
-        $.ajax({
-            url: url,
-            type: 'GET',
-            dataType: 'json',
-            data: {
-                _token: csrfToken,
-                id: itemId
-            },
-            success: function (response) {
-
-                // 🔴 Not logged in
-                if (response.status === 0 && response.link) {
-                    alert("Wishlist-এ যোগ করার জন্য আপনাকে লগইন করতে হবে।");
-                    window.location.href = response.link;
-                    return;
-                }
-
-                // ✅ Added to wishlist
-                if (response.status === 1) {
-                    $this.addClass('active');
-                    alert(response.message);
-                    updateWishlistCount();
-                    return;
-                }
-
-                // ❌ Removed from wishlist
-                if (response.status === 2) {
-                    $this.removeClass('active');
-                    alert(response.message);
-                    updateWishlistCount();
-                    return;
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    const count = response.count || 0;
+                    $('#wishlist-count-header i').text(count);
+                    $('#wishlist-count-mobile i').text(count);
+                },
+                error: function(xhr) {
+                    console.error("Failed to fetch wishlist count:", xhr);
+                    $('#wishlist-count-header i').text(0);
+                    $('#wishlist-count-mobile i').text(0);
                 }
             },
             error: function () {

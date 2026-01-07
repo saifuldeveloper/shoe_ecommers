@@ -25,6 +25,7 @@
                         <thead>
                             <tr>
                                 <th>{{ __('Image') }}</th>
+                                <th>{{ __('Mobile Device Image') }}</th>
                                 {{-- <th width="25%">{{ __('Title') }}</th>
                             <th>{{ __('Home Page') }}</th>
 							<th width="25%">{{ __('Details') }}</th> --}}

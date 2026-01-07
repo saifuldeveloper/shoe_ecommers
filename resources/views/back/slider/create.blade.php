@@ -104,6 +104,23 @@
                                         </div>
 
                                         <div class="form-group">
+                                            <label id="slider_text"  for="name">{{ __('Set Slider Mobile Image') }} *</label>
+                                            <br>
+                                                <img class="admin-img" src="{{  url('/assets/images/placeholder.png') }}"
+                                                    alt="No Image Found">
+                                            <br>
+                                            <span id="chenge_label2" class="mt-1">{{ __('Image Size Should Be 480 x 300') }}</span>
+                                        </div>
+
+                                        <div class="form-group position-relative ">
+                                            <label class="file">
+                                                <input type="file"  accept="image/*"  class="upload-photo" name="mobile_photo" id="file"
+                                                    aria-label="File browser example" >
+                                                <span class="file-custom text-left">{{ __('Upload Image...') }}</span>
+                                            </label>
+                                        </div>
+
+                                        <div class="form-group">
                                             <button type="submit"
                                                 class="btn btn-secondary ">{{ __('Submit') }}</button>
                                         </div>

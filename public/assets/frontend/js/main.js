@@ -685,8 +685,6 @@
                         from: "top",
                         align: "right",
                     },
-                    offset: 20,
-                    spacing: 10,
                     z_index: 1031,
                     delay: 5000,
                     timer: 1000,
@@ -696,11 +694,8 @@
                         enter: "animated fadeInDown",
                         exit: "animated fadeOutUp",
                     },
-                    onShow: null,
-                    onShown: null,
-                    onClose: null,
-                    onClosed: null,
                     icon_type: "class",
+                    
                 }
             );
         }

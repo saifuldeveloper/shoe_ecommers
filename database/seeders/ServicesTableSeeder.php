@@ -27,6 +27,8 @@ class ServicesTableSeeder extends Seeder
                 'photo' => '162196474904.png',
                 'created_at' => NULL,
                 'updated_at' => NULL,
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
             ),
             1 => 
             array (
@@ -36,6 +38,8 @@ class ServicesTableSeeder extends Seeder
                 'photo' => '162196471103.png',
                 'created_at' => NULL,
                 'updated_at' => NULL,
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
             ),
             2 => 
             array (
@@ -45,15 +49,19 @@ class ServicesTableSeeder extends Seeder
                 'photo' => '162196467602.png',
                 'created_at' => NULL,
                 'updated_at' => NULL,
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
             ),
             3 => 
             array (
                 'id' => 34,
                 'title' => 'Free Worldwide Shipping',
                 'details' => 'Free shipping for all orders over $100 Contrary to popular belie',
-                'photo' => '162196463701.png',
+                'photo' => 'OM_1766389931gVsekmpu.JPG',
                 'created_at' => NULL,
                 'updated_at' => NULL,
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
             ),
         ));
         

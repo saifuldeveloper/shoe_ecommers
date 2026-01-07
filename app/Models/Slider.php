@@ -9,7 +9,7 @@ class Slider extends Model
 {
 
     use SoftDeletes;
-    protected $fillable = ['title', 'logo', 'photo', 'link', 'details', 'home_page'];
+    protected $fillable = ['title', 'logo', 'photo','mobile_photo', 'link', 'details', 'home_page'];
     public $timestamps = false;
 
     public function deletedBy()

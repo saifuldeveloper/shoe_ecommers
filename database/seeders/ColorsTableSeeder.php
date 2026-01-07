@@ -25,8 +25,10 @@ class ColorsTableSeeder extends Seeder
                 'name' => 'Red',
                 'code' => '#ff0000',
                 'status' => 1,
-                'created_at' => '2025-09-23 19:24:04',
-                'updated_at' => '2025-09-23 19:24:04',
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
+                'created_at' => '2025-09-24 01:24:04',
+                'updated_at' => '2025-09-24 01:24:04',
             ),
             1 => 
             array (
@@ -34,8 +36,21 @@ class ColorsTableSeeder extends Seeder
                 'name' => 'Black',
                 'code' => '#0f0f0f',
                 'status' => 1,
-                'created_at' => '2025-09-23 19:24:13',
-                'updated_at' => '2025-09-23 19:24:13',
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
+                'created_at' => '2025-09-24 01:24:13',
+                'updated_at' => '2025-09-24 01:24:13',
+            ),
+            2 => 
+            array (
+                'id' => 3,
+                'name' => 'Blue',
+                'code' => '#2d49d2',
+                'status' => 1,
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
+                'created_at' => '2025-11-27 14:00:26',
+                'updated_at' => '2025-11-27 14:00:26',
             ),
         ));
         

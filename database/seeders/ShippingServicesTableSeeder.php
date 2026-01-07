@@ -29,6 +29,8 @@ class ShippingServicesTableSeeder extends Seeder
                 'status' => 'active',
                 'created_at' => NULL,
                 'updated_at' => NULL,
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
             ),
             1 => 
             array (
@@ -40,6 +42,8 @@ class ShippingServicesTableSeeder extends Seeder
                 'status' => 'active',
                 'created_at' => NULL,
                 'updated_at' => NULL,
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
             ),
         ));
         

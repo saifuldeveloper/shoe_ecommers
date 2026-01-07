@@ -4716,8 +4716,17 @@ button.ps-btn--gray:before {
   }
 }
 
+.alert-success {
+  width: 311px !important;
+}
+.alert-danger {
+  width: 350px !important;
+}
+
 .ps-section--features-product .ps-masonry__filter {
   float: right;
+  padding-top: 8px;
+  line-height: 100px;
 }
 .ps-section--features-product .ps-masonry__filter li {
   display: inline-block;
