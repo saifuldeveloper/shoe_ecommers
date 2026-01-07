@@ -4,6 +4,44 @@
     <meta name="keywords" content="{{ $item_details->meta_keywords }}">
     <meta name="description" content="{{ $item_details->meta_description }}">
 @endsection
+@push('css')
+    <style>
+      .add-to-wishlist {
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background-color: #f1f1f1;
+            transition: all 0.3s ease;
+        }
+
+        .add-to-wishlist i {
+            font-size: 20px;
+            color: #555;
+            transition: color 0.3s ease;
+        }
+
+        /* ✅ Active (Wishlisted) */
+        .add-to-wishlist.active {
+            background-color: rgba(231, 76, 60, 0.15); /* light red bg */
+        }
+
+        .add-to-wishlist.active i {
+            color: #e74c3c; /* red heart */
+        }
+
+        /* Optional hover effect */
+        .add-to-wishlist:hover {
+            background-color: rgba(231, 76, 60, 0.1);
+        }
+
+    </style>
+@endpush
+
+
 @section('content')
     @php
         $itemGalleries = App\Models\Gallery::where('item_id', $item_details->id)->get();
@@ -150,8 +188,11 @@
 
                         <div class="d-flex">
                             <button class="btn btn-dark me-2  add_to_cartbtn" id="add_to_cart">ADD TO CART</button>
-                            <a class="add-to-wishlist" data-id="{{ $item_details->id }}"><i
-                                    class="ps-icon-heart love_icon"></i></a>
+                          <a class="add-to-wishlist {{ $item_details->isWishlisted ? 'active' : '' }}"
+                                data-id="{{ $item_details->id }}">
+                                <i class="ps-icon-heart love_icon"></i>
+                                </a>
+                        
                             <!-- Buttons -->
                             <div class="d-flex">
                                 <div>
@@ -544,12 +585,42 @@
                     $('#wishlist-count-header i').text(0);
                     $('#wishlist-count-mobile i').text(0);
                 }
-            });
-        }
+            },
+            error: function () {
+                alert('Something went wrong!');
+            }
+        });
+    });
 
-        // Optional: Load count on page load
-        updateWishlistCount();
-    </script>
+});
+
+/* Wishlist count update */
+function updateWishlistCount() {
+    let url = '{{ route('user.wishlist.count') }}';
+
+    $.ajax({
+        url: url,
+        type: 'GET',
+        dataType: 'json',
+        success: function (response) {
+            if (response.count !== undefined) {
+                $('#wishlist-count-header i').text(response.count);
+                $('#wishlist-count-mobile i').text(response.count);
+            }
+        },
+        error: function () {
+            $('#wishlist-count-header i').text(0);
+            $('#wishlist-count-mobile i').text(0);
+        }
+    });
+}
+
+// Load count on page load
+updateWishlistCount();
+</script>
+
+
+
     <script>
         function updateSubtotal() {
             const priceElement = document.getElementById('itemPrice');

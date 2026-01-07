@@ -8970,3 +8970,10 @@ body.nav-loaded {
   .redeem-btn:hover {
     background-color: #0b5ed7;
   }
+
+  /* ===== */
+  .row.justify-content-center.align-items-center.forgot-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+}

@@ -39,59 +39,136 @@ class LoginController extends Controller
   public function login(AuthRequest $request)
   {
 
-    // Attempt to log the user in
-    if (Auth::attempt(['email' => $request->login_email, 'password' => $request->login_password])) {
-      $user = Auth::user();
+    // // Attempt to log the user in
+    // if (Auth::attempt(['email' => $request->login_email, 'password' => $request->login_password])) {
+    //   $user = Auth::user();
       
-      //member ship create
-      MemberShip::firstOrCreate(
-        ['user_id' => $user->id],
-        [
-            'total_purchase' => 0,
-            'membership_level' => 'Normal',
-            'discount_percent' => 0,
-        ]
-    );
-      // if successful, then redirect to their intended location
-      $setting = Setting::first();
+    //   //member ship create
+    //   MemberShip::firstOrCreate(
+    //     ['user_id' => $user->id],
+    //     [
+    //         'total_purchase' => 0,
+    //         'membership_level' => 'Normal',
+    //         'discount_percent' => 0,
+    //     ]
+    // );
+    //   // if successful, then redirect to their intended location
+    //   $setting = Setting::first();
 
-      if (!Auth::user()->email_verify && $setting->is_mail_verify == 1) {
-        Session::flash('error', __('Email not verify ! Please check your email for verification code.'));
+    //   if (!Auth::user()->email_verify && $setting->is_mail_verify == 1) {
+    //     Session::flash('error', __('Email not verify ! Please check your email for verification code.'));
 
-        $user = Auth::user();
-        $verify = rand(pow(10, 6 - 1), pow(10, 6) - 1);
-        $emailData = [
-          'to' => $user->email,
-          'subject' => "Email Verification",
-          'body' => "Your verification code is " . $verify,
-        ];
-        $user->update(['email_token' => $verify]);
-
-
-        if ($setting->is_mail_verify == 1) {
-          if ($setting->is_queue_enabled == 1) {
-            dispatch(new EmailSendJob($emailData));
-          } else {
-            $email = new EmailHelper();
-            $email->sendCustomMail($emailData, "custom");
-          }
-          Auth::logout();
-          return redirect()->route("user.verify");
-        }
-      }
+    //     $user = Auth::user();
+    //     $verify = rand(pow(10, 6 - 1), pow(10, 6) - 1);
+    //     $emailData = [
+    //       'to' => $user->email,
+    //       'subject' => "Email Verification",
+    //       'body' => "Your verification code is " . $verify,
+    //     ];
+    //     $user->update(['email_token' => $verify]);
 
 
-      if ($request->has('modal')) {
-        return redirect()->back();
-      } else {
-        return redirect()->intended(route('user.dashboard'));
-      }
+    //     if ($setting->is_mail_verify == 1) {
+    //       if ($setting->is_queue_enabled == 1) {
+    //         dispatch(new EmailSendJob($emailData));
+    //       } else {
+    //         $email = new EmailHelper();
+    //         $email->sendCustomMail($emailData, "custom");
+    //       }
+    //       Auth::logout();
+    //       return redirect()->route("user.verify");
+    //     }
+    //   }
+
+
+    //   if ($request->has('modal')) {
+    //     return redirect()->back();
+    //   } else {
+    //     return redirect()->intended(route('user.dashboard'));
+    //   }
+    // }
+
+    // // if unsuccessful, then redirect back to the login with the form data
+    // return redirect()->back()
+    //     ->withErrors(['credentials' => __("Email or password doesn't match!")])
+    //     ->withInput();
+
+     $loginInput = $request->login_email;
+    // Detect email or phone
+    if (filter_var($loginInput, FILTER_VALIDATE_EMAIL)) {
+        $fieldType = 'email';
+    } else {
+        $fieldType = 'phone';
     }
 
-    // if unsuccessful, then redirect back to the login with the form data
+    // Attempt login
+    if (Auth::attempt([
+        $fieldType => $loginInput,
+        'password' => $request->login_password
+    ])) {
+
+        $user = Auth::user();
+
+        // Membership create
+        MemberShip::firstOrCreate(
+            ['user_id' => $user->id],
+            [
+                'total_purchase' => 0,
+                'membership_level' => 'Normal',
+                'discount_percent' => 0,
+            ]
+        );
+
+        $setting = Setting::first();
+
+        // Email verification check (only if login via email)
+        if (
+            $fieldType === 'email' &&
+            !$user->email_verify &&
+            $setting->is_mail_verify == 1
+        ) {
+
+            Session::flash(
+                'error',
+                __('Email not verify ! Please check your email for verification code.')
+            );
+
+            $verify = rand(100000, 999999);
+
+            $emailData = [
+                'to' => $user->email,
+                'subject' => "Email Verification",
+                'body' => "Your verification code is " . $verify,
+            ];
+
+            $user->update(['email_token' => $verify]);
+
+            if ($setting->is_queue_enabled == 1) {
+                dispatch(new EmailSendJob($emailData));
+            } else {
+                $email = new EmailHelper();
+                $email->sendCustomMail($emailData, "custom");
+            }
+
+            Auth::logout();
+            return redirect()->route("user.verify");
+        }
+
+        // Redirect
+        if ($request->has('modal')) {
+            return redirect()->back();
+        }
+
+        return redirect()->intended(route('user.dashboard'));
+    }
+
+    // Login failed
     return redirect()->back()
-        ->withErrors(['credentials' => __("Email or password doesn't match!")])
+        ->withErrors([
+            'credentials' => __("Email / Mobile or password doesn't match!")
+        ])
         ->withInput();
+
   }
 
   public function showVerifyForm()
@@ -102,8 +179,6 @@ class LoginController extends Controller
 
   public function verifySubmit(Request $request)
   {
-
-
     $user = User::where('email_token', $request->verify)->first();
     if (!$user) {
       Session::flash('error', __("Verify Code Doesn't Match !"));
