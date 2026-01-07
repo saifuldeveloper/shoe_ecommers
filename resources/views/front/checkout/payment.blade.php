@@ -6,6 +6,7 @@
 @php 
  $rewardPoint = 0;
     $rewardSetting = DB::table('reward_point_systems')->first();
+    $usedRewardPoint  =0;
 
     if ($rewardSetting) {
         $minAmount = $rewardSetting->min_sold_amount_to_get_point;

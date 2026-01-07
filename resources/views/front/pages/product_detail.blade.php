@@ -6,7 +6,7 @@
 @endsection
 @push('css')
     <style>
-      .add-to-wishlist {
+        .add-to-wishlist {
             cursor: pointer;
             display: inline-flex;
             align-items: center;
@@ -26,24 +26,24 @@
 
         /* ✅ Active (Wishlisted) */
         .add-to-wishlist.active {
-            background-color: rgba(231, 76, 60, 0.15); /* light red bg */
+            background-color: rgba(231, 76, 60, 0.15);
+            /* light red bg */
         }
 
         .add-to-wishlist.active i {
-            color: #ffff; /* red heart */
-            background:#f5c518;
+            color: #ffff;
+            /* red heart */
+            background: #f5c518;
             border-color: #ffff;
-            
+
         }
 
         /* Optional hover effect */
         .add-to-wishlist:hover {
             background-color: rgba(231, 76, 60, 0.1);
         }
-
     </style>
 @endpush
-
 
 @section('content')
     @php
@@ -90,7 +90,6 @@
                     <!-- Product Details -->
                     <div class="col-md-6">
                         <h4 class="item-name"><strong>{{ $item_details->name ?? '' }}</strong></h4>
-                        {{-- <p><strong>Brand:</strong> {{ $item_details->brand->name ?? '' }}</p> --}}
                         @if ($item_details->code)
                             <p><strong>Product Code:</strong> {{ $item_details->code ?? '' }}</p>
                         @endif
@@ -169,10 +168,10 @@
                             </div>
                         @endif
                         <!-- Promocode -->
-                        <div class="mb-3">
+                        {{-- <div class="mb-3">
                             <label class="form-label"><strong>Promocode</strong></label>
                             <input type="text" class="form-control" value="#MPC#525" />
-                        </div>
+                        </div> --}}
 
                         <!-- Quantity -->
                         <div class="mb-3 d-flex align-items-center">
@@ -191,11 +190,11 @@
 
                         <div class="d-flex">
                             <button class="btn btn-dark me-2  add_to_cartbtn" id="add_to_cart">ADD TO CART</button>
-                          <a class="add-to-wishlist {{ isset($wishlists[$item_details->id]) ? 'active' : '' }}"
+                            <a class="add-to-wishlist {{ isset($wishlists[$item_details->id]) ? 'active' : '' }}"
                                 data-id="{{ $item_details->id }}">
                                 <i class="ps-icon-heart love_icon"></i>
-                                </a>
-                        
+                            </a>
+
                             <!-- Buttons -->
                             <div class="d-flex">
                                 <div>
@@ -505,13 +504,14 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function() {
+
             const csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+            // Add / Remove Wishlist
             $(document).on('click', '.add-to-wishlist', function(e) {
-                console.log('l');
                 e.preventDefault();
                 let $this = $(this);
                 let itemId = $this.data('id');
-                console.log(itemId);
                 let url = '{{ route('user.wishlist.store', ['id' => 'ITEM_ID']) }}';
                 url = url.replace('ITEM_ID', itemId);
                 $.ajax({
@@ -571,8 +571,13 @@
                     }
                 });
             });
+
+            // Load wishlist count on page load
+            updateWishlistCount();
         });
 
+
+        // Wishlist Count
         function updateWishlistCount() {
             let url = '{{ route('user.wishlist.count') }}';
 
@@ -581,72 +586,51 @@
                 type: 'GET',
                 dataType: 'json',
                 success: function(response) {
-                    const count = response.count || 0;
+                    let count = response.count ?? 0;
                     $('#wishlist-count-header i').text(count);
                     $('#wishlist-count-mobile i').text(count);
                 },
-                error: function(xhr) {
-                    console.error("Failed to fetch wishlist count:", xhr);
+                error: function() {
                     $('#wishlist-count-header i').text(0);
                     $('#wishlist-count-mobile i').text(0);
                 }
-            },
-            error: function () {
-                alert('Something went wrong!');
-            }
-        });
-    });
-
-});
-
-/* Wishlist count update */
-function updateWishlistCount() {
-    let url = '{{ route('user.wishlist.count') }}';
-
-    $.ajax({
-        url: url,
-        type: 'GET',
-        dataType: 'json',
-        success: function (response) {
-            if (response.count !== undefined) {
-                $('#wishlist-count-header i').text(response.count);
-                $('#wishlist-count-mobile i').text(response.count);
-            }
-        },
-        error: function () {
-            $('#wishlist-count-header i').text(0);
-            $('#wishlist-count-mobile i').text(0);
+            });
         }
-    });
-}
 
-// Load count on page load
-updateWishlistCount();
-</script>
+
+        // SweetAlert Toast (Reusable)
+        function showToast(message) {
+            Swal.fire({
+                icon: 'success',
+                title: message,
+                timer: 2000,
+                showConfirmButton: false
+            });
+        }
+    </script>
+
+
 
 
 
     <script>
         function updateSubtotal() {
-            const priceElement = document.getElementById('itemPrice');
-            const qtyElement = document.getElementById('qtyInput');
-            const subtotalDisplay = document.getElementById('subtotalDisplay');
+            const price = parseFloat(document.getElementById('itemPrice')?.value || 0);
+            const qty = parseInt(document.getElementById('qtyInput')?.value || 0);
+            const display = document.getElementById('subtotalDisplay');
 
-            const unitPrice = parseFloat(priceElement.value);
-            const quantity = parseInt(qtyElement.value);
-
-            if (isNaN(unitPrice) || isNaN(quantity) || quantity < 1) {
-                subtotalDisplay.textContent = '0.00';
+            if (!display || qty < 1) {
+                display.textContent = '0.00';
                 return;
             }
-            const newSubtotal = unitPrice * quantity;
-            subtotalDisplay.textContent = newSubtotal.toFixed(2);
+
+            display.textContent = (price * qty).toFixed(2);
         }
-        document.addEventListener('DOMContentLoaded', function() {
+
+        document.addEventListener('DOMContentLoaded', () => {
             const qtyInput = document.getElementById('qtyInput');
             if (qtyInput) {
                 qtyInput.addEventListener('input', updateSubtotal);
-
                 updateSubtotal();
             }
         });
