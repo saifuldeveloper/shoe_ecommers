@@ -28,7 +28,6 @@
                 @endif </br>
             <form class="card shadow-sm" method="POST" action="{{ route('user.forgot.submit') }}">
                 @csrf
-
                 <div class="card-body p-4">
                     <h4 class="text-center mb-5">
                         {{ __('Forgot your password?') }}

@@ -37,10 +37,10 @@
                                                         <a class="nav-link active" data-toggle="pill"
                                                             href="#conf">{{ __('Configuration') }}</a>
                                                     </li>
-                                                    <li class="nav-item">
+                                                    {{-- <li class="nav-item">
                                                         <a class="nav-link" data-toggle="pill"
                                                             href="#template">{{ __('Templates') }}</a>
-                                                    </li>
+                                                    </li> --}}
 
                                                 </ul>
 
@@ -58,7 +58,7 @@
 
                                                                     @csrf
 
-                                                                    <code class="my-2">
+                                                                    {{-- <code class="my-2">
                                                                         {{ __('If you enable this option, the mail will be sent using the queue system.') }}
                                                                     </code>
                                                                     <div class="form-group">
@@ -121,7 +121,7 @@
                                                                             <span
                                                                                 class="switch-text">{{ __('SMTP Service') }}</span>
                                                                         </label>
-                                                                    </div>
+                                                                    </div> --}}
 
 
                                                                     <div
