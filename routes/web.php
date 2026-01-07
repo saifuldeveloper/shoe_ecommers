@@ -2,15 +2,10 @@
 
 // ************************************ ADMIN PANEL **********************************************
 
-use App\Http\Controllers\Back\RewardPointSystemController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Back\FaqController;
-use App\Http\Controllers\Back\SpecialOfferController;
-use App\Http\Controllers\Back\TopCampaignController;
-use App\Http\Controllers\Back\HomeBannerSectionTwo;
-use App\Http\Controllers\Back\HomeBannerSectionOne;
 use App\Http\Controllers\Back\TaxController;
 use App\Http\Controllers\Back\ItemController;
 use App\Http\Controllers\Back\MenuController;
@@ -49,27 +44,33 @@ use App\Http\Controllers\Back\PromoCodeController;
 use App\Http\Controllers\Front\FrontendController;
 use App\Http\Controllers\Back\BulkDeleteController;
 use App\Http\Controllers\Back\CsvProductController;
+use App\Http\Controllers\Back\HomeBannerSectionOne;
+use App\Http\Controllers\Back\HomeBannerSectionTwo;
 use App\Http\Controllers\Back\SmsSettingController;
 use App\Http\Controllers\Back\SubscriberController;
 use App\Http\Controllers\Back\TranactionController;
 use App\Http\Controllers\Utility\UtilityController;
 use App\Http\Controllers\Auth\Back\ForgotController;
-use App\Http\Controllers\Auth\User\ForgotController as UserForgotController;
 use App\Http\Controllers\Back\SocialMediaController;
 use App\Http\Controllers\Back\SubCategoryController;
+use App\Http\Controllers\Back\TopCampaignController;
 use App\Http\Controllers\Back\EmailSettingController;
 use App\Http\Controllers\Back\NotificationController;
+use App\Http\Controllers\Back\SpecialOfferController;
 use App\Http\Controllers\Auth\User\RegisterController;
 use App\Http\Controllers\Back\ChieldCategoryController;
 use App\Http\Controllers\Back\PaymentSettingController;
 use App\Http\Controllers\Front\UserDashboardController;
 use App\Http\Controllers\Back\AttributeOptionController;
 use App\Http\Controllers\Back\ShippingServiceController;
+use App\Http\Controllers\Back\SocialMediaPostController;
+use App\Http\Controllers\Back\ManageRewardPointController;
+use App\Http\Controllers\Back\RewardPointSystemController;
 use App\Http\Controllers\Back\AccountController as BackAccountController;
 use App\Http\Controllers\User\AccountController as UserAccountController;
-use App\Http\Controllers\Auth\User\LoginController as UserLoginController;
 use App\Http\Controllers\Auth\Back\LoginController as BackLoginController;
-use App\Http\Controllers\Back\SocialMediaPostController;
+use App\Http\Controllers\Auth\User\LoginController as UserLoginController;
+use App\Http\Controllers\Auth\User\ForgotController as UserForgotController;
 
 Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
     Route::prefix('admin')->group(function () {

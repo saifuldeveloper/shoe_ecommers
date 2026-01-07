@@ -291,6 +291,11 @@
                     </a>
                 </li>
                 <li>
+                    <a class="sub-link" href="{{ route('admin.manage.reward.system') }}">
+                        <span class="sub-item">{{ __('Manage Reward Point') }}</span>
+                    </a>
+                </li>
+                {{-- <li>
                     <a class="sub-link" href="{{ route('back.setting.email') }}">
                         <span class="sub-item">{{ __('Email Settings') }}</span>
                     </a>

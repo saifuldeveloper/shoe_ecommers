@@ -5,7 +5,7 @@ namespace App\Repositories\Front;
 use App\{
     Models\User,
     Models\Setting,
-    Helpers\EmailHelper,
+    Helpers\EmailHelper, Models\ManageRewardPoint,
     Models\Notification
 };
 use App\Helpers\ImageHelper;
@@ -20,14 +20,20 @@ class UserRepository
     public function register($request)
     {
 
+        $reward = ManageRewardPoint::first();
 
         $input = $request->all();
-
+      
         $user = new User;
         $input['password'] = bcrypt($request['password']);
         $input['email'] = $input['email'];
         $input['first_name'] = $input['first_name'];
         $input['last_name'] = $input['last_name'];
+
+        if($reward->status == 1){
+            $input['reward_point'] = $input['reward_point'];
+        }
+        
         $input['phone'] = $input['phone'];
         $verify = rand(pow(10, 6 - 1), pow(10, 6) - 1);
         $input['email_token'] = $verify;
