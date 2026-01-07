@@ -137,10 +137,9 @@ class FrontendController extends Controller
             ->limit(10)
             ->get();
 
-            $manulTopItems=Item::with('itemVariants.variant.color', 'itemVariants.variant.size')
+        $manulTopItems = Item::with('itemVariants.variant.color', 'itemVariants.variant.size')
             ->where('status', 1)->where('is_type', 'top')
             ->paginate(20);
-
 
         return view('front.pages.home', compact(
             'posts',
@@ -153,7 +152,8 @@ class FrontendController extends Controller
             'newArrivalItems',
             'menuCategories',
             'topSellingItems',
-            'manulTopItems'
+            'manulTopItems',
+          
         ));
 
     }

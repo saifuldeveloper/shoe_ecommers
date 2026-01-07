@@ -10,7 +10,7 @@
                         <img class="hover-img"
                             src="{{ $product->photo ? (file_exists(public_path('storage/items/' . $product->photo)) ? url('storage/items/' . $product->photo) : url('assets/images/' . $product->photo)) : url('assets/images/default.jpg') }}"
                             alt="Image Not Found">
-                        <a href="#" class="ps-shoe__favorite add-to-wishlist" data-id="{{ $product->id }}">
+                        <a href="#" class="ps-shoe__favorite add-to-wishlist {{ isset($wishlists[$product->id]) ? 'active' : '' }}" data-id="{{ $product->id }}">
                             <i class="ps-icon-heart"></i>
                         </a>
                         <a class="compare-button add-to-compare" href="javascript:void(0)" data-id="{{ $product->id }}"

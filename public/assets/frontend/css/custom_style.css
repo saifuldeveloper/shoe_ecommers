@@ -719,7 +719,7 @@ a i.love_icon{
   background: #fff;
   color: #000;
   border: 1px solid #000;
-  padding-top: 10px;
+  padding-top: 12px;
   padding-bottom: 10px;
   padding-left: 10px;
   padding-right: 10px;
@@ -728,7 +728,7 @@ a i.love_icon{
   font-size: 25px;
   min-width: 48px;
   margin-bottom: 0px;
-  margin-left: 15px;
+  margin-left: 9px;
   cursor: pointer;
   border-radius: 4px;
 }

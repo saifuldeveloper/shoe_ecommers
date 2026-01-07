@@ -11,7 +11,7 @@
                     alt="Image Not Found">
 
             <a href="#" 
-            class="ps-shoe__favorite add-to-wishlist" 
+            class="ps-shoe__favorite add-to-wishlist {{ isset($wishlists[$product->id]) ? 'active' : '' }}"  
             data-id="{{ $product->id }}">
                 <i class="ps-icon-heart"></i>
             </a>

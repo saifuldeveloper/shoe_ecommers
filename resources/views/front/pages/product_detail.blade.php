@@ -30,7 +30,10 @@
         }
 
         .add-to-wishlist.active i {
-            color: #e74c3c; /* red heart */
+            color: #ffff; /* red heart */
+            background:#f5c518;
+            border-color: #ffff;
+            
         }
 
         /* Optional hover effect */
@@ -188,7 +191,7 @@
 
                         <div class="d-flex">
                             <button class="btn btn-dark me-2  add_to_cartbtn" id="add_to_cart">ADD TO CART</button>
-                          <a class="add-to-wishlist {{ $item_details->isWishlisted ? 'active' : '' }}"
+                          <a class="add-to-wishlist {{ isset($wishlists[$item_details->id]) ? 'active' : '' }}"
                                 data-id="{{ $item_details->id }}">
                                 <i class="ps-icon-heart love_icon"></i>
                                 </a>
@@ -207,10 +210,10 @@
                                         <a href="#tab_01" aria-controls="tab_01" role="tab"
                                             data-toggle="tab">Overview</a>
                                     </li>
-                                    <li>
+                                    {{-- <li>
                                         <a href="#tab_02" aria-controls="tab_02" role="tab"
                                             data-toggle="tab">Review</a>
-                                    </li>
+                                    </li> --}}
                                     <li>
                                         <a href="#tab_03" aria-controls="tab_03" role="tab"
                                             data-toggle="tab">PRODUCT TAG</a>
@@ -504,9 +507,11 @@
         $(document).ready(function() {
             const csrfToken = $('meta[name="csrf-token"]').attr('content');
             $(document).on('click', '.add-to-wishlist', function(e) {
+                console.log('l');
                 e.preventDefault();
                 let $this = $(this);
                 let itemId = $this.data('id');
+                console.log(itemId);
                 let url = '{{ route('user.wishlist.store', ['id' => 'ITEM_ID']) }}';
                 url = url.replace('ITEM_ID', itemId);
                 $.ajax({

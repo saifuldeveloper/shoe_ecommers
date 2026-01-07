@@ -139,12 +139,10 @@
                                         <div class="ps-shoe mb-30">
                                             <a target="__blank" href="{{ route('front.product', $item->slug) }}">
                                                 <div class="ps-shoe__thumbnail">
-                                                    <img alt=""
-                                                        src="{{ asset('storage/items/' . $item->photo ?? '') }}" />
-                                                    <img class="hover-img"
-                                                        src="{{ asset('storage/items/' . $item->photo ?? '') }}"alt="">
+                                                    <img alt="" src="{{ asset('storage/items/' . $item->photo ?? '') }}" />
+                                                    <img class="hover-img" src="{{ asset('storage/items/' . $item->photo ?? '') }}"alt="">
                                                     <a
-                                                        class="ps-shoe__favorite add-to-wishlist"data-id="{{ $item->id }}"><i
+                                                        class="ps-shoe__favorite add-to-wishlist {{ isset($wishlists[$item->id]) ? 'active' : '' }}" data-id="{{ $item->id }}" ><i
                                                             class="ps-icon-heart"></i>
                                                     </a>
                                                 </div>
@@ -348,7 +346,7 @@
                                         <img alt="" src="{{ asset('storage/items/' . $item->photo) }}" />
                                         <img class="hover-img" src="{{ asset('storage/items/' . $item->photo) }}"
                                             alt="">
-                                        <a class="ps-shoe__favorite add-to-wishlist" data-id="{{ $item->id }}">
+                                        <a class="ps-shoe__favorite add-to-wishlist {{ isset($wishlists[$item->id]) ? 'active' : '' }}" data-id="{{ $item->id }}">
                                             <i class="ps-icon-heart"></i>
                                         </a>
                                     </div>
@@ -417,7 +415,7 @@
             <div class="ps-section__header">
                 <div class="row">
                     <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
-                        <h3 class="ps-section__title">- Top  Products</h3>
+                        <h3 class="ps-section__title">- Top Selling Products</h3>
                     </div>
 
                     <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
@@ -448,7 +446,7 @@
                                         <img alt="" src="{{ asset('storage/items/' . $item->photo) }}" />
                                         <img class="hover-img" src="{{ asset('storage/items/' . $item->photo) }}"
                                             alt="">
-                                        <a class="ps-shoe__favorite add-to-wishlist" data-id="{{ $item->id }}">
+                                        <a class="ps-shoe__favorite add-to-wishlist {{ isset($wishlists[$item->id]) ? 'active' : '' }}" data-id="{{ $item->id }}">
                                             <i class="ps-icon-heart"></i>
                                         </a>
                                     </div>
