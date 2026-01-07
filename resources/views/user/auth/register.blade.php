@@ -99,10 +99,10 @@
                     $reward = \App\Models\ManageRewardPoint::first();
                      @endphp
                 @if($reward->status == 1)
-                        <div class="input-box">
+                        <div class="input-box" style="display: none">
                             <label for="password">Reward Point <small class="text-muted">
                 (Use reward points if enabled)
-            </small> <span style="color:red">*</span></label>
+                       </small> <span style="color:red">*</span></label>
                             <div class="flex-r input show_hide_password">
                                 <input type="text"
                                 name="reward_point"

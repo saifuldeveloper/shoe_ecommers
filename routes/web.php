@@ -438,7 +438,9 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
             Route::get('/reward-point-setting', [RewardPointSystemController::class, 'index'])->name('admin.reward.point.system');
             Route::post('/reward-point-setting', [RewardPointSystemController::class, 'update'])->name('admin.reward.point.system.update');
 
-
+            //Manage Reward point
+            Route::get('/reward-setting',[ManageRewardPointController::class,'index'])->name('admin.manage.reward.system');
+            Route::post('/reward-setting',[ManageRewardPointController::class,'update'])->name('admin.manage.reward.system.update');
 
 
         });
