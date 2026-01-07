@@ -20,10 +20,6 @@ return new class extends Migration
             $table->unsignedTinyInteger('discount_percent')->default(0);
             $table->timestamps();
             // Optional but recommended
-            $table->foreign('user_id')
-                ->references('id')
-                ->on('users')
-                ->onDelete('cascade');
         });
 
     }
