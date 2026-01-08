@@ -2,6 +2,77 @@
 
 @section('content')
 
+    <style>
+        .drop-area {
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            background: #fff;
+        }
+
+        .drop-area.dragover {
+            border-color: #0d6efd;
+            background: #f8f9fa;
+        }
+
+        .drop-area p span {
+            color: #0d6efd;
+            font-weight: 600;
+        }
+
+        /* Featured Image */
+        .preview-img {
+            width: 100%;
+            max-width: 250px;
+            height: 250px;
+            object-fit: contain;
+            margin-top: 15px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Gallery Preview */
+        .gallery-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .single-g-item {
+            position: relative;
+        }
+
+        .single-g-item img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+
+        .single-g-item span {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #dc3545;
+            color: #fff;
+            text-align: center;
+            line-height: 22px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+    </style>
+
     <div class="container-fluid">
 
         <!-- Page Heading -->
@@ -41,7 +112,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card">
+                    {{-- <div class="card">
                         <div class="card-body">
                             <div class="form-group pb-0  mb-0">
                                 <label class="d-block">{{ __('Featured Image') }} *</label>
@@ -61,7 +132,57 @@
                                     class="mt-1 text-info">{{ __('Image Size Should Be 800 x 800. or square size') }}</span>
                             </div>
                         </div>
+                    </div> --}}
+                  
+                    <!-- Featured Image -->
+                    <div class="card">
+                        <div class="card-body">
+                            <label class="d-block mb-2">{{ __('Featured Image') }} *</label>
+                            <div id="featured-drop-area" class="drop-area">
+                                <input type="file" name="photo" id="featured_file" accept="image/*" hidden>
+                                <p>Drag & Drop Image Here <br> or <span>Click to Upload</span></p>
+                                <img id="featuredPreview" class="preview-img"
+                                    src="{{ $item->photo ? url('/storage/items/' . $item->photo) : url('/assets/images/placeholder.png') }}">
+                            </div>
+                            <small class="text-info">
+                                {{ __('Image Size Should Be 800 x 800 or Square') }}
+                            </small>
+                        </div>
                     </div>
+
+                    <!-- Gallery Images -->
+                    {{-- <div class="card mt-3">
+                        <div class="card-body">
+                            <label class="d-block mb-2">{{ __('Gallery Images') }}</label>
+                            <div id="gallery-drop-area" class="drop-area">
+                                <p>Drag & Drop Images Here <br> or <span>Click to Upload</span></p>
+                                <div id="galleryPreview" class="gallery-preview">
+                                    @if (isset($item) && $item->galleries)
+                                        @forelse($item->galleries as $gallery)
+                                            <div class="single-g-item d-inline-block m-2">
+                                                <span class="remove-existing-gallery"
+                                                    data-href="{{ route('back.item.gallery.delete', $gallery->id) }}">
+                                                    <i class="fas fa-trash"></i>
+                                                </span>
+                                                <img class="admin-gallery-img"
+                                                    src="{{ $gallery->photo ? url('/storage/items/' . $gallery->photo) : url('/assets/images/placeholder.png') }}"
+                                                    alt="Gallery Image">
+                                            </div>
+                                        @empty
+                                            <h6><b>{{ __('No Images Added') }}</b></h6>
+                                        @endforelse
+                                    @endif
+                                </div>
+                            </div>
+                            <input type="file" id="gallery_file" name="galleries[]" accept="image/*" multiple hidden>
+
+                            <small class="mt-1 text-info d-block">
+                                {{ __('Image Size Should Be 800 x 800 or Square') }}
+                            </small>
+                        </div>
+                    </div> --}}
+
+
                     <div class="card">
                         <div class="card-body">
                             <div class="form-group pb-0 mb-0">
@@ -71,8 +192,6 @@
                             <div class="form-group pb-0 pt-0 mt-0 mb-0">
                                 <div id="gallery-images">
                                     <div class="d-block gallery_image_view">
-
-                                        {{-- Existing images (edit page) --}}
                                         @if (isset($item) && $item->galleries)
                                             @forelse($item->galleries as $gallery)
                                                 <div class="single-g-item d-inline-block m-2">
@@ -97,26 +216,20 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="form-group position-relative">
                                 <label class="file">
-                                    <!-- File input for new images -->
                                     <input type="file" accept="image/*" id="gallery_file"
                                         aria-label="File browser example" multiple>
                                     <span class="file-custom text-left">{{ __('Upload Image...') }}</span>
                                 </label>
-
-                                <!-- Hidden input for new images only -->
                                 <input type="file" name="galleries[]" id="gallery_files_hidden" multiple
                                     style="display:none">
-
                                 <br>
-                                <span
+                                <span 
                                     class="mt-1 text-info">{{ __('Image Size Should Be 800 x 800. or square size') }}</span>
                             </div>
                         </div>
                     </div>
-
 
                     <div class="card">
                         <div class="card-body">
@@ -777,7 +890,8 @@
                 if (!isValid) {
                     e.preventDefault();
                     alert(
-                        'Please fill in all required fields and check unique sku when you have variants before submitting.');
+                        'Please fill in all required fields and check unique sku when you have variants before submitting.'
+                    );
                     if (firstInvalid) firstInvalid.focus();
                 }
             });
@@ -821,6 +935,123 @@
             initSelect2HideSelected('#colors', 'Select colors');
             initSelect2HideSelected('#sizes', 'Select sizes');
 
+        });
+    </script>
+
+
+    {{-- image drag and drop system --}}
+
+    <script>
+        // ========================
+        // Featured Image
+        // ========================
+        const featuredDrop = document.getElementById('featured-drop-area');
+        const featuredFileInput = document.getElementById('featured_file');
+        const featuredPreview = document.getElementById('featuredPreview');
+
+        featuredDrop.addEventListener('click', () => featuredFileInput.click());
+
+        featuredFileInput.addEventListener('change', () => {
+            const file = featuredFileInput.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    featuredPreview.src = reader.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        featuredDrop.addEventListener('dragover', e => {
+            e.preventDefault();
+            featuredDrop.classList.add('dragover');
+        });
+
+        featuredDrop.addEventListener('dragleave', () => featuredDrop.classList.remove('dragover'));
+
+        featuredDrop.addEventListener('drop', e => {
+            e.preventDefault();
+            featuredDrop.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            featuredFileInput.files = e.dataTransfer.files;
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = () => featuredPreview.src = reader.result;
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // ========================
+        // Gallery Images
+        // ========================
+        const galleryDrop = document.getElementById('gallery-drop-area');
+        const galleryInput = document.getElementById('gallery_file');
+        const galleryPreview = document.getElementById('galleryPreview');
+
+        let galleryFiles = [];
+
+        // Click to open file browser
+        galleryDrop.addEventListener('click', () => galleryInput.click());
+
+        // Add new files
+        galleryInput.addEventListener('change', () => handleGalleryFiles(galleryInput.files));
+
+        // Drag & Drop
+        galleryDrop.addEventListener('dragover', e => {
+            e.preventDefault();
+            galleryDrop.classList.add('dragover');
+        });
+        galleryDrop.addEventListener('dragleave', () => galleryDrop.classList.remove('dragover'));
+        galleryDrop.addEventListener('drop', e => {
+            e.preventDefault();
+            galleryDrop.classList.remove('dragover');
+            handleGalleryFiles(e.dataTransfer.files);
+        });
+
+        // Handle multiple files
+        function handleGalleryFiles(files) {
+            [...files].forEach(file => {
+                if (!file.type.startsWith('image/')) return;
+                galleryFiles.push(file);
+                previewGallery(file);
+            });
+            updateGalleryInput();
+        }
+
+        function previewGallery(file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                const div = document.createElement('div');
+                div.className = 'single-g-item d-inline-block m-2';
+                div.innerHTML = `
+            <span class="remove-new">&times;</span>
+            <img src="${reader.result}" class="admin-gallery-img" alt="Preview">
+        `;
+                div.querySelector('.remove-new').onclick = () => {
+                    galleryFiles = galleryFiles.filter(f => f !== file);
+                    div.remove();
+                    updateGalleryInput();
+                };
+                galleryPreview.appendChild(div);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function updateGalleryInput() {
+            const dt = new DataTransfer();
+            galleryFiles.forEach(f => dt.items.add(f));
+            galleryInput.files = dt.files;
+        }
+
+        // Remove existing gallery images
+        document.querySelectorAll('.remove-existing-gallery').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const parent = this.closest('.single-g-item');
+                const deleteUrl = this.dataset.href;
+                if (confirm('Are you sure to delete this image?')) {
+                    window.location.href = deleteUrl;
+                }
+            });
         });
     </script>
 @endsection

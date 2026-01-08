@@ -1,6 +1,92 @@
 @extends('master.back')
 
 @section('content')
+    <style>
+        .drop-area {
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            background: #fff;
+        }
+
+        .drop-area.dragover {
+            border-color: #0d6efd;
+            background: #f8f9fa;
+        }
+
+        /* Featured Image Preview */
+        .preview-img {
+            width: 100%;
+            height: 250px;
+            object-fit: contain;
+            margin-top: 15px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .drop-area p {
+            margin: 0;
+            color: #666;
+        }
+
+        .drop-area span {
+            color: #0d6efd;
+            font-weight: 600;
+        }
+
+        .featured-preview img {
+            max-width: 100%;
+            max-height: 250px;
+            margin-top: 15px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+
+        /* =========================
+                       GALLERY PREVIEW
+                    ========================= */
+        .gallery-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+            justify-content: center;
+        }
+
+        .gallery-item {
+            position: relative;
+        }
+
+        .gallery-item img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+
+        /* Remove Button */
+        .gallery-item button {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            width: 22px;
+            height: 22px;
+            border: none;
+            border-radius: 50%;
+            background: #dc3545;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+            line-height: 1;
+        }
+    </style>
     <div class="container-fluid">
 
         <!-- Page Heading -->
@@ -39,7 +125,52 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="card">
+                        <div class="card-body">
+                            <label class="d-block mb-2">Featured Image *</label>
+                            <div id="drop-area" class="drop-area">
+                                <input type="file" name="photo" id="fileInput" accept="image/*" hidden>
+                                <p>Drag & Drop Image Here <br> or <span>Click to Upload</span></p>
+                                <img id="previewImage" class="preview-img d-none">
+                            </div>
+                            <small class="text-info">
+                                Image Size Should Be 800 x 800 or Square
+                            </small>
+
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-group pb-0 mb-2">
+                                <label>{{ __('Gallery Images') }}</label>
+                            </div>
+                            <!-- DROP AREA -->
+                            <div class="form-group pb-0 pt-0 mt-0 mb-2">
+                                <div id="gallery-drop-area" class="drop-area">
+                                    <p>
+                                        Drag & Drop Images Here <br>
+                                        or <span>Click to Upload</span>
+                                    </p>
+
+                                    <!-- Preview -->
+                                    <div id="galleryPreview" class="gallery-preview"></div>
+                                </div>
+                            </div>
+
+                            <!-- FILE INPUT -->
+                            <div class="form-group position-relative">
+                                <input type="file" accept="image/*" id="gallery_file" name="galleries[]" multiple hidden>
+
+                                <small class="mt-1 text-info d-block">
+                                    Image Size Should Be 800 x 800 or Square
+                                </small>
+                            </div>
+
+                        </div>
+                    </div>
+                    {{-- <div class="card">
                         <div class="card-body">
                             <div class="form-group pb-0  mb-0">
                                 <label class="d-block">{{ __('Featured Image') }} *</label>
@@ -58,8 +189,8 @@
                                     class="mt-1 text-info">{{ __('Image Size Should Be 800 x 800. or square size') }}</span>
                             </div>
                         </div>
-                    </div>
-                    <div class="card">
+                    </div> --}}
+                    {{-- <div class="card">
                         <div class="card-body">
                             <div class="form-group pb-0 mb-0">
                                 <label>{{ __('Gallery Images') }}</label>
@@ -86,7 +217,11 @@
                                     class="mt-1 text-info">{{ __('Image Size Should Be 800 x 800. or square size') }}</span>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
+
+
+
+
 
 
 
@@ -665,5 +800,160 @@
             initSelect2HideSelected('#sizes', 'Select sizes');
 
         });
+    </script>
+
+
+    {{-- image up;pad --}}
+
+    {{-- <script>
+        const dropArea = document.getElementById('drop-area');
+        const fileInput = document.getElementById('fileInput');
+        const previewImage = document.getElementById('previewImage');
+
+        dropArea.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', function() {
+            showPreview(this.files[0]);
+        });
+
+        dropArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropArea.classList.add('dragover');
+        });
+
+        dropArea.addEventListener('dragleave', () => {
+            dropArea.classList.remove('dragover');
+        });
+
+        dropArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropArea.classList.remove('dragover');
+
+            const file = e.dataTransfer.files[0];
+            fileInput.files = e.dataTransfer.files;
+            showPreview(file);
+        });
+
+        function showPreview(file) {
+            if (!file || !file.type.startsWith('image/')) return;
+
+            const reader = new FileReader();
+            reader.onload = () => {
+                previewImage.src = reader.result;
+                previewImage.classList.remove('d-none');
+                dropArea.querySelector('p').style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        }
+    </script> --}}
+
+
+    <script>
+        /* =========================
+           FEATURED IMAGE
+        ========================= */
+        const dropArea = document.getElementById('drop-area');
+        const fileInput = document.getElementById('fileInput');
+        const previewImage = document.getElementById('previewImage');
+
+        dropArea.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', () => {
+            showFeaturedPreview(fileInput.files[0]);
+        });
+
+        dropArea.addEventListener('dragover', e => {
+            e.preventDefault();
+            dropArea.classList.add('dragover');
+        });
+
+        dropArea.addEventListener('dragleave', () => {
+            dropArea.classList.remove('dragover');
+        });
+
+        dropArea.addEventListener('drop', e => {
+            e.preventDefault();
+            dropArea.classList.remove('dragover');
+
+            const file = e.dataTransfer.files[0];
+            fileInput.files = e.dataTransfer.files;
+            showFeaturedPreview(file);
+        });
+
+        function showFeaturedPreview(file) {
+            if (!file || !file.type.startsWith('image/')) return;
+
+            const reader = new FileReader();
+            reader.onload = () => {
+                previewImage.src = reader.result;
+                previewImage.classList.remove('d-none');
+                dropArea.querySelector('p').style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        /* =========================
+           GALLERY IMAGES (MULTIPLE)
+        ========================= */
+        const galleryDrop = document.getElementById('gallery-drop-area');
+        const galleryInput = document.getElementById('gallery_file');
+        const galleryPreview = document.getElementById('galleryPreview');
+
+        let galleryFiles = [];
+
+        galleryDrop.addEventListener('click', () => galleryInput.click());
+
+        galleryInput.addEventListener('change', () => {
+            handleGalleryFiles(galleryInput.files);
+        });
+
+        galleryDrop.addEventListener('dragover', e => {
+            e.preventDefault();
+            galleryDrop.classList.add('dragover');
+        });
+
+        galleryDrop.addEventListener('dragleave', () => {
+            galleryDrop.classList.remove('dragover');
+        });
+
+        galleryDrop.addEventListener('drop', e => {
+            e.preventDefault();
+            galleryDrop.classList.remove('dragover');
+            handleGalleryFiles(e.dataTransfer.files);
+        });
+
+        function handleGalleryFiles(files) {
+            [...files].forEach(file => {
+                if (!file.type.startsWith('image/')) return;
+                galleryFiles.push(file);
+                previewGalleryImage(file);
+            });
+            updateGalleryInput();
+        }
+
+        function previewGalleryImage(file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                const div = document.createElement('div');
+                div.className = 'gallery-item';
+                div.innerHTML = `
+            <img src="${reader.result}">
+            <button type="button">&times;</button>
+        `;
+                div.querySelector('button').onclick = () => {
+                    galleryFiles = galleryFiles.filter(f => f !== file);
+                    div.remove();
+                    updateGalleryInput();
+                };
+                galleryPreview.appendChild(div);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function updateGalleryInput() {
+            const dt = new DataTransfer();
+            galleryFiles.forEach(file => dt.items.add(file));
+            galleryInput.files = dt.files;
+        }
     </script>
 @endsection
