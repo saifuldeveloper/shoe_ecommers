@@ -80,9 +80,15 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
         Route::get('/logout', [BackLoginController::class, 'logout'])->name('back.logout');
 
         //------------ FORGOT ------------
+              //------------ FORGOT ------------
         Route::get('/forgot', [ForgotController::class, 'showForm'])->name('back.forgot');
         Route::post('/forgot-submit', [ForgotController::class, 'forgot'])->name('back.forgot.submit');
-        Route::get('/change-password/{token}',   Route::get('/contact/messages', [BackAccountController::class, 'contactMessage'])->name('back.contact-message');
+        Route::get('/change-password/{token}', [ForgotController::class, 'showChangePassForm'])->name('back.change.token');
+        Route::post('/change-password-submit', [ForgotController::class, 'changepass'])->name('back.change.password');
+
+        //------------ DASHBOARD & PROFILE ------------
+
+        Route::get('/contact/messages', [BackAccountController::class, 'contactMessage'])->name('back.contact-message');
 
         Route::get('/', [BackAccountController::class, 'index'])->name('back.dashboard');
         Route::get('/profile', [BackAccountController::class, 'profileForm'])->name('back.profile');
