@@ -82,12 +82,7 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
         //------------ FORGOT ------------
         Route::get('/forgot', [ForgotController::class, 'showForm'])->name('back.forgot');
         Route::post('/forgot-submit', [ForgotController::class, 'forgot'])->name('back.forgot.submit');
-        Route::get('/change-password/{token}', [ForgotController::class, 'showChangePassForm'])->name('back.change.token');
-        Route::post('/change-password-submit', [ForgotController::class, 'changepass'])->name('back.change.password');
-
-        //------------ DASHBOARD & PROFILE ------------
-
-        Route::get('/contact/messages', [BackAccountController::class, 'contactMessage'])->name('back.contact-message');
+        Route::get('/change-password/{token}',   Route::get('/contact/messages', [BackAccountController::class, 'contactMessage'])->name('back.contact-message');
 
         Route::get('/', [BackAccountController::class, 'index'])->name('back.dashboard');
         Route::get('/profile', [BackAccountController::class, 'profileForm'])->name('back.profile');
@@ -107,6 +102,12 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
             Route::get('/order/status/{id}/{field}/{value}', [OrderController::class, 'status'])->name('back.order.status');
             Route::get('/order/restore/{id}', [OrderController::class, 'restore'])->name('back.order.restore');
             Route::delete('/order/forced/delete/{id}', [OrderController::class, 'forceDelete'])->name('back.order.forceDelete');
+
+
+            // send order to retailer software
+             Route::post('/order/send/retailer', [OrderController::class, 'sendRetailerOrder'])->name('send.retailer.order');
+
+            
 
 
         });

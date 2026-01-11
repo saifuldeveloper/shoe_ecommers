@@ -526,7 +526,6 @@ class ItemController extends Controller
         foreach ($stores as $store) {
             try {
                 $apiUrl = rtrim($store->api_base_url, '/') . '/product/info';
-
                 $response = Http::timeout(3)->get($apiUrl, [
                     'code' => $code,
                     'secret_key' => $store->secret_key,
