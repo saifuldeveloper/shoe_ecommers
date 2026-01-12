@@ -45,6 +45,7 @@
     <link href="{{ asset('assets/frontend/plugins/revolution/css/navigation.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/frontend/css/style.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/frontend/css/custom_style.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/frontend/css/chatbox.css') }}" rel="stylesheet" />
 
     <style>
         {{ $setting->custom_css }}
@@ -76,7 +77,330 @@
     <main class="ps-main">
         @yield('content')
         @include('front.inc.footer')
+
+
+
+
+        {{-- ============================chatbox================== --}}
+        <!-- Floating Chat Button -->
+        <div class="chat-btn" onclick="toggleChat()">
+            <i class="fas fa-comment-dots"></i>
+        </div>
+
+        <!-- Chat Options Box -->
+        <div class="chat-box" id="chatBox">
+            <div class="chat-header">
+                How can we help?
+                <span>Choose an option below</span>
+                <div class="close" onclick="toggleChat()">✕</div>
+            </div>
+
+            <div class="chat-body">
+                <div class="chat-card">
+                    <a href="https://m.me/yourpage" target="_blank">
+                        <i class="fab fa-facebook-messenger messenger"></i>
+                        Messenger
+                    </a>
+                </div>
+
+                <div class="chat-card">
+                    <a href="https://wa.me/8801XXXXXXXXX" target="_blank">
+                        <i class="fab fa-whatsapp whatsapp"></i>
+                        WhatsApp
+                    </a>
+                </div>
+
+                <div class="chat-card instagram">
+                    <a href="https://instagram.com/yourpage" target="_blank">
+                        <i class="fab fa-instagram"></i>
+                        Instagram
+                    </a>
+                </div>
+
+                <div class="chat-card apex" onclick="openApexChat()">
+                    <i class="fas fa-headset"></i>
+                    Avijatry Assistance
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== Name & Phone Form ===== -->
+        <div class="avijatry-user-form" id="apexUserForm">
+            <div class="start-form">
+                <h4>Start Chat</h4>
+
+                <input type="text" id="apexUserName" placeholder="Your Name">
+                <input type="text" id="apexUserPhone" placeholder="Your Phone Number" maxlength="11"
+                    oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+
+                <button onclick="startApexChat()">Start Chat</button>
+            </div>
+        </div>
+
+        <!-- ===== Avijatry Chat Box ===== -->
+        <div class="avijatry-chat" id="apexChat">
+            <div class="avijatry-chat-header">
+                Avijatry Assistance
+                <span onclick="smartCloseApexChat()">✕</span>
+            </div>
+
+            <div class="avijatry-chat-body" id="apexMessages">
+                <!-- messages will appear here -->
+            </div>
+
+            <div class="avijatry-chatbox-footer">
+                <input type="text" id="apexInput" placeholder="Type your message...">
+                <button onclick="sendApexMessage()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+
     </main>
+    <script>
+        let apexUser = {
+            name: '',
+            phone: '',
+            session_id: null
+        };
+
+        let messageInterval = null;
+
+        /* Floating chat toggle */
+        function toggleChat() {
+            const box = document.getElementById('chatBox');
+            box.style.display = (box.style.display === 'block') ? 'none' : 'block';
+        }
+
+        /* Click Apex4u Assistance */
+        function openApexChat() {
+
+            // 🔥 If previous session exists, reopen directly
+            const savedSession = localStorage.getItem('apex_session_id');
+            const savedName = localStorage.getItem('apex_user_name');
+
+            if (savedSession) {
+                apexUser.session_id = savedSession;
+                apexUser.name = savedName;
+
+                document.getElementById('chatBox').style.display = 'none';
+                document.getElementById('apexChat').style.display = 'flex';
+
+                loadMessages();
+
+                if (!messageInterval) {
+                    messageInterval = setInterval(loadMessages, 3000);
+                }
+                return;
+            }
+
+            document.getElementById('chatBox').style.display = 'none';
+            document.getElementById('apexUserForm').style.display = 'block';
+        }
+
+        /* Close name/phone form */
+        function closeUserForm() {
+            document.getElementById('apexUserForm').style.display = 'none';
+        }
+
+        /* Start chat (CREATE SESSION) */
+        function startApexChat() {
+            let name = document.getElementById('apexUserName').value.trim();
+            let phone = document.getElementById('apexUserPhone').value.trim();
+
+            if (!name || !phone) {
+                alert('Please enter your name and phone number');
+                return;
+            }
+
+            fetch('/support/chat/start', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        name,
+                        phone
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    apexUser.name = name;
+                    apexUser.phone = phone;
+                    apexUser.session_id = data.session_id;
+
+                    // 🔥 Save session
+                    localStorage.setItem('apex_session_id', data.session_id);
+                    localStorage.setItem('apex_user_name', name);
+
+                    document.getElementById('apexUserForm').style.display = 'none';
+                    document.getElementById('apexChat').style.display = 'flex';
+
+                    loadMessages();
+
+                    if (!messageInterval) {
+                        messageInterval = setInterval(loadMessages, 3000);
+                    }
+                });
+        }
+
+        /* Close apex chat (UI only) */
+        function closeApexChat() {
+            document.getElementById('apexChat').style.display = 'none';
+            if (messageInterval) {
+                clearInterval(messageInterval);
+                messageInterval = null;
+            }
+        }
+
+        /* Send message (SAVE TO DB) */
+        function sendApexMessage() {
+            let input = document.getElementById('apexInput');
+            let msg = input.value.trim();
+            if (!msg || !apexUser.session_id) return;
+
+            fetch('/support/chat/send', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    session_id: apexUser.session_id,
+                    message: msg
+                })
+            });
+
+            input.value = '';
+        }
+
+        /* Load messages (AJAX POLLING) */
+        function loadMessages() {
+            if (!apexUser.session_id) return;
+
+            fetch('/support/chat/messages/' + apexUser.session_id)
+                .then(res => res.json())
+                .then(messages => {
+                    let box = document.getElementById('apexMessages');
+                    box.innerHTML = '';
+
+                    messages.forEach(m => {
+                        box.innerHTML += `
+                        <div class="msg ${m.sender}">
+                            ${m.message}
+                        </div>
+                    `;
+                    });
+
+                    box.scrollTop = box.scrollHeight;
+                });
+        }
+
+        /* Restore session on page reload */
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedSession = localStorage.getItem('apex_session_id');
+            const savedName = localStorage.getItem('apex_user_name');
+
+            if (savedSession) {
+                apexUser.session_id = savedSession;
+                apexUser.name = savedName;
+
+                // document.getElementById('apexChat').style.display = 'flex';
+                // loadMessages();
+
+                // messageInterval = setInterval(loadMessages, 3000);
+            }
+        });
+
+        /* Enter key = send message */
+        document.addEventListener('DOMContentLoaded', function() {
+            const input = document.getElementById('apexInput');
+
+            if (input) {
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault(); // newline বন্ধ
+                        sendApexMessage(); //  message send
+                    }
+                });
+            }
+        });
+
+        /* ================= Smart Close Feature ================= */
+
+        /* Smart close chat with options */
+        function smartCloseApexChat() {
+
+            // যদি session খালি থাকে → শুধু hide
+            if (!apexUser.session_id) {
+                closeApexChat();
+                return;
+            }
+
+            // Confirm box create dynamically
+            let box = document.createElement('div');
+            box.id = 'chatCloseOptions';
+            box.style.position = 'fixed';
+            box.style.bottom = '100px';
+            box.style.right = '32px';
+            box.style.width = '300px';
+            box.style.background = '#fff';
+            box.style.border = '1px solid #ddd';
+            box.style.padding = '30px';
+            box.style.borderRadius = '25px';
+            box.style.boxShadow = '0 5px 20px rgba(0,0,0,0.2)';
+            box.style.zIndex = 999999;
+            box.innerHTML = `
+            <p style="margin-bottom:10px;">Do you want to end the chat or continue?</p>
+            <button id="continueChatBtn" style="margin-right:5px;padding:6px 12px;background:#e60000;color:#fff;border:none;border-radius:5px;cursor:pointer;width: 100%;margin-bottom: 15px">Continue Chat</button>
+            <button id="closeSessionBtn" style="padding:6px 12px;background:#777;color:#fff;border:none;border-radius:5px;cursor:pointer; width: 100%;">Close Session</button>
+        `;
+            document.body.appendChild(box);
+
+            // Continue Chat → UI hide only
+            document.getElementById('continueChatBtn').addEventListener('click', function() {
+                document.body.removeChild(box);
+                closeApexChat();
+            });
+
+            // Close Session → messages + session delete
+            document.getElementById('closeSessionBtn').addEventListener('click', function() {
+                document.body.removeChild(box);
+                deleteChatSession();
+            });
+        }
+
+        /* Delete session & messages */
+        function deleteChatSession() {
+            if (!apexUser.session_id) return;
+
+            fetch('/support/chat/delete/' + apexUser.session_id, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        // Clear localStorage
+                        localStorage.removeItem('apex_session_id');
+                        localStorage.removeItem('apex_user_name');
+
+                        apexUser.session_id = null;
+
+                        // Clear chat UI
+                        document.getElementById('apexMessages').innerHTML = '';
+
+                        closeApexChat();
+                    } else {
+                        alert('Session not found or already deleted');
+                    }
+                });
+        }
+    </script>
+
+
+
     <!-- JS Library-->
     <!-- jQuery -->
     <script src="{{ asset('assets/frontend/plugins/jquery/dist/jquery.min.js') }}"></script>

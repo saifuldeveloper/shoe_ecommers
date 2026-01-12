@@ -219,6 +219,21 @@
           <p>{{ __('Manages Tickets') }}</p></a>
     </li>
      --}}
+
+
+     
+    <li class="nav-item">
+        <a href="{{ route('back.sessions') }}">
+            <i class="fas fa-comments"></i>
+          <p>{{ __('Chat') }}</p></a>
+    </li>
+    
+
+
+
+
+
+
     <li class="nav-item">
         <a data-toggle="collapse" href="#content">
             <i class="fas fa-tasks"></i>

@@ -19,6 +19,7 @@ use App\Http\Controllers\Back\ColorController;
 use App\Http\Controllers\Back\OrderController;
 use App\Http\Controllers\Back\StaffController;
 use App\Http\Controllers\Back\StateController;
+use App\Http\Controllers\Front\ChatController;
 use App\Http\Controllers\Back\BackupController;
 use App\Http\Controllers\Back\ReviewController;
 use App\Http\Controllers\Back\SliderController;
@@ -39,6 +40,7 @@ use App\Http\Controllers\User\WishlistController;
 use App\Http\Controllers\Back\AffiliateController;
 use App\Http\Controllers\Back\AttributeController;
 use App\Http\Controllers\Back\BcategoryController;
+use App\Http\Controllers\Back\ChatAdminController;
 use App\Http\Controllers\Back\FcategoryController;
 use App\Http\Controllers\Back\PromoCodeController;
 use App\Http\Controllers\Front\FrontendController;
@@ -74,13 +76,16 @@ use App\Http\Controllers\Auth\User\ForgotController as UserForgotController;
 
 Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
     Route::prefix('admin')->group(function () {
+
+
+
         //------------ AUTH ------------
         Route::get('/login', [BackLoginController::class, 'showForm'])->name('back.login');
         Route::post('/login-submit', [BackLoginController::class, 'login'])->name('back.login.submit');
         Route::get('/logout', [BackLoginController::class, 'logout'])->name('back.logout');
 
         //------------ FORGOT ------------
-              //------------ FORGOT ------------
+        //------------ FORGOT ------------
         Route::get('/forgot', [ForgotController::class, 'showForm'])->name('back.forgot');
         Route::post('/forgot-submit', [ForgotController::class, 'forgot'])->name('back.forgot.submit');
         Route::get('/change-password/{token}', [ForgotController::class, 'showChangePassForm'])->name('back.change.token');
@@ -89,6 +94,11 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
         //------------ DASHBOARD & PROFILE ------------
 
         Route::get('/contact/messages', [BackAccountController::class, 'contactMessage'])->name('back.contact-message');
+
+
+
+
+
 
         Route::get('/', [BackAccountController::class, 'index'])->name('back.dashboard');
         Route::get('/profile', [BackAccountController::class, 'profileForm'])->name('back.profile');
@@ -111,9 +121,9 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
 
 
             // send order to retailer software
-             Route::post('/order/send/retailer', [OrderController::class, 'sendRetailerOrder'])->name('send.retailer.order');
+            Route::post('/order/send/retailer', [OrderController::class, 'sendRetailerOrder'])->name('send.retailer.order');
 
-            
+
 
 
         });
@@ -446,11 +456,13 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
             Route::post('/reward-point-setting', [RewardPointSystemController::class, 'update'])->name('admin.reward.point.system.update');
 
             //Manage Reward point
-            Route::get('/reward-setting',[ManageRewardPointController::class,'index'])->name('admin.manage.reward.system');
-            Route::post('/reward-setting',[ManageRewardPointController::class,'update'])->name('admin.manage.reward.system.update');
+            Route::get('/reward-setting', [ManageRewardPointController::class, 'index'])->name('admin.manage.reward.system');
+            Route::post('/reward-setting', [ManageRewardPointController::class, 'update'])->name('admin.manage.reward.system.update');
 
 
         });
+
+
 
         Route::group(['middleware' => 'permissions:Subscribers List'], function () {
             //------------ SUBSCRIBER ------------
@@ -460,6 +472,14 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
             Route::post('/subscribers/send-mail/submit', [SubscriberController::class, 'sendMailSubmit'])->name('back.subscribers.mail.submit');
         });
 
+        //  chatting sytem
+        Route::get('/sessions', [ChatAdminController::class, 'sessions'])->name('back.sessions');
+
+        // Get messages of a session (AJAX)
+        Route::get('/messages/{session}', [ChatAdminController::class, 'messages'])->name('back.chat.messages');
+
+        // Admin reply (POST)
+        Route::post('/reply', [ChatAdminController::class, 'reply'])->name('back.chat.reply');
         //-------------------------------- STORES MANAGEMENT ---------------------------------
 
         Route::resource('districts', DistrictController::class)->names('back.districts');
@@ -714,6 +734,14 @@ Route::get('/run/queue', function () {
     return "Queue is running";
 });
 
+
+
+Route::middleware('throttle:60,1')->prefix('support')->group(function () {
+    Route::post('/chat/start', [ChatController::class, 'startChat']);
+    Route::post('/chat/send', [ChatController::class, 'sendMessage']);
+    Route::get('/chat/messages/{session}', [ChatController::class, 'getMessages']);
+    Route::delete('/chat/delete/{session}', [ChatController::class, 'deleteChat']);
+});
 
 Route::post('compare/add', [App\Http\Controllers\Front\CustomCompareController::class, 'add'])->name('compare.add');
 Route::post('compare/remove', [App\Http\Controllers\Front\CustomCompareController::class, 'remove'])->name('compare.remove');
