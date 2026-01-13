@@ -258,6 +258,23 @@ body {
 
 
 
+/* Message loading animation */
+.msg-loading {
+    text-align: center;
+    font-size: 13px;
+    color: #777;
+    padding: 8px;
+    animation: fadePulse 1s infinite;
+}
+
+@keyframes fadePulse {
+    0% { opacity: .3; }
+    50% { opacity: 1; }
+    100% { opacity: .3; }
+}
+
+
+
 
 
 

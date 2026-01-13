@@ -610,7 +610,7 @@
                                 icon: 'success',
                                 title: response.message,
                                 // text: response.message,
-                                timer: 3000,
+                                timer: 2000,
                                 showConfirmButton: false
                             });
                             updateWishlistCount();
@@ -623,7 +623,7 @@
                                 icon: 'success',
                                 title: response.message,
                                 // text: response.message,
-                                timer: 3000,
+                                timer: 2000,
                                 showConfirmButton: false
                             });
                             updateWishlistCount();

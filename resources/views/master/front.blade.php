@@ -258,6 +258,8 @@
             let msg = input.value.trim();
             if (!msg || !apexUser.session_id) return;
 
+                showLoading();
+
             fetch('/support/chat/send', {
                 method: 'POST',
                 headers: {
@@ -276,6 +278,8 @@
         /* Load messages (AJAX POLLING) */
         function loadMessages() {
             if (!apexUser.session_id) return;
+
+            
 
             fetch('/support/chat/messages/' + apexUser.session_id)
                 .then(res => res.json())
@@ -396,6 +400,26 @@
                         alert('Session not found or already deleted');
                     }
                 });
+        }
+
+
+        // message load  animation
+        function showLoading() {
+            let box = document.getElementById('apexMessages');
+            if (!box || document.getElementById('msgLoading')) return;
+
+            let div = document.createElement('div');
+            div.id = 'msgLoading';
+            div.className = 'msg-loading';
+            div.innerText = 'Loading messages...';
+
+            box.appendChild(div);
+            box.scrollTop = box.scrollHeight;
+        }
+
+        function hideLoading() {
+            let el = document.getElementById('msgLoading');
+            if (el) el.remove();
         }
     </script>
 

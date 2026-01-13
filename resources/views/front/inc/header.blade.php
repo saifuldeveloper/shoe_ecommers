@@ -423,13 +423,14 @@
         });
 
         // Remove cart item
-        document.addEventListener('click', function(e) {
-            if (e.target.classList.contains('cart-item-remove')) {
-                const item = e.target.closest('.cart-item');
-                item.remove();
-                updateCartTotal();
-            }
-        });
+        // document.addEventListener('click', function(e) {
+        //     if (e.target.classList.contains('cart-item-remove')) {
+        //         const item = e.target.closest('.cart-item');
+        //         console.log(item);
+        //         item.remove();
+        //         updateCartTotal();
+        //     }
+        // });
 
         function updateCartTotal() {
             document.querySelectorAll('.cart-container').forEach(container => {

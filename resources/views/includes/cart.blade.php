@@ -5,51 +5,81 @@
 @endphp
 <style>
     .cart-update-form {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap; /* mobile responsive */
-}
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        /* mobile responsive */
+    }
 
-.custom-qty-selector {
-    display: flex;
-    align-items: center;
-    border: 1px solid #ddd;
-}
+    .custom-qty-selector {
+        display: flex;
+        align-items: center;
+        border: 1px solid #ddd;
+    }
 
-.custom-qty-selector button {
-    width: 32px;
-    height: 32px;
-    border: none;
-    background: #f5f5f5;
-    cursor: pointer;
-}
+    .custom-qty-selector button {
+        width: 32px;
+        height: 32px;
+        border: none;
+        background: #f5f5f5;
+        cursor: pointer;
+    }
 
-.qtyValue {
-    width: 45px;
-    text-align: center;
-    border: none;
-    background: #fff;
-}
+    .qtyValue {
+        width: 45px;
+        text-align: center;
+        border: none;
+        background: #fff;
+    }
 
-.custom-action-buttons {
-    display: flex;
-    gap: 8px;
-}
+    .custom-action-buttons {
+        display: flex;
+        gap: 8px;
+    }
 
-.action-btn {
-    padding: 6px 12px;
-    font-size: 13px;
-    cursor: pointer;
-    border: 1px solid #ddd;
-    background: #fff;
-}
+    .action-btn {
+        padding: 6px 12px;
+        font-size: 13px;
+        cursor: pointer;
+        border: 1px solid #ddd;
+        background: #fff;
+    }
 
-.remove-btn {
-    text-decoration: none;
-}
+    .remove-btn {
+        text-decoration: none;
+    }
 
+    .update-cart-btn {
+        position: relative;
+        min-width: 90px;
+    }
 
+    .update-cart-btn.loading {
+        pointer-events: none;
+        opacity: .6;
+        position: relative;
+    }
+
+    .update-cart-btn.loading::after {
+        content: '';
+        width: 18px;
+        height: 18px;
+        border: 2px solid #fff;
+        border-top-color: transparent;
+        border-radius: 50%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        animation: spin 0.7s linear infinite;
+    }
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
 </style>
 <div class="container custom-cart-page">
     <div class="custom-cart-header">
@@ -203,7 +233,7 @@
 </div>
 
 @push('js')
-    <script>
+    {{-- <script>
         document.addEventListener('DOMContentLoaded', function() {
 
             // Function to update subtotal for an item
@@ -265,6 +295,88 @@
             });
 
             // Initialize totals on load
+            updateGrandTotal();
+        });
+    </script> --}}
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            function updateItemTotal(qtyInput) {
+                const container = qtyInput.closest('.custom-product-item');
+                if (!container) return;
+
+                const priceEl = container.querySelector('.itemPrice');
+                const totalEl = container.querySelector('.itemPriceTotal');
+
+                const price = parseFloat(priceEl.textContent.replace(/[^0-9.]/g, '')) || 0;
+                const qty = parseInt(qtyInput.value, 10) || 0;
+
+                if (totalEl) {
+                    totalEl.textContent = (price * qty).toFixed(2);
+                }
+
+                updateGrandTotal();
+            }
+
+            function updateGrandTotal() {
+                let total = 0;
+                document.querySelectorAll('.itemPriceTotal').forEach(el => {
+                    total += parseFloat(el.textContent) || 0;
+                });
+
+                document.querySelectorAll('.itemPriceGrandTotal').forEach(el => {
+                    el.textContent = total.toFixed(2);
+                });
+            }
+
+            function submitCartForm(form) {
+                const btn = form.querySelector('.update-cart-btn');
+                btn.classList.add('loading');
+
+                fetch(form.action, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': form.querySelector('input[name="_token"]').value,
+                            'Accept': 'application/json'
+                        },
+                        body: new FormData(form)
+                    })
+                    .then(res => res.json())
+                    .then(() => {
+                        btn.classList.remove('loading');
+                    })
+                    .catch(() => {
+                        btn.classList.remove('loading');
+                    });
+            }
+
+            document.querySelectorAll('.cartaddclick').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const selector = btn.closest('.custom-qty-selector');
+                    const qtyInput = selector.querySelector('.qtyValue');
+                    qtyInput.value = parseInt(qtyInput.value) + 1;
+
+                    updateItemTotal(qtyInput);
+                    submitCartForm(btn.closest('form'));
+                });
+            });
+
+            document.querySelectorAll('.cartsubclick').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const selector = btn.closest('.custom-qty-selector');
+                    const qtyInput = selector.querySelector('.qtyValue');
+                    const qty = parseInt(qtyInput.value);
+
+                    if (qty > 1) {
+                        qtyInput.value = qty - 1;
+                        updateItemTotal(qtyInput);
+                        submitCartForm(btn.closest('form'));
+                    }
+                });
+            });
+
             updateGrandTotal();
         });
     </script>

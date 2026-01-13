@@ -64,11 +64,53 @@ class CartController extends Controller
         return redirect()->route('front.checkout.billing')->withSuccess($msg);
     }
 
+    // public function destroy(Request $request, $id)
+    // {
+
+    //     Cart::where('id', $id)->delete();
+    //     Session::flash('success', __('Cart removed successfully'));
+    //     // return back();
+    //     return response()->json([
+    //         'status' => 'success',
+    //         'message' => __('Cart removed successfully'),
+    //     ]);
+
+    // }
+
+
     public function destroy(Request $request, $id)
     {
-        Cart::where('id', $id)->delete();
-        Session::flash('success', __('Cart removed successfully'));
-        return back();
+        $cartItem = Cart::find($id);
+
+        if (!$cartItem) {
+            return response()->json([
+                'status' => 'error',
+                'message' => __('Cart item not found'),
+            ]);
+        }
+
+        $cartItem->delete();
+
+        // Get updated cart items for frontend
+        if (auth()->check()) {
+            $cart = Cart::where('user_id', auth()->user()->id)->get();
+        } else {
+            $cart = Cart::where('session_id', session()->get('cartSession'))->get();
+        }
+
+        $cartTotal = 0;
+        foreach ($cart as $item) {
+            $item_variant = \App\Models\ItemVariant::find($item->item_variant_id);
+            $item_price = $item->item->discount_price + ($item_variant?->additional_price ?? 0);
+            $cartTotal += $item_price * $item->quantity;
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => __('Cart removed successfully'),
+            'cart_count' => $cart->count(),
+            'cart_total' => $cartTotal
+        ]);
     }
 
     public function promoStore(Request $request)
@@ -152,21 +194,21 @@ class CartController extends Controller
      */
     public function updateSingle($id, Request $request)
     {
-        $quantity = $request->input('quantity', 1); 
+        $quantity = $request->input('quantity', 1);
         $query = DB::table('carts');
-            if (Auth::check()) {
-                $query->where('user_id', Auth::id());
-            } else {
-                $query->where('session_id', Session::get('cartSession'));
-            }
+        if (Auth::check()) {
+            $query->where('user_id', Auth::id());
+        } else {
+            $query->where('session_id', Session::get('cartSession'));
+        }
 
-            // Update specific cart item
-            $updated = $query->where('id', $id)->update([
-                'quantity' => $quantity,
-                'updated_at' => now(),
-            ]);
+        // Update specific cart item
+        $updated = $query->where('id', $id)->update([
+            'quantity' => $quantity,
+            'updated_at' => now(),
+        ]);
 
-         if ($updated) {
+        if ($updated) {
             return redirect()->back()->with(['message' => __('Cart updated successfully!')]);
         } else {
             return redirect()->back()->with(['message' => __('Item not found or update failed.')]);

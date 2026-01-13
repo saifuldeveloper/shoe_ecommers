@@ -8602,11 +8602,11 @@ body.nav-loaded {
 }
 
 .store-item:hover {
-  background-color: #f8f9fa;
+  background-color: #f5d9ae !important;
 }
 
 .store-item.active {
-  border-color: #007bff;
+  border-color: #ffb300;
   border-radius: 8px;
   background-color: #e9f3ff;
 }
