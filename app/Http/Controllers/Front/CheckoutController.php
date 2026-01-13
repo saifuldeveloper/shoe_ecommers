@@ -34,8 +34,8 @@ use Stripe\Price;
 class CheckoutController extends Controller
 {
 
-    
-    
+
+
     use MollieCheckout {
         MollieCheckout::__construct as private __MollieConstruct;
     }
@@ -52,8 +52,8 @@ class CheckoutController extends Controller
         //     $this->middleware('auth');
         // }
         // $this->middleware('localize');
-        
-        
+
+
     }
 
     public function checkoutPage()
@@ -90,7 +90,7 @@ class CheckoutController extends Controller
             $shipping = null;
         }
 
-        $grand_total = ($cart_total  + $total_tax);
+        $grand_total = ($cart_total + $total_tax);
         $grand_total = $grand_total - ($discount ? $discount['discount'] : 0);
         $state_tax = Auth::check() && Auth::user()->state_id ? ($cart_total * Auth::user()->state->price) / 100 : 0;
         $grand_total = $grand_total + $state_tax;
@@ -296,7 +296,7 @@ class CheckoutController extends Controller
     {
         $data['user'] = Auth::user();
         $cart = collect();
-        if(auth()->check()) {
+        if (auth()->check()) {
             $cart = Cart::where('user_id', auth()->user()->id)->get();
         } else {
             $cart = Cart::where('session_id', session()->get('cartSession'))->get();
@@ -306,7 +306,7 @@ class CheckoutController extends Controller
         $cart_total = 0;
         $total = 0;
 
-        
+
         foreach ($cart as $key => $items) {
             $item_variant = ItemVariant::where('id', $items->item_variant_id)->first();
             $total += ($items->item->discount_price + ($item_variant != null ? $item_variant->additional_price : 0)) * $items->quantity;
@@ -324,9 +324,9 @@ class CheckoutController extends Controller
             $discount = Session::get('coupon');
         }
 
-      
 
-        $grand_total = ($cart_total  + $total_tax);
+
+        $grand_total = ($cart_total + $total_tax);
         $grand_total = $grand_total - ($discount ? $discount['discount'] : 0);
         $state_tax = Auth::check() && Auth::user()->state_id ? ($cart_total * Auth::user()->state->price) / 100 : 0;
         $grand_total = $grand_total + $state_tax;
@@ -361,7 +361,7 @@ class CheckoutController extends Controller
         PriceHelper::checkCheckout($request);
 
         $input = $request->all();
-        
+
         $checkout = false;
         $payment_redirect = false;
         $payment = null;
@@ -535,26 +535,26 @@ class CheckoutController extends Controller
             } else {
                 if ($payment['status']) {
                     $user = Auth::user();
-                 if ($user) {
-                //  Add earned reward point
-                if ($request->filled('reward_point')) {
-                    $user->reward_point += (int) $request->reward_point;
-                }
-                //  Deduct redeemed reward point
-                
-                if ($request->filled('user_reward_point')) {
-                     Session::put('used_reward_point', (int) $request->user_reward_point);
-                    $usedPoint = (int) $request->user_reward_point;
-                    // Safety check (never negative)
-                    if ($usedPoint > 0 && $user->reward_point >= $usedPoint) {
-                        $user->reward_point -= $usedPoint;
-                    }
-                }else{
-                     Session::put('used_reward_point', (int) $request->user_reward_point);
-                }
+                    if ($user) {
+                        //  Add earned reward point
+                        if ($request->filled('reward_point')) {
+                            $user->reward_point += (int) $request->reward_point;
+                        }
+                        //  Deduct redeemed reward point
 
-                $user->save();
-            }
+                        if ($request->filled('user_reward_point')) {
+                            Session::put('used_reward_point', (int) $request->user_reward_point);
+                            $usedPoint = (int) $request->user_reward_point;
+                            // Safety check (never negative)
+                            if ($usedPoint > 0 && $user->reward_point >= $usedPoint) {
+                                $user->reward_point -= $usedPoint;
+                            }
+                        } else {
+                            Session::put('used_reward_point', (int) $request->user_reward_point);
+                        }
+
+                        $user->save();
+                    }
                     return redirect()->route('front.checkout.success');
                 } else {
                     Session::put('message', $payment['message']);
@@ -627,20 +627,20 @@ class CheckoutController extends Controller
                     $sms->SendSms($user_number, "'purchase'");
                 }
             }
-            $used_reward =  Session::get('used_reward_point');
-            if($used_reward){
+            $used_reward = Session::get('used_reward_point');
+            if ($used_reward) {
                 $order->is_reward_point_used = 1;
                 $order->save();
             }
 
             //store the total price
             $userId = auth()->id();
-            if($userId){
-                $memberShip = MemberShip::where('user_id',$userId)->first();
+            if ($userId) {
+                $memberShip = MemberShip::where('user_id', $userId)->first();
                 $memberShip->total_purchase = $order->state_price;
                 $memberShip->save();
             }
-            
+
             return view('front.checkout.success', compact('order', 'cart'));
         }
         return redirect()->route('front.index');
@@ -791,5 +791,21 @@ class CheckoutController extends Controller
         $data['grand_total'] = PriceHelper::setCurrencyPrice($total_amount);
 
         return response()->json($data);
+    }
+
+
+
+
+    public function searchCity(Request $request)
+    {
+        $term = $request->get('term');
+        $cities = DB::table('districts')
+            ->where('name', 'LIKE', $term . '%') // prioritize names starting with typed letters
+            ->orWhere('name', 'LIKE', '%' . $term . '%') // then include any match
+            ->orderByRaw("CASE WHEN name LIKE '{$term}%' THEN 0 ELSE 1 END, name") // starting letters first
+            ->limit(10)
+            ->pluck('name');
+
+        return response()->json($cities);
     }
 }

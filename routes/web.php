@@ -673,7 +673,12 @@ Route::group(['middleware' => 'maintainance'], function () {
         Route::get('/catalog/view/{type}', 'Front\CatalogController@viewType')->name('front.catalog.view');
 
 
+
         //------------ CHECKOUT ------------
+
+          Route::get('/cities/search', 'Front\CheckoutController@searchCity')->name('front.checkout.serach.city');
+
+
         Route::get('/checkout/billing/address', 'Front\CheckoutController@ship_address')->name('front.checkout.billing');
         Route::post('/checkout/billing/store', 'Front\CheckoutController@billingStore')->name('front.checkout.store');
         Route::get('/checkout/shpping/address', 'Front\CheckoutController@shipping')->name('front.checkout.shipping');

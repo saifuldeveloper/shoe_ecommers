@@ -1026,6 +1026,7 @@ h5.modal_h5_title span{
 
     .btn-checkout:hover {
       background: #c30024;
+       color: #fff;
     }
 
     .btn-view {
@@ -1864,7 +1865,7 @@ input#searchInput_small_device{
     justify-content: space-between;
     align-items: center;
     padding: 12px 15px;
-    border: 1px solid #007bff; 
+    border: 1px solid #fd3737; 
     border-radius: 4px;
     background-color: #f7faff;
 }
@@ -1888,7 +1889,7 @@ input#searchInput_small_device{
     cursor: pointer;
 }
 .payment-card-custom.selected {
-    border-color: #007bff;
+    border-color: #fd3737;
     background-color: #f7faff;
 }
 .payment-card-custom {
@@ -1958,7 +1959,7 @@ input#searchInput_small_device{
 .pay-button-custom {
     width: 100%;
     padding: 12px 20px;
-    background-color: #007bff; /* Blue button */
+    background-color: #F81010; /* Blue button */
     color: white;
     border: none;
     border-radius: 4px;
@@ -1969,7 +1970,7 @@ input#searchInput_small_device{
 }
 
 .pay-button-custom:hover {
-    background-color: #0056b3;
+    background-color: #F81010;
 }
 
 

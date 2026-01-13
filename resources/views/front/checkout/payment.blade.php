@@ -2,6 +2,27 @@
 @section('title')
     {{ __('Payment') }}
 @endsection
+<style>
+    .autocomplete-items {
+        position: absolute;
+        border: 1px solid #ddd;
+        border-top: none;
+        z-index: 99;
+        background: #fff;
+        max-height: 150px;
+        overflow-y: auto;
+        width: 100%;
+    }
+
+    .autocomplete-item {
+        padding: 8px;
+        cursor: pointer;
+    }
+
+    .autocomplete-item:hover {
+        background-color: #f1f1f1;
+    }
+</style>
 @php
     $rewardPoint = 0;
     $usedRewardPoint = 0;
@@ -62,7 +83,7 @@
                     <div class="checkout-form-card">
                         <h2 class="checkout-title">Delivery</h2>
                         <div class="form-group-custom mb-3">
-                            <select class="form-select-custom" name="ship_country">
+                            <select class="form-select-custom" name="ship_country" style="display: none">
                                 <option value="Bangladesh" selected>Country/Region: Bangladesh</option>
                             </select>
                         </div>
@@ -99,12 +120,27 @@
                         </div>
                         <div class="row">
                             {{-- City (ship_city) --}}
-                            <div class="col-sm-6">
+                            {{-- <div class="col-sm-6">
                                 <div class="form-group-custom">
                                     <label for="ship_city">City</label>
                                     <input class="form-control-custom {{ $errors->has('ship_city') ? 'input-error' : '' }}"
                                         name="ship_city" type="text" placeholder="Enter a city" id="ship_city"
                                         value="{{ isset($user) ? $user->ship_city : '' }}">
+
+                                    @if ($errors->has('ship_city'))
+                                        <span class="input-helper-text">Enter a city</span>
+                                    @endif
+                                </div>
+                            </div> --}}
+
+                            <div class="col-sm-6">
+                                <div class="form-group-custom position-relative">
+                                    <label for="ship_city">City</label>
+                                    <input class="form-control-custom {{ $errors->has('ship_city') ? 'input-error' : '' }}"
+                                        name="ship_city" type="text" placeholder="Enter a city" id="ship_city"
+                                        autocomplete="off"
+                                        value="{{ old('ship_city', isset($user) ? $user->ship_city : '') }}">
+                                    <div id="city-list" class="autocomplete-items"></div>
 
                                     @if ($errors->has('ship_city'))
                                         <span class="input-helper-text">Enter a city</span>
@@ -447,4 +483,42 @@
             }
         });
     </script>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const input = document.getElementById("ship_city");
+            const list = document.getElementById("city-list");
+            input.addEventListener("input", function() {
+                const term = this.value;
+
+                if (term.length < 1) {
+                    list.innerHTML = '';
+                    return;
+                }
+                fetch("{{ route('front.checkout.serach.city') }}?term=" + term)
+                    .then(response => response.json())
+                    .then(data => {
+                        list.innerHTML = '';
+                        data.forEach(city => {
+                            const div = document.createElement("div");
+                            div.classList.add("autocomplete-item");
+                            div.textContent = city;
+                            div.addEventListener("click", function() {
+                                input.value = city;
+                                list.innerHTML = '';
+                            });
+                            list.appendChild(div);
+                        });
+                    });
+            });
+
+            // Close the dropdown if clicked outside
+            document.addEventListener("click", function(e) {
+                if (e.target !== input) list.innerHTML = '';
+            });
+        });
+    </script>
+
+
 @endsection

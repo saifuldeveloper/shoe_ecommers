@@ -8956,7 +8956,7 @@ body.nav-loaded {
 }
 
 .redeem-btn {
-    background-color: #0d6efd; /* Blue color */
+    background-color: #F81010; /* Blue color */
     color: #ffffff;
     border: none;
     padding: 12px 24px;
@@ -8968,7 +8968,8 @@ body.nav-loaded {
   }
 
   .redeem-btn:hover {
-    background-color: #0b5ed7;
+    background-color: #F81010;
+    color: #ffff;
   }
 
   /* ===== */
