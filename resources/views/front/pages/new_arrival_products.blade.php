@@ -65,7 +65,8 @@
             </div>
          
 
-        <!-- Products Section -->
+        <!--
+        -->
         <div class="row ps-product__columns" id="product-list">
             @include('front.pages.partials.product_list', ['products' => $products])
         </div>

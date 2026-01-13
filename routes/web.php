@@ -172,6 +172,8 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
             Route::get('campaign-offer/status/{id}/{status}/{type}', [TopCampaignController::class, 'campaignStatus'])->name('back.campaign.type.status');
             Route::delete('campaign-offer/delete/{id}', [TopCampaignController::class, 'campaignofferDelete'])->name('back.campaign.offer.product.delete');
 
+            Route::get('campaign/products/search', [TopCampaignController::class, 'searchProducts']);
+
             // --------- DIGITAL PRODUCT -----------//
             Route::get('/digital/create', [ItemController::class, 'deigitalItemCreate'])->name('back.digital.item.create');
             Route::post('/digital/store', [ItemController::class, 'deigitalItemStore'])->name('back.digital.item.store');
