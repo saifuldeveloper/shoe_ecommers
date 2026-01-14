@@ -5,7 +5,7 @@ body {
 /* Floating button */
 .chat-btn {
     position: fixed;
-    bottom: 20px;
+    bottom: 120px;
     right: 20px;
     background: #e60000;
     color: #fff;
@@ -27,7 +27,7 @@ body {
 /* Chat box */
 .chat-box {
     position: fixed;
-    bottom: 90px;
+    bottom: 204px;
     right: 20px;
     width: 300px;
     background: #fff;
@@ -179,84 +179,83 @@ body {
     cursor: pointer;
 }
 
-
-
-.start-form{
-    background:#fff;
-    padding:10px;
-    border-radius:10px;
+.start-form {
+    background: #fff;
+    padding: 10px;
+    border-radius: 10px;
 }
-.start-form input{
-    width:100%;
-    padding:8px;
-    margin-bottom:8px;
-    border:1px solid #ddd;
-    border-radius:6px;
+.start-form input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
 }
-.start-form button{
-    width:100%;
-    background:#e60000;
-    color:#fff;
-    border:none;
-    padding:8px;
-    border-radius:6px;
-    cursor:pointer;
+.start-form button {
+    width: 100%;
+    background: #e60000;
+    color: #fff;
+    border: none;
+    padding: 8px;
+    border-radius: 6px;
+    cursor: pointer;
 }
 
-
-.avijatry-user-form{
+.avijatry-user-form {
     position: fixed;
     bottom: 20px;
     right: 20px;
     width: 320px;
     display: none;
     z-index: 999999;
+      pointer-events: auto;
+    
+    
 }
 
-.start-form{
-    background:#fff;
-    padding:15px;
-    border-radius:15px;
-    box-shadow: 0 20px 40px rgba(0,0,0,.3);
+.start-form {
+    background: #fff;
+    padding: 0px 0px 100px 0px;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    margin-bottom: 200px;
 }
 
-.start-form h4{
-    margin-bottom:12px;
-    text-align:center;
-    font-size:16px;
+.start-form h4 {
+    margin-bottom: 12px;
+    text-align: center;
+    font-size: 16px;
 }
 
-.start-form input{
-    width:100%;
-    padding:10px;
-    margin-bottom:10px;
-    border:1px solid #ddd;
-    border-radius:8px;
-    outline:none;
+.start-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
 }
 
-.start-form button{
-    width:100%;
-    background:#e60000;
-    color:#fff;
-    border:none;
-    padding:10px;
-    border-radius:8px;
-    cursor:pointer;
+.start-form button {
+    width: 100%;
+    background: #e60000;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
 }
 
-.start-form button:hover{
-    opacity:0.9;
+.start-form button:hover {
+    opacity: 0.9;
 }
 
 /* Make chat cards clickable properly */
-.chat-card a{
-    text-decoration:none;
-    color:inherit;
-    display:block;
+.chat-card a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
 }
-
-
 
 /* Message loading animation */
 .msg-loading {
@@ -267,17 +266,40 @@ body {
     animation: fadePulse 1s infinite;
 }
 
-@keyframes fadePulse {
-    0% { opacity: .3; }
-    50% { opacity: 1; }
-    100% { opacity: .3; }
+.chat-start-header {
+    background-color: #e60000;
+    border-radius: 6px;
+    position: relative; 
 }
+.chat-start-header span {
+    position: absolute;
+    float: right;
+    color: #ffff;
+    padding-top: 1px;
+    padding-right: 10px;
+    cursor: pointer !important;
+    z-index: 9999999; 
+    right: 0;
 
-
-
-
-
-
-
+}
+.chat-start-header h4 {
+    color: #ffff;
+    padding: 29px 10px 25px 10px;
+    font-size: 15px;
+}
+.chat-start-div {
+    padding: 30px;
+}
+@keyframes fadePulse {
+    0% {
+        opacity: 0.3;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.3;
+    }
+}
 
 

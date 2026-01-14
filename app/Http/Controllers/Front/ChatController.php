@@ -6,6 +6,7 @@ use App\Models\ChatMessage;
 use App\Models\ChatSession;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Events\ChatMessageSent;
 
 class ChatController extends Controller
 {
@@ -40,7 +41,7 @@ class ChatController extends Controller
             'sender' => 'user',
             'message' => $request->message,
         ]);
-
+        event(new ChatMessageSent($request->message, $request->session_id));
         return response()->json(['success' => true]);
     }
 

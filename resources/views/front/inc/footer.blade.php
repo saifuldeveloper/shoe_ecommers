@@ -11,7 +11,7 @@ $categories = \App\Models\Category::where('status',1)->orderBy('id','DESC')->get
     <div class="ps-footer__content">
         <div class="ps-container">
             <div class="row footer_widget_responsive">
-                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-6">
+                <div class="col-lg-4 col-md-4  col-sm-6 col-xs-6">
                     <aside class="ps-widget--footer ps-widget--info">
                         <header>
                             <a class="ps-logo" href="#"><img alt=""
@@ -25,8 +25,7 @@ $categories = \App\Models\Category::where('status',1)->orderBy('id','DESC')->get
                         </footer>
                     </aside>
                 </div>
-
-                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-6">
+                <div class="col-lg-4 col-md-4  col-sm-6 col-xs-6">
                     <aside class="ps-widget--footer ps-widget--info address_second second">
                         <header>
                             <h3 class="ps-widget__title">Address</h3>
@@ -46,8 +45,7 @@ $categories = \App\Models\Category::where('status',1)->orderBy('id','DESC')->get
                         </footer>
                     </aside>
                 </div>
-
-                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">
+                {{-- <div class="col-lg-2 col-md-3  col-sm-6 col-xs-6">
                     <aside class="ps-widget--footer ps-widget--link">
                         <header>
                             <h3 class="ps-widget__title">Find Our store</h3>
@@ -62,9 +60,9 @@ $categories = \App\Models\Category::where('status',1)->orderBy('id','DESC')->get
                             </ul>
                         </footer>
                     </aside>
-                </div>
+                </div> --}}
 
-                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">
+                <div class="col-lg-2 col-md-3  col-sm-6 col-xs-6">
                     <aside class="ps-widget--footer ps-widget--link">
                         <header>
                             <h3 class="ps-widget__title">Get Help</h3>
@@ -80,7 +78,7 @@ $categories = \App\Models\Category::where('status',1)->orderBy('id','DESC')->get
                     </aside>
                 </div>
 
-                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">
+                <div class="col-lg-2 col-md-3  col-sm-6 col-xs-6 popular-category-footer-pt">
                     <aside class="ps-widget--footer ps-widget--link">
                         <header>
                             <h3 class="ps-widget__title">Popular Category</h3>
@@ -100,9 +98,9 @@ $categories = \App\Models\Category::where('status',1)->orderBy('id','DESC')->get
 
     <div class="ps-footer__copyright">
         <div class="ps-container">
-           <div class="row">
+           <div class="row footer-row">
                 <!-- Section 1 -->
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 ">
                    <p> &copy; {{ date('Y') }} {{ $setting->copy_right ?? 'Avijatry' }} Developed by <a href="#"> {{ $setting->title ?? ""}}</a> </p>
                 </div>
 

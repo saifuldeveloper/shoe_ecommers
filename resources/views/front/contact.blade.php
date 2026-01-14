@@ -327,9 +327,9 @@
                 <div class="list-group-item store-item"
                      data-id="${store.id}"
                      style="cursor:pointer">
-                    <h6 class="mb-1">${store.name}</h6>
+                    <h6 class="mb-1" style="font-size:17px;">${store.name}</h6>
                     <p class="mb-0">
-                        <i class="fas fa-map-marker-alt me-1"></i>
+                        <i class="fas fa-map-marker-alt me-1"style="display:none"></i>
                         ${store.area}, ${store.address}
                     </p>
                     <p class="mb-0">

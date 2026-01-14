@@ -848,10 +848,11 @@ h5.modal_h5_title span{
     }
   .buy_now_btn{
     min-width: 0px;
-    width: 320px;
+     width: 100% !important;
   }
   .add_to_cartbtn{
     min-width: 0px;
+    width: 83% !important;
   } 
   .login_small_device {
     flex-direction: column;
@@ -882,10 +883,10 @@ h5.modal_h5_title span{
     min-width: 0px;
     width: 213px;
   } 
-  .footer_widget_responsive{
+  /* .footer_widget_responsive{
     display: flex;
     flex-direction: column  ;
-  }
+  } */
 }
 
 
@@ -1201,15 +1202,15 @@ h5.modal_h5_title span{
 }
 /* Search icon */
 .search-toggle-btn {
-    background: none;
-    border: none;
-    font-size: 25px;
-    cursor: pointer;
-    color: #524343;
-    transition: color 0.2s;
-    position: absolute;
-    top: 20px;
-    left: -25px;
+   background: none;
+  border: none;
+  font-size: 27px;
+  cursor: pointer;
+  color: #524343;
+  transition: color 0.2s;
+  position: absolute;
+  top: 21px;
+  left: -42px;
 }
 
 /* Hidden search box */

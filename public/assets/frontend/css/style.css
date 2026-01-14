@@ -4426,7 +4426,7 @@ button.ps-btn--gray:before {
     min-width: 0;
     width: 100%;
     font-size: 20px;
-    line-height: 60px;
+    line-height: 25px;
   }
   .ps-section__title:before {
     font-size: 60px;
@@ -4439,11 +4439,11 @@ button.ps-btn--gray:before {
 
 @media (max-width: 479px) {
   .ps-section__title {
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
     font-size: 18px;
   }
   .ps-section__title:before {
-    font-size: 40px;
+    /* font-size: 40px; */
   }
 }
 
@@ -5641,6 +5641,7 @@ button.ps-btn--gray:before {
   background-color: #f59b34;
   border-radius: 50%;
   padding: 1px;
+  color:#ffff;
 }
 
 .ps-user__toggle span {
@@ -5698,6 +5699,7 @@ button.ps-btn--gray:before {
 .ps-cart__toggle span i {
   font-size: 10px;
   font-style: normal;
+    color:#ffff;
 }
 .ps-cart__toggle:hover {
   background-color: #f59b34;
@@ -6732,7 +6734,7 @@ button.ps-btn--gray:before {
   }
 }
 @media (max-width: 767px) {
-  .ps-footer__copyright {
+  /* .ps-footer__copyright {
     text-align: left;
   }
   .ps-footer__copyright p {
@@ -6740,7 +6742,7 @@ button.ps-btn--gray:before {
   }
   .ps-footer__copyright .ps-social {
     display: inline-block;
-  }
+  } */
 }
 
 .ps-products::after {
@@ -7269,9 +7271,9 @@ button.ps-btn--gray:before {
     width: 100%;
     text-align: center;
   }
-  .ps-product--detail .ps-product__content .tab-list {
+  /* .ps-product--detail .ps-product__content .tab-list {
     text-align: left;
-  }
+  } */
   .ps-product--detail .ps-product__content .tab-list li {
     display: block;
   }
@@ -7282,6 +7284,18 @@ button.ps-btn--gray:before {
   .ps-product--detail .ps-product__content .tab-list li.active a:before {
     width: 50px;
   }
+
+  .ps-product--detail .ps-product__content .tab-list li a {
+  position: relative;
+  display: inline-block;
+  font-family: "Archivo Narrow", sans-serif;
+  font-size: 14px;
+  font-weight: 503;
+  line-height: 1em;
+  color: #626262;
+  text-transform: uppercase;
+  padding-top: 15px;
+}
 }
 
 .ps-product--hotdeal {
@@ -8978,3 +8992,31 @@ body.nav-loaded {
     justify-content: center;
     margin-bottom: 50px;
 }
+
+
+
+#scrollTopBtn {
+ position: fixed;
+bottom: 56px;
+  right: 25px;
+  display: none;
+  background: #F9B711;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  z-index: 9999999999;
+}
+#scrollTopBtn:hover {
+    background: #E60000;
+}
+
+
+.owl-carousel .owl-stage-outer {
+  position: relative;
+  overflow: hidden;
+  padding-top: 18px;
+}
+

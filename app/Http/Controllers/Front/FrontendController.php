@@ -97,20 +97,22 @@ class FrontendController extends Controller
             ->orderBy('menu_serial', 'asc')
             ->get();
 
+
         $menuCategoryIds = $menuCategories->pluck('id');
 
-        $featured_items = Item::where('status', 1)
-            ->where('is_type', 'feature')
-            ->whereIn('category_id', $menuCategoryIds)
-            ->latest()
-            ->get();
-
-        $posts = Post::latest('id')->take(3)->get();
         $featuredCategories = Category::where('is_featured', 1)
             ->where('status', 1)
             ->orderBy('featured_serial', 'asc')
             ->get();
 
+        $featured_ids = $featuredCategories->pluck('id');
+        $featured_items = Item::where('status', 1)
+            ->where('is_type', 'feature')
+            ->whereIn('category_id', $featured_ids)
+            ->latest()
+            ->get();
+
+        $posts = Post::latest('id')->take(3)->get();
 
         $bannerCategories = Category::where('is_banner', 1)
             ->where('status', 1)
@@ -153,7 +155,7 @@ class FrontendController extends Controller
             'menuCategories',
             'topSellingItems',
             'manulTopItems',
-          
+
         ));
 
     }

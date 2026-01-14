@@ -205,7 +205,7 @@
                             <div class="ps-product__content mt-100">
                                 <ul class="tab-list" role="tablist">
                                     <li class="active">
-                                        <a href="#tab_01" aria-controls="tab_01" role="tab" data-toggle="tab"></a>
+                                        <a href="#tab_01" aria-controls="tab_01" role="tab" data-toggle="tab">r
                                         Description</a>
                                     </li>
                                     <li>
@@ -332,8 +332,8 @@
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                                 <div class="ps-owl-actions">
-                                    <a class="ps-prev" href="#"><i class="ps-icon-arrow-right"></i>Prev</a><a
-                                        class="ps-next" href="#">Next<i class="ps-icon-arrow-left"></i></a>
+                                    <a class="ps-prev" href="#"><i class="ps-icon-arrow-right"></i></a><a
+                                        class="ps-next" href="#"><i class="ps-icon-arrow-left"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -341,7 +341,7 @@
                     <div class="ps-section__content">
                         <div class="ps-owl--colection owl-slider" data-owl-auto="true" data-owl-loop="true"
                             data-owl-speed="5000" data-owl-gap="30" data-owl-nav="false" data-owl-dots="false"
-                            data-owl-item="4" data-owl-item-xs="1" data-owl-item-sm="2" data-owl-item-md="3"
+                            data-owl-item="4" data-owl-item-xs="2" data-owl-item-sm="2" data-owl-item-md="3"
                             data-owl-item-lg="4" data-owl-duration="1000" data-owl-mousedrag="on">
                             @include('front.pages.partials.product_list_two', [
                                 'products' => $related_products,
@@ -374,7 +374,7 @@
                         <div class="ps-section__content">
                             <div class="ps-owl--colection owl-slider" data-owl-auto="true" data-owl-loop="true"
                                 data-owl-speed="5000" data-owl-gap="30" data-owl-nav="false" data-owl-dots="false"
-                                data-owl-item="4" data-owl-item-xs="1" data-owl-item-sm="2" data-owl-item-md="3"
+                                data-owl-item="4" data-owl-item-xs="2" data-owl-item-sm="2" data-owl-item-md="3"
                                 data-owl-item-lg="4" data-owl-duration="1000" data-owl-mousedrag="on">
                                 @include('front.pages.partials.product_list_two', [
                                     'products' => $recently_viewed,

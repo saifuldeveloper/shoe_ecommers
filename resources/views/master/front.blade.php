@@ -44,6 +44,7 @@
     <link href="{{ asset('assets/frontend/plugins/revolution/css/layers.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/frontend/plugins/revolution/css/navigation.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/frontend/css/style.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/frontend/css/responsive.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/frontend/css/custom_style.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/frontend/css/chatbox.css') }}" rel="stylesheet" />
 
@@ -78,8 +79,7 @@
         @yield('content')
         @include('front.inc.footer')
 
-
-
+        <button id="scrollTopBtn">⬆</button>
 
         {{-- ============================chatbox================== --}}
         <!-- Floating Chat Button -->
@@ -127,13 +127,17 @@
         <!-- ===== Name & Phone Form ===== -->
         <div class="avijatry-user-form" id="apexUserForm">
             <div class="start-form">
-                <h4>Start Chat</h4>
+                <div class="chat-start-header">
+                    <span id="closeUserFormBtn">✕</span>
+                    <h4>Welcome to Avijatry Online Service!</h4>
+                </div>
+                <div class="chat-start-div">
+                    <input type="text" id="apexUserName" placeholder="Your Name">
+                    <input type="text" id="apexUserPhone" placeholder="Your Phone Number" maxlength="11"
+                        oninput="this.value=this.value.replace(/[^0-9]/g,'')">
 
-                <input type="text" id="apexUserName" placeholder="Your Name">
-                <input type="text" id="apexUserPhone" placeholder="Your Phone Number" maxlength="11"
-                    oninput="this.value=this.value.replace(/[^0-9]/g,'')">
-
-                <button onclick="startApexChat()">Start Chat</button>
+                    <button onclick="startApexChat()">Start Chat</button>
+                </div>
             </div>
         </div>
 
@@ -258,7 +262,7 @@
             let msg = input.value.trim();
             if (!msg || !apexUser.session_id) return;
 
-                showLoading();
+            showLoading();
 
             fetch('/support/chat/send', {
                 method: 'POST',
@@ -279,7 +283,7 @@
         function loadMessages() {
             if (!apexUser.session_id) return;
 
-            
+
 
             fetch('/support/chat/messages/' + apexUser.session_id)
                 .then(res => res.json())
@@ -344,7 +348,7 @@
             let box = document.createElement('div');
             box.id = 'chatCloseOptions';
             box.style.position = 'fixed';
-            box.style.bottom = '100px';
+            box.style.bottom = '300px';
             box.style.right = '32px';
             box.style.width = '300px';
             box.style.background = '#fff';
@@ -421,6 +425,35 @@
             let el = document.getElementById('msgLoading');
             if (el) el.remove();
         }
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const closeBtn = document.getElementById('closeUserFormBtn');
+
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function() {
+                    document.getElementById('apexUserForm').style.display = 'none';
+                });
+            }
+        });
+    </script>
+
+    
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    const btn = document.getElementById("scrollTopBtn");
+
+    if (!btn) return; // button না থাকলে error দিবে না
+
+    window.addEventListener("scroll", () => {
+        btn.style.display = window.scrollY > 300 ? "block" : "none";
+    });
+
+    btn.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+});
     </script>
 
 

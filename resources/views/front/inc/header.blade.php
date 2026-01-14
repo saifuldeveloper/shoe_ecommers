@@ -208,13 +208,13 @@
                             </div>
                         </li>
                     @endforeach
-                    <li class="menu-item menu-item-has-children dropdown">
+                    <li class="menu-item  ">
                         <a href="{{ route('front.blog') }}">News</a>
                     </li>
-                    <li class="menu-item menu-item-has-children dropdown">
+                    <li class="menu-item  dropdown">
                         <a href="{{ route('front.contact') }}">Contact</a>
                     </li>
-                    <li class="menu-item menu-item-has-children mobile-only ">
+                    <li class="menu-item  mobile-only ">
                         <a class="ps-user__toggle" href="{{ route('front.wishlist') }}">
                             <span id="wishlist-count-mobile"><i>0</i></span> <i class="ps-icon-heart"></i> </a>
                     </li>
@@ -251,7 +251,9 @@
                 <!-- USER + SEARCH ICON AREA -->
                 <div class="ps-user">
                     <button type="button" class="ps-user__toggle search-toggle-btn">
-                        <i class="fa fa-search"></i>
+                        {{-- <i class="fa fa-search"></i> --}}
+                           <img src="{{ asset('assets/frontend/images/icon/icons8-search-50.png') }}"
+                            height="30" alt="">
                     </button>
 
                     <div class="search-box_small">

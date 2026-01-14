@@ -108,7 +108,7 @@
                             <li class="current">
                                 <a data-filter="*" href="#">All <sup>{{ $featured_items->count() }}</sup></a>
                             </li>
-                            @foreach ($menuCategories as $cat)
+                            @foreach ($featuredCategories as $cat)
                                 @php
                                     $count = $featured_items->where('category_id', $cat->id)->count();
                                 @endphp
@@ -315,11 +315,11 @@
         <div class="ps-container">
             <div class="ps-section__header">
                 <div class="row">
-                    <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                    <div class="col-lg-9 col-md-9 col-sm-6 col-xs-6">
                         <h3 class="ps-section__title">- New Arrival</h3>
                     </div>
 
-                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
                         <div class="ps-owl-actions">
                             <a target="__blank" style="color:#f59b34;padding-right:15px;"
                                 href="{{ route('front.new.products') }}">
@@ -414,11 +414,11 @@
         <div class="ps-container">
             <div class="ps-section__header">
                 <div class="row">
-                    <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                    <div class="col-lg-9 col-md-9 col-sm-6 col-xs-6">
                         <h3 class="ps-section__title">- Top  Products</h3>
                     </div>
 
-                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
                         <div class="ps-owl-actions">
                             {{-- <a target="__blank"  style="color:#f59b34;padding-right:15px;" href="{{ route('front.top-sell.products') }}">
                                 View All
@@ -494,7 +494,6 @@
         <div class="ps-container">
             <div class="ps-section__header">
                 <h2 class="ps-section__title">- Our Story</h2>
-
                 <div class="ps-section__action">
                     <a class="ps-morelink text-uppercase" href="{{ route('front.blog') }}">View all post</a>
                 </div>
@@ -506,7 +505,7 @@
                         @php
                             $photos = json_decode($post->photo, true);
                         @endphp
-                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                             <div class="ps-post">
                                 <div class="ps-post__thumbnail">
                                     @if (!empty($photos) && count($photos) > 0)
@@ -544,10 +543,11 @@
 
     <div class="ps-home-partner pb-50">
         <div class="ps-container">
-            <div class="ps-section__header">
-                <h2 class="ps-section__title">Avijatri On Social Media</h2>
+            <div class="ps-section__header ">
+                <h2 class="ps-section__title home-social-media-title">Avijatri On Social Media</h2>
             </div>
-            <div class="owl-slider" data-owl-auto="true" data-owl-dots="false" data-owl-duration="1000"
+            <div class="social-medial-post">
+                <div class="owl-slider" data-owl-auto="true" data-owl-dots="false" data-owl-duration="1000"
                 data-owl-gap="40" data-owl-item="6" data-owl-item-lg="6" data-owl-item-md="5" data-owl-item-sm="4"
                 data-owl-item-xs="2" data-owl-loop="true" data-owl-mousedrag="on" data-owl-nav="false"
                 data-owl-speed="5000">
@@ -558,6 +558,8 @@
                     </a>
                 @endforeach
             </div>
+            </div>
+            
         </div>
     </div>
 
