@@ -41,7 +41,11 @@ class ChatController extends Controller
             'sender' => 'user',
             'message' => $request->message,
         ]);
-        event(new ChatMessageSent($request->message, $request->session_id));
+        event(new ChatMessageSent(
+            $request->message,
+            $request->session_id,
+            'user'
+        ));
         return response()->json(['success' => true]);
     }
 

@@ -19,6 +19,7 @@
         "mollie/laravel-mollie": "^2.22.0",
         "orangehill/iseed": "^3.1",
         "phpmailer/phpmailer": "^6.1",
+        "pusher/pusher-php-server": "^7.2",
         "zanysoft/laravel-zip": "^2.0"
     },
     "require-dev": {
