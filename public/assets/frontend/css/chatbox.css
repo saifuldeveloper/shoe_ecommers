@@ -147,6 +147,10 @@ body {
     border-radius: 10px;
     margin-bottom: 8px;
     max-width: 80%;
+    word-wrap: break-word;
+        clear: both;
+
+
 }
 
 .msg.user {
@@ -157,6 +161,8 @@ body {
 .msg.admin {
     background: #e60000;
     color: #fff;
+     align-self: flex-start;
+        margin-right: auto;
 }
 
 .avijatry-chatbox-footer {

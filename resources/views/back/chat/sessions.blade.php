@@ -401,7 +401,7 @@
 @endsection
 
 @section('scripts')
-{{-- <script>
+<script>
     let selectedSession = null;
     let messageIntervalAdmin = null;
 
@@ -489,123 +489,6 @@
                 });
             }
         });
-</script> --}}
-
-<script>
-    let selectedSession = null;
-    let messageIntervalAdmin = null;
-
-    /* ===============================
-       Click on chat session
-    =============================== */
-    document.querySelectorAll('.session-item').forEach(el => {
-        el.addEventListener('click', function () {
-
-            selectedSession = this.dataset.id;
-
-            // Remove active from all
-            document.querySelectorAll('.session-item').forEach(item => {
-                item.classList.remove('active');
-                let dot = item.querySelector('.active-dot');
-                if (dot) dot.classList.add('d-none');
-            });
-
-            // Set active
-            this.classList.add('active');
-            let activeDot = this.querySelector('.active-dot');
-            if (activeDot) activeDot.classList.remove('d-none');
-
-            // Clear previous interval
-            if (messageIntervalAdmin) {
-                clearInterval(messageIntervalAdmin);
-                messageIntervalAdmin = null;
-            }
-
-            loadAdminMessages();
-            messageIntervalAdmin = setInterval(loadAdminMessages, 3000);
-        });
-    });
-
-    /* ===============================
-       Load messages
-    =============================== */
-    function loadAdminMessages() {
-        if (!selectedSession) return;
-
-        fetch("{{ route('back.chat.messages', '') }}/" + selectedSession)
-            .then(res => res.json())
-            .then(messages => {
-                let box = document.getElementById('messagesAdmin');
-                if (!box) return;
-
-                box.innerHTML = '';
-
-                messages.forEach(m => {
-                    let bubbleClass = m.sender === 'admin' ? 'msg-admin' : 'msg-user';
-
-                    box.innerHTML += `
-                        <div class="msg-bubble ${bubbleClass}">
-                            ${m.message}
-                            <span class="msg-time">
-                                ${new Date(m.created_at).toLocaleTimeString()}
-                            </span>
-                        </div>
-                    `;
-                });
-
-                box.scrollTop = box.scrollHeight;
-            });
-    }
-
-    /* ===============================
-       Send admin message function
-    =============================== */
-    function sendAdminMessage() {
-        let input = document.getElementById('adminInput');
-        if (!input) return;
-
-        let msg = input.value.trim();
-        if (!msg || !selectedSession) return;
-
-        fetch("{{ route('back.chat.reply') }}", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            body: JSON.stringify({
-                session_id: selectedSession,
-                message: msg
-            })
-        }).then(() => {
-            input.value = '';
-            loadAdminMessages();
-        });
-    }
-
-    /* ===============================
-       Send button click
-    =============================== */
-    document.getElementById('sendAdmin')?.addEventListener('click', function () {
-        sendAdminMessage();
-    });
-
-    /* ===============================
-       Enter key = Send message
-    =============================== */
-    document.addEventListener('DOMContentLoaded', function () {
-        const input = document.getElementById('adminInput');
-
-        if (input) {
-            input.addEventListener('keydown', function (e) {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault(); // newline বন্ধ
-                    sendAdminMessage(); // 🔥 Enter চাপলেই send
-                }
-            });
-        }
-    });
 </script>
-
 @endsection
 

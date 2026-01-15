@@ -6,6 +6,7 @@ use App\Models\ChatMessage;
 use App\Models\ChatSession;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Events\ChatMessageSent;
 
 class ChatAdminController extends Controller
 {
@@ -39,6 +40,12 @@ class ChatAdminController extends Controller
             'sender' => 'admin',
             'message' => $request->message
         ]);
+
+        // broadcast(new ChatMessageSent(
+        //     $request->session_id,
+        //     $request->message,
+        //     'admin'
+        // ));
 
         return response()->json(['success' => true, 'message_id' => $msg->id]);
     }
