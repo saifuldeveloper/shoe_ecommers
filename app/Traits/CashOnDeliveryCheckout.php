@@ -30,7 +30,8 @@ trait CashOnDeliveryCheckout
 
     public function cashOnDeliverySubmit($data)
     {
-        // dd($data);
+
+    // dd($data);
         $user = Auth::user();
 
         $setting = Setting::first();
@@ -63,7 +64,7 @@ trait CashOnDeliveryCheckout
        
         $orderData['cart'] = json_encode($cart, true);
         $orderData['discount'] = json_encode($discount, true);
-        $orderData['shipping'] = "ghjhkgjh";
+        $orderData['shipping'] = $data['shipping_charge'];
         $orderData['tax'] = $total_tax;
         $orderData['state_price'] = $cart_total;
         $orderData['shipping_info'] = json_encode(Session::get('shipping_address'), true);
@@ -78,7 +79,6 @@ trait CashOnDeliveryCheckout
         // $orderData['variant_id'] = $variant ? $variant->id : null;
 
         $orderData['user_id'] = 1;
-
        try {
             $order = Order::create($orderData);
 

@@ -294,6 +294,7 @@ class CheckoutController extends Controller
 
     public function payment()
     {
+
         $data['user'] = Auth::user();
         $cart = collect();
         if (auth()->check()) {
@@ -346,7 +347,6 @@ class CheckoutController extends Controller
 
     public function checkout(Request $request)
     {
-        // dd($request->all());
         // laravel validation
         $request->validate([
             'ship_name' => 'required',

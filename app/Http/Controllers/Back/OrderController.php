@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Back;
 
 use Carbon\Carbon;
+use App\Models\Item;
 use App\Models\Order;
 use App\Models\Store;
 use App\Models\PromoCode;
 use App\Helpers\SmsHelper;
 use App\Models\TrackOrder;
+use App\Models\ItemVariant;
 use App\Models\Notification;
 use App\Models\OrderDetails;
 use Illuminate\Http\Request;
@@ -99,7 +101,8 @@ class OrderController extends Controller
         $order = Order::with('orderDetails.item')->findOrfail($id);
         $cart = json_decode($order->cart, true);
         $stores = Store::whereNotNull('api_base_url')->whereNotNull('secret_key')->get();
-        return view('back.order.invoice', compact('order', 'cart', 'stores'));
+        $allProducts = Item::get();
+        return view('back.order.invoice', compact('order', 'cart', 'stores', 'allProducts'));
     }
 
     /**
@@ -339,116 +342,194 @@ class OrderController extends Controller
     //     return back()->with('success', 'Products processed successfully');
     // }
 
+    public function orderItemDelete($id)
+    {
+        $orderDetail = OrderDetails::find($id);
+        if (!$orderDetail) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Order item not found'
+            ], 404);
+        }
+        if ($orderDetail->send_retailer == 1) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'This item has already been sent to retailer. You cannot delete it.'
+            ], 403);
+        }
+        $orderDetail->delete();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Order item deleted successfully'
+        ]);
+
+    }
+
 
 
 
     public function sendRetailerOrder(Request $request)
     {
-        $products = $request->products;
-        $store = Store::find($request->store_id);
+        $orderData = $request->input('products', []);
+        if (empty($orderData)) {
+            return back()->with('error', 'No items selected');
+        }
 
+        /** 2️⃣ Collect IDs */
+        $detailIds = array_keys($orderData);
+        $variantIds = collect($orderData)->pluck('item_variant_id')->unique()->toArray();
+
+        /** 3️⃣ Fetch DB data (single query each) */
+        $details = OrderDetails::whereIn('id', $detailIds)->get()->keyBy('id');
+        $variants = ItemVariant::whereIn('id', $variantIds)->get()->keyBy('id');
+
+
+
+        /** 4️⃣ Update order details + prepare products */
+        foreach ($orderData as $detailId => $data) {
+            $detail = $details[$detailId] ?? null;
+            $variant = $variants[$data['item_variant_id']] ?? null;
+            if (!$detail || !$variant) {
+                continue;
+            }
+            $detail->update([
+                'item_variant_id' => $variant->id,
+                'item_variant_sku' => $variant->variant_sku,
+                'qty' => $data['qty'],
+                // 'send_retailer' => 1,
+            ]);
+
+            $products[] = [
+                'code' => $variant->variant_sku,
+                'qty' => (int) $data['qty'],
+            ];
+        }
+
+        /** 5️⃣ Validate store */
+        $store = Store::find($request->store_id);
         if (!$store || empty($products)) {
             return back()->with('error', 'Invalid store or products');
         }
+        /** 6️⃣ Parallel product info API */
         $productInfoUrl = rtrim($store->api_base_url, '/') . '/product/info';
 
-        // 🔥 1️⃣ PARALLEL PRODUCT INFO CALL
-        try {
-            $responses = Http::pool(
-                fn($pool) =>
-                collect($products)->map(
-                    fn($item) =>
-                    $pool->timeout(4)->get($productInfoUrl, [
-                        'code' => $item['code'],
-                        'secret_key' => $store->secret_key,
-                    ])
-                )->toArray()
-            );
-        } catch (\Throwable $e) {
-            return back()->with('error', 'Product API connection failed');
-        }
+        $responses = Http::pool(
+            fn($pool) =>
+            collect($products)->map(
+                fn($item) =>
+                $pool->timeout(4)->get($productInfoUrl, [
+                    'code' => $item['code'],
+                    'secret_key' => $store->secret_key,
+                ])
+            )->toArray()
+        );
 
+        /** 7️⃣ Prepare order calculation */
         $productIds = [];
         $productCodes = [];
         $qty = [];
-        $unitPrice = [];
+        $sale_unit = [];
+        $net_unit_price = [];
+        $discount = [];
+        $tax_rate = [];
+        $tax = [];
         $subtotal = [];
+        $unit_price = [];
+        $product_discount = [];
+        $imei_number =[];
 
         foreach ($responses as $index => $response) {
+
             $item = $products[$index];
             $data = $response->json();
-            if ($response->successful() && ($data['status'] ?? false)) {
-                $productIds[] = $data['data']['id'];
-                $productCodes[] = $item['code'];
-                $qty[] = $item['qty'] ?? 1;
-                $unitPrice[] = $data['data']['price'];
-                $subtotal[] = ($item['qty'] ?? 1) * $data['data']['price'];
-            } else {
+            if (!$response->successful() || !($data['status'] ?? false)) {
                 return back()->with('error', 'Product not found: ' . $item['code']);
             }
+
+            $price = (float) $data['data']['price'];
+            $lineSubtotal = $item['qty'] * $price;
+
+            $productIds[] = $data['data']['id'];
+            $productCodes[] = $item['code'];
+            $qty[] = (int) $item['qty'];
+
+            $sale_unit[] = 'Pair';
+            $net_unit_price[] = $price;
+            $unit_price[] = $price;
+
+            $discount[] = 0;
+            $tax_rate[] = 0;
+            $tax[] = 0;
+            $product_discount[] = 0;
+            $imei_number =null;
+
+            $subtotal[] = $lineSubtotal;
         }
 
-        // 🔥 2️⃣ CALCULATION
+        /** Totals */
         $totalQty = array_sum($qty);
         $totalPrice = array_sum($subtotal);
+
+        $count = count($productIds);
+
+   
 
         $payload = [
             "secret_key" => "BJ6r5a3c1Vjz3e7exKHU5B8p5JcflsrD",
             "sale_type" => "website",
-
             "customer_info" => [
                 "customer_group_id" => "1",
-                "customer_name" => "safulSS",
-                "phone_number" => "01788232129",
-                "email" => "saiful@gmail.com",
-                "address" => "Dhaka Bangladesh",
-                "city" => "Dhaka",
+                "customer_name" => $request->customer_name,
+                "phone_number" => $request->phone_number,
+                "email" => $request->email,
+                "address" => $request->address,
+                "city" => $request->city,
             ],
 
-            "created_at" => "10-01-2026",
+            "created_at" => "17-01-2026",
             "reference_no" => null,
 
             "warehouse_id_hidden" => "1",
             "warehouse_id" => "1",
             "biller_id_hidden" => "2",
             "biller_id" => "3",
-            "customer_id_hidden" => "4",
-            "customer_id" => "4",
+            // "customer_id_hidden" => "4",
+            // "customer_id" => "4",
 
             "product_code_name" => null,
 
-            "qty" =>  $qty,
+            "qty" => $qty,
             "product_code" => $productCodes,
             "product_id" => $productIds,
 
-            "sale_unit" => ["Pair"],
-            "net_unit_price" => ["695.00"],
-            "discount" => ["0.00"],
-            "tax_rate" => ["0.00"],
-            "tax" => ["0.00"],
-            "subtotal" => ["695.00"],
-            "imei_number" => [null],
-            "unit_price" => ["695"],
-            "product_discount" => ["0"],
+            "sale_unit" => $sale_unit,
+            "net_unit_price" => $net_unit_price,
+            "discount" => $discount,
+            "tax_rate" => $tax_rate,
+            "tax" => $tax,
+            "subtotal" => $subtotal,
+            "imei_number" => $imei_number,
+            "unit_price" => $unit_price,
+            "product_discount" => $product_discount,
 
             "total_qty" => $totalQty,
             "total_discount" => "0.00",
             "total_tax" => "0.00",
             "total_price" => $totalPrice,
-            "item" => "1",
+            "item" => $count,
             "order_tax" => "0.00",
-            "grand_total" => "695.00",
+            "grand_total" => $totalPrice + $request->shipping_cost, 
 
             "used_points" => null,
             "coupon_discount" => null,
             "sale_status" => "1",
             "coupon_active" => null,
             "coupon_id" => null,
-            "pos" => "1",
+            "pos" => "0",
             "draft" => "0",
-
-            "paying_amount" => "695.00",
-            "paid_amount" => "695.00",
+            "payment_status"=>2,
+            "paying_amount" => "0.00",
+            "paid_amount" => "0.00",
             "paid_by_id" => "1",
             "acc_id" => null,
             "gift_card_id" => null,
@@ -462,21 +543,24 @@ class OrderController extends Controller
             "order_discount_value" => null,
             "order_discount" => "0",
             "order_tax_rate" => "0",
-            "shipping_cost" => "0",
+            "shipping_cost" => $request->shipping_cost,
         ];
+
+
+        
 
         $response = Http::asJson()
             ->timeout(10)
-            ->post('http://192.168.0.107:500/api/v1/order/store', $payload);
+            ->post('http://erp_pos_two.test/api/v1/order/store', $payload);
 
         if ($response->failed()) {
-            // dd([
-            //     'status' => $response->status(),
-            //     'error' => $response->body(),
-            // ]);
-             $message ='Something went worng';
-        }else{
-            $message ='Order Successfully send Done';
+            dd([
+                'status' => $response->status(),
+                'error' => $response->body(),
+            ]);
+            $message = 'Something went worng';
+        } else {
+            $message = 'Order Successfully send Done';
         }
 
 

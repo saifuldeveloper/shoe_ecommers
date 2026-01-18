@@ -20,6 +20,7 @@ class OrderDetails extends Model
         'item_variant_id',
         'details',
         'status',
+        'send_retailer'
     ];
 
     public function order()

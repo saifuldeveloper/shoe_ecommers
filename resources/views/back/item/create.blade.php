@@ -413,9 +413,9 @@
                             <div class="form-group">
                                 <label for="brand_id">{{ __('Select Brand') }} </label>
                                 <select name="brand_id" id="brand_id" class="form-control">
-                                    <option value="" selected>{{ __('Select Brand') }}</option>
+                                    {{-- <option value="" selected>{{ __('Select Brand') }}</option> --}}
                                     @foreach (DB::table('brands')->whereStatus(1)->get() as $brand)
-                                        <option value="{{ $brand->id }}"
+                                        <option value="{{ $brand->id }}"  selected
                                             {{ old('brand_id') == $brand->id ? 'selected' : '' }}>{{ $brand->name }}
                                         </option>
                                     @endforeach

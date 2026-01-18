@@ -52,6 +52,17 @@ class ColorsTableSeeder extends Seeder
                 'created_at' => '2025-11-27 14:00:26',
                 'updated_at' => '2025-11-27 14:00:26',
             ),
+            3 => 
+            array (
+                'id' => 4,
+                'name' => 'Pink',
+                'code' => '#ff80c0',
+                'status' => 1,
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
+                'created_at' => '2026-01-17 00:20:43',
+                'updated_at' => '2026-01-17 00:20:43',
+            ),
         ));
         
         

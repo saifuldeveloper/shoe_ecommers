@@ -1,7 +1,6 @@
 @extends('master.back')
 
 @section('content')
-
     <!-- Start of Main Content -->
     <div class="container-fluid">
 
@@ -108,197 +107,205 @@
                                 <div class="col-12">
                                     <div class="gd-responsive-table">
                                         <form action="{{ route('send.retailer.order') }}" method="POST">
-                                             @csrf
-                                            
+                                            @csrf
+                                            @php
+                                                $subtotal = 0;
+
+                                                $customer =json_decode($order->billing_info);
+                                            @endphp
+                                       
+                                            <input type="hidden" name="customer_name" value="{{ $customer->ship_name }}">
+                                            <input type="hidden" name="phone_number" value="{{ $customer->ship_phone }}">
+                                            <input type="hidden" name="email" value="{{ $customer->ship_email }}">
+                                            <input type="hidden" name="address" value="{{ $customer->ship_address1 }}">
+                                            <input type="hidden" name="city"  value="{{ $customer->ship_city }}">
+                                            <input type="hidden" name="shipping_cost"  value="{{ $order->shipping }}">
                                             <table class="table my-4">
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
-                                                        <th width="50%" class="px-0 bg-transparent border-top-0">
-                                                            <span class="h6">{{ __('Products') }}</span>
-                                                        </th>
-                                                        <th class="px-0 bg-transparent border-top-0">
-                                                            <span class="h6">{{ __('Attribute') }}</span>
-                                                        </th>
-                                                        <th class="px-0 bg-transparent border-top-0">
-                                                            <span class="h6">{{ __('Quantity') }}</span>
-                                                        </th>
-                                                        <th class="px-0 bg-transparent border-top-0 text-right">
-                                                            <span class="h6">{{ __('Price') }}</span>
-                                                        </th>
+                                                        <th width="35%">Product</th>
+                                                        <th width="20%">Variant</th>
+                                                        <th width="15%">Qty</th>
+                                                        <th width="15%" class="text-center">Price</th>
+                                                        <td class="text-right">Action</td>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @php
-                                                        $option_price = 0;
-                                                        $total = 0;
-                                                    @endphp
-                                                    @foreach ($order->orderDetails as $order)
-                                                        @php
-                                                            $total += $order['main_price'] * $order['qty'];
-                                                            $option_price += $order['attribute_price'];
-                                                            $grandSubtotal = $total + $option_price;
-                                                        @endphp
+                                                    {{-- ================= EXISTING ORDER ITEMS ================= --}}
+
+                                                    @foreach ($order->orderDetails as $detail)
                                                         <tr>
-                                                            <td><input type="checkbox" name="products[{{ $loop->index }}][code]" value="Pink/13-A-3554">
+                                                            <td >
+                                                                <input type="checkbox" class="send_retailer_checkbox"
+                                                                    data-detail-id="{{ $detail->id }}" 
+                                                                    {{-- {{ $detail->send_retailer == 1 ? 'disabled' : '' }}s --}}
+                                                                    >
+                                                            </td>
 
+                                                            {{-- PRODUCT --}}
+                                                            <td>
+                                                                {{ $detail->item->name }}
+                                                                <br>
+                                                                <small class="text-muted">{{ $detail->item->sku }}</small>
                                                             </td>
-                                                            <td class="px-0">
-                                                                {{ $order->item->name }}- ({{ $order->item->sku }})
-                                                            </td>
-                                                            <td class="px-0">
-                                                                @if (isset($order['attribute']['names']))
-                                                                    @foreach ($order['attribute']['names'] as $index => $name)
-                                                                        {{ $name }} :
-                                                                        {{ $order['attribute']['option_name'][$index] }}<br>
+
+                                                            {{-- VARIANT --}}
+                                                            <td>
+                                                                @php
+                                                                    $variants = \App\Models\ItemVariant::where(
+                                                                        'item_id',
+                                                                        $detail->item_id,
+                                                                    )->get();
+                                                                @endphp
+                                                                <select
+                                                                    name="products[{{ $detail->id }}][item_variant_id]"
+                                                                    class="form-control">
+                                                                    <option value="">Select Variant</option>
+                                                                    @foreach ($variants as $variant)
+                                                                        <option value="{{ $variant->id }}"
+                                                                            {{-- {{ $detail->item_variant_id == $variant->id ? 'selected' : '' }} --}}
+                                                                            >
+                                                                            {{ $variant->variant_sku }}
+                                                                        </option>
                                                                     @endforeach
-                                                                @else
-                                                                    --
-                                                                @endif
+                                                                </select>
                                                             </td>
-                                                            <td class="px-0">
-                                                                {{ $order->qty }}
-                                                                <input type="hidden" name="products[{{ $loop->index }}][qty]"
-                                                                    value="{{ $order->qty }}">
+                                                            <td>
+                                                                <input type="number"
+                                                                    name="products[{{ $detail->id }}][qty]"
+                                                                    value="{{ $detail->qty }}" min="1"
+                                                                    class="form-control">
                                                             </td>
+                                                            <td class="text-center">
+                                                                {{ $detail->price }}
+                                                                @php
+                                                                    $subtotal += $detail->price;
+                                                                @endphp
 
-                                                            <td class="px-0 text-right">
-                                                                {{ $order->price }}
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <button type="button" 
+                                                                {{-- {{ $detail->send_retailer == 1 ? 'disabled' : '' }} --}}
+                                                                    class="btn btn-sm btn-danger removeRow"
+                                                                    data-url="{{ route('order.item.delete', $detail->id) }}"
+                                                                    data-id="{{ $detail->id }}">
+                                                                    ✕
+                                                                </button>
                                                             </td>
                                                         </tr>
                                                     @endforeach
-                                                    @if ($order->tax != 0)
-                                                        <tr>
-                                                            <td class="px-0 border-top border-top-2">
-                                                                <span class="text-muted">{{ __('Tax') }}</span>
-                                                            </td>
-                                                            <td class="px-0 text-right border-top border-top-2"
-                                                                colspan="5">
-                                                                <span>
-                                                                    @if ($setting->currency_direction == 1)
-                                                                        {{ $order->currency_sign }}{{ round($order->tax * $order->currency_value, 2) }}
-                                                                    @else
-                                                                        {{ round($order->tax * $order->currency_value, 2) }}{{ $order->currency_sign }}
-                                                                    @endif
-                                                                </span>
-                                                            </td>
-                                                        </tr>
-                                                    @endif
-                                                    @if (json_decode($order->discount, true))
-                                                        @php
-                                                            $discount = json_decode($order->discount, true);
-                                                        @endphp
-                                                        <tr>
-                                                            <td class="px-0 border-top border-top-2">
-                                                                <span class="text-muted">{{ __('Coupon discount') }}
-                                                                    ({{ $discount['code']['code_name'] }})</span>
-                                                            </td>
-                                                            <td class="px-0 text-right border-top border-top-2"
-                                                                colspan="5">
-                                                                <span class="text-danger">
-                                                                    @if ($setting->currency_direction == 1)
-                                                                        -{{ $order->currency_sign }}{{ round($discount['discount'] * $order->currency_value, 2) }}
-                                                                    @else
-                                                                        -{{ round($discount['discount'] * $order->currency_value, 2) }}{{ $order->currency_sign }}
-                                                                    @endif
-                                                                </span>
-                                                            </td>
-                                                        </tr>
-                                                    @endif
-                                                    @if (json_decode($order->shipping, true))
-                                                        @php
-                                                            $shipping = json_decode($order->shipping, true);
-                                                        @endphp
-                                                        <tr>
-                                                            <td class="px-0 border-top border-top-2">
-                                                                <span class="text-muted">{{ __('Shipping') }}</span>
-                                                            </td>
-                                                            <td class="px-0 text-right border-top border-top-2"
-                                                                colspan="5">
-                                                                <span>
-                                                                    @if ($setting->currency_direction == 1)
-                                                                        {{ $order->currency_sign }}{{ round($shipping['price'] * $order->currency_value, 2) }}
-                                                                    @else
-                                                                        {{ round($shipping['price'] * $order->currency_value, 2) }}{{ $order->currency_sign }}
-                                                                    @endif
-
-                                                                </span>
-                                                            </td>
-                                                        </tr>
-                                                    @endif
-                                                    @if (json_decode($order->state_price, true))
-                                                        <tr>
-                                                            <td class="px-0 border-top border-top-2">
-                                                                <span class="text-muted">{{ __('State Tax') }}</span>
-                                                            </td>
-                                                            <td class="px-0 text-right border-top border-top-2"
-                                                                colspan="5">
-                                                                <span>
-                                                                    @if ($setting->currency_direction == 1)
-                                                                        {{ isset($state['type']) && $state['type'] == 'percentage' ? ' (' . $state['price'] . '%) ' : '' }}
-                                                                        {{ $order->currency_sign }}{{ round($order['state_price'] * $order->currency_value, 2) }}
-                                                                    @else
-                                                                        {{ isset($state['type']) && $state['type'] == 'percentage' ? ' (' . $state['price'] . '%) ' : '' }}
-                                                                        {{ round($order['state_price'] * $order->currency_value, 2) }}{{ $order->currency_sign }}
-                                                                    @endif
-
-                                                                </span>
-                                                            </td>
-                                                        </tr>
-                                                    @endif
                                                     <tr>
-                                                        <td class="px-0 border-top border-top-2">
-                                                            @if ($order->payment_method == 'Cash On Delivery')
-                                                                <strong>{{ __('Total amount') }}</strong>
-                                                            @else
-                                                                <strong>{{ __('Total amount due') }}</strong>
-                                                            @endif
+                                                        <td colspan="5" class="px-0 border-top border-top-2 text-right">
+                                                            <strong><span class="text-muted">{{ __('Subtotal') }}</span>
+                                                            </strong>
                                                         </td>
-                                                        <td class="px-0 text-right border-top border-top-2" colspan="5">
-                                                            <span class="h3">
-                                                                @if ($setting->currency_direction == 1)
-                                                                    {{ $order->currency_sign }}{{ PriceHelper::OrderTotal($order) }}
-                                                                @else
-                                                                    {{ PriceHelper::OrderTotal($order) }}{{ $order->currency_sign }}
-                                                                @endif
-                                                            </span>
-                                                        </td>
+                                                        <td class="px-0 text-right border-top border-top-2"> <strong>
+                                                                <span>{{ $subtotal }}</span> </strong> </td>
                                                     </tr>
+
+                                                    @if ($order->shipping > 0)
+                                                        <tr>
+                                                            <td colspan="5"
+                                                                class="px-0 border-top border-top-2 text-right"><strong>
+                                                                    <span class="text-muted">{{ __('Shipping') }}</span>
+                                                                </strong></td>
+                                                            <td class="px-0 text-right border-top border-top-2">
+                                                                <span><strong>{{ $order->shipping }}</span> </strong>
+                                                            </td>
+                                                        </tr>
+                                                    @endif
                                                     <tr>
-                                                        <td colspan="3"></td>
-                                                        <td><strong>
-                                                                Select Shop
-                                                            </strong></td>
+                                                        <td colspan="5" class="text-right"><strong>Select Shop</strong>
+                                                        </td>
                                                         <td>
-                                                            <select name="store_id" id="" class="form-control">
-                                                                @foreach ($stores as $key => $store)
-                                                                    <option value="{{ $store->id }}">{{ $store->name }}</option>
+                                                            <select name="store_id" class="form-control">
+                                                                @foreach ($stores as $store)
+                                                                    <option value="{{ $store->id }}">
+                                                                        {{ $store->name }}
+                                                                    </option>
                                                                 @endforeach
                                                             </select>
                                                         </td>
                                                     </tr>
+                                                    {{-- ================= SUBMIT ================= --}}
                                                     <tr>
-                                                        <td colspan="4"></td>
-                                                        <td class="text-right">
-                                                            <button class="btn btn-primary" type="submit">Send
-                                                                Order</button>
+                                                        <td colspan="6" class="text-right">
+                                                            <button type="submit" class="btn btn-primary">
+                                                                Send Order
+                                                            </button>
                                                         </td>
-
-
                                                     </tr>
                                                 </tbody>
                                             </table>
                                         </form>
-
                                     </div>
                                 </div>
-                            </div> <!-- / .row -->
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-
         </div>
 
+
+        <script>
+            // ✅ Unchecked items input disable, checked items enabled
+            document.querySelectorAll('.send_retailer_checkbox').forEach(checkbox => {
+                const detailId = checkbox.dataset.detailId;
+                const variantInput = document.querySelector(`select[name='products[${detailId}][item_variant_id]']`);
+                const qtyInput = document.querySelector(`input[name='products[${detailId}][qty]']`);
+
+                // Initially disable all inputs
+                variantInput.disabled = true;
+                qtyInput.disabled = true;
+
+                // Toggle inputs on checkbox change
+                checkbox.addEventListener('change', function() {
+                    const checked = this.checked;
+                    variantInput.disabled = !checked;
+                    qtyInput.disabled = !checked;
+                });
+            });
+        </script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                document.addEventListener('click', function(e) {
+                    const btn = e.target.closest('.removeRow');
+                    if (!btn) return;
+
+                    const url = btn.dataset.url; // 🔥 data-url থেকে route
+                    const row = btn.closest('tr');
+
+                    if (!url) {
+                        alert('Delete URL missing');
+                        return;
+                    }
+
+                    if (!confirm('Are you sure you want to remove this item?')) return;
+
+                    fetch(url, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                'Accept': 'application/json'
+                            }
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.status === 'success') {
+                                row.remove();
+                            } else {
+
+                                alert(data.message || 'Delete failed');
+                            }
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            alert('Server error');
+                        });
+                });
+            });
+        </script>
     @endsection

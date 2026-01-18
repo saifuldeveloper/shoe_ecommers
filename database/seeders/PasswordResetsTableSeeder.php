@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class OrderDetailsTableSeeder extends Seeder
+class PasswordResetsTableSeeder extends Seeder
 {
 
     /**
@@ -16,7 +16,7 @@ class OrderDetailsTableSeeder extends Seeder
     {
         
 
-        \DB::table('order_details')->delete();
+        \DB::table('password_resets')->delete();
         
         
         

@@ -316,6 +316,78 @@ class VariantsTableSeeder extends Seeder
                 'created_at' => '2025-11-29 12:40:03',
                 'updated_at' => '2025-11-29 12:40:03',
             ),
+            33 => 
+            array (
+                'id' => 49,
+                'name' => 'Black/18',
+                'color_id' => 2,
+                'size_id' => 14,
+                'created_at' => '2026-01-17 00:28:41',
+                'updated_at' => '2026-01-17 00:28:41',
+            ),
+            34 => 
+            array (
+                'id' => 50,
+                'name' => 'Black/17',
+                'color_id' => 2,
+                'size_id' => 13,
+                'created_at' => '2026-01-17 00:28:41',
+                'updated_at' => '2026-01-17 00:28:41',
+            ),
+            35 => 
+            array (
+                'id' => 51,
+                'name' => 'Black/16',
+                'color_id' => 2,
+                'size_id' => 12,
+                'created_at' => '2026-01-17 00:28:41',
+                'updated_at' => '2026-01-17 00:28:41',
+            ),
+            36 => 
+            array (
+                'id' => 52,
+                'name' => 'Black/45',
+                'color_id' => 2,
+                'size_id' => 15,
+                'created_at' => '2026-01-17 00:32:10',
+                'updated_at' => '2026-01-17 00:32:10',
+            ),
+            37 => 
+            array (
+                'id' => 53,
+                'name' => 'Black/9',
+                'color_id' => 2,
+                'size_id' => 19,
+                'created_at' => '2026-01-17 00:45:48',
+                'updated_at' => '2026-01-17 00:45:48',
+            ),
+            38 => 
+            array (
+                'id' => 54,
+                'name' => 'Black/8',
+                'color_id' => 2,
+                'size_id' => 18,
+                'created_at' => '2026-01-17 00:45:48',
+                'updated_at' => '2026-01-17 00:45:48',
+            ),
+            39 => 
+            array (
+                'id' => 55,
+                'name' => 'Black/7',
+                'color_id' => 2,
+                'size_id' => 17,
+                'created_at' => '2026-01-17 00:45:48',
+                'updated_at' => '2026-01-17 00:45:48',
+            ),
+            40 => 
+            array (
+                'id' => 56,
+                'name' => 'Black/6',
+                'color_id' => 2,
+                'size_id' => 16,
+                'created_at' => '2026-01-17 00:45:48',
+                'updated_at' => '2026-01-17 00:45:48',
+            ),
         ));
         
         

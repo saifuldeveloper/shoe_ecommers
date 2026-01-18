@@ -140,5 +140,9 @@ class DatabaseSeeder extends Seeder
         $this->call(SpecialOffersTableSeeder::class);
         $this->call(TopCampaignItemsTableSeeder::class);
         $this->call(TopCampaignOffersTableSeeder::class);
+        $this->call(ChatMessagesTableSeeder::class);
+        $this->call(ChatSessionsTableSeeder::class);
+        $this->call(ManageRewardPointsTableSeeder::class);
+        $this->call(PasswordResetsTableSeeder::class);
     }
 }

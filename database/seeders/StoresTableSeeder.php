@@ -377,7 +377,25 @@ class StoresTableSeeder extends Seeder
                 'deleted_at' => NULL,
                 'deleted_by' => NULL,
                 'created_at' => NULL,
-                'updated_at' => NULL,
+                'updated_at' => '2026-01-17 00:33:41',
+            ),
+            20 => 
+            array (
+                'id' => 61,
+                'district_id' => 28,
+                'name' => 'Khulna Store',
+                'slug' => 'khulna-store',
+                'area' => 'Khulna Store',
+                'address' => 'Khulna Store',
+                'latitude' => '999.9999999',
+                'longitude' => '999.9999999',
+                'mobile' => '234234324',
+                'api_base_url' => 'http://erp_pos_two.test/api/v1',
+                'secret_key' => 'BJ6r5a3c1Vjz3e7exKHU5B8p5JcflsrD',
+                'deleted_at' => NULL,
+                'deleted_by' => NULL,
+                'created_at' => '2026-01-17 00:34:37',
+                'updated_at' => '2026-01-17 00:34:37',
             ),
         ));
         

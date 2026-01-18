@@ -119,6 +119,9 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
             Route::get('/order/restore/{id}', [OrderController::class, 'restore'])->name('back.order.restore');
             Route::delete('/order/forced/delete/{id}', [OrderController::class, 'forceDelete'])->name('back.order.forceDelete');
 
+            // order item delete
+             Route::delete('/order/item/delete/{itemId}', [OrderController::class, 'orderItemDelete'])->name('order.item.delete');
+
 
             // send order to retailer software
             Route::post('/order/send/retailer', [OrderController::class, 'sendRetailerOrder'])->name('send.retailer.order');
@@ -573,6 +576,7 @@ Route::group(['middleware' => 'maintainance'], function () {
             Route::get('/orders', [OrderController::class, 'index'])->name('user.order.index');
             Route::get('/order/print/{id}', [OrderController::class, 'printOrder'])->name('user.order.print');
             Route::get('/order/invoice/{id}', [OrderController::class, 'details'])->name('user.order.invoice');
+
             //------------ WISHLIST ------------
             Route::get('/wishlists', [WishlistController::class, 'index'])->name('user.wishlist.index');
             Route::get('/wishlist/store/{id}', [WishlistController::class, 'store'])->name('user.wishlist.store');
