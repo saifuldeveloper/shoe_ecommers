@@ -107,6 +107,12 @@
                                     </div>
 
                                     <div class="form-group">
+                                        <label for="campain_url">{{ __('Campain_url') }} *</label>
+                                        <input type="text" name="campain_url" class="form-control" id="campain_url"
+                                            placeholder="{{ __('Enter Campain_url') }}" value="{{ $post->campain_url }}">
+                                    </div>
+
+                                    <div class="form-group">
                                         <button type="submit" class="btn btn-secondary ">{{ __('Submit') }}</button>
                                     </div>
                                 </form>

@@ -75,34 +75,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-4 col-sm-6">
-                                        <div class="form-group px-0">
-                                            <select class="form-control" name="is_type">
-                                                <option disabled>{{ __('Select Type') }}</option>
-                                                <option value="">{{ __('All Type') }}</option>
-                                                <option value="undefine"
-                                                    {{ request()->input('is_type') == 'undefine' ? 'selected' : '' }}>
-                                                    {{ __('Undefine Product') }}</option>
-                                                <option value="new"
-                                                    {{ request()->input('is_type') == 'new' ? 'selected' : '' }}>
-                                                    {{ __('New Arrival') }}</option>
-                                                <option value="flash_deal"
-                                                    {{ request()->input('is_type') == 'flash_deal' ? 'selected' : '' }}>
-                                                    {{ __('Flash Deal Product') }}</option>
-                                                <option value="feature"
-                                                    {{ request()->input('is_type') == 'feature' ? 'selected' : '' }}>
-                                                    {{ __('Featured Product') }}</option>
-                                                <option value="best"
-                                                    {{ request()->input('is_type') == 'best' ? 'selected' : '' }}>
-                                                    {{ __('Best Product') }}</option>
-                                                <option value="top"
-                                                    {{ request()->input('is_type') == 'top' ? 'selected' : '' }}>
-                                                    {{ __('Top Product') }}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-4 col-sm-6">
+                                    <div class="col-lg-4 col-md-4 col-sm-6">
                                         <div class="form-group px-0">
                                             <select class="form-control" name="category_id">
                                                 <option disabled>{{ __('Select Category') }}</option>
@@ -115,7 +88,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3 col-md-4 col-sm-6">
+                                    <div class="col-lg-4 col-md-4 col-sm-6">
                                         <div class="form-group px-0">
                                             <select class="form-control" name="orderby">
                                                 <option disabled>{{ __('Select Order') }}</option>
@@ -128,7 +101,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                </div>
+                                
                                 <div class="row">
                                     <div class="col-lg-12 mt-2">
                                         <button type="submit"
@@ -137,7 +110,6 @@
                                 </div>
                             </div>
                     </form>
-
                     <br>
                     <div class="gd-responsive-table">
                         <table class="table table-bordered table-striped" id="admin-table" width="100%" cellspacing="0">
@@ -148,12 +120,14 @@
                                     <th>{{ __('Image') }}</th>
                                     <th>{{ __('Sku') }}</th>
 
-                                    <th width="30%">{{ __('Name') }}</th>
+                                    <th width="10%">{{ __('Name') }}</th>
+                                    <th>{{ __('category') }}</th>
                                     <th>{{ __('Price') }}</th>
-                                    <th>{{ __('Status') }}</th>
+                                    
                                     <th>{{ __('Live Stock') }}</th>
-                                    {{-- <th>{{ __('Type') }}</th>
-						    	    <th>{{ __('Item Type') }}</th> --}}
+                                    <th>{{ __('Status') }}</th>
+
+                                    {{-- <th>{{ __('Item Type') }}</th> --}}
                                     <th>{{ __('Actions') }}</th>
                                 </tr>
                             </thead>

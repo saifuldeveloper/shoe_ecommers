@@ -574,6 +574,7 @@ p.message-danger{
 }
 .storLocator{
   cursor: pointer;
+  color:#F9B711;
 }
 .store-list {
       max-height: 75vh;

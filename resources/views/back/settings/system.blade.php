@@ -4,19 +4,15 @@
     <link rel="stylesheet" href="{{ asset('assets/back/js/plugin/codemirror/codemirror.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/back/js/plugin/codemirror/monokai.css') }}">
 @endsection
-
-
 @section('content')
     <div class="container-fluid">
-
         <!-- Page Heading -->
         <div class="card mb-4">
             <div class="card-body">
                 <div class="d-sm-flex align-items-center justify-content-between">
                     <h3 class="mb-0 bc-title"><b>{{ __('Basic Information') }}</b></h3>
-
                 </div>
-            </div
+            </div>
         </div>
 
         <div class="row">
@@ -26,18 +22,13 @@
         </div>
 
         <div class="row">
-
             <div class="col-xl-12 col-lg-12 col-md-12">
-
                 <div class="card o-hidden border-0 shadow-lg">
                     <div class="card-body ">
                         <!-- Nested Row within Card Body -->
                         <form class="admin-form" action="{{ route('back.setting.update') }}" method="POST"
                             enctype="multipart/form-data">
-
                             @csrf
-
-
                             <div class="row">
                                 <div class="col-xl-3 col-lg-3">
                                     <div class="nav flex-column m-3 nav-pills nav-secondary" id="v-pills-tab" role="tablist"
@@ -48,7 +39,7 @@
                                             href="#theme">{{ __('Home Page Themes') }}</a> --}}
                                         <a class="nav-link" data-toggle="pill" href="#media">{{ __('Media') }}</a>
                                         <a class="nav-link" data-toggle="pill" href="#seo">{{ __('Seo') }}</a>
-                                       
+
                                         <a class="nav-link" data-toggle="pill" href="#custom_css"
                                             id="newcss">{{ __('Custom Css') }}</a>
                                         <a class="nav-link" data-toggle="pill"
@@ -60,10 +51,7 @@
                                     </div>
                                 </div>
                                 <div class="col-xl-9 col-lg-9">
-
-
                                     <input type="hidden" name="is_validate" value="1">
-
                                     <div class="">
                                         <div id="tabs">
                                             <!-- Tab panes -->
@@ -89,13 +77,22 @@
                                                                     value="{{ $setting->home_page_title }}">
                                                             </div>
                                                         </div>
-                                                          <div class="col-lg-8">
+                                                        <div class="col-lg-8">
                                                             <div class="form-group">
                                                                 <label for="title">{{ __('WhatsApp Number') }}</label>
-                                                                <input type="text" name="whatsapp_number" class="form-control"
-                                                                    id="whatsapp_number"
+                                                                <input type="text" name="whatsapp_number"
+                                                                    class="form-control" id="whatsapp_number"
                                                                     placeholder="{{ __('Enter WhatsApp Number') }}"
                                                                     value="{{ $setting->whatsapp_number }}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-8">
+                                                            <div class="form-group">
+                                                                <label for="title">{{ __('Customer Care Number') }}</label>
+                                                                <input type="text" name="customer_care_number"
+                                                                    class="form-control" id="customer_care_number"
+                                                                    placeholder="{{ __('Enter Customer Care Number') }}"
+                                                                    value="{{ $setting->home }}">
                                                             </div>
                                                         </div>
 
@@ -109,7 +106,7 @@
                                                                     value="{{ $setting->primary_color }}">
                                                             </div>
                                                         </div> --}}
-{{-- 
+                                                        {{-- 
                                                         <div class="col-lg-8">
                                                             <div class="form-group">
                                                                 <label for="is_decimal">{{ __('Decimal Separator') }}
@@ -323,7 +320,8 @@
 
                                                             <div class="tab-content">
 
-                                                                <div id="logo" class="container tab-pane active"><br>
+                                                                <div id="logo" class="container tab-pane active">
+                                                                    <br>
                                                                     <div class="row justify-content-center">
 
                                                                         <div class="col-lg-12 ">
@@ -442,8 +440,7 @@
                                                         <div class="col-lg-12 ">
 
                                                             <div class="form-group">
-                                                                <label
-                                                                    for="name">{{ __('Meta Image') }}</label>
+                                                                <label for="name">{{ __('Meta Image') }}</label>
                                                                 <div class="col-lg-12 pb-1">
                                                                     <img class="admin-setting-img"
                                                                         src="{{ $setting->meta_image ? url('/storage/generalSettings/' . $setting->meta_image) : url('/assets/images/placeholder.png') }}"
@@ -455,9 +452,8 @@
                                                             <div class="form-group position-relative ">
                                                                 <label class="file">
                                                                     <input type="file" accept="image/*"
-                                                                        class="upload-photo"
-                                                                        name="meta_image" id="file"
-                                                                        aria-label="File browser example">
+                                                                        class="upload-photo" name="meta_image"
+                                                                        id="file" aria-label="File browser example">
                                                                     <span
                                                                         class="file-custom text-left">{{ __('Upload Image...') }}</span>
                                                                 </label>
@@ -701,7 +697,8 @@
                                                                 </label>
                                                             </div>
                                                             <div class="form-group">
-                                                                <label>{{ __('Facebook Messenger Page Id') }} *</label>
+                                                                <label>{{ __('Facebook Messenger Page Id') }}
+                                                                    *</label>
                                                                 <textarea name="facebook_messenger" class="form-control" id=""
                                                                     placeholder="{{ __('Facebook Messenger Page Id') }}">{{ $setting->facebook_messenger }}</textarea>
                                                             </div>
@@ -891,9 +888,7 @@
                                                                 <div id="footer_basic" class="container tab-pane active">
                                                                     <br>
                                                                     <div class="row justify-content-center">
-
                                                                         <div class="col-lg-12">
-
                                                                             <div class="form-group">
                                                                                 <label
                                                                                     for="footer_address">{{ __('Store Address') }}
@@ -940,10 +935,11 @@
                                                                                     for="footer_gateway_img">{{ __('Current Gateway Image') }}</label>
                                                                                 <div class="col-lg-12 pb-1">
                                                                                     <img class="admin-setting-img"
-                                                                                    src="{{ !empty($setting->footer_gateway_img) && file_exists(public_path('storage/generalSettings/' . $setting->footer_gateway_img)) 
-                                                                                            ? asset('storage/generalSettings/' . $setting->footer_gateway_img) 
+                                                                                        src="{{ !empty($setting->footer_gateway_img) &&
+                                                                                        file_exists(public_path('storage/generalSettings/' . $setting->footer_gateway_img))
+                                                                                            ? asset('storage/generalSettings/' . $setting->footer_gateway_img)
                                                                                             : asset('assets/images/sslc.png') }}"
-                                                                                    alt="No Image Found">
+                                                                                        alt="No Image Found">
                                                                                 </div>
                                                                                 <span>{{ __('Image Size Should Be 324 x 31.') }}</span>
                                                                             </div>
@@ -1017,8 +1013,6 @@
                                                                                             </div>
                                                                                         </div>
                                                                                         <div class="flex-btn">
-
-
                                                                                             <button type="button"
                                                                                                 class="btn btn-danger remove-social"
                                                                                                 data-text="{{ __('Social Link') }}">
@@ -1029,10 +1023,8 @@
                                                                                 @endforeach
                                                                             </div>
                                                                         </div>
-
                                                                     </div>
                                                                 </div>
-
                                                                 <div id="working_days" class="container tab-pane"><br>
                                                                     <div class="row justify-content-center">
 
@@ -1041,7 +1033,8 @@
                                                                                 <label
                                                                                     for="working_days_from_to">{{ __('From & Till Day') }}
                                                                                     *</label>
-                                                                                <input type="text" name="working_days_from_to"
+                                                                                <input type="text"
+                                                                                    name="working_days_from_to"
                                                                                     class="form-control"
                                                                                     id="working_days_from_to"
                                                                                     placeholder="{{ __('Enter From & Till Day') }}"
@@ -1072,25 +1065,18 @@
                                                                                     value="{{ $setting->friday_end }}">
                                                                             </div>
                                                                         </div>
-
-
                                                                     </div>
                                                                 </div>
                                                             </div>
-
                                                         </div>
-
                                                     </div>
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group d-flex justify-content-center">
                                         <button type="submit" class="btn btn-secondary ">{{ __('Submit') }}</button>
                                     </div>
-
-
                                 </div>
                             </div>
                         </form>

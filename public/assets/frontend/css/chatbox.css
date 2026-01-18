@@ -1,5 +1,5 @@
 body {
-    min-height: 200vh;
+    /* min-height: 200vh; */
 }
 
 /* Floating button */
@@ -148,9 +148,7 @@ body {
     margin-bottom: 8px;
     max-width: 80%;
     word-wrap: break-word;
-        clear: both;
-
-
+    clear: both;
 }
 
 .msg.user {
@@ -161,8 +159,8 @@ body {
 .msg.admin {
     background: #e60000;
     color: #fff;
-     align-self: flex-start;
-        margin-right: auto;
+    align-self: flex-start;
+    margin-right: auto;
 }
 
 .avijatry-chatbox-footer {
@@ -214,9 +212,7 @@ body {
     width: 320px;
     display: none;
     z-index: 999999;
-      pointer-events: auto;
-    
-    
+    pointer-events: auto;
 }
 
 .start-form {
@@ -275,7 +271,7 @@ body {
 .chat-start-header {
     background-color: #e60000;
     border-radius: 6px;
-    position: relative; 
+    position: relative;
 }
 .chat-start-header span {
     position: absolute;
@@ -284,9 +280,8 @@ body {
     padding-top: 1px;
     padding-right: 10px;
     cursor: pointer !important;
-    z-index: 9999999; 
+    z-index: 9999999;
     right: 0;
-
 }
 .chat-start-header h4 {
     color: #ffff;
@@ -307,5 +302,3 @@ body {
         opacity: 0.3;
     }
 }
-
-

@@ -15,7 +15,11 @@
             {{ $data->sku }}
         </td>
         <td>
-            {{ $data->name }}
+            {{ \Illuminate\Support\Str::limit($data->name, 25) }}
+        </td>
+        <td>
+            {{ $data->category->name }}
+
         </td>
         <td>
             {{ PriceHelper::adminCurrencyPrice($data->discount_price) }}

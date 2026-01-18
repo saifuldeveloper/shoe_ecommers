@@ -10,6 +10,7 @@ class Setting extends Model
         'title',
         'home_page_title',
         'whatsapp_number',
+        'customer_care_number',
         'logo',
         'favicon',
         'loader',
