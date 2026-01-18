@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->string('slug')->unique();
             $table->text('details');
             $table->string('photo')->nullable();
+            $table->string('campain_url')->nullable();
             $table->foreignId('category_id')->constrained('bcategories')->onDelete('cascade');
             $table->text('tags')->nullable();
             $table->text('meta_keywords')->nullable();
