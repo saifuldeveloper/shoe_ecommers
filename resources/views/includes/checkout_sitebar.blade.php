@@ -182,7 +182,6 @@
                         {{ $item->quantity }} x {{ PriceHelper::setCurrencyPrice($item_price) }}
                     </div>
                 </div>
-
                 @if (Auth::check() && $authUserRewardPoint > 0)
                     @if ($showRewardPoint)
                         <table class="table">
@@ -199,13 +198,10 @@
                         </table>
                     @endif
                 @endif
-              
             @endforeach
-              @if (!Auth::check())
-                    <a href="{{ route('user.login') }}" class="redeem-btn">Redeem Reward Point</a>
-                @endif
-
-
+            @if (!Auth::check())
+                <a href="{{ route('user.login') }}" class="redeem-btn">Redeem Reward Point</a>
+            @endif
         </section>
     </aside>
 </div>

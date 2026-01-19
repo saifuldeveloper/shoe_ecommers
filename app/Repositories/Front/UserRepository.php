@@ -22,6 +22,7 @@ class UserRepository
 
         $reward = ManageRewardPoint::first();
 
+     
         $input = $request->all();
       
         $user = new User;
@@ -33,7 +34,6 @@ class UserRepository
         if($reward->status == 1){
             $input['reward_point'] = $input['reward_point'];
         }
-        
         $input['phone'] = $input['phone'];
         $verify = rand(pow(10, 6 - 1), pow(10, 6) - 1);
         $input['email_token'] = $verify;

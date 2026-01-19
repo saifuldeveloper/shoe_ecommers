@@ -26,9 +26,7 @@
 @php
     $rewardPoint = 0;
     $usedRewardPoint = 0;
-
     $rewardSetting = DB::table('reward_point_systems')->first();
-
     if ($rewardSetting) {
         $minAmount = $rewardSetting->min_sold_amount_to_get_point ?? 0;
         $perPointAmount = $rewardSetting->sold_amount_per_point ?? 0;
@@ -36,8 +34,6 @@
         if ($cart_total >= $minAmount && $perPointAmount > 0) {
             $rewardPoint = floor($cart_total / $perPointAmount);
         }
-
-        // Use reward point (prevent division by zero)
         if (!empty($rewardSetting->redeem_amount_per_unit_point) && $rewardSetting->redeem_amount_per_unit_point > 0) {
             $usedRewardPoint = floor($cart_total / $rewardSetting->redeem_amount_per_unit_point);
         }
@@ -47,14 +43,10 @@
 
 @section('content')
     <div class="mt-4" style="margin-top: 40px"></div>
-
-    <!-- Page Content-->
     <div class="container padding-bottom-3x mb-4  checkut-page">
         <div class="row">
-            <!-- Payment Methode-->
             <div class="col-xl-8 col-lg-8 checkout-page-container">
                 @if ($errors->any())
-                    {{-- Your existing error display logic --}}
                     <div class="alert alert-danger">
                         <ul class="mb-0">
                             @foreach ($errors->all() as $error)
@@ -63,10 +55,8 @@
                         </ul>
                     </div>
                 @endif
-
                 <form action="{{ route('front.checkout.submit') }}" method="post">
                     @csrf
-                    {{-- hidden inputs --}}
                     <input type="hidden" name="size" value="{{ Session::get('cart')['size'] ?? '' }}">
                     <input type="hidden" name="payment_method" id="selected-payment-method" value="SSLCOMMERZ">
                     <input type="hidden" name="cat_total" value="{{ PriceHelper::setCurrencyPrice($cart_total) }}">
@@ -95,7 +85,7 @@
                                     <label for="ship_name">Name</label>
                                     <input class="form-control-custom {{ $errors->has('ship_name') ? 'input-error' : '' }}"
                                         name="ship_name" type="text" id="ship_name" placeholder="Enter a name"
-                                        value="{{ isset($user) ? $user->ship_name : '' }}">
+                                        value="{{ isset($user) ? $user->first_name . ' ' . $user->last_name : '' }}">
 
                                     @if ($errors->has('ship_name'))
                                         <span class="input-helper-text">Enter a name</span>
