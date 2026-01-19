@@ -38,13 +38,13 @@ trait SslCommerzPayment
             $total += ($item->item->discount_price + ($item_variant?->additional_price ?? 0)) * $item->quantity;
         }
 
-   
+
         // Apply discount
         $discount = Session::get('coupon', []);
         $grand_total = $total - ($discount['discount'] ?? 0);
         $total_amount = PriceHelper::setConvertPrice($grand_total) + $data['shipping_charge'];
 
-  
+
         // Generate txn id
         $txnid = "SSLCZ_TXN_" . uniqid();
 
@@ -151,7 +151,9 @@ trait SslCommerzPayment
 
     private function sslCommerzUrl(): string
     {
-        return config('services.sslcommerz.url');
+        return config('services.sslcommerz.testmode')
+            ? config('services.sslcommerz.sandbox_url')
+            : config('services.sslcommerz.live_url');
     }
 
 }

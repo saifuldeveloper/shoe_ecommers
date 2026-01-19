@@ -402,6 +402,8 @@ class CheckoutController extends Controller
                 Session::put('message', $payment['message'] ?? 'Payment gateway error');
                 return redirect()->route('front.checkout.cancle');
         }
+
+
         if ($checkout) {
             if ($payment_redirect) {
                 if ($payment['status']) {

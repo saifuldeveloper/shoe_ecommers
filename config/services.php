@@ -38,9 +38,12 @@ return [
     'sslcommerz' => [
         'store_id' => env('SSLCZ_STORE_ID'),
         'store_password' => env('SSLCZ_STORE_PASSWORD'),
-        'url' => env('SSLCOMMERZ_API_URL'),
+        // 'url' => env('SSLCOMMERZ_API_URL'),
         'testmode' => env('SSLCZ_TESTMODE', true),
         'verify' => env('SSLCOMMERZ_VERIFY', true),
+
+        'sandbox_url' => env('SSLCOMMERZ_SANDBOX_URL'),
+        'live_url' => env('SSLCOMMERZ_LIVE_URL'),
     ],
 
 ];

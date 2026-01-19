@@ -94,6 +94,8 @@ class PaymentSettingRepository
             $input['status'] = 'inactive';
         }
         
+
+        
  
         $pay_data->update($input);
 

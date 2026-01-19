@@ -110,7 +110,7 @@
 
                                                     </div>
 
-                                                   <div id="sslcommerz" class="container tab-pane"><br>
+                                                    <div id="sslcommerz" class="container tab-pane"><br>
 
                                                         <div class="row justify-content-center">
 
@@ -136,7 +136,6 @@
 
                                                                     <div
                                                                         class="image-show {{ $sslcommerz->status == 'active' ? '' : 'd-none' }}">
-
                                                                         <div class="form-group col-xl-12">
                                                                             <label
                                                                                 for="name">{{ __('Current Image') }}</label>
@@ -168,48 +167,46 @@
                                                                                 value="{{ $sslcommerz->name }}">
                                                                         </div>
 
-                                                                    
-                                                                        @if($sslcommerzData)
-                                                                           
 
-                                                                        @foreach ($sslcommerzData as $pkey => $sslcommerzData)
-                                                                            @if ($pkey == 'check_sandbox')
-                                                                                <div class="form-group  col-xl-4 col-md-6">
+                                                                        @if ($sslcommerzData)
+                                                                            @foreach ($sslcommerzData as $pkey => $sslcommerzData)
+                                                                                @if ($pkey == 'check_sandbox')
                                                                                     <div
-                                                                                        class="custom-control custom-checkbox">
-                                                                                        <input type="checkbox"
-                                                                                            name="pkey[{{ __($pkey) }}]"
-                                                                                            class="custom-control-input"
-                                                                                            {{ $sslcommerzData == 1 ? 'checked' : '' }}
-                                                                                            id="ssl{{ $pkey }}">
-                                                                                        <label class="custom-control-label"
-                                                                                            for="ssl{{ $pkey }}">
-                                                                                            {{ __($sslcommerz->name . ' ' . ucwords(str_replace('_', ' ', $pkey))) }}
-                                                                                        </label>
+                                                                                        class="form-group  col-xl-4 col-md-6">
+                                                                                        <div
+                                                                                            class="custom-control custom-checkbox">
+                                                                                            <input type="checkbox"
+                                                                                                name="pkey[{{ __($pkey) }}]"
+                                                                                                class="custom-control-input"
+                                                                                                {{ $sslcommerzData == 1 ? 'checked' : '' }}
+                                                                                                id="ssl{{ $pkey }}">
+                                                                                            <label
+                                                                                                class="custom-control-label"
+                                                                                                for="ssl{{ $pkey }}">
+                                                                                                {{ __($sslcommerz->name . ' ' . ucwords(str_replace('_', ' ', $pkey))) }}
+                                                                                            </label>
+                                                                                        </div>
                                                                                     </div>
-                                                                                </div>
-                                                                            @else
-                                                                                <div class="form-group col-xl-12">
-                                                                                    <label
-                                                                                        for="inp-{{ __($pkey) }}">{{ __($sslcommerz->name . ' ' . ucwords(str_replace('_', ' ', $pkey))) }}</label>
-                                                                                    <input type="text"
-                                                                                        class="form-control"
-                                                                                        id="inp-{{ __($pkey) }}"
-                                                                                        name="pkey[{{ __($pkey) }}]"
-                                                                                        placeholder="{{ __($sslcommerz->name . ' ' . ucwords(str_replace('_', ' ', $pkey))) }}"
-                                                                                        value="{{ $sslcommerzData }}"
-                                                                                        required>
-                                                                                </div>
-                                                                            @endif
-                                                                        @endforeach
-
+                                                                                @else
+                                                                                    <div class="form-group col-xl-12">
+                                                                                        <label
+                                                                                            for="inp-{{ __($pkey) }}">{{ __($sslcommerz->name . ' ' . ucwords(str_replace('_', ' ', $pkey))) }}</label>
+                                                                                        <input type="text"
+                                                                                            class="form-control"
+                                                                                            id="inp-{{ __($pkey) }}"
+                                                                                            name="pkey[{{ __($pkey) }}]"
+                                                                                            placeholder="{{ __($sslcommerz->name . ' ' . ucwords(str_replace('_', ' ', $pkey))) }}"
+                                                                                            value="{{ $sslcommerzData }}"
+                                                                                            required>
+                                                                                    </div>
+                                                                                @endif
+                                                                            @endforeach
                                                                         @endif
 
                                                                         <div class="form-group">
                                                                             <label for="text">{{ __('Enter Text') }}
                                                                                 *</label>
-                                                                            <textarea name="text" id="text" class="form-control " rows="5"
-                                                                                placeholder="{{ __('Enter Text') }}">{{ $sslcommerz->text }}</textarea>
+                                                                            <textarea name="text" id="text" class="form-control " rows="5" placeholder="{{ __('Enter Text') }}">{{ $sslcommerz->text }}</textarea>
                                                                         </div>
 
                                                                         <input type="hidden" name="unique_keyword"
@@ -233,7 +230,7 @@
 
                                                         </div>
 
-                                                    </div> 
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
