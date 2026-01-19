@@ -35,4 +35,12 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'sslcommerz' => [
+        'store_id' => env('SSLCZ_STORE_ID'),
+        'store_password' => env('SSLCZ_STORE_PASSWORD'),
+        'url' => env('SSLCOMMERZ_API_URL'),
+        'testmode' => env('SSLCZ_TESTMODE', true),
+        'verify' => env('SSLCOMMERZ_VERIFY', true),
+    ],
+
 ];

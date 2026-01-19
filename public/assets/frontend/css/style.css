@@ -5682,6 +5682,9 @@ button.ps-btn--gray:before {
   font-size: 26px;
   color: #000;
 }
+.ps-cart__toggle i:hover {
+  color: #ffff;
+}
 .ps-cart__toggle span {
   position: absolute;
   top: -5px;

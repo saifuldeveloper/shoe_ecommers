@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Order;
 use App\Models\Store;
 use App\Models\ItemVariant;
 use App\Models\OrderDetails;
@@ -24,6 +25,7 @@ class RetailerOrderSendService
             $this->sendOrder($payload, $store->api_base_url);
 
             // ONLY THIS FIELD UPDATE on success
+            Order::update('sale_note', $request->sale_note);
             OrderDetails::whereIn('id', $prepared['detail_ids'])->update(['send_retailer' => 1]);
 
             DB::commit();

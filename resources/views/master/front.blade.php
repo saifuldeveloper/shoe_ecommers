@@ -438,22 +438,25 @@
         });
     </script>
 
-    
+
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-    const btn = document.getElementById("scrollTopBtn");
+        document.addEventListener("DOMContentLoaded", function() {
+            const btn = document.getElementById("scrollTopBtn");
 
-    if (!btn) return; // button না থাকলে error দিবে না
+            if (!btn) return; // button না থাকলে error দিবে না
 
-    window.addEventListener("scroll", () => {
-        btn.style.display = window.scrollY > 300 ? "block" : "none";
-    });
+            window.addEventListener("scroll", () => {
+                btn.style.display = window.scrollY > 300 ? "block" : "none";
+            });
 
-    btn.addEventListener("click", () => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-});
+            btn.addEventListener("click", () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+            });
+        });
     </script>
 
 

@@ -111,15 +111,15 @@
                                             @php
                                                 $subtotal = 0;
 
-                                                $customer =json_decode($order->billing_info);
+                                                $customer = json_decode($order->billing_info);
                                             @endphp
-                                       
+
                                             <input type="hidden" name="customer_name" value="{{ $customer->ship_name }}">
                                             <input type="hidden" name="phone_number" value="{{ $customer->ship_phone }}">
                                             <input type="hidden" name="email" value="{{ $customer->ship_email }}">
                                             <input type="hidden" name="address" value="{{ $customer->ship_address1 }}">
-                                            <input type="hidden" name="city"  value="{{ $customer->ship_city }}">
-                                            <input type="hidden" name="shipping_cost"  value="{{ $order->shipping }}">
+                                            <input type="hidden" name="city" value="{{ $customer->ship_city }}">
+                                            <input type="hidden" name="shipping_cost" value="{{ $order->shipping }}">
                                             <table class="table my-4">
                                                 <thead>
                                                     <tr>
@@ -136,11 +136,10 @@
 
                                                     @foreach ($order->orderDetails as $detail)
                                                         <tr>
-                                                            <td >
+                                                            <td>
                                                                 <input type="checkbox" class="send_retailer_checkbox"
-                                                                    data-detail-id="{{ $detail->id }}" 
-                                                                    {{-- {{ $detail->send_retailer == 1 ? 'disabled' : '' }}s --}}
-                                                                    >
+                                                                    data-detail-id="{{ $detail->id }}"
+                                                                    {{-- {{ $detail->send_retailer == 1 ? 'disabled' : '' }}s --}}>
                                                             </td>
 
                                                             {{-- PRODUCT --}}
@@ -164,8 +163,7 @@
                                                                     <option value="">Select Variant</option>
                                                                     @foreach ($variants as $variant)
                                                                         <option value="{{ $variant->id }}"
-                                                                            {{-- {{ $detail->item_variant_id == $variant->id ? 'selected' : '' }} --}}
-                                                                            >
+                                                                            {{-- {{ $detail->item_variant_id == $variant->id ? 'selected' : '' }} --}}>
                                                                             {{ $variant->variant_sku }}
                                                                         </option>
                                                                     @endforeach
@@ -180,13 +178,12 @@
                                                             <td class="text-center">
                                                                 {{ $detail->price }}
                                                                 @php
-                                                                    $subtotal += $detail->price;
+                                                                    $subtotal += $detail->price * $detail->qty;
                                                                 @endphp
 
                                                             </td>
                                                             <td class="text-right">
-                                                                <button type="button" 
-                                                                {{-- {{ $detail->send_retailer == 1 ? 'disabled' : '' }} --}}
+                                                                <button type="button" {{-- {{ $detail->send_retailer == 1 ? 'disabled' : '' }} --}}
                                                                     class="btn btn-sm btn-danger removeRow"
                                                                     data-url="{{ route('order.item.delete', $detail->id) }}"
                                                                     data-id="{{ $detail->id }}">
@@ -215,6 +212,27 @@
                                                             </td>
                                                         </tr>
                                                     @endif
+                                                    <tr>
+                                                        <td colspan="5" class="px-0 border-top border-top-2 text-right">
+                                                            <strong>
+                                                                <span class="text-muted">{{ __('Total') }}</span>
+                                                            </strong>
+                                                        </td>
+                                                        <td class="px-0 text-right border-top border-top-2">
+                                                            <span><strong>{{ $order->TotalOrderPrice }}</span> </strong>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="3" class="px-0 border-top border-top-2 text-right">
+                                                            <strong>
+                                                                <span class="text-muted">{{ __('Order Note') }}</span>
+                                                            </strong>
+                                                        </td>
+                                                        <td colspan="3" class="px-0 text-right border-top border-top-2">
+                                                            <input type="text" class="form-control" name="sale_note"
+                                                                value="{{ $order->sale_note }}">
+                                                        </td>
+                                                    </tr>
                                                     <tr>
                                                         <td colspan="5" class="text-right"><strong>Select Shop</strong>
                                                         </td>

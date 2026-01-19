@@ -45,6 +45,7 @@ class CartController extends Controller
     public function addToCart(Request $request)
     {
 
+
         $msg = $this->repository->store($request);
 
 
@@ -81,17 +82,13 @@ class CartController extends Controller
     public function destroy(Request $request, $id)
     {
         $cartItem = Cart::find($id);
-
         if (!$cartItem) {
             return response()->json([
                 'status' => 'error',
                 'message' => __('Cart item not found'),
             ]);
         }
-
         $cartItem->delete();
-
-        // Get updated cart items for frontend
         if (auth()->check()) {
             $cart = Cart::where('user_id', auth()->user()->id)->get();
         } else {
@@ -104,7 +101,6 @@ class CartController extends Controller
             $item_price = $item->item->discount_price + ($item_variant?->additional_price ?? 0);
             $cartTotal += $item_price * $item->quantity;
         }
-
         return response()->json([
             'status' => 'success',
             'message' => __('Cart removed successfully'),

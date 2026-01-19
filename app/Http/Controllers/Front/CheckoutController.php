@@ -10,6 +10,7 @@ use App\{
     Traits\StripeCheckout,
     Traits\MollieCheckout,
     Traits\PaypalCheckout,
+    Traits\SslCommerzPayment,
     Traits\PaystackCheckout,
     Http\Controllers\Controller,
     Http\Requests\PaymentRequest,
@@ -44,6 +45,7 @@ class CheckoutController extends Controller
     use BankCheckout;
     use PaystackCheckout;
     use CashOnDeliveryCheckout;
+    use SslCommerzPayment;
 
     public function __construct()
     {
@@ -295,6 +297,7 @@ class CheckoutController extends Controller
     public function payment()
     {
 
+
         $data['user'] = Auth::user();
         $cart = collect();
         if (auth()->check()) {
@@ -302,6 +305,12 @@ class CheckoutController extends Controller
         } else {
             $cart = Cart::where('session_id', session()->get('cartSession'))->get();
         }
+
+        if ($cart->isEmpty()) {
+            return redirect()->route('front.cart');
+        }
+
+
 
         $total_tax = 0;
         $cart_total = 0;
@@ -347,7 +356,6 @@ class CheckoutController extends Controller
 
     public function checkout(Request $request)
     {
-        // laravel validation
         $request->validate([
             'ship_name' => 'required',
             'ship_phone' => 'required',
@@ -358,173 +366,44 @@ class CheckoutController extends Controller
             'color' => 'nullable',
         ]);
 
+        $cart = collect();
+        if (auth()->check()) {
+            $cart = Cart::where('user_id', auth()->user()->id)->get();
+        } else {
+            $cart = Cart::where('session_id', session()->get('cartSession'))->get();
+        }
+
+        if ($cart->isEmpty()) {
+            return redirect()->route('front.cart');
+        }
+
         PriceHelper::checkCheckout($request);
-
         $input = $request->all();
-
         $checkout = false;
         $payment_redirect = false;
         $payment = null;
-
         if (Session::has('currency')) {
             $currency = Currency::findOrFail(Session::get('currency'));
         } else {
             $currency = Currency::where('is_default', 1)->first();
         }
-
-
-        $usd_supported = array(
-            "USD",
-            "AED",
-            "AFN",
-            "ALL",
-            "AMD",
-            "ANG",
-            "AOA",
-            "ARS",
-            "AUD",
-            "AWG",
-            "AZN",
-            "BAM",
-            "BBD",
-            "BDT",
-            "BGN",
-            "BIF",
-            "BMD",
-            "BND",
-            "BOB",
-            "BRL",
-            "BSD",
-            "BWP",
-            "BYN",
-            "BZD",
-            "CAD",
-            "CDF",
-            "CHF",
-            "CLP",
-            "CNY",
-            "COP",
-            "CRC",
-            "CVE",
-            "CZK",
-            "DJF",
-            "DKK",
-            "DOP",
-            "DZD",
-            "EGP",
-            "ETB",
-            "EUR",
-            "FJD",
-            "FKP",
-            "GBP",
-            "GEL",
-            "GIP",
-            "GMD",
-            "GNF",
-            "GTQ",
-            "GYD",
-            "HKD",
-            "HNL",
-            "HTG",
-            "HUF",
-            "IDR",
-            "ILS",
-            "INR",
-            "ISK",
-            "JMD",
-            "JPY",
-            "KES",
-            "KGS",
-            "KHR",
-            "KMF",
-            "KRW",
-            "KYD",
-            "KZT",
-            "LAK",
-            "LBP",
-            "LKR",
-            "LRD",
-            "LSL",
-            "MAD",
-            "MDL",
-            "MGA",
-            "MKD",
-            "MMK",
-            "MNT",
-            "MOP",
-            "MUR",
-            "MVR",
-            "MWK",
-            "MXN",
-            "MYR",
-            "MZN",
-            "NAD",
-            "NGN",
-            "NIO",
-            "NOK",
-            "NPR",
-            "NZD",
-            "PAB",
-            "PEN",
-            "PGK",
-            "PHP",
-            "PKR",
-            "PLN",
-            "PYG",
-            "QAR",
-            "RON",
-            "RSD",
-            "RUB",
-            "RWF",
-            "SAR",
-            "SBD",
-            "SCR",
-            "SEK",
-            "SGD",
-            "SHP",
-            "SLE",
-            "SOS",
-            "SRD",
-            "STD",
-            "SZL",
-            "THB",
-            "TJS",
-            "TOP",
-            "TRY",
-            "TTD",
-            "TWD",
-            "TZS",
-            "UAH",
-            "UGX",
-            "UYU",
-            "UZS",
-            "VND",
-            "VUV",
-            "WST",
-            "XAF",
-            "XCD",
-            "XOF",
-            "XPF",
-            "YER",
-            "ZAR",
-            "ZMW"
-        );
-
-
-        $paypal_supported = ['USD', 'EUR', 'AUD', 'BRL', 'CAD', 'HKD', 'JPY', 'MXN', 'NZD', 'PHP', 'GBP', 'RUB'];
-        $paystack_supported = ['NGN', "GHS", "USD", "ZAR", "KES"];
         switch ($input['payment_method']) {
             case 'cod':
                 $checkout = true;
                 $payment = $this->cashOnDeliverySubmit($input);
                 break;
+            case 'sslcommerz':
+                $checkout = false;
+                $payment = $this->sslCommerzSubmit($input);
+
+                if ($payment['status'] && !empty($payment['redirect_url'])) {
+                    return redirect()->away($payment['redirect_url']);
+                }
+                Session::put('message', $payment['message'] ?? 'Payment gateway error');
+                return redirect()->route('front.checkout.cancle');
         }
-
-
-
         if ($checkout) {
             if ($payment_redirect) {
-
                 if ($payment['status']) {
                     return "payment-link-ddd";
                     return redirect()->away($payment['link']);
@@ -536,23 +415,18 @@ class CheckoutController extends Controller
                 if ($payment['status']) {
                     $user = Auth::user();
                     if ($user) {
-                        //  Add earned reward point
                         if ($request->filled('reward_point')) {
                             $user->reward_point += (int) $request->reward_point;
                         }
-                        //  Deduct redeemed reward point
-
                         if ($request->filled('user_reward_point')) {
                             Session::put('used_reward_point', (int) $request->user_reward_point);
                             $usedPoint = (int) $request->user_reward_point;
-                            // Safety check (never negative)
                             if ($usedPoint > 0 && $user->reward_point >= $usedPoint) {
                                 $user->reward_point -= $usedPoint;
                             }
                         } else {
                             Session::put('used_reward_point', (int) $request->user_reward_point);
                         }
-
                         $user->save();
                     }
                     return redirect()->route('front.checkout.success');

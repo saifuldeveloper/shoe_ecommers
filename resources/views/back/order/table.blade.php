@@ -13,11 +13,7 @@
         </td>
 
         <td>
-            @if ($setting->currency_direction == 1)
-                {{ $data->currency_sign }}{{ $data->state_price }}
-            @else
-                {{ $data->state_price }}{{ $data->currency_sign }}
-            @endif
+            {{ $data->TotalOrderPrice }}
         </td>
 
         <td>
@@ -36,6 +32,8 @@
                 </div>
             </div>
         </td>
+
+
         <td>
             <div class="dropdown">
                 <button class="btn {{ $data->order_status }}  btn-sm dropdown-toggle" type="button"

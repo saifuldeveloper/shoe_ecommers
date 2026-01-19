@@ -60,6 +60,7 @@ use App\Http\Controllers\Back\EmailSettingController;
 use App\Http\Controllers\Back\NotificationController;
 use App\Http\Controllers\Back\SpecialOfferController;
 use App\Http\Controllers\Auth\User\RegisterController;
+use App\Http\Controllers\Payment\SslCommerzController;
 use App\Http\Controllers\Back\ChieldCategoryController;
 use App\Http\Controllers\Back\PaymentSettingController;
 use App\Http\Controllers\Front\UserDashboardController;
@@ -120,7 +121,7 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
             Route::delete('/order/forced/delete/{id}', [OrderController::class, 'forceDelete'])->name('back.order.forceDelete');
 
             // order item delete
-             Route::delete('/order/item/delete/{itemId}', [OrderController::class, 'orderItemDelete'])->name('order.item.delete');
+            Route::delete('/order/item/delete/{itemId}', [OrderController::class, 'orderItemDelete'])->name('order.item.delete');
 
 
             // send order to retailer software
@@ -682,7 +683,7 @@ Route::group(['middleware' => 'maintainance'], function () {
 
         //------------ CHECKOUT ------------
 
-          Route::get('/cities/search', 'Front\CheckoutController@searchCity')->name('front.checkout.serach.city');
+        Route::get('/cities/search', 'Front\CheckoutController@searchCity')->name('front.checkout.serach.city');
 
 
         Route::get('/checkout/billing/address', 'Front\CheckoutController@ship_address')->name('front.checkout.billing');
@@ -693,6 +694,13 @@ Route::group(['middleware' => 'maintainance'], function () {
         Route::get('/checkout/state/setup', 'Front\CheckoutController@stateSetUp')->name('front.state.setup');
         Route::get('/checkout/shipping/setup', 'Front\CheckoutController@shippingSetUp')->name('front.shipping.setup');
         Route::post('/checkout/submit', 'Front\CheckoutController@checkout')->name('front.checkout.submit');
+
+        // Route::post('/ssl/success', [SslCommerzController::class, 'success'])->name('payment.ssl.success');
+        // Route::post('/ssl/fail', [SslCommerzController::class, 'fail'])->name('payment.ssl.fail');
+        // Route::post('/ssl/cancel', [SslCommerzController::class, 'cancel'])->name('payment.ssl.cancel');
+
+
+
         Route::get('/checkout/success', 'Front\CheckoutController@paymentSuccess')->name('front.checkout.success');
         Route::get('/checkout/cancle', 'Front\CheckoutController@paymentCancle')->name('front.checkout.cancle');
         Route::get('/checkout/redirect', 'Front\CheckoutController@paymentRedirect')->name('front.checkout.redirect');
@@ -709,10 +717,19 @@ Route::group(['middleware' => 'maintainance'], function () {
         Route::post('/mercadopago/submit', 'Payment\MercadopagoController@store')->name('front.mercadopago.submit');
         Route::post('/authorize/submit', 'Payment\AuthorizeController@store')->name('front.authorize.submit');
 
-        Route::post('/sslcommerz/notify', 'Payment\SslCommerzController@notify')->name('front.sslcommerz.notify');
-        Route::post('/sslcommerz/submit', 'Payment\SslCommerzController@store')->name('front.sslcommerz.submit');
-        Route::post('/paytab/submit', 'Payment\PaytabsCheckout@store')->name('front.paytab.submit');
-        Route::post('/paytab/callback', 'Payment\PaytabsCheckout@paytabCallback')->name('paytab.callback');
+        // Route::post('/sslcommerz/notify', 'Payment\SslCommerzController@notify')->name('front.sslcommerz.notify');
+        // Route::post('/sslcommerz/submit', 'Payment\SslCommerzController@store')->name('front.sslcommerz.submit');
+        // Route::post('/paytab/submit', 'Payment\PaytabsCheckout@store')->name('front.paytab.submit');
+        // Route::post('/paytab/callback', 'Payment\PaytabsCheckout@paytabCallback')->name('paytab.callback');
+
+
+
+
+
+
+
+
+
 
         // ----------- TRACK ORDER ----------//
         Route::get('/track/order', 'Front\FrontendController@trackOrder')->name('front.order.track');
@@ -735,6 +752,13 @@ Route::group(['middleware' => 'maintainance'], function () {
 
     });
 });
+
+
+
+Route::match(['get','post'], '/ssl/success', [SslCommerzController::class, 'success'])->name('payment.ssl.success');
+Route::match(['get','post'], '/ssl/fail', [SslCommerzController::class, 'fail'])->name('payment.ssl.fail');
+Route::match(['get','post'], '/ssl/cancel', [SslCommerzController::class, 'cancel'])->name('payment.ssl.cancel');
+
 Route::get('/website/maintainance', 'Front\FrontendController@maintainance')->name('front.maintainance');
 Route::get('/updater/finalize', 'Front\FrontendController@finalize');
 

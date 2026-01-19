@@ -317,16 +317,16 @@ class PriceHelper
     public static function Transaction($order_id, $txn_id, $user_email, $amount)
     {
 
-        if (Session::has('currency')) {
-            $curr = Currency::findOrFail(Session::get('currency'));
-        } else {
-            $curr = Currency::where('is_default', 1)->first();
-        }
+       
+            
+    
+        $curr = Currency::where('is_default', 1)->first();
+    
 
         $transaction = new Transaction();
         $transaction->order_id = $order_id;
         $transaction->txn_id = $txn_id;
-        $transaction->user_email = $user_email;
+        $transaction->user_email = !empty($user_email) ? $user_email : 'te@example.com';
         $transaction->amount = $amount / $curr->value;
         $transaction->currency_sign = $curr->sign;
         $transaction->currency_value = $curr->value;

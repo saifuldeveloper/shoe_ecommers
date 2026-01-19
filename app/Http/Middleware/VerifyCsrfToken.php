@@ -12,12 +12,17 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        '/paytm/notify',
-        '/sslcommerz/notify',
-        'razorpay/notify',
-        'flutterwave/notify',
+        // '/paytm/notify',
+        // '/sslcommerz/notify',
+        // 'razorpay/notify',
+        // 'flutterwave/notify',
         '/admin/summernote/image/upload',
         '/admin/menu/update',
-        '/paytab/callback'
+        '/paytab/callback',
+
+
+        '/ssl/success',
+        '/ssl/fail',
+        '/ssl/cancel',
     ];
 }

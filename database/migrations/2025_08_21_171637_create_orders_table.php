@@ -34,6 +34,7 @@ return new class extends Migration {
             // Indexes for better performance
             $table->index('id');
             $table->index('transaction_number');
+            $table->text('sale_note')->nullable();
             $table->softDeletes();
             $table->unsignedBigInteger('deleted_by')->nullable();
         });

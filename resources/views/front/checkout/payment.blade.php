@@ -251,12 +251,9 @@
                                     data-method="{{ $method->unique_keyword }}">
                                     <label class="payment-radio-input">
                                         <span style="font-weight: 500;">{{ $method->name }}</span>
-
                                     </label>
-
                                     @if ($method->unique_keyword == 'sslcommerz')
-                                        {{-- Move image and body outside the main label for SSLCOMMERZ --}}
-                                        <div class="sslcommerz-details mt-2"> {{-- Added a div for cleaner grouping --}}
+                                        <div class="sslcommerz-details mt-2">
                                             <img src="{{ url('/storage/payments/' . $method->photo) }}"
                                                 alt="{{ $method->name }}" title="{{ $method->name }}"
                                                 style="width:360px; height:auto; border:2px solid #eee; border-radius:6px; margin-right:8px; vertical-align:middle;">

@@ -125,15 +125,18 @@
                                             src="{{ asset('assets/frontend/images/icon_sizechar.png') }}" /> Size Chart</a>
                                 </div>
                                 <div class="size-option d-flex">
-                                    {{-- @foreach ($sizes as $size)
-                                        <input type="radio" id="size{{ $size->id }}" name="size"
-                                            value="{{ $size->id }}" checked>
-                                        <label for="size{{ $size->id }}">{{ $size->name }}</label>
-                                    @endforeach --}}
-                                    @foreach ($sizes as $s)
+                                    {{-- @foreach ($sizes as $s)
                                         <input type="radio" id="size{{ $s->id }}" name="size"
                                             value="{{ $s->id }}"
                                             {{ strtolower($s->name) == strtolower($size) ? 'checked' : '' }}>
+                                        <label for="size{{ $s->id }}">{{ $s->name }}</label>
+                                    @endforeach --}}
+
+                                    @foreach ($sizes as $s)
+                                        <input type="radio" id="size{{ $s->id }}" name="size"
+                                            value="{{ $s->id }}"
+                                            {{ isset($size) && strtolower($s->name) == strtolower($size) ? 'checked' : ($loop->first ? 'checked' : '') }}>
+
                                         <label for="size{{ $s->id }}">{{ $s->name }}</label>
                                     @endforeach
                                 </div>
@@ -206,7 +209,7 @@
                                 <ul class="tab-list" role="tablist">
                                     <li class="active">
                                         <a href="#tab_01" aria-controls="tab_01" role="tab" data-toggle="tab">r
-                                        Description</a>
+                                            Description</a>
                                     </li>
                                     <li>
                                         <a href="#tab_03" aria-controls="tab_03" role="tab" data-toggle="tab">Terms
@@ -220,7 +223,7 @@
                             </div>
                             <div class="tab-content mb-60">
                                 <div class="tab-pane active" role="tabpanel" id="tab_01">
-                                {!! $item_details->details !!}
+                                    {!! $item_details->details !!}
                                     </p>
                                 </div>
                                 <div class="tab-pane" role="tabpanel" id="tab_03">

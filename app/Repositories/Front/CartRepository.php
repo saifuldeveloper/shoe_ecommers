@@ -30,12 +30,13 @@ class CartRepository
         if (empty($request->all())) {
             $parsedUrl = parse_url($request->getRequestUri(), PHP_URL_QUERY); // Extracts the query part
             parse_str($parsedUrl, $queryArray);
-            $request = (object)$queryArray;
-            $qty_check  = 0;
+            $request = (object) $queryArray;
+            $qty_check = 0;
             $input = $queryArray;
         } else {
             $input = $request->all();
         }
+
         if (!session()->has('cartSession')) {
             session()->put('cartSession', md5(request()->ip() . uniqid()));
         }
@@ -58,39 +59,36 @@ class CartRepository
             $data = ['message' => 'This product already on your cart', 'status' => 'alreadyInCart', 'qty' => PriceHelper::totalCartQuantity(), 'cart_items_html' => view('includes.cart-items-dropdown')->render()];
             return $data;
         }
-        $item = Item::where('id', $input['item_id'])->select('id', 'name', 'photo', 'discount_price', 'previous_price', 'slug', 'item_type', 'license_name', 'license_key', 'stock')->first();
+        $item = Item::with('variants')->where('id', $input['item_id'])->select('id', 'name', 'photo', 'discount_price', 'previous_price', 'slug', 'item_type', 'license_name', 'license_key', 'stock')->first();
         if (!$item) {
             abort(404);
         }
-        
-        // if ($item->item_type == 'normal') {
-        //     if ($item->stock < (int)$request->quantity) {
-        //         $data = ['message' => 'Product Out Of Stock', 'status' => 'outStock'];
-        //         return $data;
-        //     }
+
+        $itemVariant = $item->variants->where('color_id', $input['color'] !== 'undefined' ? $input['color'] : null)
+                 ->where('size_id', $input['size'] !== 'undefined' ? $input['size'] : null)->first();
+
+        // if ($input['color'] != 'undefined' && $input['size'] != 'undefined') {
+        //     $variant = Variant::where('color_id', $input['color'])->where('size_id', $input['size'])->first();
+        //     $itemVariant = ItemVariant::where('item_id', $item->id)->where('variant_id', $variant->id)->first();
         // }
 
-        if ($input['color'] != 'undefined' && $input['size'] != 'undefined') {
-            $variant = Variant::where('color_id', $input['color'])->where('size_id', $input['size'])->first();
-            $itemVariant = ItemVariant::where('item_id', $item->id)->where('variant_id', $variant->id)->first();
-            
+
+        try {
+            // insert into carts table
+            $cart = Cart::create([
+                "user_id" => auth()->check() ? auth()->user()->id : null,
+                "session_id" => !auth()->check() ? session()->get('cartSession') : null,
+                "item_id" => $item->id,
+                "quantity" => $qty,
+                "item_variant_id" => $itemVariant->id ?? null,
+            ]);
+
+            $mgs = ['message' => __('Product add successfully'), 'qty' => PriceHelper::totalCartQuantity(), 'cart_items_html' => view('includes.cart-items-dropdown')->render()];
+            return $mgs;
+        } catch (\Throwable $th) {
+            throw $th;
         }
-       try {
-        // insert into carts table
-        $cart = Cart::create([
-            "user_id" => auth()->check() ? auth()->user()->id : null,
-            "session_id" => !auth()->check() ?  session()->get('cartSession'): null,
-            "item_id" => $item->id,
-            "quantity" => $qty,
-            "item_variant_id" => $itemVariant->id??null,
-        ]);
-        
-        $mgs = ['message' => __('Product add successfully'), 'qty' => PriceHelper::totalCartQuantity(), 'cart_items_html' => view('includes.cart-items-dropdown')->render()];
-        return $mgs;
-       } catch (\Throwable $th) {
-        throw $th;
-       }
-        
+
     }
 
     public function promoStore($request)
@@ -106,17 +104,17 @@ class CartRepository
 
             $coupon = [
                 'discount' => $discount['sub'],
-                'code'  => $promo_code
+                'code' => $promo_code
             ];
             Session::put('coupon', $coupon);
 
             return [
-                'status'  => true,
+                'status' => true,
                 'message' => __('Promo code found!')
             ];
         } else {
             return [
-                'status'  => false,
+                'status' => false,
                 'message' => __('No coupon code found')
             ];
         }
