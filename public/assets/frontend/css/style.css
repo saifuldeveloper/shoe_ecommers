@@ -5706,6 +5706,7 @@ button.ps-btn--gray:before {
 }
 .ps-cart__toggle:hover {
   background-color: #f59b34;
+  color: #fff;
 }
 .ps-cart__listing {
   position: absolute;
@@ -7135,7 +7136,7 @@ button.ps-btn--gray:before {
 }
 .ps-product--detail .ps-product__content .tab-list li {
   display: inline-block;
-  margin-right: 110px;
+  margin-right: 70px;
 }
 .ps-product--detail .ps-product__content .tab-list li a {
   position: relative;
@@ -9021,5 +9022,9 @@ bottom: 56px;
   position: relative;
   overflow: hidden;
   padding-top: 18px;
+}
+
+.user-dashboard-icon{
+  background-color: #F9B711;
 }
 

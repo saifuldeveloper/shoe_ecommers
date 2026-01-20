@@ -35,7 +35,6 @@ class SslCommerzController extends Controller
     public function success(Request $request)
     {
         $input = $request->all();
-        // Always verify transaction server-to-server (recommended)
         $order = Order::where('txnid', $input['tran_id'])->first();
         if (!$order || $input['status'] != 'VALID') {
             return redirect()->route('front.checkout.cancle');

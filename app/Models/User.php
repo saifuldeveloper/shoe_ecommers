@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class User extends Authenticatable 
+class User extends Authenticatable
 {
     use SoftDeletes;
     protected $fillable = [
@@ -34,7 +34,11 @@ class User extends Authenticatable
 
     ];
 
-     protected $dates = ['deleted_at'];
+    protected $casts = [
+        'reward_point' => 'integer',
+    ];
+
+    protected $dates = ['deleted_at'];
 
 
     protected $hidden = [
@@ -48,7 +52,7 @@ class User extends Authenticatable
 
     public function products()
     {
-        return $this->hasMany('App\Models\Item','vendor_id')->orderby('id','desc');
+        return $this->hasMany('App\Models\Item', 'vendor_id')->orderby('id', 'desc');
     }
 
     public function orders()
@@ -78,12 +82,12 @@ class User extends Authenticatable
 
     public function withdraws()
     {
-        return $this->hasMany('App\Models\Withdraw','vendor_id')->orderby('id','desc');
+        return $this->hasMany('App\Models\Withdraw', 'vendor_id')->orderby('id', 'desc');
     }
 
     public function displayName()
     {
-        return $this->first_name.' '.$this->last_name;
+        return $this->first_name . ' ' . $this->last_name;
     }
 
 
@@ -95,9 +99,9 @@ class User extends Authenticatable
 
     public function wishlistCount()
     {
-        return $this->wishlists()->whereHas('item', function($query) {
-                    $query->where('status', '=', 1);
-                })->count();
+        return $this->wishlists()->whereHas('item', function ($query) {
+            $query->where('status', '=', 1);
+        })->count();
     }
 
 

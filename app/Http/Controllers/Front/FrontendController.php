@@ -657,6 +657,7 @@ class FrontendController extends Controller
      */
     public function categoryBaseProduct(Request $request)
     {
+
         $query = $request->input('q');
         $type = $request->input('type');
 

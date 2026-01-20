@@ -27,7 +27,7 @@
   <div class="row">
     <div class="stats-container">
         <div class="stat-card">
-        <div class="icon green"><i class="fa fa-shopping-cart"></i></div>
+        <div class="icon user-dashboard-icon"><i class="fa fa-shopping-cart"></i></div>
         <div class="stat-info">
             <h4>Total Orders</h4>
             <p>{{$allorders}}</p>
@@ -35,7 +35,7 @@
         </div>
 
         <div class="stat-card">
-        <div class="icon green"><i class="fa fa-hourglass-half"></i></div>
+        <div class="icon user-dashboard-icon"><i class="fa fa-hourglass-half"></i></div>
         <div class="stat-info">
             <h4>Processing Orders</h4>
             <p>{{$progress}}</p>
@@ -43,7 +43,7 @@
         </div>
 
         <div class="stat-card">
-        <div class="icon green"><i class="fa fa-truck"></i></div>
+        <div class="icon user-dashboard-icon"><i class="fa fa-truck"></i></div>
         <div class="stat-info">
             <h4>Delivered Orders</h4>
             <p>{{$delivered}}</p>
@@ -51,7 +51,7 @@
         </div>
 
         <div class="stat-card">
-        <div class="icon green"><i class="fa fa-times-circle"></i></div>
+        <div class="icon user-dashboard-icon"><i class="fa fa-times-circle"></i></div>
         <div class="stat-info">
             <h4>Canceled Orders</h4>
             <p>{{$canceled}}</p>
@@ -59,7 +59,7 @@
         </div>
 
         <div class="stat-card">
-        <div class="icon green"><i class="fa fa-shopping-cart"></i></div>
+        <div class="icon user-dashboard-icon"><i class="fa fa-shopping-cart"></i></div>
         <div class="stat-info">
             <h4>Pending Order</h4>
             <p>{{$pending}}</p>
@@ -67,7 +67,7 @@
         </div>  
 
          <div class="stat-card">
-        <div class="icon green"><i class="fa fa-shopping-cart"></i></div>
+        <div class="icon user-dashboard-icon"><i class="fa fa-shopping-cart"></i></div>
         <div class="stat-info">
             <h4>Reward Point</h4>
           <p>{{ auth()->user()->reward_point }}</p>

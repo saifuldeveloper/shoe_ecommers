@@ -30,6 +30,8 @@ class PaymentSettingRepository
         $cod = PaymentSetting::whereUniqueKeyword('cod')->first();
         $data['cod'] = $cod;
 
+        $rewordPayment = PaymentSetting::where('unique_keyword','reward_point')->first();
+        $data['rewordPayment'] = $rewordPayment;
         return $data;
     }
 
@@ -44,64 +46,23 @@ class PaymentSettingRepository
     {
 
         $input = $request->all();
-     
         $pay_data = PaymentSetting::whereUniqueKeyword($input['unique_keyword'])->first();
-
         if ($file = $request->file('photo')) {
             $input['photo'] = ImageHelper::handleUpdatedUploadedImage($file,'payments',$pay_data,'payments','photo');
         }
-
-       
-        
-        if($request->has('pkey')){
-
-            $info_data = $input['pkey'];
-
-            if($pay_data->unique_keyword == 'mollie'){
-                $paydata = $pay_data->convertJsonData();
-                $prev = $paydata['key'];
-            }
-
-        
-            if (array_key_exists("check_sandbox",$info_data)){
-                $info_data['check_sandbox'] = 1;
-            }else{
-                if (strpos($pay_data->information, 'check_sandbox') !== false) {
-                    $info_data['check_sandbox'] = 0;
-                }
-            }
-
-   
-
-            if (array_key_exists("paytm_mode",$info_data)){
-                $info_data['paytm_mode'] = 1;
-            }else{
-                if (strpos($pay_data->information, 'paytm_mode') !== false) {
-                    $info_data['paytm_mode'] = 0;
-                }
-            }
-
-            
-        
-            $input['information'] = json_encode($info_data);
-
-        }
-
+    
         if($request->has('status')){
             $input['status'] = 'active';
         }else{
-
             $input['status'] = 'inactive';
         }
-        
-
-        
- 
         $pay_data->update($input);
 
-        if($pay_data->unique_keyword == 'mollie'){
+
+        if($pay_data->unique_keyword == 'sslcommerz'){
             $paydata = $pay_data->convertJsonData();
-            $this->setEnv('MOLLIE_KEY',$input['pkey']['key'],$prev);
+            $this->setEnv('SSLCZ_STORE_ID',$input['pkey']['store_id'],$paydata['store_id']);
+            $this->setEnv('SSLCZ_STORE_PASSWORD',$input['pkey']['store_password'],$paydata['store_password']);
         }
     }
 

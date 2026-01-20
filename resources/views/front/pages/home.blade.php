@@ -19,8 +19,13 @@
                         <a href="{{ $slider->link }}">
                             <img alt="Slider Image" class="rev-slidebg" data-bgfit="cover" data-bgparallax="5"
                                 data-bgposition="center center" data-bgrepeat="no-repeat" data-no-retina=""
-                                src="{{ isMobileDevice() ? ($slider->mobile_photo ? asset('storage/slider/' . $slider->mobile_photo): asset('img/default.png'))
-                                    : ($slider->photo ? asset('storage/slider/' . $slider->photo) : asset('img/default.png')) }}" />
+                                src="{{ isMobileDevice()
+                                    ? ($slider->mobile_photo
+                                        ? asset('storage/slider/' . $slider->mobile_photo)
+                                        : asset('img/default.png'))
+                                    : ($slider->photo
+                                        ? asset('storage/slider/' . $slider->photo)
+                                        : asset('img/default.png')) }}" />
 
                         </a>
                         <div class="tp-caption ps-banner__header"
@@ -139,11 +144,12 @@
                                         <div class="ps-shoe mb-30">
                                             <a target="__blank" href="{{ route('front.product', $item->slug) }}">
                                                 <div class="ps-shoe__thumbnail">
-                                                    <img alt="" src="{{ asset('storage/items/' . $item->photo ?? '') }}" />
-                                                    <img class="hover-img" src="{{ asset('storage/items/' . $item->photo ?? '') }}"alt="">
-                                                    <a
-                                                        class="ps-shoe__favorite add-to-wishlist {{ isset($wishlists[$item->id]) ? 'active' : '' }}" data-id="{{ $item->id }}" ><i
-                                                            class="ps-icon-heart"></i>
+                                                    <img alt=""
+                                                        src="{{ asset('storage/items/' . $item->photo ?? '') }}" />
+                                                    <img class="hover-img"
+                                                        src="{{ asset('storage/items/' . $item->photo ?? '') }}"alt="">
+                                                    <a class="ps-shoe__favorite add-to-wishlist {{ isset($wishlists[$item->id]) ? 'active' : '' }}"
+                                                        data-id="{{ $item->id }}"><i class="ps-icon-heart"></i>
                                                     </a>
                                                 </div>
                                                 <div class="ps-shoe__content">
@@ -346,7 +352,8 @@
                                         <img alt="" src="{{ asset('storage/items/' . $item->photo) }}" />
                                         <img class="hover-img" src="{{ asset('storage/items/' . $item->photo) }}"
                                             alt="">
-                                        <a class="ps-shoe__favorite add-to-wishlist {{ isset($wishlists[$item->id]) ? 'active' : '' }}" data-id="{{ $item->id }}">
+                                        <a class="ps-shoe__favorite add-to-wishlist {{ isset($wishlists[$item->id]) ? 'active' : '' }}"
+                                            data-id="{{ $item->id }}">
                                             <i class="ps-icon-heart"></i>
                                         </a>
                                     </div>
@@ -410,12 +417,12 @@
 
     {{-- /// top selling products --}}
 
-     <div class="ps-section ps-section--top-sales ps-owl-root">
+    <div class="ps-section ps-section--top-sales ps-owl-root">
         <div class="ps-container">
             <div class="ps-section__header">
                 <div class="row">
                     <div class="col-lg-9 col-md-9 col-sm-6 col-xs-6">
-                        <h3 class="ps-section__title">- Top  Products</h3>
+                        <h3 class="ps-section__title">- Top Products</h3>
                     </div>
 
                     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
@@ -423,8 +430,8 @@
                             {{-- <a target="__blank"  style="color:#f59b34;padding-right:15px;" href="{{ route('front.top-sell.products') }}">
                                 View All
                             </a> --}}
-                                 {{-- <a class="ps-prev" href="#">Prev</a><a class="ps-next" href="#">Next</a> --}}
-                                 <a class="ps-prev" href="#">&#10094;</a><a class="ps-next" href="#">&#10095;</a>
+                            {{-- <a class="ps-prev" href="#">Prev</a><a class="ps-next" href="#">Next</a> --}}
+                            <a class="ps-prev" href="#">&#10094;</a><a class="ps-next" href="#">&#10095;</a>
                         </div>
                     </div>
                 </div>
@@ -437,7 +444,6 @@
                     data-owl-mousedrag="on" data-owl-nav="false" data-owl-speed="5000">
 
                     @foreach ($manulTopItems as $item)
-                
                         <div class="ps-shoes--carousel">
                             <div class="ps-shoe">
                                 <a target="__blank" href="{{ route('front.product', ['slug' => $item->slug]) }}">
@@ -446,7 +452,8 @@
                                         <img alt="" src="{{ asset('storage/items/' . $item->photo) }}" />
                                         <img class="hover-img" src="{{ asset('storage/items/' . $item->photo) }}"
                                             alt="">
-                                        <a class="ps-shoe__favorite add-to-wishlist {{ isset($wishlists[$item->id]) ? 'active' : '' }}" data-id="{{ $item->id }}">
+                                        <a class="ps-shoe__favorite add-to-wishlist {{ isset($wishlists[$item->id]) ? 'active' : '' }}"
+                                            data-id="{{ $item->id }}">
                                             <i class="ps-icon-heart"></i>
                                         </a>
                                     </div>
@@ -461,22 +468,21 @@
 
                                             <div class="text-center pb-10">
                                                 <p class="ps-shoe__categories pb-5">
-                                                
+
                                                     @foreach ($item->unique_sizes as $size)
-                                              
-                                                     <a target="__blank" href="{{ route('front.product', ['slug' => $item->slug]) }}?size={{ $size }}"
-                                                                class="#">{{ $size }}</a> 
-                                              
+                                                        <a target="__blank"
+                                                            href="{{ route('front.product', ['slug' => $item->slug]) }}?size={{ $size }}"
+                                                            class="#">{{ $size }}</a>
                                                     @endforeach
                                                 </p>
                                             </div>
                                             <div>
-                                              
+
                                                 <a href="{{ route('front.product', $item->slug) }}" target="__blank">
                                                     <span class="btn btn-dark shop-now-button">Shop now</span>
                                                 </a>
                                             </div>
-                                       
+
                                         </div>
                                     </div>
                                 </a>
@@ -518,8 +524,12 @@
                                 </div>
 
                                 <div class="ps-post__content">
+                                    {{-- <a class="ps-post__title"
+                                        href="{{ route('front.blog.details', $post->slug) }}"></a>
+                                        {{ $post->title }} --}}
                                     <a class="ps-post__title"
-                                        href="{{ route('front.blog.details', $post->slug) }}">{{ $post->title }}</a>
+                                        href="{{ $post->campain_url }}">{{ $post->title }}</a>
+                                        
 
                                     <p class="ps-post__meta">
                                         <span>By:<a class="mr-5" href="#">Avijatry</a></span>
@@ -530,8 +540,8 @@
 
                                         {{ Illuminate\Support\Str::words($post->details, 20, '...') }}
                                     </p>
-                                    <a class="ps-morelink" href="{{ route('front.blog.details', $post->slug) }}">Read
-                                        more</a>
+                                    {{-- <a class="ps-morelink" href="{{ route('front.blog.details', $post->slug) }}">Read
+                                        more</a> --}}
                                 </div>
                             </div>
                         </div>
@@ -548,18 +558,18 @@
             </div>
             <div class="social-medial-post">
                 <div class="owl-slider" data-owl-auto="true" data-owl-dots="false" data-owl-duration="1000"
-                data-owl-gap="40" data-owl-item="6" data-owl-item-lg="6" data-owl-item-md="5" data-owl-item-sm="4"
-                data-owl-item-xs="2" data-owl-loop="true" data-owl-mousedrag="on" data-owl-nav="false"
-                data-owl-speed="5000">
+                    data-owl-gap="40" data-owl-item="6" data-owl-item-lg="6" data-owl-item-md="5" data-owl-item-sm="4"
+                    data-owl-item-xs="2" data-owl-loop="true" data-owl-mousedrag="on" data-owl-nav="false"
+                    data-owl-speed="5000">
 
-                @foreach ($socialPosts as $post)
-                    <a href="{{ $post->url }}" target="_blank">
-                        <img alt="" src="{{ asset('storage/socialMediaPost/' . $post->photo) }}" />
-                    </a>
-                @endforeach
+                    @foreach ($socialPosts as $post)
+                        <a href="{{ $post->url }}" target="_blank">
+                            <img alt="" src="{{ asset('storage/socialMediaPost/' . $post->photo) }}" />
+                        </a>
+                    @endforeach
+                </div>
             </div>
-            </div>
-            
+
         </div>
     </div>
 

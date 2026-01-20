@@ -12,6 +12,8 @@ use App\{
     Helpers\EmailHelper,
     Helpers\PriceHelper,
     Models\Notification,
+    Models\RewardPointSystem,
+    Models\RewardPointHistory,
 };
 use App\Helpers\SmsHelper;
 use App\Jobs\EmailSendJob;
@@ -53,7 +55,8 @@ trait CashOnDeliveryCheckout
         if (Session::has('coupon')) {
             $discount = Session::get('coupon');
         }
-        $grand_total = 200 ?? ($cart_total + $total_tax);
+
+        $grand_total = $cart_total + $total_tax + $data['shipping_charge'];
         $grand_total = $grand_total - ($discount ? $discount['discount'] : 0);
         $total_amount = PriceHelper::setConvertPrice($grand_total);
 
@@ -111,6 +114,26 @@ trait CashOnDeliveryCheckout
             $get_coupon->no_of_times -= 1;
             $get_coupon->update();
         }
+
+        //  reword point add start
+        $point = PriceHelper::rewardPointGet($cart_total);
+        if ($point > 0 && isset($user)) {
+            $user->increment('reward_point', $point);
+
+        }
+
+        RewardPointHistory::create([
+            'user_id' => $user->id,
+            'point' => $point,
+            'type' => 'credit',
+            'note' => 'Order refund #' . $order->transaction_number,
+        ]);
+        //  reword point add end
+
+
+
+
+
         if (auth()->check()) {
             Cart::where('user_id', auth()->user()->id)->delete();
         } else {

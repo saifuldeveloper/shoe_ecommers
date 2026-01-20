@@ -11,6 +11,11 @@
 
             {{ json_decode(@$data->billing_info, true)['bill_first_name'] ?? '' }}
         </td>
+        <td>
+              {{ $data->created_at->format('d-M-Y') }}
+              <br>
+              {{ $data->created_at->format('h:i A') }}
+        </td>
 
         <td>
             {{ $data->TotalOrderPrice }}

@@ -43,6 +43,18 @@ class PaymentSettingsTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
+             2 => 
+            array (
+                'id' => 3,
+                'name' => 'Reward Point',
+                'information' => NULL,
+                'unique_keyword' => 'reward_point',
+                'photo' => 'reward_point.png',
+                'text' => 'After clicking "Pay now" - you will be redirected to SSLCOMMERZ to complete your purchase securely.',
+                'status' => 'active',
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
         ));
         
         

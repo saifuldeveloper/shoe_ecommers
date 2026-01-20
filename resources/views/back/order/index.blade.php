@@ -63,6 +63,7 @@
                                         class="form-control bulk_all_delete"> </th>
                                 <th>{{ __('Order ID') }}</th>
                                 <th>{{ __('User') }}</th>
+                                <th>{{ __('Order Date') }}</th>
                                 <th>{{ __('Total Amount') }}</th>
                                 <th>{{ __('Payment Status') }}</th>
                                 <th>{{ __('Order Status') }}</th>

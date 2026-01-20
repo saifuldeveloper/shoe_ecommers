@@ -95,6 +95,15 @@ trait SslCommerzPayment
             throw $th;
         }
 
+        $point = PriceHelper::rewardPointGet($total);
+        if ($point > 0 && isset($user)) {
+           $user->increment('reward_point', $point);
+           
+        }
+
+
+
+
         // Prepare payload
         $payload = [
             'store_id' => config('services.sslcommerz.store_id'),

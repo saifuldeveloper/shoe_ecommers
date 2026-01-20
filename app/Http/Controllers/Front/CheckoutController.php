@@ -7,15 +7,10 @@ use App\{
     Models\Cart,
     Models\ItemVariant,
     Models\PaymentSetting,
-    Traits\StripeCheckout,
-    Traits\MollieCheckout,
-    Traits\PaypalCheckout,
     Traits\SslCommerzPayment,
-    Traits\PaystackCheckout,
     Http\Controllers\Controller,
-    Http\Requests\PaymentRequest,
     Traits\CashOnDeliveryCheckout,
-    Traits\BankCheckout,
+    Traits\BankCheckout, Traits\RewardPointPayment,
 };
 use App\Helpers\PriceHelper;
 use App\Helpers\SmsHelper;
@@ -35,17 +30,9 @@ use Stripe\Price;
 class CheckoutController extends Controller
 {
 
-
-
-    use MollieCheckout {
-        MollieCheckout::__construct as private __MollieConstruct;
-    }
-
-
-    use BankCheckout;
-    use PaystackCheckout;
     use CashOnDeliveryCheckout;
     use SslCommerzPayment;
+    use RewardPointPayment;
 
     public function __construct()
     {
@@ -356,6 +343,7 @@ class CheckoutController extends Controller
 
     public function checkout(Request $request)
     {
+
         $request->validate([
             'ship_name' => 'required',
             'ship_phone' => 'required',
@@ -387,6 +375,7 @@ class CheckoutController extends Controller
         } else {
             $currency = Currency::where('is_default', 1)->first();
         }
+ 
         switch ($input['payment_method']) {
             case 'cod':
                 $checkout = true;
@@ -401,7 +390,15 @@ class CheckoutController extends Controller
                 }
                 Session::put('message', $payment['message'] ?? 'Payment gateway error');
                 return redirect()->route('front.checkout.cancle');
+                break;
+            case 'reward_point':  
+                $checkout = true; 
+                $payment = $this->rewardPointSubmit($input);
+                break;
+
         }
+
+
 
 
         if ($checkout) {
@@ -415,22 +412,6 @@ class CheckoutController extends Controller
                 }
             } else {
                 if ($payment['status']) {
-                    $user = Auth::user();
-                    if ($user) {
-                        if ($request->filled('reward_point')) {
-                            $user->reward_point += (int) $request->reward_point;
-                        }
-                        if ($request->filled('user_reward_point')) {
-                            Session::put('used_reward_point', (int) $request->user_reward_point);
-                            $usedPoint = (int) $request->user_reward_point;
-                            if ($usedPoint > 0 && $user->reward_point >= $usedPoint) {
-                                $user->reward_point -= $usedPoint;
-                            }
-                        } else {
-                            Session::put('used_reward_point', (int) $request->user_reward_point);
-                        }
-                        $user->save();
-                    }
                     return redirect()->route('front.checkout.success');
                 } else {
                     Session::put('message', $payment['message']);

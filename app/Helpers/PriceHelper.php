@@ -10,6 +10,7 @@ use App\Models\Transaction;
 use App\Models\OrderDetails;
 use App\Models\PaymentSetting;
 use App\Models\AttributeOption;
+use App\Models\RewardPointSystem;
 use Illuminate\Support\Facades\Session;
 
 class PriceHelper
@@ -317,11 +318,11 @@ class PriceHelper
     public static function Transaction($order_id, $txn_id, $user_email, $amount)
     {
 
-       
-            
-    
+
+
+
         $curr = Currency::where('is_default', 1)->first();
-    
+
 
         $transaction = new Transaction();
         $transaction->order_id = $order_id;
@@ -482,6 +483,32 @@ class PriceHelper
             $total_quantity += $items->quantity;
         }
         return $total_quantity;
+    }
+
+
+    public static function rewardPointGet($soldAmount)
+    {
+        $setting = RewardPointSystem::first();
+
+        if (!$setting || $soldAmount < $setting->min_sold_amount_to_get_point ||  $setting->sold_amount_per_point <= 0
+        ) {
+            return 0;
+        }
+
+        return (int) floor($soldAmount / $setting->sold_amount_per_point);
+    }
+
+    public static function rewardPointUse($cartTotal)
+    {
+        $setting = RewardPointSystem::first();
+
+        if (
+            !$setting || $cartTotal < $setting->min_order_total_to_redeem_points ||  $setting->redeem_amount_per_unit_point <= 0
+        ) {
+            return 0;
+        }
+
+        return (int) floor($cartTotal / $setting->redeem_amount_per_unit_point);
     }
 
 }

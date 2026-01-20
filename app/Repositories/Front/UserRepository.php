@@ -5,7 +5,9 @@ namespace App\Repositories\Front;
 use App\{
     Models\User,
     Models\Setting,
-    Helpers\EmailHelper, Models\ManageRewardPoint,
+    Helpers\EmailHelper,
+    Models\ManageRewardPoint,
+    Models\RewardPointHistory,
     Models\Notification
 };
 use App\Helpers\ImageHelper;
@@ -21,17 +23,14 @@ class UserRepository
     {
 
         $reward = ManageRewardPoint::first();
-
-     
         $input = $request->all();
-      
         $user = new User;
         $input['password'] = bcrypt($request['password']);
         $input['email'] = $input['email'];
         $input['first_name'] = $input['first_name'];
         $input['last_name'] = $input['last_name'];
 
-        if($reward->status == 1){
+        if ($reward->status == 1) {
             $input['reward_point'] = $input['reward_point'];
         }
         $input['phone'] = $input['phone'];
@@ -45,6 +44,13 @@ class UserRepository
             'total_purchase' => 0,
             'membership_level' => 'Normal',
             'discount_percent' => 0,
+        ]);
+
+        RewardPointHistory::create([
+            'user_id' => $user->id,
+            'point' => $request->reward_point,
+            'type' => 'debit',
+            'note' => 'Registration Reward Point',
         ]);
 
 
@@ -92,7 +98,7 @@ class UserRepository
         } else {
             unset($input['password']);
         }
-      
+
 
         if ($file = $request->file('photo')) {
             $input['photo'] = ImageHelper::handleUpdatedUploadedImage($file, 'images', $user, 'images', 'photo');

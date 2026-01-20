@@ -28,6 +28,8 @@
                                     <a class="nav-link active" data-toggle="pill"
                                         href="#cod">{{ __('Cash On Delivery') }}</a>
                                     <a class="nav-link" data-toggle="pill" href="#sslcommerz">{{ __('SSL commerz') }}</a>
+                                    <a class="nav-link" data-toggle="pill" href="#reword_point">{{ __('Reword Point') }}</a>
+
 
                                 </div>
                             </div>
@@ -105,22 +107,15 @@
                                                                     </div>
                                                                 </form>
                                                             </div>
-
                                                         </div>
-
                                                     </div>
 
                                                     <div id="sslcommerz" class="container tab-pane"><br>
-
                                                         <div class="row justify-content-center">
-
                                                             <div class="col-lg-8">
-
                                                                 <form action="{{ route('back.setting.payment.update') }}"
                                                                     method="POST" enctype="multipart/form-data">
-
                                                                     @csrf
-
                                                                     <div class="form-group">
                                                                         <label class="switch-primary">
                                                                             <input type="checkbox"
@@ -132,8 +127,6 @@
                                                                                 class="switch-text">{{ __('Display sslcommerz') }}</span>
                                                                         </label>
                                                                     </div>
-
-
                                                                     <div
                                                                         class="image-show {{ $sslcommerz->status == 'active' ? '' : 'd-none' }}">
                                                                         <div class="form-group col-xl-12">
@@ -231,6 +224,77 @@
                                                         </div>
 
                                                     </div>
+
+
+                                                    <!-- REWORD POINT TAB -->
+                                                    <div id="reword_point" class="container tab-pane"><br>
+                                                        <div class="row justify-content-center">
+                                                            <div class="col-lg-8">
+                                                                <form action="{{ route('back.setting.payment.update') }}"
+                                                                    method="POST" enctype="multipart/form-data">
+                                                                    @csrf
+                                                                    <div class="form-group">
+                                                                        <label class="switch-primary">
+                                                                            <input type="checkbox"
+                                                                                class="switch switch-bootstrap "
+                                                                                name="status" value="1"
+                                                                                {{ $rewordPayment->status == 'active' ? 'checked' : '' }}>
+                                                                            <span class="switch-body"></span>
+                                                                            <span
+                                                                                class="switch-text">{{ __('Reword Point') }}</span>
+                                                                        </label>
+                                                                    </div>
+                                                                    <div
+                                                                        class="image-show">
+                                                                        <div class="form-group">
+                                                                            <label for="name">{{ __('Enter Name') }}
+                                                                                *</label>
+                                                                            <input type="text" class="form-control"
+                                                                                name="name" id="name"
+                                                                                value="{{ $rewordPayment->name }}">
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label
+                                                                                for="name">{{ __('Current Image') }}</label>
+                                                                            <div class="col-lg-12 pb-1">
+                                                                                <img class="admin-setting-img"
+                                                                                    src="{{ $rewordPayment->photo ? url('/storage/payments/' . $rewordPayment->photo) : url('/assets/images/placeholder.png') }}"
+                                                                                    alt="No Image Found">
+                                                                            </div>
+                                                                            <span>{{ __('Image Size Should Be 52 x 35.') }}</span>
+                                                                        </div>
+                                                                        <div
+                                                                            class="form-group position-relative col-xl-12">
+                                                                            <label class="file">
+                                                                                <input type="file" accept="image/*"
+                                                                                    class="upload-photo" name="photo"
+                                                                                    id="file"
+                                                                                    aria-label="File browser example">
+                                                                                <span
+                                                                                    class="file-custom text-left">{{ __('Upload Image...') }}</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label for="text">{{ __('Enter Text') }}
+                                                                                *</label>
+                                                                            <textarea name="text" id="text" class="form-control " rows="5" placeholder="{{ __('Enter Text') }}">{{ $rewordPayment->text }}</textarea>
+                                                                        </div>
+                                                                        <input type="hidden" name="unique_keyword"
+                                                                            value="cod">
+                                                                    </div>
+                                                                    <div>
+                                                                        <div
+                                                                            class="form-group d-flex justify-content-center">
+                                                                            <button type="submit"
+                                                                                class="btn btn-secondary ">{{ __('Submit') }}</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -239,9 +303,8 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
 
             </div>
-
-        </div>
-    @endsection
+        @endsection
