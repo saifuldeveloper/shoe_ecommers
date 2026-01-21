@@ -58,6 +58,15 @@
             </div>
         </td>
         <td>
+            @if($data->total_item_count == $data->retailer_order_sent)
+                <span class="badge badge-success">{{ __('Sent') }}</span>
+            @elseif ($data->retailer_order_sent > 0)
+                <span class="badge badge-warning">{{ __('Partial') }}</span>
+            @else
+                <span class="badge badge-danger">{{ __('Not Sent') }}</span>
+            @endif
+        </td>
+        <td>
             <div class="action-list">
                 @if ($isSoftDelete)
                     <a class="btn btn-info btn-sm " href="{{ route('back.order.restore', $data->id) }}">
@@ -71,9 +80,9 @@
                     <a class="btn btn-secondary btn-sm" href="{{ route('back.order.invoice', $data->id) }}">
                         <i class="fas fa-eye"></i>
                     </a>
-                    <a class="btn btn-info btn-sm " href="{{ route('back.order.edit', $data->id) }}">
+                    {{-- <a class="btn btn-info btn-sm " href="{{ route('back.order.edit', $data->id) }}">
                         <i class="fas fa-pen"></i>
-                    </a>
+                    </a> --}}
                     <a class="btn btn-danger btn-sm " data-toggle="modal" data-target="#confirm-delete"
                         href="javascript:;" data-href="{{ route('back.order.delete', $data->id) }}">
                         <i class="fas fa-trash-alt"></i>

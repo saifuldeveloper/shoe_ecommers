@@ -106,23 +106,8 @@
                                     @endif
                                 </div>
                             </div>
-
                         </div>
                         <div class="row">
-                            {{-- City (ship_city) --}}
-                            {{-- <div class="col-sm-6">
-                                <div class="form-group-custom">
-                                    <label for="ship_city">City</label>
-                                    <input class="form-control-custom {{ $errors->has('ship_city') ? 'input-error' : '' }}"
-                                        name="ship_city" type="text" placeholder="Enter a city" id="ship_city"
-                                        value="{{ isset($user) ? $user->ship_city : '' }}">
-
-                                    @if ($errors->has('ship_city'))
-                                        <span class="input-helper-text">Enter a city</span>
-                                    @endif
-                                </div>
-                            </div> --}}
-
                             <div class="col-sm-6">
                                 <div class="form-group-custom position-relative">
                                     <label for="ship_city">City</label>
@@ -164,28 +149,13 @@
                         {{-- Address 1 --}}
                         <div class="form-group-custom">
                             <label for="ship_address1">Address</label>
-                            <textarea class="form-control-custom {{ $errors->has('ship_address1') ? 'input-error' : '' }}" name="ship_address1"
-                                type="text" placeholder="Enter an address" id="ship_address1"> 
-                    {{ isset($user) ? $user->ship_address1 : '' }}
-                </textarea>
 
+                            <textarea class="form-control-custom {{ $errors->has('ship_address1') ? 'input-error' : '' }}" name="ship_address1"
+                                placeholder="Enter an address" id="ship_address1">{{ isset($user) ? $user->ship_address1 : '' }}</textarea>
                             @if ($errors->has('ship_address1'))
                                 <span class="input-helper-text">Enter an address</span>
                             @endif
                         </div>
-                        {{-- Checkboxes --}}
-                        {{-- <div class="mt-3">
-                <label class="custom-checkbox-label">
-                    <input type="checkbox" name="text_me">
-                    <span></span>
-                    Text me with news and offers
-                </label>
-                <label class="custom-checkbox-label">
-                    <input type="checkbox" name="terms" required>
-                    <span></span>
-                    I have read and agreed to the website <a href="#" style="color: #007bff; margin-left: 5px;">terms and conditions</a>.
-                </label>
-            </div> --}}
                     </div>
 
                     {{-- =================================================== --}}
@@ -220,23 +190,32 @@
 
                         </div>
                     </div>
-
-
                     {{-- =================================================== --}}
                     {{-- PAYMENT METHOD SECTION --}}
                     {{-- =================================================== --}}
                     <div class="checkout-form-card">
                         <h2 class="section-title">Payment</h2>
-                        <p style="font-size: 14px; color: #555; margin-bottom: 20px;">All transactions are secure and
-                            encrypted.</p>
-
+                        <p style="font-size: 14px; color: #555; margin-bottom: 20px;">All transactions are secure and encrypted.</p>
                         @php
                             $paymentMethods = DB::table('payment_settings')->where('status', 1)->get();
-                        @endphp
+                            $rewardSetting = DB::table('reward_point_systems')->first();
+                            $authUser = Auth::user();
+                            $rewordPament = false;
+                            if ($authUser) {
+                                $usePoint = PriceHelper::rewardPointUse($cart_total);
+                                $usedRewardPoint = $authUser->reward_point;
 
+                                if ($usePoint > 0 && $usedRewardPoint >= $usePoint) {
+                                    $rewordPament = true;
+                                }
+                            }
+                        @endphp
                         {{-- Payment Options --}}
                         <div class="payment-options">
                             @foreach ($paymentMethods as $method)
+                                @if ($method->unique_keyword == 'reward_point' && !$rewordPament)
+                                    @continue
+                                @endif
                                 <div class="payment-card-custom mb-3 {{ $loop->first ? 'selected' : '' }}"
                                     data-method="{{ $method->unique_keyword }}">
                                     <label class="payment-radio-input">
@@ -248,16 +227,13 @@
                                                 alt="{{ $method->name }}" title="{{ $method->name }}"
                                                 style="width:360px; height:auto; border:2px solid #eee; border-radius:6px; margin-right:8px; vertical-align:middle;">
                                             <div class="payment-card-body">
-                                                <p>After clicking "Pay now" - you will be redirected to SSLCOMMERZ to
-                                                    complete your purchase securely.</p>
+                                                <p>{{ $method->text }}</p>
                                             </div>
                                         </div>
                                     @endif
                                 </div>
                             @endforeach
                         </div>
-
-                        {{-- PAY BUTTON --}}
                         <button type="submit" class="pay-button-custom">Pay now</button>
                     </div>
                 </form>
@@ -378,20 +354,7 @@
             });
         });
 
-        //    shipping calucation
-        // var selectElement = document.getElementById('shipping-charge');
-        //     selectElement.addEventListener('change', function() {
-        //         var selectedValue = parseFloat(this.value); // New Shipping Price
-        //         document.querySelector('.shipping_price_set').innerText = selectedValue;
-        //         var grandTotalElement = document.querySelector('.grand_total_set');
-        //         var grandTotalText = grandTotalElement.innerText;
-        //         var baseTotal = parseFloat(grandTotalText.replace(/[^\d.]/g, ''));
-        //         var total_with_shipping = baseTotal + selectedValue;
-        //         document.querySelector('.grand_total_set').innerText = total_with_shipping.toFixed(2); 
-        // });
-
         document.addEventListener('DOMContentLoaded', function() {
-
             const shippingSelect = document.getElementById('shipping-charge');
             const shippingPriceEl = document.querySelector('.shipping_price_set');
             const grandTotalEl = document.querySelector('.grand_total_set');

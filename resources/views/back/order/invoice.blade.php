@@ -1,10 +1,7 @@
 @extends('master.back')
-
 @section('content')
     <!-- Start of Main Content -->
     <div class="container-fluid">
-
-        <!-- Page Heading -->
         <div class="card mb-4">
             <div class="card-body">
                 <div class="d-sm-flex align-items-center justify-content-between">
@@ -124,10 +121,12 @@
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
-                                                        <th width="35%">Product</th>
-                                                        <th width="20%">Variant</th>
-                                                        <th width="15%">Qty</th>
-                                                        <th width="15%" class="text-center">Price</th>
+                                                        <th width="20%">Product</th>
+                                                        <th>Variant</th>
+                                                        <th>Qty</th>
+                                                        <th class="text-center">Price</th>
+                                                        <th class="text-center">Variten Price</th>
+                                                        <th class="text-center">Total Price
                                                         <td class="text-right">Action</td>
                                                     </tr>
                                                 </thead>
@@ -139,7 +138,8 @@
                                                             <td>
                                                                 <input type="checkbox" class="send_retailer_checkbox"
                                                                     data-detail-id="{{ $detail->id }}"
-                                                                    {{-- {{ $detail->send_retailer == 1 ? 'disabled' : '' }}s --}}>
+                                                                      {{ $detail->send_retailer == 1 ? 'disabled' : '' }}
+                                                                    >
                                                             </td>
 
                                                             {{-- PRODUCT --}}
@@ -163,13 +163,13 @@
                                                                     <option value="">Select Variant</option>
                                                                     @foreach ($variants as $variant)
                                                                         <option value="{{ $variant->id }}"
-                                                                            {{-- {{ $detail->item_variant_id == $variant->id ? 'selected' : '' }} --}}>
+                                                                            {{ $detail->item_variant_id == $variant->id ? 'selected' : '' }}>
                                                                             {{ $variant->variant_sku }}
                                                                         </option>
                                                                     @endforeach
                                                                 </select>
                                                             </td>
-                                                            <td>
+                                                            <td class="text-center">
                                                                 <input type="number"
                                                                     name="products[{{ $detail->id }}][qty]"
                                                                     value="{{ $detail->qty }}" min="1"
@@ -177,13 +177,20 @@
                                                             </td>
                                                             <td class="text-center">
                                                                 {{ $detail->price }}
+                                                            </td>
+                                                            <td class="text-center">
+                                                                {{ $detail->variant_price ?? 0 }}
+                                                            </td>
+                                                            <td class="text-center">
                                                                 @php
-                                                                    $subtotal += $detail->price * $detail->qty;
+                                                                    $sum = $detail->price + $detail->variant_price;
+                                                                    $subtotal += $sum * $detail->qty;
                                                                 @endphp
-
+                                                                {{ $subtotal }}
                                                             </td>
                                                             <td class="text-right">
-                                                                <button type="button" {{-- {{ $detail->send_retailer == 1 ? 'disabled' : '' }} --}}
+                                                                <button type="button"
+                                                                 {{ $detail->send_retailer == 1 ? 'disabled' : '' }}
                                                                     class="btn btn-sm btn-danger removeRow"
                                                                     data-url="{{ route('order.item.delete', $detail->id) }}"
                                                                     data-id="{{ $detail->id }}">
@@ -193,7 +200,7 @@
                                                         </tr>
                                                     @endforeach
                                                     <tr>
-                                                        <td colspan="5" class="px-0 border-top border-top-2 text-right">
+                                                        <td colspan="7" class="px-0 border-top border-top-2 text-right">
                                                             <strong><span class="text-muted">{{ __('Subtotal') }}</span>
                                                             </strong>
                                                         </td>
@@ -203,7 +210,7 @@
 
                                                     @if ($order->shipping > 0)
                                                         <tr>
-                                                            <td colspan="5"
+                                                            <td colspan="7"
                                                                 class="px-0 border-top border-top-2 text-right"><strong>
                                                                     <span class="text-muted">{{ __('Shipping') }}</span>
                                                                 </strong></td>
@@ -213,7 +220,7 @@
                                                         </tr>
                                                     @endif
                                                     <tr>
-                                                        <td colspan="5" class="px-0 border-top border-top-2 text-right">
+                                                        <td colspan="7" class="px-0 border-top border-top-2 text-right">
                                                             <strong>
                                                                 <span class="text-muted">{{ __('Total') }}</span>
                                                             </strong>
@@ -222,8 +229,8 @@
                                                             <span><strong>{{ $order->TotalOrderPrice }}</span> </strong>
                                                         </td>
                                                     </tr>
-                                                    <tr>
-                                                        <td colspan="3" class="px-0 border-top border-top-2 text-right">
+                                                    {{-- <tr>
+                                                        <td colspan="5" class="px-0 border-top border-top-2 text-right">
                                                             <strong>
                                                                 <span class="text-muted">{{ __('Order Note') }}</span>
                                                             </strong>
@@ -232,9 +239,9 @@
                                                             <input type="text" class="form-control" name="sale_note"
                                                                 value="{{ $order->sale_note }}">
                                                         </td>
-                                                    </tr>
+                                                    </tr> --}}
                                                     <tr>
-                                                        <td colspan="5" class="text-right"><strong>Select Shop</strong>
+                                                        <td colspan="7" class="text-right"><strong>Select Shop</strong>
                                                         </td>
                                                         <td>
                                                             <select name="store_id" class="form-control">
@@ -248,7 +255,7 @@
                                                     </tr>
                                                     {{-- ================= SUBMIT ================= --}}
                                                     <tr>
-                                                        <td colspan="6" class="text-right">
+                                                        <td colspan="8" class="text-right">
                                                             <button type="submit" class="btn btn-primary">
                                                                 Send Order
                                                             </button>

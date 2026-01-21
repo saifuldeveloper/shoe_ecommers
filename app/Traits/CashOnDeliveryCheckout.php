@@ -60,8 +60,10 @@ trait CashOnDeliveryCheckout
         $grand_total = $grand_total - ($discount ? $discount['discount'] : 0);
         $total_amount = PriceHelper::setConvertPrice($grand_total);
 
+        $specialOfferDiscount = PriceHelper::specialOfferDiscount($cart_total);
+       
         $orderData['cart'] = json_encode($cart, true);
-        $orderData['discount'] = json_encode($discount, true);
+        $orderData['discount'] = $specialOfferDiscount; 
         $orderData['shipping'] = $data['shipping_charge'];
         $orderData['tax'] = $total_tax;
         $orderData['state_price'] = $cart_total;
@@ -115,24 +117,21 @@ trait CashOnDeliveryCheckout
             $get_coupon->update();
         }
 
-        //  reword point add start
-        $point = PriceHelper::rewardPointGet($cart_total);
-        if ($point > 0 && isset($user)) {
-            $user->increment('reward_point', $point);
+        if ($user) {
+            //  reword point add start
+            $point = PriceHelper::rewardPointGet($cart_total);
+            if ($point > 0 && isset($user)) {
+                $user->increment('reward_point', $point);
 
+            }
+            RewardPointHistory::create([
+                'user_id' => $user->id,
+                'point' => $point,
+                'type' => 'credit',
+                'note' => 'Order refund #' . $order->transaction_number,
+            ]);
+            //  reword point add end
         }
-
-        RewardPointHistory::create([
-            'user_id' => $user->id,
-            'point' => $point,
-            'type' => 'credit',
-            'note' => 'Order refund #' . $order->transaction_number,
-        ]);
-        //  reword point add end
-
-
-
-
 
         if (auth()->check()) {
             Cart::where('user_id', auth()->user()->id)->delete();

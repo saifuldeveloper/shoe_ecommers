@@ -48,10 +48,12 @@ trait SslCommerzPayment
         // Generate txn id
         $txnid = "SSLCZ_TXN_" . uniqid();
 
+         $specialOfferDiscount = PriceHelper::specialOfferDiscount($total);
+
         // Create order
         $orderData = [
             'cart' => $cart->toJson(),
-            'discount' => json_encode($discount, true),
+            'discount' => $specialOfferDiscount,
             'shipping' => $data['shipping_charge'] ?? 0,
             'tax' => 0,
             'state_price' => $data['shipping_charge'] ?? 0,

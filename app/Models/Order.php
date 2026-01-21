@@ -67,13 +67,22 @@ class Order extends Model
     public function getTotalOrderPriceAttribute()
     {
         $detailsTotal = $this->orderDetails->sum(function ($detail) {
-            return $detail->total_price * $detail->qty; // quantity use korte hobe, total_price na
+            return $detail->total_price;
         });
         $shipping = $this->shipping ?? 0;
         $tax = $this->tax ?? 0;
         $discount = $this->discount ? json_decode($this->discount, true)['discount'] ?? 0 : 0;
 
         return $detailsTotal + $shipping + $tax - $discount;
+    }
+    public function getTotalItemCountAttribute()
+    {
+        return $this->orderDetails()->count();
+    }
+
+    public function getRetailerOrderSentAttribute()
+    {
+        return $this->orderDetails()->where('send_retailer', 1)->exists();
     }
 
     public function deletedBy()

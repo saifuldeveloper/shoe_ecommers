@@ -49,14 +49,16 @@
                                             </option>
                                         </select>
 								</div>
-
+								<div class="form-group">
+									<label for="is_in_menu">{{ __('Order Limit Value') }}</label>
+									<input type="text" name="order_limit_value" class="form-control item-name" id="order_limit_value"
+										placeholder="{{ __('Order Limit value') }}" value="{{ old('order_limit_value') }}">
+								</div>
 								<div class="form-group">
 									<label for="is_in_menu">{{ __('Discount Value') }}</label>
 									<input type="text" name="discount_value" class="form-control item-name" id="discount_value"
 										placeholder="{{ __('Enter discount value') }}" value="{{ old('discount_value') }}">
 								</div>
-
-					
 								<div class="form-group">
 									<button type="submit"
 										class="btn btn-secondary ">{{ __('Submit') }}</button>

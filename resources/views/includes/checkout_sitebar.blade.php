@@ -1,28 +1,9 @@
 @php
     $specialOffer = App\Models\SpecialOffer::where('status', 1)->first();
-    $special_offer_discount = 0;
-    if ($specialOffer && $cart_total >= 5000) {
-        if ($specialOffer->discount_type == 'flat') {
-            $special_offer_discount = $specialOffer->discount_value;
-        } elseif ($specialOffer->discount_type == 'percentage') {
-            // Percentage discount
-            $special_offer_discount = ($cart_total * $specialOffer->discount_value) / 100;
-        }
-    }
-    // 2. Calculate the base total before shipping
-    $base_total = $cart_total - $special_offer_discount;
-    $initial_grand_total = $base_total;
-    // reward point system
-    // $rewardPoint = 0;
-    // $rewardSetting = DB::table('reward_point_systems')->first();
-    // if ($rewardSetting) {
-    //     $minAmount = $rewardSetting->min_sold_amount_to_get_point;
-    //     $perPointAmount = $rewardSetting->sold_amount_per_point;
+    $specialOfferDiscount = PriceHelper::specialOfferDiscount($cart_total);
 
-    //     if ($cart_total >= $minAmount && $perPointAmount > 0) {
-    //         $rewardPoint = floor($cart_total / $perPointAmount);
-    //     }
-    // }
+    $base_total = $cart_total - $specialOfferDiscount;
+    $initial_grand_total = $base_total;
 
     $rewardPoint = PriceHelper::rewardPointGet($cart_total);
     //auth user reward point
@@ -67,7 +48,7 @@
                     <td>{{ __('Cart Subtotal') }}:</td>
                     <td class="text-gray-dark grand_total_get">{{ PriceHelper::setCurrencyPrice($cart_total) }}</td>
                 </tr>
-                @if ($rewardPoint > 0)
+               @if (Auth::check() && $rewardPoint > 0)
                     <tr>
                         <td>{{ __('Reward Point Earn') }}:</td>
                         <td class="text-success fw-bold">
@@ -79,7 +60,7 @@
                     <td>{{ __('Shipping') }}:</td>
                     <td class="text-gray-dark "> <span class="shipping_price_set">0</span></td>
                 </tr>
-                @if ($specialOffer && $cart_total >= 5000)
+                @if ($specialOfferDiscount > 0)
                     <tr>
                         {{-- Display the offer name as a superscript --}}
                         <td>{{ __('Special Offer') }}: <sup>{{ $specialOffer->name }}</sup></td>
@@ -106,23 +87,6 @@
         <!-- Items in Cart Widget-->
         <section class="card widget widget-featured-posts widget-featured-products p-4">
             <h3 class="widget-title">{{ __('Items In Your Cart') }}</h3>
-            {{-- @foreach ($cart as $key => $item)
-         @php
-            $item_variant = App\Models\ItemVariant::where('id', $item->item_variant_id)->first();
-            $item_price = $item->item->discount_price + ($item_variant != null ? $item_variant->additional_price : 0);
-        @endphp
-        <div class="entry">
-          <div class="entry-thumb"><a href="#"><img src="{{asset('storage/items/'.$item->item->photo)}}" alt="Product"></a></div>
-          <div class="entry-content">
-            <h4 class="entry-title"><a href="#">
-                {{ Str::limit($item['name'], 45) }}
-
-            </a></h4>
-            <span class="entry-meta">{{$item->quantity}} x {{PriceHelper::setCurrencyPrice($item_price)}}</span>
-            
-         </div>
-        </div>
-        @endforeach --}}
             @foreach ($cart as $key => $item)
                 @php
                     $item_variant = App\Models\ItemVariant::where('id', $item->item_variant_id)->first();
@@ -150,14 +114,10 @@
                                 <img src="{{ asset('storage/items/' . $item->item->photo) }}" alt="Product"
                                     style="width: 100%; height: 100%; object-fit: cover; display: block;">
                             </a>
-
-                            {{-- Quantity Overlay Badge --}}
                             <span>
                                 {{ $item->quantity }}
                             </span>
                         </div>
-
-                        {{-- TEXT CONTENT --}}
                         <div class="entry-content">
                             <h4 class="entry-title"
                                 style="margin: 0; font-size: 14px; font-weight: 500; line-height: 1.2;">
@@ -165,8 +125,6 @@
                                     {{ Str::limit($item['item']->name, 45) }}
                                 </a>
                             </h4>
-
-                            {{-- Variant Details / Meta Line --}}
                             <span class="entry-meta"
                                 style="display: block; font-size: 12px; color: #777; margin-top: 2px;">
                                 @if ($item_variant)
@@ -179,8 +137,7 @@
                     </div>
 
                     {{-- RIGHT COLUMN: Price --}}
-                    <div class="entry-price"
-                        style="font-size: 14px; font-weight: 600; color: #333; margin-left: 10px; flex-shrink: 0;">
+                    <div class="entry-price"  style="font-size: 14px; font-weight: 600; color: #333; margin-left: 10px; flex-shrink: 0;margin-bottom: 25px;">
                         {{ $item->quantity }} x {{ PriceHelper::setCurrencyPrice($item_price) }}
                     </div>
                 </div>
@@ -202,7 +159,7 @@
                 @endif
             @endforeach
             @if (!Auth::check())
-                <a href="{{ route('user.login') }}" class="redeem-btn">Redeem Reward Point</a>
+                <a href="{{ route('user.login') }}" class="redeem-btn mt-2">Redeem Reward Point</a>
             @endif
         </section>
     </aside>

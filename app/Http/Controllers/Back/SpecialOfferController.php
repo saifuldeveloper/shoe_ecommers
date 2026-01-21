@@ -52,6 +52,7 @@ class SpecialOfferController extends Controller
                 }
             },
         ],
+        'order_limit_value' => 'nullable|numeric|min:0|max:999999.99',
     ]);
 
     // Store logic starts here after validation passes
@@ -60,6 +61,7 @@ class SpecialOfferController extends Controller
         'discount_type' => $request->discount_type,
         'discount_value' => $request->discount_value,
         'status' => true, 
+        'order_limit_value' => $request->order_limit_value ?? 0,
     ]);
 
     return redirect()->route('back.offer.index')->withSuccess(__('Offer Created Successfully.'));
@@ -84,6 +86,7 @@ class SpecialOfferController extends Controller
             'name' => 'required|string|max:255|unique:special_offers,name,' . $offer->id,
             'discount_type' => 'required|in:flat,percentage',
             'discount_value' => 'required|numeric|min:0|max:999999.99', 
+            'order_limit_value' => 'nullable|numeric|min:0|max:999999.99',
         ]);
         $offer->update($request->all());
 

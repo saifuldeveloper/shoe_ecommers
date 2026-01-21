@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->enum('discount_type', ['flat', 'percentage']); 
             $table->decimal('discount_value', 8, 2); 
+            $table->decimal('order_limit_value', 8, 2); 
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

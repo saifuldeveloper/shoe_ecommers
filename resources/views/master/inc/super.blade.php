@@ -102,29 +102,29 @@
         </a>
         <div class="collapse" id="order">
             <ul class="nav nav-collapse">
-                <li class="{{!request()->input('type') && request()->is('admin/orders')  ? 'active' : ''}}">
+                <li class="{{ !request()->input('type') && request()->is('admin/orders') ? 'active' : '' }}">
                     <a class="sub-link" href="{{ route('back.order.index') }}">
                         <span class="sub-item">{{ __('All Orders') }}</span>
                     </a>
                 </li>
-                <li class="{{request()->input('type') == 'Pending' ? 'active' : ''}}">
-                    <a class="sub-link" href="{{ route('back.order.index').'?type='.'Pending' }}">
+                <li class="{{ request()->input('type') == 'Pending' ? 'active' : '' }}">
+                    <a class="sub-link" href="{{ route('back.order.index') . '?type=' . 'Pending' }}">
                         <span class="sub-item">{{ __('Pending Orders') }}</span>
                     </a>
                 </li>
-                <li class="{{request()->input('type') == 'In Progress' ? 'active' : ''}}">
-                    <a class="sub-link" href="{{ route('back.order.index').'?type='.'In Progress' }}">
+                <li class="{{ request()->input('type') == 'In Progress' ? 'active' : '' }}">
+                    <a class="sub-link" href="{{ route('back.order.index') . '?type=' . 'In Progress' }}">
                         <span class="sub-item">{{ __('Progress Orders') }}</span>
                     </a>
                 </li>
 
-                <li class="{{request()->input('type') == 'Delivered' ? 'active' : ''}}">
-                    <a class="sub-link" href="{{ route('back.order.index').'?type='.'Delivered' }}">
+                <li class="{{ request()->input('type') == 'Delivered' ? 'active' : '' }}">
+                    <a class="sub-link" href="{{ route('back.order.index') . '?type=' . 'Delivered' }}">
                         <span class="sub-item">{{ __('Delivered Orders') }}</span>
                     </a>
                 </li>
-                <li class="{{request()->input('type') == 'Canceled' ? 'active' : ''}}">
-                    <a class="sub-link" href="{{ route('back.order.index').'?type='.'Canceled' }}">
+                <li class="{{ request()->input('type') == 'Canceled' ? 'active' : '' }}">
+                    <a class="sub-link" href="{{ route('back.order.index') . '?type=' . 'Canceled' }}">
                         <span class="sub-item">{{ __('Canceled Orders') }}</span>
                     </a>
                 </li>
@@ -133,18 +133,18 @@
     </li>
     <li class="nav-item {{ request()->is('orders/*') ? 'submenu' : '' }}">
         <a data-toggle="collapse" href="#stores">
-            <i class="fab fa-first-order"></i>
+         <i class="fas fa-map-marker-alt"></i>
             <p>{{ __('Manage Stores') }} </p>
             <span class="caret"></span>
         </a>
         <div class="collapse" id="stores">
             <ul class="nav nav-collapse">
-                <li class="{{!request()->input('type') && request()->is('admin/orders')  ? 'active' : ''}}">
+                <li class="{{ !request()->input('type') && request()->is('admin/orders') ? 'active' : '' }}">
                     <a class="sub-link" href="{{ route('back.districts.index') }}">
                         <span class="sub-item">{{ __('District') }}</span>
                     </a>
                 </li>
-                <li class="{{request()->input('type') == 'Pending' ? 'active' : ''}}">
+                <li class="{{ request()->input('type') == 'Pending' ? 'active' : '' }}">
                     <a class="sub-link" href="{{ route('back.stores.index') }}">
                         <span class="sub-item">{{ __('Stores') }}</span>
                     </a>
@@ -154,9 +154,9 @@
     </li>
 
     <li class="nav-item">
-        <a  href="{{ route('back.transaction.index') }}">
+        <a href="{{ route('back.transaction.index') }}">
             <i class="fas fa-random"></i>
-          <p>{{ __('Transactions') }}</p>
+            <p>{{ __('Transactions') }}</p>
         </a>
     </li>
 
@@ -170,7 +170,7 @@
             <ul class="nav nav-collapse">
                 <li>
                     <a class="sub-link" href="{{ route('back.code.index') }}">
-                      <span class="sub-item">{{ __('Set Coupons') }}</span></a>
+                        <span class="sub-item">{{ __('Set Coupons') }}</span></a>
                 </li>
                 <li>
                     <a class="sub-link" href="{{ route('back.shipping.index') }}">
@@ -203,14 +203,16 @@
 
     <li class="nav-item">
         <a href="{{ route('back.user.index') }}">
-          <i class="fas fa-users"></i>
-          <p>{{ __('Customer List') }}</p></a>
+            <i class="fas fa-users"></i>
+            <p>{{ __('Customer List') }}</p>
+        </a>
     </li>
 
-     <li class="nav-item">
+    <li class="nav-item">
         <a href="{{ route('back.offer.index') }}">
-          <i class="fas fa-users"></i>
-          <p>{{ __('Special Offer') }}</p></a>
+            <i class="fas fa-gift"></i>
+            <p>{{ __('Special Offer') }}</p>
+        </a>
     </li>
 
     {{-- <li class="nav-item">
@@ -221,13 +223,14 @@
      --}}
 
 
-     
+
     <li class="nav-item">
         <a href="{{ route('back.sessions') }}">
             <i class="fas fa-comments"></i>
-          <p>{{ __('Chat') }}</p></a>
+            <p>{{ __('Chat') }}</p>
+        </a>
     </li>
-    
+
 
 
 
@@ -257,18 +260,18 @@
                         <span class="sub-item">{{ __('Home Page') }}</span>
                     </a>
                 </li> --}}
-                 <li>
+                <li>
                     <a class="sub-link" href="{{ route('back.first.home.page.index') }}">
                         <span class="sub-item">{{ __('First Hero Section') }}</span>
                     </a>
                 </li>
-                 <li>
+                <li>
                     <a class="sub-link" href="{{ route('back.second.home.page.index') }}">
                         <span class="sub-item">{{ __('Second Hero Section') }}</span>
                     </a>
                 </li>
                 <li>
-                    <a  class="sub-link" href="{{ route('back.slider.index') }}">
+                    <a class="sub-link" href="{{ route('back.slider.index') }}">
                         <span class="sub-item">{{ __('Sliders') }}</span>
                     </a>
                 </li>
@@ -448,9 +451,9 @@
         </div>
     </li> --}}
 
-      <li class="nav-item">
+    <li class="nav-item">
         <a href="{{ route('back.contact-message') }}">
-           <i class="fas fa-envelope"></i>
+            <i class="fas fa-envelope"></i>
             <p>{{ __('Contact Messages') }}</p>
         </a>
     </li>

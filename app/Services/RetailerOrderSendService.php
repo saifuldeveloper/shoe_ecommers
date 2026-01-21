@@ -25,7 +25,7 @@ class RetailerOrderSendService
             $this->sendOrder($payload, $store->api_base_url);
 
             // ONLY THIS FIELD UPDATE on success
-            Order::update('sale_note', $request->sale_note);
+            // Order::update('sale_note', $request->sale_note);
             OrderDetails::whereIn('id', $prepared['detail_ids'])->update(['send_retailer' => 1]);
 
             DB::commit();
@@ -201,7 +201,6 @@ class RetailerOrderSendService
         $response = Http::asJson()
             ->timeout(10)
             ->post($url, $payload);
-
         if ($response->failed()) {
             throw new \Exception('ERP API Error: ' . $response->body());
         }

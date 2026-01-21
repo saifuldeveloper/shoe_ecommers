@@ -8,6 +8,7 @@ use App\Models\Setting;
 use App\Models\Currency;
 use App\Models\Transaction;
 use App\Models\OrderDetails;
+use App\Models\SpecialOffer;
 use App\Models\PaymentSetting;
 use App\Models\AttributeOption;
 use App\Models\RewardPointSystem;
@@ -490,7 +491,8 @@ class PriceHelper
     {
         $setting = RewardPointSystem::first();
 
-        if (!$setting || $soldAmount < $setting->min_sold_amount_to_get_point ||  $setting->sold_amount_per_point <= 0
+        if (
+            !$setting || $soldAmount < $setting->min_sold_amount_to_get_point || $setting->sold_amount_per_point <= 0
         ) {
             return 0;
         }
@@ -503,12 +505,31 @@ class PriceHelper
         $setting = RewardPointSystem::first();
 
         if (
-            !$setting || $cartTotal < $setting->min_order_total_to_redeem_points ||  $setting->redeem_amount_per_unit_point <= 0
+            !$setting || $cartTotal < $setting->min_order_total_to_redeem_points || $setting->redeem_amount_per_unit_point <= 0
         ) {
             return 0;
         }
 
         return (int) floor($cartTotal / $setting->redeem_amount_per_unit_point);
+    }
+
+
+
+    public static function specialOfferDiscount($cartTotal)
+    {
+        $specialOffer = SpecialOffer::where('status', 1)->latest()->first();
+        $specialOffer = SpecialOffer::where('status', 1)->latest()->first();
+        $discount = 0;
+
+        if ($specialOffer && $cartTotal >= $specialOffer->order_limit_value) {
+            if ($specialOffer->discount_type === 'flat') {
+                $discount = $specialOffer->discount_value;
+            } elseif ($specialOffer->discount_type === 'percentage') {
+                $discount = ($cartTotal * $specialOffer->discount_value) / 100;
+            }
+        }
+
+        return (float) $discount;
     }
 
 }

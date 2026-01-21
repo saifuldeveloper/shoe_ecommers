@@ -51,6 +51,11 @@
                                  
                                 </tr>
                                 <tr>
+                                    <th>{{ __("Order Limit Value") }}</th>
+                                    <td><input type="text" name="order_limit_value" class="form-control" id="text"
+                                         value="{{$offer->order_limit_value}}" ></td>
+                                </tr>
+                                <tr>
                                     <th>{{ __("Discount Value") }}</th>
                                     <td><input type="text" name="discount_value" class="form-control" id="text"
                                          value="{{$offer->discount_value}}" ></td>

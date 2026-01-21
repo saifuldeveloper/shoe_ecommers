@@ -344,6 +344,7 @@ class CheckoutController extends Controller
     public function checkout(Request $request)
     {
 
+        
         $request->validate([
             'ship_name' => 'required',
             'ship_phone' => 'required',
@@ -397,10 +398,6 @@ class CheckoutController extends Controller
                 break;
 
         }
-
-
-
-
         if ($checkout) {
             if ($payment_redirect) {
                 if ($payment['status']) {
