@@ -88,7 +88,7 @@ class ItemController extends Controller
 
         return view('back.item.index', [
             'datas' => $datas,
-            'softDeletedItems' =>Item::onlyTrashed()->get()
+            'softDeletedItems' => Item::onlyTrashed()->get()
 
         ]);
     }
@@ -216,6 +216,56 @@ class ItemController extends Controller
             'variants' => $variants,
         ]);
     }
+
+
+
+
+    public function duplicate(Item $item)
+    {
+        $item->load('itemVariants.variant.color', 'itemVariants.variant.size');
+
+        $selectedColors = $item->itemVariants->map(function ($iv) {
+            return optional(optional($iv->variant)->color)->name;
+        })->filter()->unique()->values()->all();
+
+        $selectedSizes = $item->itemVariants->map(function ($iv) {
+            return optional(optional($iv->variant)->size)->name;
+        })->filter()->unique()->values()->all();
+
+        $variants = $item->itemVariants->map(function ($iv) {
+            return [
+                'id' => null, // ❗ important (new variant)
+                'variant_id' => optional($iv->variant)->id,
+                'name' => optional($iv->variant)->name ?? $iv->item_code,
+                'variant_sku' => null, // new sku
+                'additional_cost' => $iv->additional_cost ?? 0,
+                'additional_price' => $iv->additional_price ?? 0,
+                'qty' => $iv->qty ?? 0,
+                'color' => optional(optional($iv->variant)->color)->name ?? '',
+                'size' => optional(optional($iv->variant)->size)->name ?? '',
+                'item_code' => null,
+                'position' => $iv->position ?? null,
+            ];
+        })->values()->all();
+
+        return view('back.item.duplicate', [
+            'item' => $item,
+            'isDuplicate' => true, // ⭐ flag
+            'curr' => Currency::where('is_default', 1)->first(),
+            'social_icons' => json_decode($item->social_icons, true),
+            'social_links' => json_decode($item->social_links, true),
+            'specification_name' => json_decode($item->specification_name, true),
+            'specification_description' => json_decode($item->specification_description, true),
+            'colors' => Color::where('status', 1)->latest()->get(),
+            'sizes' => Size::where('status', 1)->latest()->get(),
+            'selectedColors' => $selectedColors,
+            'selectedSizes' => $selectedSizes,
+            'variants' => $variants,
+        ]);
+    }
+
+
+
 
     /**
      * Update the specified resource in storage.

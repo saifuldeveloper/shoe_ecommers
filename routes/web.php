@@ -153,6 +153,7 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
             Route::delete('item/forced/delete/{id}', [ItemController::class, 'forceDelete'])->name('back.item.forceDelete');
 
 
+            Route::get('/item/{item}/duplicate', [ItemController::class, 'duplicate'])->name('item.duplicate');
 
 
             // Bulk product upload
@@ -755,9 +756,9 @@ Route::group(['middleware' => 'maintainance'], function () {
 
 
 
-Route::match(['get','post'], '/ssl/success', [SslCommerzController::class, 'success'])->name('payment.ssl.success');
-Route::match(['get','post'], '/ssl/fail', [SslCommerzController::class, 'fail'])->name('payment.ssl.fail');
-Route::match(['get','post'], '/ssl/cancel', [SslCommerzController::class, 'cancel'])->name('payment.ssl.cancel');
+Route::match(['get', 'post'], '/ssl/success', [SslCommerzController::class, 'success'])->name('payment.ssl.success');
+Route::match(['get', 'post'], '/ssl/fail', [SslCommerzController::class, 'fail'])->name('payment.ssl.fail');
+Route::match(['get', 'post'], '/ssl/cancel', [SslCommerzController::class, 'cancel'])->name('payment.ssl.cancel');
 
 Route::get('/website/maintainance', 'Front\FrontendController@maintainance')->name('front.maintainance');
 Route::get('/updater/finalize', 'Front\FrontendController@finalize');

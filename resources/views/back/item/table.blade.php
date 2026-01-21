@@ -96,6 +96,11 @@
                                 href="{{ route('front.product', $data->slug) }}"><i
                                     class="fas fa-angle-double-right"></i> {{ __('View') }}</a>
                         @endif
+
+                        <a class="dropdown-item"
+                            href="{{ route('item.duplicate', $data->id) }}"><i
+                                class="fas fa-angle-double-right"></i> {{ __('Duplicate') }}</a>
+                        
                         <a class="dropdown-item" data-toggle="modal" data-target="#confirm-delete" href="javascript:;"
                             data-href="{{ route('back.item.destroy', $data->id) }}"><i
                                 class="fas fa-angle-double-right"></i> {{ __('Delete') }}</a>
