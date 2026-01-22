@@ -97,9 +97,9 @@
             </div>
             <div class="navigation__column center">
                 <ul class="main-menu menu">
-                    <li class="menu-item menu-item-has-children dropdown">
+                    {{-- <li class="menu-item menu-item-has-children dropdown">
                         <a href="{{ route('front.campaign') }}">Mega Deals </a>
-                    </li>
+                    </li> --}}
                     {{-- <li class="menu-item menu-item-has-children dropdown">
                         <a href="{{ route('front.categories.products', 'sneakers') }}">Sneakers </a>
                     </li> --}}

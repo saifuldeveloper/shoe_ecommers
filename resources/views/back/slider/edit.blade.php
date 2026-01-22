@@ -69,7 +69,7 @@
 
                                             <div class="form-group">
                                                 <label id="slider_text"
-                                                    for="name">{{ $slider->home_page == 'theme3' || $slider->home_page == 'theme4' ? __('Set Background Image') : __('Current Slider Image') }}
+                                                    for="name">{{ $slider->home_page == 'theme3' || $slider->home_page == 'theme4' ? __('Set Background Image') : __('Set Slider Mobile Image') }}
                                                     *</label>
                                                 <br>
                                                 <img class="admin-img"
@@ -77,7 +77,7 @@
                                                     alt="No Image Found">
                                                 <br>
                                                 <span id="chenge_label2"
-                                                    class="mt-1">{{ $slider->home_page == 'theme3' || $slider->home_page == 'theme4' ? __('Image Size Should Be 1864 x 714') : __('Image Size Should Be 1000 x 530') }}</span>
+                                                    class="mt-1">{{ $slider->home_page == 'theme3' || $slider->home_page == 'theme4' ? __('Image Size Should Be 1864 x 714') : __('Image Size Should Be 750 x 500') }}</span>
                                             </div>
 
                                             <div class="form-group position-relative ">

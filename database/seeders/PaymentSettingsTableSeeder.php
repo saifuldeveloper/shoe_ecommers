@@ -43,7 +43,7 @@ class PaymentSettingsTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
-             2 => 
+            2 => 
             array (
                 'id' => 3,
                 'name' => 'Reward Point',

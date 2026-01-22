@@ -92,7 +92,7 @@
                                                                 <input type="text" name="customer_care_number"
                                                                     class="form-control" id="customer_care_number"
                                                                     placeholder="{{ __('Enter Customer Care Number') }}"
-                                                                    value="{{ $setting->home }}">
+                                                                    value="{{ @$setting->home }}">
                                                             </div>
                                                         </div>
 
@@ -632,7 +632,7 @@
 
                                                             <hr>
 
-                                                            <div class="form-group">
+                                                            {{-- <div class="form-group">
                                                                 <label class="switch-primary">
                                                                     <input type="checkbox"
                                                                         class="switch switch-bootstrap status"
@@ -659,7 +659,7 @@
                                                                     class="form-control" id="google_recaptcha_secret_key"
                                                                     placeholder="{{ __('Google Rechaptcha Secret Key') }}"
                                                                     value="{{ $setting->google_recaptcha_secret_key }}">
-                                                            </div>
+                                                            </div> --}}
 
 
                                                             <hr>
@@ -685,7 +685,7 @@
 
                                                             <hr>
 
-                                                            <div class="form-group">
+                                                            {{-- <div class="form-group">
                                                                 <label class="switch-primary">
                                                                     <input type="checkbox"
                                                                         class="switch switch-bootstrap status"
@@ -701,12 +701,12 @@
                                                                     *</label>
                                                                 <textarea name="facebook_messenger" class="form-control" id=""
                                                                     placeholder="{{ __('Facebook Messenger Page Id') }}">{{ $setting->facebook_messenger }}</textarea>
-                                                            </div>
+                                                            </div> --}}
 
 
                                                             <hr>
 
-                                                            <div class="form-group">
+                                                            {{-- <div class="form-group">
                                                                 <label class="switch-primary">
                                                                     <input type="checkbox"
                                                                         class="switch switch-bootstrap status"
@@ -720,7 +720,7 @@
                                                             <div class="form-group">
                                                                 <label>{{ __('Disqus Link') }} *</label>
                                                                 <textarea name="disqus" class="form-control" id="" placeholder="{{ __('Disqus Link') }}">{{ $setting->disqus }}</textarea>
-                                                            </div>
+                                                            </div> --}}
 
                                                         </div>
 

@@ -18,6 +18,16 @@ class ManageRewardPointsTableSeeder extends Seeder
 
         \DB::table('manage_reward_points')->delete();
         
+        \DB::table('manage_reward_points')->insert(array (
+            0 => 
+            array (
+                'id' => 1,
+                'reward_point' => '10.00',
+                'status' => '0',
+                'created_at' => '2026-01-22 05:47:23',
+                'updated_at' => '2026-01-22 05:47:23',
+            ),
+        ));
         
         
     }

@@ -30,10 +30,10 @@ class FirstHeroSectionsTableSeeder extends Seeder
             1 => 
             array (
                 'id' => 2,
-                'banner_first' => 'banners/cxZakLt1wKLzsJE4yVGV1rjlarq6HmPP2vsFDAxI.webp',
+                'banner_first' => 'banners/2BDMe4x0K1pgwla0AtZisllVc4EZrIPbfp1qPlf4.jpg',
                 'url_first' => '#',
                 'created_at' => '2026-01-06 05:46:19',
-                'updated_at' => '2026-01-06 05:46:19',
+                'updated_at' => '2026-01-22 05:45:05',
             ),
         ));
         

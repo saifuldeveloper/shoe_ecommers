@@ -23,7 +23,7 @@ class SlidersTableSeeder extends Seeder
             array (
                 'id' => 21,
                 'photo' => 'OM_17660516362i0mxKiU.jpg',
-                'mobile_photo' => 'OM_1767679424lS3oi7UE.png',
+                'mobile_photo' => 'OM_1769061140CKC2lVYx.webp',
                 'title' => NULL,
                 'link' => 'https://www.facebook.com/avijatry/',
                 'logo' => NULL,
@@ -38,7 +38,7 @@ class SlidersTableSeeder extends Seeder
             array (
                 'id' => 22,
                 'photo' => 'OM_1765436873BmUuTpK7.jpg',
-                'mobile_photo' => 'OM_1767679416HE5Xdx79.png',
+                'mobile_photo' => 'OM_1769061131NK0LukBC.webp',
                 'title' => NULL,
                 'link' => 'https://www.facebook.com/avijatry/',
                 'logo' => NULL,
@@ -53,7 +53,7 @@ class SlidersTableSeeder extends Seeder
             array (
                 'id' => 23,
                 'photo' => 'OM_1765431590YG1tQgFH.jpg',
-                'mobile_photo' => 'OM_1767679409vDMndtEA.png',
+                'mobile_photo' => 'OM_1769061148rnv1VmkZ.webp',
                 'title' => NULL,
                 'link' => NULL,
                 'logo' => NULL,

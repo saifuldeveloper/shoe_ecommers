@@ -144,5 +144,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ChatSessionsTableSeeder::class);
         $this->call(ManageRewardPointsTableSeeder::class);
         $this->call(PasswordResetsTableSeeder::class);
+        $this->call(RewardPointHistoriesTableSeeder::class);
     }
 }
