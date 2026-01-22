@@ -30,10 +30,10 @@ class SecondHeroSectionsTableSeeder extends Seeder
             1 => 
             array (
                 'id' => 2,
-                'banner_second' => 'banners/muEsy1hcIQXYVOi3io2b6qWfGr01Es8M1MH0oOLm.jpg',
+                'banner_second' => 'banners/sGOCydEYBuRQUi0kfOGZF3GiZ7FcZGDlu5Fme3ZC.jpg',
                 'url_second' => 'http://shoe_ecommers.test/campaign/10-discount',
                 'created_at' => '2026-01-06 05:46:43',
-                'updated_at' => '2026-01-22 05:46:07',
+                'updated_at' => '2026-01-22 09:58:32',
             ),
         ));
         

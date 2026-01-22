@@ -41,6 +41,28 @@ class CartsTableSeeder extends Seeder
                 'created_at' => '2026-01-17 04:06:32',
                 'updated_at' => '2026-01-17 04:06:32',
             ),
+            2 => 
+            array (
+                'id' => 8,
+                'user_id' => NULL,
+                'session_id' => '292ef1a12a81ee5a693e6ff174988090',
+                'item_id' => 21,
+                'quantity' => 2,
+                'item_variant_id' => 56,
+                'created_at' => '2026-01-22 09:13:17',
+                'updated_at' => '2026-01-22 09:13:28',
+            ),
+            3 => 
+            array (
+                'id' => 9,
+                'user_id' => NULL,
+                'session_id' => '292ef1a12a81ee5a693e6ff174988090',
+                'item_id' => 18,
+                'quantity' => 1,
+                'item_variant_id' => 42,
+                'created_at' => '2026-01-22 09:13:44',
+                'updated_at' => '2026-01-22 09:13:44',
+            ),
         ));
         
         

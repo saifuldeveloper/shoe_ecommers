@@ -59,11 +59,11 @@ class PaymentSettingRepository
         $pay_data->update($input);
 
 
-        if($pay_data->unique_keyword == 'sslcommerz'){
-            $paydata = $pay_data->convertJsonData();
-            $this->setEnv('SSLCZ_STORE_ID',$input['pkey']['store_id'],$paydata['store_id']);
-            $this->setEnv('SSLCZ_STORE_PASSWORD',$input['pkey']['store_password'],$paydata['store_password']);
-        }
+        // if($pay_data->unique_keyword == 'sslcommerz'){
+        //     $paydata = $pay_data->convertJsonData();
+        //     $this->setEnv('SSLCZ_STORE_ID',$input['pkey']['store_id'],$paydata['store_id']);
+        //     $this->setEnv('SSLCZ_STORE_PASSWORD',$input['pkey']['store_password'],$paydata['store_password']);
+        // }
     }
 
     private function setEnv($key, $value,$prev)

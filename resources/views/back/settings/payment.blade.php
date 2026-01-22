@@ -61,7 +61,9 @@
                                                                         </label>
                                                                     </div>
                                                                     <div
-                                                                        class="image-show {{ $cod->status == 1 ? '' : 'd-none' }}">
+                                                                        class="image-show
+                                                                         {{ $cod->status == 1 ? '' : 'd-none' }}"
+                                                                          >
 
                                                                         <div class="form-group">
                                                                             <label for="name">{{ __('Enter Name') }}

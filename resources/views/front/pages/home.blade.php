@@ -4,12 +4,22 @@
         <div class="rev_slider fullscreenbanner" id="home-banner">
             <ul>
                 @php
-                    function isMobileDevice()
-                    {
-                        return preg_match(
-                            '/Mobile|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i',
-                            $_SERVER['HTTP_USER_AGENT'],
-                        );
+                    // function isMobileDevice()
+                    // {
+                    //     return preg_match(
+                    //         '/Mobile|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i',
+                    //         $_SERVER['HTTP_USER_AGENT'],
+                    //     );
+                    // }
+
+                    if (!function_exists('isMobileDevice')) {
+                        function isMobileDevice()
+                        {
+                            return preg_match(
+                                '/android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i',
+                                request()->header('User-Agent'),
+                            );
+                        }
                     }
                 $sliders = App\Models\Slider::get(); @endphp
                 @foreach ($sliders as $slider)
@@ -82,7 +92,7 @@
                                         ? url('storage/' . $banner->banner_first)
                                         : url('assets/images/' . $banner->banner_first))
                                     : url('assets/images/default.jpg') }}"
-                                    alt="#" class="img-fluid" style="padding-top: 35px;" />
+                                    alt="{{ $banner->banner_first }}" class="img-fluid" style="padding-top: 35px;" />
                             </a>
                         @endforeach
                     </div>
@@ -210,7 +220,8 @@
                                         ? url('storage/' . $banner->banner_second)
                                         : url('assets/images/' . $banner->banner_second))
                                     : url('assets/images/default.jpg') }}"
-                                    alt="#" class="img-fluid w-100" style="padding-top: 30px;" />
+                                    alt="{{ $banner->banner_second }}" class="img-fluid w-100"
+                                    style="padding-top: 30px;" />
                             </a>
                         </div>
                     @endforeach
@@ -527,9 +538,8 @@
                                     {{-- <a class="ps-post__title"
                                         href="{{ route('front.blog.details', $post->slug) }}"></a>
                                         {{ $post->title }} --}}
-                                    <a class="ps-post__title"
-                                        href="{{ $post->campain_url }}">{{ $post->title }}</a>
-                                        
+                                    <a class="ps-post__title" href="{{ $post->campain_url }}">{{ $post->title }}</a>
+
 
                                     <p class="ps-post__meta">
                                         <span>By:<a class="mr-5" href="#">Avijatry</a></span>
