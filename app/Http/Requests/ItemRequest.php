@@ -12,53 +12,121 @@ class ItemRequest extends FormRequest
         return true;
     }
 
+    // public function rules()
+    // {
+    //     $type_required = $this->item_type == 'digital' || $this->item_type == 'license' ? '' : 'required';
+
+    //     $check_link = $this->file_type == 'link' ? 'required' : '';
+
+    //     if ($this->item_type == 'digital') {
+    //         if ($this->item) {
+    //             $check_file = '';
+    //         } else {
+    //             $check_file = $this->file_type == 'file' ? 'required' : '';
+    //         }
+    //     } elseif ($this->item_type == 'license') {
+    //         if ($this->item) {
+    //             $check_file = '';
+    //         } else {
+    //             $check_file = $this->file_type == 'file' ? 'required' : '';
+    //         }
+    //     } else {
+    //         $check_file = '';
+    //     }
+
+    //     // Editing item? exclude current row
+    //     $id = $this->item ? $this->item->id : null;
+    //     $required = $this->item ? '' : 'required|';
+
+    //     $rules = [
+    //         'name'            => 'required|max:255',
+    //         'sku'             => [
+    //             'required',
+    //             Rule::unique('items', 'sku')->ignore($id),
+    //         ],
+    //         'category_id'     => 'required',
+    //         'details'         => 'required',
+    //         'link'            => $check_link,
+    //         'file'            => $check_file . '|file|mimes:zip',
+    //         'sort_details'    => 'required',
+    //         'discount_price'  => 'required|max:50',
+    //         'previous_price'  => 'max:50',
+    //         'tax_id'          => 'required',
+    //         'photo'           => $required . 'mimes:jpeg,jpg,png,svg,webp,avif',
+    //     ];
+
+    //     // If product has variants → validate variant_sku
+    //     if ($this->has('variants')) {
+    //         $rules['variants'] = 'array|min:1';
+
+    //         foreach ($this->input('variants', []) as $key => $variant) {
+    //             $rules["variants.$key.name"] = 'required|string|max:255';
+    //             $rules["variants.$key.item_code"] = 'nullable|string|max:255';
+    //             $rules["variants.$key.additional_cost"] = 'nullable|numeric|min:0';
+    //             $rules["variants.$key.additional_price"] = 'nullable|numeric|min:0';
+    //             $rules["variants.$key.qty"] = 'nullable|integer|min:0';
+    //         }
+    //     }
+
+    //     return $rules;
+    // }
+
+    // public function messages()
+    // {
+    //     return [
+    //         'name.required'            => __('Name field is required.'),
+    //         'tax_id.required'          => __('Tax field is required.'),
+    //         'category_id.required'     => __('Category field is required.'),
+    //         'brand_id.required'        => __('Brand field is required.'),
+    //         'details.required'         => __('Description field is required.'),
+    //         'sort_details.required'    => __('Sort Description field is required.'),
+    //         'discount_price.required'  => __('Current Price field is required.'),
+    //         'photo.required'           => __('Image field is required.'),
+    //         'photo.mimes'              => __('Image type must be jpg,jpeg,png,svg.'),
+    //         'sku.required'             => __('SKU field is required.'),
+    //         'sku.unique'               => __('This SKU has already been taken.'),
+    //         'variants.*.variant_sku.required' => __('Variant SKU is required.'),
+    //         'variants.*.variant_sku.unique'   => __('This Variant SKU has already been taken.'),
+    //         'variants.*.variant_sku.distinct' => __('Duplicate Variant SKU in request.'),
+    //     ];
+    // }
+
+
     public function rules()
     {
         $type_required = $this->item_type == 'digital' || $this->item_type == 'license' ? '' : 'required';
-
         $check_link = $this->file_type == 'link' ? 'required' : '';
 
-        if ($this->item_type == 'digital') {
-            if ($this->item) {
-                $check_file = '';
-            } else {
-                $check_file = $this->file_type == 'file' ? 'required' : '';
-            }
-        } elseif ($this->item_type == 'license') {
-            if ($this->item) {
-                $check_file = '';
-            } else {
-                $check_file = $this->file_type == 'file' ? 'required' : '';
-            }
+        if ($this->item_type == 'digital' || $this->item_type == 'license') {
+            $check_file = $this->item ? '' : ($this->file_type == 'file' ? 'required' : '');
         } else {
             $check_file = '';
         }
 
-        // Editing item? exclude current row
         $id = $this->item ? $this->item->id : null;
         $required = $this->item ? '' : 'required|';
 
         $rules = [
-            'name'            => 'required|max:255',
-            'sku'             => [
-                'required',
-                Rule::unique('items', 'sku')->ignore($id),
-            ],
-            'category_id'     => 'required',
-            'details'         => 'required',
-            'link'            => $check_link,
-            'file'            => $check_file . '|file|mimes:zip',
-            'sort_details'    => 'required',
-            'discount_price'  => 'required|max:50',
-            'previous_price'  => 'max:50',
-            'tax_id'          => 'required',
-            'photo'           => $required . 'mimes:jpeg,jpg,png,svg,webp,avif',
+            'name' => 'required|max:255',
+            'sku' => ['required', Rule::unique('items', 'sku')->ignore($id)],
+            'category_id' => 'required',
+            'details' => 'required',
+            'link' => $check_link,
+            'file' => $check_file . '|file|mimes:zip',
+            'sort_details' => 'required',
+            'discount_price' => 'required|max:50',
+            'previous_price' => 'max:50',
+            'tax_id' => 'required',
+            'photo' => $required . 'mimes:jpeg,jpg,png,svg,webp,avif',
+            // =========================
+            // GALLERY IMAGES VALIDATION
+            // =========================
+            'galleries.*' => 'image|mimes:jpeg,jpg,png,webp,avif|max:5120', // 5MB max per image
         ];
 
         // If product has variants → validate variant_sku
         if ($this->has('variants')) {
             $rules['variants'] = 'array|min:1';
-
             foreach ($this->input('variants', []) as $key => $variant) {
                 $rules["variants.$key.name"] = 'required|string|max:255';
                 $rules["variants.$key.item_code"] = 'nullable|string|max:255';
@@ -74,20 +142,24 @@ class ItemRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required'            => __('Name field is required.'),
-            'tax_id.required'          => __('Tax field is required.'),
-            'category_id.required'     => __('Category field is required.'),
-            'brand_id.required'        => __('Brand field is required.'),
-            'details.required'         => __('Description field is required.'),
-            'sort_details.required'    => __('Sort Description field is required.'),
-            'discount_price.required'  => __('Current Price field is required.'),
-            'photo.required'           => __('Image field is required.'),
-            'photo.mimes'              => __('Image type must be jpg,jpeg,png,svg.'),
-            'sku.required'             => __('SKU field is required.'),
-            'sku.unique'               => __('This SKU has already been taken.'),
+            'name.required' => __('Name field is required.'),
+            'tax_id.required' => __('Tax field is required.'),
+            'category_id.required' => __('Category field is required.'),
+            'brand_id.required' => __('Brand field is required.'),
+            'details.required' => __('Description field is required.'),
+            'sort_details.required' => __('Short Description field is required.'),
+            'discount_price.required' => __('Current Price field is required.'),
+            'photo.required' => __('Featured image field is required.'),
+            'photo.mimes' => __('Image type must be jpg,jpeg,png,svg,webp,avif.'),
+            'galleries.*.image' => __('Each gallery file must be an image.'),
+            'galleries.*.mimes' => __('Gallery images must be jpg,jpeg,png,webp,avif.'),
+            'galleries.*.max' => __('Each gallery image must not exceed 5MB.'),
+            'sku.required' => __('SKU field is required.'),
+            'sku.unique' => __('This SKU has already been taken.'),
             'variants.*.variant_sku.required' => __('Variant SKU is required.'),
-            'variants.*.variant_sku.unique'   => __('This Variant SKU has already been taken.'),
+            'variants.*.variant_sku.unique' => __('This Variant SKU has already been taken.'),
             'variants.*.variant_sku.distinct' => __('Duplicate Variant SKU in request.'),
         ];
     }
+
 }

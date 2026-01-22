@@ -40,16 +40,8 @@
             font-weight: 600;
         }
 
-        .featured-preview img {
-            max-width: 100%;
-            max-height: 250px;
-            margin-top: 15px;
-            border-radius: 6px;
-            border: 1px solid #ddd;
-        }
-
         /* =========================
-                       GALLERY PREVIEW
+                           GALLERY PREVIEW
                     ========================= */
         .gallery-preview {
             display: flex;
@@ -85,6 +77,18 @@
             font-size: 14px;
             cursor: pointer;
             line-height: 1;
+        }
+
+        /* Gallery input overlay */
+        .gallery-input {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            /* invisible but clickable */
+            cursor: pointer;
+            z-index: 10;
         }
     </style>
     <div class="container-fluid">
@@ -141,89 +145,23 @@
                         </div>
                     </div>
 
+                    <!-- Gallery Images -->
                     <div class="card">
                         <div class="card-body">
                             <div class="form-group pb-0 mb-2">
                                 <label>{{ __('Gallery Images') }}</label>
                             </div>
-                            <!-- DROP AREA -->
-                            <div class="form-group pb-0 pt-0 mt-0 mb-2">
-                                <div id="gallery-drop-area" class="drop-area">
-                                    <p>
-                                        Drag & Drop Images Here <br>
-                                        or <span>Click to Upload</span>
-                                    </p>
-
-                                    <!-- Preview -->
-                                    <div id="galleryPreview" class="gallery-preview"></div>
-                                </div>
+                            <div id="gallery-drop-area" class="drop-area position-relative">
+                                <input type="file" accept="image/*" id="gallery_file" name="galleries[]" multiple
+                                    class="gallery-input">
+                                <p>Drag & Drop Images Here <br> or <span>Click to Upload</span></p>
+                                <div id="galleryPreview" class="gallery-preview"></div>
                             </div>
-
-                            <!-- FILE INPUT -->
-                            <div class="form-group position-relative">
-                                <input type="file" accept="image/*" id="gallery_file" name="galleries[]" multiple hidden>
-
-                                <small class="mt-1 text-info d-block">
-                                    Image Size Should Be 800 x 800 or Square
-                                </small>
-                            </div>
-
+                            <small class="mt-1 text-info d-block">
+                                Image Size Should Be 800 x 800 or Square
+                            </small>
                         </div>
                     </div>
-                    {{-- <div class="card">
-                        <div class="card-body">
-                            <div class="form-group pb-0  mb-0">
-                                <label class="d-block">{{ __('Featured Image') }} *</label>
-                            </div>
-                            <div class="form-group pb-0 pt-0 mt-0 mb-0">
-                                <img class="admin-img lg" src="">
-                            </div>
-                            <div class="form-group position-relative ">
-                                <label class="file">
-                                    <input type="file" accept="image/*" class="upload-photo" name="photo"
-                                        id="file" aria-label="File browser example">
-                                    <span class="file-custom text-left">{{ __('Upload Image...') }}</span>
-                                </label>
-                                <br>
-                                <span
-                                    class="mt-1 text-info">{{ __('Image Size Should Be 800 x 800. or square size') }}</span>
-                            </div>
-                        </div>
-                    </div> --}}
-                    {{-- <div class="card">
-                        <div class="card-body">
-                            <div class="form-group pb-0 mb-0">
-                                <label>{{ __('Gallery Images') }}</label>
-                            </div>
-                            <div class="form-group pb-0 pt-0 mt-0 mb-0">
-                                <div id="gallery-images">
-                                    <div class="d-block gallery_image_view"></div>
-                                </div>
-                            </div>
-                            <div class="form-group position-relative">
-                                <label class="file">
-                                    <!-- Visible input just for picking files -->
-                                    <input type="file" accept="image/*" id="gallery_file"
-                                        aria-label="File browser example" multiple>
-                                    <span class="file-custom text-left">{{ __('Upload Image...') }}</span>
-                                </label>
-
-                                <!-- Hidden input that will actually be submitted -->
-                                <input type="file" name="galleries[]" id="gallery_files_hidden" multiple
-                                    style="display:none">
-
-                                <br>
-                                <span
-                                    class="mt-1 text-info">{{ __('Image Size Should Be 800 x 800. or square size') }}</span>
-                            </div>
-                        </div>
-                    </div> --}}
-
-
-
-
-
-
 
                     <div class="card">
                         <div class="card-body">
@@ -415,7 +353,7 @@
                                 <select name="brand_id" id="brand_id" class="form-control">
                                     {{-- <option value="" selected>{{ __('Select Brand') }}</option> --}}
                                     @foreach (DB::table('brands')->whereStatus(1)->get() as $brand)
-                                        <option value="{{ $brand->id }}"  selected
+                                        <option value="{{ $brand->id }}" selected
                                             {{ old('brand_id') == $brand->id ? 'selected' : '' }}>{{ $brand->name }}
                                         </option>
                                     @endforeach
@@ -469,13 +407,9 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </form>
-
-
     </div>
-
     </div>
 @endsection
 
@@ -802,158 +736,116 @@
         });
     </script>
 
-
-    {{-- image up;pad --}}
-
-    {{-- <script>
-        const dropArea = document.getElementById('drop-area');
-        const fileInput = document.getElementById('fileInput');
-        const previewImage = document.getElementById('previewImage');
-
-        dropArea.addEventListener('click', () => fileInput.click());
-
-        fileInput.addEventListener('change', function() {
-            showPreview(this.files[0]);
-        });
-
-        dropArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropArea.classList.add('dragover');
-        });
-
-        dropArea.addEventListener('dragleave', () => {
-            dropArea.classList.remove('dragover');
-        });
-
-        dropArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropArea.classList.remove('dragover');
-
-            const file = e.dataTransfer.files[0];
-            fileInput.files = e.dataTransfer.files;
-            showPreview(file);
-        });
-
-        function showPreview(file) {
-            if (!file || !file.type.startsWith('image/')) return;
-
-            const reader = new FileReader();
-            reader.onload = () => {
-                previewImage.src = reader.result;
-                previewImage.classList.remove('d-none');
-                dropArea.querySelector('p').style.display = 'none';
-            };
-            reader.readAsDataURL(file);
-        }
-    </script> --}}
-
-
     <script>
-        /* =========================
-           FEATURED IMAGE
-        ========================= */
-        const dropArea = document.getElementById('drop-area');
-        const fileInput = document.getElementById('fileInput');
-        const previewImage = document.getElementById('previewImage');
+        $(function() {
+            // -----------------------------
+            // Featured Image
+            // -----------------------------
+            const dropArea = document.getElementById('drop-area');
+            const fileInput = document.getElementById('fileInput');
+            const previewImage = document.getElementById('previewImage');
 
-        dropArea.addEventListener('click', () => fileInput.click());
+            dropArea.addEventListener('click', () => fileInput.click());
 
-        fileInput.addEventListener('change', () => {
-            showFeaturedPreview(fileInput.files[0]);
-        });
+            fileInput.addEventListener('change', () => showFeaturedPreview(fileInput.files[0]));
 
-        dropArea.addEventListener('dragover', e => {
-            e.preventDefault();
-            dropArea.classList.add('dragover');
-        });
-
-        dropArea.addEventListener('dragleave', () => {
-            dropArea.classList.remove('dragover');
-        });
-
-        dropArea.addEventListener('drop', e => {
-            e.preventDefault();
-            dropArea.classList.remove('dragover');
-
-            const file = e.dataTransfer.files[0];
-            fileInput.files = e.dataTransfer.files;
-            showFeaturedPreview(file);
-        });
-
-        function showFeaturedPreview(file) {
-            if (!file || !file.type.startsWith('image/')) return;
-
-            const reader = new FileReader();
-            reader.onload = () => {
-                previewImage.src = reader.result;
-                previewImage.classList.remove('d-none');
-                dropArea.querySelector('p').style.display = 'none';
-            };
-            reader.readAsDataURL(file);
-        }
-
-        /* =========================
-           GALLERY IMAGES (MULTIPLE)
-        ========================= */
-        const galleryDrop = document.getElementById('gallery-drop-area');
-        const galleryInput = document.getElementById('gallery_file');
-        const galleryPreview = document.getElementById('galleryPreview');
-
-        let galleryFiles = [];
-
-        galleryDrop.addEventListener('click', () => galleryInput.click());
-
-        galleryInput.addEventListener('change', () => {
-            handleGalleryFiles(galleryInput.files);
-        });
-
-        galleryDrop.addEventListener('dragover', e => {
-            e.preventDefault();
-            galleryDrop.classList.add('dragover');
-        });
-
-        galleryDrop.addEventListener('dragleave', () => {
-            galleryDrop.classList.remove('dragover');
-        });
-
-        galleryDrop.addEventListener('drop', e => {
-            e.preventDefault();
-            galleryDrop.classList.remove('dragover');
-            handleGalleryFiles(e.dataTransfer.files);
-        });
-
-        function handleGalleryFiles(files) {
-            [...files].forEach(file => {
-                if (!file.type.startsWith('image/')) return;
-                galleryFiles.push(file);
-                previewGalleryImage(file);
+            dropArea.addEventListener('dragover', e => {
+                e.preventDefault();
+                dropArea.classList.add('dragover');
             });
-            updateGalleryInput();
-        }
+            dropArea.addEventListener('dragleave', () => dropArea.classList.remove('dragover'));
 
-        function previewGalleryImage(file) {
-            const reader = new FileReader();
-            reader.onload = () => {
-                const div = document.createElement('div');
-                div.className = 'gallery-item';
-                div.innerHTML = `
+            dropArea.addEventListener('drop', e => {
+                e.preventDefault();
+                dropArea.classList.remove('dragover');
+                const file = e.dataTransfer.files[0];
+                fileInput.files = e.dataTransfer.files;
+                showFeaturedPreview(file);
+            });
+
+            function showFeaturedPreview(file) {
+                if (!file || !file.type.startsWith('image/')) return;
+                const reader = new FileReader();
+                reader.onload = () => {
+                    previewImage.src = reader.result;
+                    previewImage.classList.remove('d-none');
+                    dropArea.querySelector('p').style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            }
+
+            // -----------------------------
+            // Gallery Images
+            // -----------------------------
+
+            // =========================
+            // GALLERY IMAGES (MULTIPLE)
+            // =========================
+            const galleryDrop = document.getElementById('gallery-drop-area');
+            const galleryInput = document.getElementById('gallery_file');
+            const galleryPreview = document.getElementById('galleryPreview');
+            let galleryFiles = [];
+
+            galleryDrop.addEventListener('click', () => galleryInput.click());
+
+            galleryInput.addEventListener('change', () => {
+                handleGalleryFiles(galleryInput.files);
+            });
+
+            galleryDrop.addEventListener('dragover', e => {
+                e.preventDefault();
+                galleryDrop.classList.add('dragover');
+            });
+
+            galleryDrop.addEventListener('dragleave', () => {
+                galleryDrop.classList.remove('dragover');
+            });
+
+            galleryDrop.addEventListener('drop', e => {
+                e.preventDefault();
+                galleryDrop.classList.remove('dragover');
+                handleGalleryFiles(e.dataTransfer.files);
+            });
+
+            function handleGalleryFiles(files) {
+                [...files].forEach(file => {
+                    if (!file.type.startsWith('image/')) return;
+                    galleryFiles.push(file);
+                    previewGalleryImage(file);
+                });
+                updateGalleryInput();
+            }
+
+            function previewGalleryImage(file) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const div = document.createElement('div');
+                    div.className = 'gallery-item';
+                    div.innerHTML = `
             <img src="${reader.result}">
             <button type="button">&times;</button>
         `;
-                div.querySelector('button').onclick = () => {
-                    galleryFiles = galleryFiles.filter(f => f !== file);
-                    div.remove();
-                    updateGalleryInput();
+                    div.querySelector('button').onclick = () => {
+                        galleryFiles = galleryFiles.filter(f => f !== file);
+                        div.remove();
+                        updateGalleryInput();
+                    };
+                    galleryPreview.appendChild(div);
                 };
-                galleryPreview.appendChild(div);
-            };
-            reader.readAsDataURL(file);
-        }
+                reader.readAsDataURL(file);
+            }
 
-        function updateGalleryInput() {
-            const dt = new DataTransfer();
-            galleryFiles.forEach(file => dt.items.add(file));
-            galleryInput.files = dt.files;
-        }
+            function updateGalleryInput() {
+                const dt = new DataTransfer();
+                galleryFiles.forEach(file => dt.items.add(file));
+                galleryInput.files = dt.files;
+            }
+
+            // ⚡ Fix: Ensure gallery input is updated just before form submit
+            document.querySelector('form.admin-form').addEventListener('submit', function() {
+                updateGalleryInput();
+            });
+
+        });
     </script>
 @endsection
