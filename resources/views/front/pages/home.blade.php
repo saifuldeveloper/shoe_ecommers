@@ -3,40 +3,18 @@
     <div class="ps-banner">
         <div class="rev_slider fullscreenbanner" id="home-banner">
             <ul>
-                @php
-                    // function isMobileDevice()
-                    // {
-                    //     return preg_match(
-                    //         '/Mobile|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i',
-                    //         $_SERVER['HTTP_USER_AGENT'],
-                    //     );
-                    // }
-
-                    if (!function_exists('isMobileDevice')) {
-                        function isMobileDevice()
-                        {
-                            return preg_match(
-                                '/android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i',
-                                request()->header('User-Agent'),
-                            );
-                        }
-                    }
-                $sliders = App\Models\Slider::get(); @endphp
                 @foreach ($sliders as $slider)
                     <li class="ps-banner {{ $loop->iteration % 2 == 0 ? 'ps-banner--white' : '' }}" data-hideafterloop="0"
                         data-hideslideonmobile="off" data-index="rs-{{ $loop->iteration }}" data-rotate="0"
                         data-slotamount="default" data-transition="random">
                         <a href="{{ $slider->link }}">
-                            <img alt="Slider Image" class="rev-slidebg" data-bgfit="cover" data-bgparallax="5"
-                                data-bgposition="center center" data-bgrepeat="no-repeat" data-no-retina=""
-                                src="{{ isMobileDevice()
-                                    ? ($slider->mobile_photo
-                                        ? asset('storage/slider/' . $slider->mobile_photo)
-                                        : asset('img/default.png'))
-                                    : ($slider->photo
-                                        ? asset('storage/slider/' . $slider->photo)
-                                        : asset('img/default.png')) }}" />
-
+                            <picture>
+                                <source media="(max-width: 767px)"
+                                    srcset="{{ $slider->mobile_photo ? asset('storage/slider/' . $slider->mobile_photo) : asset('img/default.png') }}">
+                                <img src="{{ $slider->photo ? asset('storage/slider/' . $slider->photo) : asset('img/default.png') }}"
+                                    alt="Slider Image" class="rev-slidebg" data-bgfit="cover" data-bgparallax="5"
+                                    data-bgposition="center center" data-bgrepeat="no-repeat" data-no-retina>
+                            </picture>
                         </a>
                         <div class="tp-caption ps-banner__header"
                             data-frames='[{"delay":1000,"speed":1500,"frame":"0","from":"x:50px;opacity:0;","to":"o:1;","ease":"Power3.easeInOut"}]'
@@ -48,7 +26,6 @@
                             data-x="left" data-y="middle" id="layer-desc-{{ $loop->iteration }}">
                             <p>{{ $slider->description }}</p>
                         </div>
-
                     </li>
                 @endforeach
             </ul>
@@ -71,11 +48,6 @@
             </div>
         </div>
     </div>
-
-
-    @php
-        $firstBanners = App\Models\FirstHeroSection::all();
-    @endphp
 
     <div class="ps-section">
         <div class="ps-container">
@@ -199,12 +171,6 @@
             </div>
         </div>
     </div>
-
-    @php
-        $secondBanners = App\Models\SecondHeroSection::all();
-
-    @endphp
-
     <div class="ps-section pt-35">
         <div class="ps-container">
             <div class="ps-section__content pb-35">
@@ -230,90 +196,6 @@
             </div>
         </div>
     </div>
-
-    {{-- <div class="ps-section--sale-off ps-section">
-        <div class="ps-container">
-            <div class="ps-section__header">
-                <h3 class="ps-section__title" data-mask="Sale off">
-                    - Hot Deal Today
-                </h3>
-            </div>
-
-            <div class="ps-section__content">
-                <div class="row">
-                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                        <div class="ps-hot-deal">
-                            <h3>Nike DUNK Max 95 OG</h3>
-
-                            <p class="ps-hot-deal__price">
-                                Only: <span>&pound;155</span>
-                            </p>
-
-                            <ul class="ps-countdown" data-time="December 30, 2017 15:37:25">
-                                <li>
-                                    <p>Hours</p>
-                                </li>
-                                <li class="divider">:</li>
-                                <li>
-                                    <p>minutes</p>
-                                </li>
-                                <li class="divider">:</li>
-                                <li>
-                                    <p>Seconds</p>
-                                </li>
-                            </ul>
-                            <a class="ps-btn" href="#">Order Today</a>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                        <div class="ps-hotspot">
-                            <div class="ps-hotspot__content">
-                                <p class="heading">
-                                    <a class="point first active" href="javascript:;">JUMP TO HEADER</a>
-                                </p>
-
-                                <p>
-                                    <a class="point first active" href="javascript:;">Dynamic Fit Collar en la zona del
-                                        tobillo que une la
-                                        parte inferior de la pierna y el pie sin reducir la
-                                        libertad de movimiento.</a>
-                                </p>
-                            </div>
-
-                            <div class="ps-hotspot__content">
-                                <p class="heading">
-                                    <a class="point second" href="javascript:;">JUMP TO HEADER</a>
-                                </p>
-
-                                <p>
-                                    <a class="point second" href="javascript:;">Dynamic Fit Collar en la zona del tobillo
-                                        que une la
-                                        parte inferior de la pierna y el pie sin reducir la
-                                        libertad de movimiento.</a>
-                                </p>
-                            </div>
-
-                            <div class="ps-hotspot__content">
-                                <p class="heading">
-                                    <a class="point third" href="javascript:;">JUMP TO HEADER</a>
-                                </p>
-
-                                <p>
-                                    <a class="point third" href="javascript:;">Dynamic Fit Collar en la zona del tobillo
-                                        que une la
-                                        parte inferior de la pierna y el pie sin reducir la
-                                        libertad de movimiento.</a>
-                                </p>
-                            </div>
-                            <img alt="" src="{{ asset('assets/frontend/images/hot-deal.png') }}" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> --}}
-
     @php
         $products = App\Models\Item::with('itemVariants.variant.color', 'itemVariants.variant.size')
             ->where('status', 1)
@@ -335,7 +217,6 @@
                     <div class="col-lg-9 col-md-9 col-sm-6 col-xs-6">
                         <h3 class="ps-section__title">- New Arrival</h3>
                     </div>
-
                     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
                         <div class="ps-owl-actions">
                             <a target="__blank" style="color:#f59b34;padding-right:15px;"
@@ -353,7 +234,6 @@
                     data-owl-duration="1000" data-owl-gap="30" data-owl-item="4" data-owl-item-lg="4"
                     data-owl-item-md="3" data-owl-item-sm="2" data-owl-item-xs="2" data-owl-loop="true"
                     data-owl-mousedrag="on" data-owl-nav="false" data-owl-speed="5000">
-
                     @foreach ($newArrivalItems as $item)
                         <div class="ps-shoes--carousel">
                             <div class="ps-shoe">
@@ -379,41 +259,18 @@
 
                                             <div class="text-center pb-10">
                                                 <p class="ps-shoe__categories pb-5">
-                                                    {{-- @php  dd($item) @endphp --}}
                                                     @foreach ($item->unique_sizes as $size)
                                                         <a target="__blank"
                                                             href="{{ route('front.product', ['slug' => $item->slug]) }}?size={{ $size }}"
                                                             class="#">{{ $size }}</a>
-                                                        {{-- <a href="{{ route('front.categories.products', ['slug' => $item->category?->slug]) }}?constraint={{ strtolower($size) }}">  {{ $size }} </a> --}}
                                                     @endforeach
                                                 </p>
                                             </div>
                                             <div>
-
                                                 <a href="{{ route('front.product', $item->slug) }}" target="__blank">
                                                     <span class="btn btn-dark shop-now-button">Shop now</span>
                                                 </a>
                                             </div>
-                                            {{-- @if ($item->unique_colors->isNotEmpty())
-                                                <div class="text-center pb-2">
-                                                    <p class="ps-shoe__categories">
-                                                        @foreach ($item->unique_colors as $color)
-                                                            <span
-                                                                style="
-                                                                    display: inline-block;
-                                                                    width: 20px;
-                                                                    height: 20px;
-                                                                    border-radius: 50%;
-                                                                    background-color: {{ $color }};
-                                                                    border: 1px solid #ddd;
-                                                                    margin: 0 3px;
-                                                                "
-                                                                title="{{ $color }}"
-                                                            ></span>
-                                                        @endforeach
-                                                    </p>
-                                                </div>
-                                            @endif --}}
                                         </div>
                                     </div>
                                 </a>
@@ -587,10 +444,6 @@
         <div id="contact-map" style="display:none;"></div>
     </div>
 @endsection
-
-
-
-
 
 @push('js')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

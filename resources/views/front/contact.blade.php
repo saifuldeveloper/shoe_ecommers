@@ -171,7 +171,8 @@
                                 @foreach ($socials['icons'] as $index => $icon)
                                     @if (!empty($socials['links'][$index]))
                                         <a href="{{ $socials['links'][$index] }}" target="_blank">
-                                            <i class="{{ $icon }}" style="width: 4px; height:40px;padding:20px;color:#f0b515"
+                                            <i class="{{ $icon }}"
+                                                style="width: 4px; height:40px;padding:20px;color:#f0b515"
                                                 loading="lazy"></i>
                                         </a>
                                     @endif
@@ -196,6 +197,21 @@
 @endsection
 
 @push('js')
+    <script>
+        function initMap() {
+            const loc = {
+                lat: 23.8103,
+                lng: 90.4125
+            };
+            new google.maps.Map(document.getElementById("map"), {
+                zoom: 14,
+                center: loc
+            });
+        }
+    </script>
+
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDC9UyRrFn8cIqD5cAtLYg3aVSNREWuaQQ&callback=initMap"></script>
     <script>
         $(document).ready(function() {
             $('#contactForm').on('submit', function(e) {
