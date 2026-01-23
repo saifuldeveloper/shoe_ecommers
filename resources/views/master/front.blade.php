@@ -88,6 +88,7 @@
         <button id="scrollTopBtn">⬆</button>
         @include('front.inc.chatbar')
     </main>
+ <script src="https://js.pusher.com/8.4.0/pusher.min.js"></script>
     <script src="{{ asset('assets/frontend/js/chat.js') }}" defer></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {

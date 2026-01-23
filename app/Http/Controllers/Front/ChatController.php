@@ -36,32 +36,33 @@ class ChatController extends Controller
             'message' => 'required|string',
         ]);
 
-        ChatMessage::create([
+
+
+        $msg = ChatMessage::create([
             'chat_session_id' => $request->session_id,
             'sender' => 'user',
             'message' => $request->message,
         ]);
-        // event(new ChatMessageSent(
-        //     $request->message,
-        //     $request->session_id,
-        //     'user'
-        // ));
+        event(new ChatMessageSent(
+            $msg->message,
+            $msg->chat_session_id,
+            $msg->sender
+        ));
 
 
-        // broadcast(new ChatMessageSent(
-        //     $request->session_id,   // session_id
-        //     $request->message,      // message
-        //     'user'                  // sender
-        // ))->toOthers();
+
         return response()->json(['success' => true]);
     }
 
     /* Load messages */
     public function getMessages(ChatSession $session)
     {
-        return response()->json(
-            $session->messages()->orderBy('id')->get()
-        );
+        
+        $messages = ChatMessage::where('chat_session_id', $session->id) 
+        ->orderBy('created_at', 'asc')
+        ->get(['sender', 'message', 'created_at', 'chat_session_id']);
+
+    return response()->json($messages);
     }
 
     public function deleteChat($session)

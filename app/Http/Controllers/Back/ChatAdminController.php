@@ -41,11 +41,12 @@ class ChatAdminController extends Controller
             'message' => $request->message
         ]);
 
-        // broadcast(new ChatMessageSent(
-        //     $request->session_id,
-        //     $request->message,
-        //     'admin'
-        // ));
+          event(new ChatMessageSent(
+            $msg->message,
+            $msg->chat_session_id,
+            $msg->sender
+        ));
+
 
         return response()->json(['success' => true, 'message_id' => $msg->id]);
     }
