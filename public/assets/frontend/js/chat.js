@@ -1,3 +1,4 @@
+/* ================== STATE ================== */
 const apexUser = {
     name: "",
     phone: "",
@@ -6,23 +7,36 @@ const apexUser = {
 
 let pusher = null;
 let chatChannel = null;
+let pusherInitialized = false;
 
-/* ========== Helpers ========== */
+/* ================== HELPERS ================== */
 const qs = (id) => document.getElementById(id);
-
-/* ========== Floating chat toggle ========== */
+/* ================== CHAT TOGGLE ================== */
 window.toggleChat = function () {
     const box = qs("chatBox");
     if (!box) return;
-    box.style.display = box.style.display === "block" ? "none" : "block";
+    const isOpen = box.style.display === "block";
+    box.style.display = isOpen ? "none" : "block";
+
+    if (!isOpen) {
+        openApexChat();
+    }
 };
 
-/* ========== Open chat ========== */
+/* ================== CLOSE CHAT UI ================== */
+
+function closeAvijatryChat() {
+    document.getElementById("apexChat").style.display = "none";
+    const box = qs("chatBox");
+    if (box) box.style.display = "none";
+}
+
+/* ================== OPEN CHAT ================== */
 window.openApexChat = function () {
     const savedSession = localStorage.getItem("apex_session_id");
     const savedName = localStorage.getItem("apex_user_name");
 
-    qs("chatBox").style.display = "block"; // চ্যাট বক্স ওপেন করা
+    qs("chatBox").style.display = "block";
 
     if (!savedSession) {
         qs("apexUserForm").style.display = "block";
@@ -35,10 +49,11 @@ window.openApexChat = function () {
 
     qs("apexUserForm").style.display = "none";
     qs("apexChat").style.display = "flex";
+
     loadMessages();
 };
 
-/* ========== Start chat (create session) ========== */
+/* ================== START CHAT ================== */
 window.startApexChat = function () {
     const name = qs("apexUserName").value.trim();
     const phone = qs("apexUserPhone").value.trim();
@@ -64,30 +79,15 @@ window.startApexChat = function () {
 
             qs("apexUserForm").style.display = "none";
             qs("apexChat").style.display = "flex";
+
             loadMessages();
-        });
+        })
+        .catch(() => alert("Failed to start chat"));
 };
 
-/* ========== Load messages ========== */
-// function loadMessages() {
-//     if (!apexUser.session_id) return;
-
-//     fetch("/support/chat/messages/" + apexUser.session_id)
-//         .then((res) => res.json())
-//         .then((messages) => {
-//             const box = qs("apexMessages");
-//             box.innerHTML = "";
-//             messages.forEach((m) => appendUserMessage(m));
-
-//             // হিস্টোরি লোড হওয়ার পর পুশার কানেক্ট করা
-//             initUserPusher(apexUser.session_id);
-//         });
-// }
-
+/* ================== LOAD MESSAGES ================== */
 function loadMessages() {
     if (!apexUser.session_id) return;
-
-    console.log("⏳ Loading old messages for session:", apexUser.session_id);
 
     fetch("/support/chat/messages/" + apexUser.session_id)
         .then((res) => res.json())
@@ -95,29 +95,22 @@ function loadMessages() {
             const box = qs("apexMessages");
             if (!box) return;
 
-            box.innerHTML = ""; // আগের কন্টেন্ট ক্লিয়ার করা
+            box.innerHTML = "";
+            messages.forEach((m) => appendMessage(m));
 
-            if (messages.length > 0) {
-                messages.forEach((m) => appendUserMessage(m));
-            } else {
-                console.log("ℹ️ No previous messages found in database.");
-            }
-
-            // মেসেজ লোড হওয়ার পর রিয়েল-টাইম লিসেনার চালু করা
             initUserPusher(apexUser.session_id);
         })
-        .catch((err) => console.error("❌ Error fetching history:", err));
+        .catch((err) => console.error("❌ Chat load error:", err));
 }
 
-/* ========== Send message ========== */
+/* ================== SEND MESSAGE ================== */
 window.sendApexMessage = function () {
     const input = qs("apexInput");
     const msg = input.value.trim();
 
     if (!msg || !apexUser.session_id) return;
 
-    // Optimistic append: ইউজারের নিজের মেসেজ সাথে সাথে দেখানো
-    appendUserMessage({ sender: "user", message: msg });
+    appendMessage({ sender: "user", message: msg });
 
     fetch("/support/chat/send", {
         method: "POST",
@@ -131,83 +124,151 @@ window.sendApexMessage = function () {
     input.value = "";
 };
 
-/* ========== Pusher init (Corrected) ========== */
+/* ================== PUSHER INIT ================== */
 function initUserPusher(sessionId) {
-    if (!sessionId) return;
+    if (!sessionId || pusherInitialized) return;
 
-    if (!pusher) {
-        Pusher.logToConsole = true;
-        pusher = new Pusher("ded5c592779f6c1c07f2", {
-            cluster: "ap2",
-            forceTLS: true,
-        });
+    pusherInitialized = true;
 
-        pusher.connection.bind("connected", () => {
-            console.log("✅ [USER] Pusher Connected");
-        });
-    }
+    pusher = new Pusher("ded5c592779f6c1c07f2", {
+        cluster: "ap2",
+        forceTLS: true,
+    });
 
-    if (!chatChannel) {
-        const channelName = "chat-session-" + sessionId;
-        chatChannel = pusher.subscribe(channelName);
-        console.log("📡 Subscribed to: " + channelName);
+    const channelName = "chat-session-" + sessionId;
 
-        const handleIncoming = (data) => {
-            console.log("📥 Realtime Admin Message:", data);
+    chatChannel = pusher.subscribe(channelName);
+    console.log("📡 Subscribed:", channelName);
 
-            // শুধু অ্যাডমিনের মেসেজ অ্যাপেন্ড করবে যেন ইউজারের নিজের মেসেজ ডাবল না হয়
-            if (data.sender === "admin") {
-                appendUserMessage(data);
-            }
-        };
+    chatChannel.bind("message.sent", handleIncoming);
+    chatChannel.bind(".message.sent", handleIncoming);
+}
 
-        // অ্যাডমিন প্যানেলের মতো এখানেও ডট ফিক্স
-        chatChannel.bind("message.sent", handleIncoming);
-        chatChannel.bind(".message.sent", handleIncoming);
+/* ================== HANDLE INCOMING ================== */
+function handleIncoming(data) {
+    if (data.sender === "admin") {
+        appendMessage(data);
     }
 }
 
-/* ========== Append message (Frontend UI) ========== */
-function appendUserMessage(m) {
+/* ================== APPEND MESSAGE ================== */
+function appendMessage(m) {
     const box = qs("apexMessages");
     if (!box) return;
 
     const msgDiv = document.createElement("div");
-    msgDiv.className = `msg ${m.sender}`; // 'user' or 'admin'
-
-    // ডাটা ফরম্যাট হ্যান্ডেল করা
-    const text = m.message ? m.message : m;
-    msgDiv.innerText = text;
+    msgDiv.className = `msg ${m.sender}`;
+    msgDiv.textContent = m.message ?? m;
 
     box.appendChild(msgDiv);
-    box.scrollTop = box.scrollHeight; // অটো স্ক্রল
+    box.scrollTop = box.scrollHeight;
 }
 
-/* ========== Delete session ========== */
-function deleteChatSession() {
-    if (!confirm("Are you sure to end this session?")) return;
+/* ================== SMART CLOSE ================== */
+window.smartCloseAvijatryChat = function () {
+    if (!apexUser.session_id) {
+        closeAvijatryChat();
+        return;
+    }
+
+    const existingBox = qs("chatCloseOptions");
+    if (existingBox) existingBox.remove();
+
+    const box = document.createElement("div");
+    box.id = "chatCloseOptions";
+    box.style.cssText = `
+        position: fixed;
+        bottom: 35%;
+        right: 32px;
+        width: 280px;
+        background: #fff;
+        border: 1px solid #ddd;
+        padding: 25px;
+        border-radius: 20px;
+        box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+        z-index: 999999;
+        text-align: center;
+    `;
+
+    box.innerHTML = `
+        <p style="margin-bottom:20px;font-weight:bold;">Do you want to end the chat or just minimize?</p>
+        <button id="continueChatBtn" style="margin-bottom:10px;width:100%;padding:10px;border:none;border-radius:10px;background:#F9B711;color:#fff;font-weight:bold;">Minimize & Continue</button>
+        <button id="closeSessionBtn" style="width:100%;padding:10px;border:none;border-radius:10px;background:#dc3545;color:#fff;font-weight:bold;">End Chat Session</button>
+    `;
+
+    document.body.appendChild(box);
+
+    qs("continueChatBtn").onclick = () => {
+        box.remove();
+        closeAvijatryChat();
+    };
+
+    qs("closeSessionBtn").onclick = () => {
+        box.remove();
+        deleteChatSession();
+    };
+};
+
+/* ================== DELETE SESSION ================== */
+window.deleteChatSession = function () {
+    if (!apexUser.session_id) return;
+
+    if (
+        !confirm(
+            "Are you sure you want to permanently delete this chat history?",
+        )
+    )
+        return;
+
+    const channelName = chatChannel?.name;
 
     fetch("/support/chat/delete/" + apexUser.session_id, {
         method: "DELETE",
         headers: window.APEX_HEADERS,
     })
         .then((res) => res.json())
-        .then((data) => {
+        .then(() => {
             localStorage.removeItem("apex_session_id");
             localStorage.removeItem("apex_user_name");
-            location.reload(); // ক্লিন করার জন্য রিলোড
-        });
-}
 
-/* ========== DOM Ready ========== */
+            const msgBox = qs("apexMessages");
+            if (msgBox) msgBox.innerHTML = "";
+
+            if (pusher && channelName) {
+                pusher.unsubscribe(channelName);
+                pusher.disconnect();
+            }
+            qs("apexUserName").value = "";
+            qs("apexUserPhone").value = "";
+
+            pusher = null;
+            chatChannel = null;
+            pusherInitialized = false;
+
+            apexUser.session_id = null;
+            apexUser.name = "";
+
+            closeAvijatryChat();
+            // alert("Chat session ended successfully.");
+        })
+        .catch((err) => console.error("❌ Delete error:", err));
+};
+
+/* ================== ENTER TO SEND ================== */
+// document.addEventListener("DOMContentLoaded", () => {
+//     const input = qs("apexInput");
+//     if (!input) return;
+
+//     input.addEventListener("keydown", (e) => {
+//         if (e.key === "Enter" && !e.shiftKey) {
+//             e.preventDefault();
+//             sendApexMessage();
+//         }
+//     });
+// });
+
 document.addEventListener("DOMContentLoaded", () => {
-    const savedSession = localStorage.getItem("apex_session_id");
-    if (savedSession) {
-        apexUser.session_id = savedSession;
-        apexUser.name = localStorage.getItem("apex_user_name");
-        loadMessages();
-    }
-
+    /* enter to send */
     const input = qs("apexInput");
     if (input) {
         input.addEventListener("keydown", (e) => {
@@ -215,6 +276,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 e.preventDefault();
                 sendApexMessage();
             }
+        });
+    }
+
+    /* close user form */
+    const closeBtn = qs("closeUserFormBtn");
+    if (closeBtn) {
+        closeBtn.addEventListener("click", () => {
+            const form = qs("apexUserForm");
+            if (form) form.style.display = "none";
         });
     }
 });

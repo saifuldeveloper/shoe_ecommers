@@ -23,7 +23,7 @@
 
     @stack('css')
     <!-- Fonts-->
-    
+
     <link
         href="https://fonts.googleapis.com/css?family=Archivo+Narrow:300,400,700%7CMontserrat:300,400,500,600,700,800,900"
         rel="stylesheet" />
@@ -88,7 +88,7 @@
         <button id="scrollTopBtn">⬆</button>
         @include('front.inc.chatbar')
     </main>
- <script src="https://js.pusher.com/8.4.0/pusher.min.js"></script>
+    <script src="https://js.pusher.com/8.4.0/pusher.min.js"></script>
     <script src="{{ asset('assets/frontend/js/chat.js') }}" defer></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -110,12 +110,12 @@
     <script src="{{ asset('assets/frontend/plugins/jquery/dist/jquery.min.js') }}"></script>
 
     <!-- Bootstrap -->
-    <script src="{{ asset('assets/frontend/plugins/bootstrap/dist/js/bootstrap.min.js') }}" ></script>
-    <script type="text/javascript" src="{{ asset('assets/back/js/plugin/bootstrap-notify/bootstrap-notify.min.js') }}" >
+    <script src="{{ asset('assets/frontend/plugins/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/back/js/plugin/bootstrap-notify/bootstrap-notify.min.js') }}">
     </script>
     <!-- Other JS plugins -->
-    <script src="{{ asset('assets/frontend/plugins/jquery-bar-rating/dist/jquery.barrating.min.js') }}" ></script>
-    <script src="{{ asset('assets/frontend/plugins/owl-carousel/owl.carousel.min.js') }}" ></script>
+    <script src="{{ asset('assets/frontend/plugins/jquery-bar-rating/dist/jquery.barrating.min.js') }}"></script>
+    <script src="{{ asset('assets/frontend/plugins/owl-carousel/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('assets/frontend/plugins/gmap3.min.js') }}"></script>
     <script src="{{ asset('assets/frontend/plugins/imagesloaded.pkgd.js') }}"></script>
     <script src="{{ asset('assets/frontend/plugins/isotope.pkgd.min.js') }}"></script>
