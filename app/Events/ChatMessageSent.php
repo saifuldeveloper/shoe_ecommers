@@ -27,8 +27,13 @@ class ChatMessageSent implements ShouldBroadcast
 
     public function broadcastOn()
     {
-        return new Channel('chat-session-' . $this->session_id);
+        // return new Channel('chat-session-' . $this->session_id);
         // PrivateChannel optional
+
+        return [
+            new Channel('chat-session-' . $this->session_id), // নির্দিষ্ট চ্যাট বক্সের জন্য
+            new Channel('admin-chat-channel')                // অ্যাডমিন সেশন লিস্টের জন্য
+        ];
     }
 
     public function broadcastAs()
@@ -37,13 +42,28 @@ class ChatMessageSent implements ShouldBroadcast
     }
 
     // 🔥 THIS IS THE KEY PART
+    // public function broadcastWith()
+    // {
+    //     return [
+    //         'message' => $this->message,
+    //         'session_id' => $this->session_id,
+    //         'sender' => $this->sender,
+    //         'created_at' => $this->created_at,
+    //     ];
+    // }
+
     public function broadcastWith()
     {
+        // সেশন থেকে ইউজার ডাটা নিয়ে নিন
+        $session = \App\Models\ChatSession::find($this->session_id);
+
         return [
             'message' => $this->message,
             'session_id' => $this->session_id,
             'sender' => $this->sender,
             'created_at' => $this->created_at,
+            'user_name' => $session->name ?? 'Unknown', // নাম যোগ করুন
+            'user_phone' => $session->phone ?? '',      // ফোন যোগ করুন
         ];
     }
 }

@@ -14,8 +14,6 @@ use App\{
     Models\District,
     Models\FirstHeroSection,
     Models\SecondHeroSection,
-    
-
     Models\Subscriber,
     Helpers\EmailHelper,
     Http\Controllers\Controller,
@@ -28,6 +26,7 @@ use App\Jobs\EmailSendJob;
 use App\Models\Brand;
 use App\Models\ContactMessage;
 use App\Models\Menu;
+use App\Models\Gallery;
 use App\Models\CampaignItem;
 use App\Models\Category;
 use App\Models\Fcategory;
@@ -170,16 +169,16 @@ class FrontendController extends Controller
 
 
 
-    
+
     public function index()
     {
         /* =========================
          | Menu Categories
          ========================= */
         $menuCategories = Category::where([
-                'is_in_menu' => 1,
-                'status'     => 1,
-            ])
+            'is_in_menu' => 1,
+            'status' => 1,
+        ])
             ->orderBy('menu_serial')
             ->get();
 
@@ -187,9 +186,9 @@ class FrontendController extends Controller
          | Featured Categories
          ========================= */
         $featuredCategories = Category::where([
-                'is_featured' => 1,
-                'status'      => 1,
-            ])
+            'is_featured' => 1,
+            'status' => 1,
+        ])
             ->orderBy('featured_serial')
             ->get();
 
@@ -199,10 +198,10 @@ class FrontendController extends Controller
          | Featured Products
          ========================= */
         $featured_items = Item::with([
-                'category',
-                'itemVariants.variant.color',
-                'itemVariants.variant.size',
-            ])
+            'category',
+            'itemVariants.variant.color',
+            'itemVariants.variant.size',
+        ])
             ->where('status', 1)
             ->where('is_type', 'feature')
             ->whereIn('category_id', $featuredCategoryIds)
@@ -213,9 +212,9 @@ class FrontendController extends Controller
          | Banner Categories
          ========================= */
         $bannerCategories = Category::where([
-                'is_banner' => 1,
-                'status'    => 1,
-            ])
+            'is_banner' => 1,
+            'status' => 1,
+        ])
             ->orderBy('banner_serial')
             ->get();
 
@@ -223,8 +222,8 @@ class FrontendController extends Controller
          | Home Customize
          ========================= */
         $homeCustomize = HomeCutomize::first();
-        $heroBanner    = $homeCustomize ? json_decode($homeCustomize->hero_banner, true) : [];
-        $thirdBanner   = $homeCustomize ? json_decode($homeCustomize->banner_third, true) : [];
+        $heroBanner = $homeCustomize ? json_decode($homeCustomize->hero_banner, true) : [];
+        $thirdBanner = $homeCustomize ? json_decode($homeCustomize->banner_third, true) : [];
 
         /* =========================
          | Blog Posts
@@ -242,9 +241,9 @@ class FrontendController extends Controller
          | New Arrival Products
          ========================= */
         $newArrivalItems = Item::with([
-                'itemVariants.variant.color',
-                'itemVariants.variant.size',
-            ])
+            'itemVariants.variant.color',
+            'itemVariants.variant.size',
+        ])
             ->where('status', 1)
             ->where('is_type', 'new')
             ->latest()
@@ -254,9 +253,9 @@ class FrontendController extends Controller
          | Top Selling Products (Optimized)
          ========================= */
         $topSellingItems = Item::with([
-                'itemVariants.variant.color',
-                'itemVariants.variant.size',
-            ])
+            'itemVariants.variant.color',
+            'itemVariants.variant.size',
+        ])
             ->select('items.*', DB::raw('SUM(order_details.qty) as total_sold'))
             ->join('order_details', 'items.id', '=', 'order_details.item_id')
             ->join('orders', 'orders.id', '=', 'order_details.order_id')
@@ -270,9 +269,9 @@ class FrontendController extends Controller
          | Manual Top Products
          ========================= */
         $manulTopItems = Item::with([
-                'itemVariants.variant.color',
-                'itemVariants.variant.size',
-            ])
+            'itemVariants.variant.color',
+            'itemVariants.variant.size',
+        ])
             ->where('status', 1)
             ->where('is_type', 'top')
             ->latest()
@@ -281,9 +280,9 @@ class FrontendController extends Controller
         /* =========================
          | Sliders & Banners
          ========================= */
-        $sliders        = Slider::all();
-        $firstBanners   = FirstHeroSection::all();
-        $secondBanners  = SecondHeroSection::all();
+        $sliders = Slider::all();
+        $firstBanners = FirstHeroSection::all();
+        $secondBanners = SecondHeroSection::all();
 
         /* =========================
          | Return View
@@ -323,43 +322,42 @@ class FrontendController extends Controller
 
     public function product(Request $request, $slug)
     {
-        $item_details = Item::where('slug', $slug)->first();
+
+        $item = Item::with('itemVariants.variant.size', 'itemVariants.variant.color')
+            ->where('slug', $slug)
+            ->firstOrFail();
         $related_products = Item::where('status', 1)
-            ->where('id', '!=', $item_details->id)
-            ->where(function ($query) use ($item_details) {
-                $query->where('category_id', $item_details->category_id)
-                    ->orWhere('subcategory_id', $item_details->subcategory_id)
-                    ->orWhere('childcategory_id', $item_details->childcategory_id)
-                    ->orWhere('brand_id', $item_details->brand_id);
+            ->where('id', '!=', $item->id)
+            ->where(function ($query) use ($item) {
+                $query->where('category_id', $item->category_id)
+                    ->orWhere('subcategory_id', $item->subcategory_id)
+                    ->orWhere('childcategory_id', $item->childcategory_id)
+                    ->orWhere('brand_id', $item->brand_id);
             })
             ->inRandomOrder()
             ->take(8)
             ->get();
-        // Get existing viewed product IDs from session (or empty array)
+
+        //recently viewed products
         $viewed = session()->get('viewed_products', []);
 
         // Add this product ID if not already there
-        if (!in_array($item_details->id, $viewed)) {
-            $viewed[] = $item_details->id;
+        if (!in_array($item->id, $viewed)) {
+            $viewed[] = $item->id;
             session()->put('viewed_products', $viewed);
         }
 
-        $recently_viewed = Item::where('id', '!=', $item_details->id)
+        $recently_viewed = Item::where('id', '!=', $item->id)
             ->whereIn('id', session('viewed_products', []))
             ->where('status', 1)
             ->get();
-
-        //selected size
-        $item = Item::with('itemVariants.variant.size', 'itemVariants.variant.color')
-            ->where('slug', $slug)
-            ->firstOrFail();
-
         $size = $request->query('size');
+        $itemGalleries = $item->galleries;
 
         return view('front.pages.product_detail', compact(
-            'item_details',
             'related_products',
             'recently_viewed',
+            'itemGalleries',
             'item',
             'size'
         ));

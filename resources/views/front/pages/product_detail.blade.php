@@ -7,11 +7,7 @@
 @push('css')
     <link href="{{ asset('assets/frontend/css/chatbox.css') }}" rel="stylesheet" />
 @endpush
-
 @section('content')
-    @php
-        $itemGalleries = App\Models\Gallery::where('item_id', $item->id)->get();
-    @endphp
     <div class="test">
         <div class="container">
             <div class="row">
@@ -36,7 +32,6 @@
                                 data-owl-duration="1000" data-owl-gap="10" data-owl-item="4" data-owl-item-lg="6"
                                 data-owl-item-md="5" data-owl-item-sm="4" data-owl-item-xs="2" data-owl-loop="true"
                                 data-owl-mousedrag="on" data-owl-nav="true" data-owl-speed="5000">
-
                                 {{-- src="{{ asset('storage/socialMediaPost/' . $post->photo) }}" --}}
                                 @foreach ($itemGalleries ?? [] as $gallery)
                                     <a href="{{ asset('storage/items/' . $gallery->photo) }}"
@@ -56,11 +51,11 @@
                             <p><strong>Product Code:</strong> {{ $item->code ?? '' }}</p>
                         @endif
                         <p><strong>Availability:</strong>
-                            @if ($item->is_stock())
-                                <span class="text-success  d-inline-block">{{ __('In Stock') }}</span>
-                            @else
+                            {{-- @if ($item->is_stock()) --}}
+                            <span class="text-success  d-inline-block">{{ __('In Stock') }}</span>
+                            {{-- @else
                                 <span class="text-danger  d-inline-block">{{ __('Out of stock') }}</span>
-                            @endif
+                            @endif --}}
                         </p>
                         <h3><span class="previous-price">Tk {{ $item->previous_price ?? '' }}</span><span
                                 class="text-danger">Tk {{ $item->discount_price ?? '' }}</span></h3>
@@ -70,7 +65,6 @@
                             @endforeach
                         </p>
                         <p>{{ $item->sort_details ?? '' }}</p>
-                        <!-- Size -->
                         @php
                             $variantsIds = $item->iteamVariant->pluck('variant_id')->values()->all();
                             $variants = App\Models\Variant::whereIn('id', $variantsIds)
@@ -88,18 +82,10 @@
                                             src="{{ asset('assets/frontend/images/icon_sizechar.png') }}" /> Size Chart</a>
                                 </div>
                                 <div class="size-option d-flex">
-                                    {{-- @foreach ($sizes as $s)
-                                        <input type="radio" id="size{{ $s->id }}" name="size"
-                                            value="{{ $s->id }}"
-                                            {{ strtolower($s->name) == strtolower($size) ? 'checked' : '' }}>
-                                        <label for="size{{ $s->id }}">{{ $s->name }}</label>
-                                    @endforeach --}}
-
                                     @foreach ($sizes as $s)
                                         <input type="radio" id="size{{ $s->id }}" name="size"
                                             value="{{ $s->id }}"
                                             {{ isset($size) && strtolower($s->name) == strtolower($size) ? 'checked' : ($loop->first ? 'checked' : '') }}>
-
                                         <label for="size{{ $s->id }}">{{ $s->name }}</label>
                                     @endforeach
                                 </div>
@@ -353,7 +339,6 @@
                 </div>
             @endif
 
-
             {{-- //size modal   --}}
             <div class="modal fade halo_modal-custom" id="size_chart" role="dialog">
                 <div class="modal-dialog modal-dialog-centered">
@@ -375,19 +360,15 @@
                                 </svg>
                             </a>
                         </div>
-
                         <div class="modal-body">
                             <div class="size-chart-img">
-
-                                <img src=""
+                                <img src="{{ asset('assets/images/size-chart-product_details.webp') }}"
                                     alt="Size Chart" />
-
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 @endsection

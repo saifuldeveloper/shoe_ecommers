@@ -91,7 +91,7 @@ class Item extends Model
 
     public function galleries()
     {
-        return $this->hasMany('App\Models\Gallery');
+        return $this->hasMany(Gallery::class);
     }
 
     public function reviews()
