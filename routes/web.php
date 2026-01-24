@@ -776,7 +776,7 @@ Route::middleware('throttle:60,1')->prefix('support')->group(function () {
     Route::post('/chat/start', [ChatController::class, 'startChat']);
     Route::post('/chat/send', [ChatController::class, 'sendMessage']);
     Route::get('/chat/messages/{session}', [ChatController::class, 'getMessages']);
-    Route::delete('/chat/delete/{session}', [ChatController::class, 'deleteChat']);
+    Route::post('/chat/delete/{session}', [ChatController::class, 'deleteChat']);
 });
 
 Route::post('compare/add', [App\Http\Controllers\Front\CustomCompareController::class, 'add'])->name('compare.add');

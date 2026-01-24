@@ -223,8 +223,12 @@ window.deleteChatSession = function () {
     const channelName = chatChannel?.name;
 
     fetch("/support/chat/delete/" + apexUser.session_id, {
-        method: "DELETE",
-        headers: window.APEX_HEADERS,
+        method: "POST",
+        headers: {
+            ...window.APEX_HEADERS,
+            "Content-Type": "application/json",
+            Accept: "application/json",
+        },
     })
         .then((res) => res.json())
         .then(() => {
@@ -253,19 +257,6 @@ window.deleteChatSession = function () {
         })
         .catch((err) => console.error("❌ Delete error:", err));
 };
-
-/* ================== ENTER TO SEND ================== */
-// document.addEventListener("DOMContentLoaded", () => {
-//     const input = qs("apexInput");
-//     if (!input) return;
-
-//     input.addEventListener("keydown", (e) => {
-//         if (e.key === "Enter" && !e.shiftKey) {
-//             e.preventDefault();
-//             sendApexMessage();
-//         }
-//     });
-// });
 
 document.addEventListener("DOMContentLoaded", () => {
     /* enter to send */

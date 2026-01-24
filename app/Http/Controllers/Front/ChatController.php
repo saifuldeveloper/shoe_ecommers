@@ -67,7 +67,7 @@ class ChatController extends Controller
 
     public function deleteChat($session)
     {
-        $chatSession = ChatSession::find($session);
+       $chatSession = ChatSession::where('id', $session)->first();
         if (!$chatSession) {
             return response()->json(['success' => false, 'message' => 'Session not found']);
         }

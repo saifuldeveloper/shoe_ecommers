@@ -1,36 +1,33 @@
 @extends('master.front')
 @section('content')
     <div class="ps-banner">
-        <div class="rev_slider fullscreenbanner" id="home-banner">
-            <ul>
+        <div class="swiper homeSwiper">
+            <div class="swiper-wrapper">
                 @foreach ($sliders as $slider)
-                    <li class="ps-banner {{ $loop->iteration % 2 == 0 ? 'ps-banner--white' : '' }}" data-hideafterloop="0"
-                        data-hideslideonmobile="off" data-index="rs-{{ $loop->iteration }}" data-rotate="0"
-                        data-slotamount="default" data-transition="random">
+                    <div class="swiper-slide">
                         <a href="{{ $slider->link }}">
                             <picture>
                                 <source media="(max-width: 767px)"
-                                    srcset="{{ $slider->mobile_photo ? asset('storage/slider/' . $slider->mobile_photo) : asset('img/default.png') }}">
-                                <img src="{{ $slider->photo ? asset('storage/slider/' . $slider->photo) : asset('img/default.png') }}"
-                                    alt="Slider Image" class="rev-slidebg" data-bgfit="cover" data-bgparallax="5"
-                                    data-bgposition="center center" data-bgrepeat="no-repeat" data-no-retina>
+                                    srcset="{{ asset('storage/slider/' . $slider->mobile_photo) }}">
+                                <img src="{{ asset('storage/slider/' . $slider->photo) }}" alt="{{ $slider->title }}"
+                                    loading="{{ $loop->first ? 'eager' : 'lazy' }}">
                             </picture>
                         </a>
-                        <div class="tp-caption ps-banner__header"
-                            data-frames='[{"delay":1000,"speed":1500,"frame":"0","from":"x:50px;opacity:0;","to":"o:1;","ease":"Power3.easeInOut"}]'
-                            data-x="left" data-y="middle" id="layer-{{ $loop->iteration }}">
-                            <p>{{ $slider->title }}</p>
-                        </div>
-                        <div class="tp-caption ps-banner__description"
-                            data-frames='[{"delay":1200,"speed":1500,"frame":"0","from":"x:50px;opacity:0;","to":"o:1;","ease":"Power3.easeInOut"}]'
-                            data-x="left" data-y="middle" id="layer-desc-{{ $loop->iteration }}">
+
+                        <div class="banner-content">
+                            <h2>{{ $slider->title }}</h2>
                             <p>{{ $slider->description }}</p>
                         </div>
-                    </li>
+                    </div>
                 @endforeach
-            </ul>
+            </div>
+            <!-- arrows -->
+            {{-- <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div> --}}
+            <div class="swiper-pagination"></div>
         </div>
     </div>
+
     <div class="ps-section pt-35">
         <div class="ps-container">
             <div class="ps-section__content">
@@ -99,7 +96,6 @@
                                 @php
                                     $count = $featured_items->where('category_id', $cat->id)->count();
                                 @endphp
-
                                 @if ($count > 0)
                                     <li>
                                         <a data-filter=".{{ Str::slug($cat->slug) }}" href="#">
@@ -111,9 +107,7 @@
                         </ul>
                     </div>
                 </div>
-
             </div>
-
             <div class="ps-section__content">
                 <div class="masonry-wrapper" data-col-md="4" data-col-sm="2" data-col-xs="1" data-gap="30"
                     data-radio="100%">

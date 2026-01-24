@@ -8476,10 +8476,19 @@ html .bg--parallax {
 
 body {
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.1s ease;
 }
 body.nav-loaded {
   opacity: 1;
+}
+
+
+.swiper-pagination {
+    position: absolute !important; /* overlay */
+    bottom: 20px;   /* নিচ থেকে কত দূরে */
+    z-index: 10;    /* image এর উপরে দেখাবে */
+     bottom: 80px !important;
+  
 }
 /* Desktop/Laptop (992px এর বেশি হলে hide করবে) */
 @media (min-width: 992px) {

@@ -210,7 +210,7 @@
         }
     </script>
 
-    <script async defer
+    <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDC9UyRrFn8cIqD5cAtLYg3aVSNREWuaQQ&callback=initMap"></script>
     <script>
         $(document).ready(function() {
