@@ -26,30 +26,51 @@ const qs = (id) => document.getElementById(id);
 // };
 
 /* ================== CHAT TOGGLE (DYNAMIC LOADING) ================== */
-/* ================== 1. MAIN TOGGLE (প্রথমেই এটি কল হবে) ================== */
 /* ================== STEP 1: toggleChat ================== */
 // এই ফাংশনটি শুধু চ্যাট বক্সের কন্টেইনার দেখাবে এবং Pusher লোড করবে
+// window.toggleChat = function () {
+//     const box = qs("chatBox");
+//     if (!box) return;
+
+//     if (box.style.display !== "block") {
+//         // Pusher লোড করা না থাকলে লোড করো
+//         if (typeof Pusher === 'undefined') {
+//             const script = document.createElement('script');
+//             script.src = "https://js.pusher.com/8.4.0/pusher.min.js";
+//             script.onload = () => {
+//                 console.log("✅ Pusher Ready.");
+//                 box.style.display = "block";
+//             };
+//             document.head.appendChild(script);
+//         } else {
+//             box.style.display = "block";
+//         }
+//     } else {
+//         box.style.display = "none";
+//     }
+// };
+
 window.toggleChat = function () {
     const box = qs("chatBox");
+    const form = qs("apexUserForm");
+
     if (!box) return;
 
-    if (box.style.display !== "block") {
-        // Pusher লোড করা না থাকলে লোড করো
-        if (typeof Pusher === 'undefined') {
-            console.log("⏳ Loading Pusher Resources...");
-            const script = document.createElement('script');
-            script.src = "https://js.pusher.com/8.4.0/pusher.min.js";
-            script.onload = () => {
-                console.log("✅ Pusher Ready.");
-                box.style.display = "block"; 
-                // নোট: এখানে openApexChat অটো কল হচ্ছে না, ইউজার ক্লিক করলে হবে।
-            };
-            document.head.appendChild(script);
-        } else {
-            box.style.display = "block";
-        }
-    } else {
-        box.style.display = "none";
+    // always hide apex form when toggling chat box
+    if (form) form.style.display = "none";
+
+    // toggle chat box only
+    box.style.display = box.style.display === "block" ? "none" : "block";
+
+    // load pusher once (optional)
+    if (!pusherInitialized && typeof Pusher === "undefined") {
+        const script = document.createElement("script");
+        script.src = "https://js.pusher.com/8.4.0/pusher.min.js";
+        script.onload = () => {
+            console.log("✅ Pusher Ready");
+            pusherInitialized = true;
+        };
+        document.head.appendChild(script);
     }
 };
 /* ================== CLOSE CHAT UI ================== */
