@@ -3,12 +3,11 @@
         <div class="container-fluid">
             <div class="row py-5">
                 <div class="col-lg-4 col-md-4 text-center">
-
                     <p style="padding-top: 40px;">
                         <img src="{{ asset('assets/frontend/images/icon/free-location-icon-2952-thumb.png') }}"
                             height="30" alt="">
                         <a href="{{ route('front.findStore') }}" class="storLocator"> Find A Store</a> | Customer care:
-                        {{  $setting->customer_care_number }}
+                        {{ $setting->customer_care_number }}
                     </p>
                 </div>
                 <div class="col-lg-4 col-md-4">
@@ -35,7 +34,8 @@
                                 </a>
                             </div>
                             <div class="ps-user">
-                                <a class="ps-user__toggle" href="https://wa.me/88{{  $setting->whatsapp_number }}"  target="_blank">
+                                <a class="ps-user__toggle" href="https://wa.me/88{{ $setting->whatsapp_number }}"
+                                    target="_blank">
                                     <img src="{{ asset('assets/frontend/images/whatsapp-icon.avif') }}"
                                         style="height: 32px;padding-top: 7px;" alt="">
                                 </a>
@@ -121,35 +121,46 @@
                                                 @foreach ($category->subcategory as $sub)
                                                     <li>
                                                         <a
-                                                            href="{{ route('front.categories.products', ['slug'=>$sub->slug]) }}">{{ $sub->name }}</a>
+                                                            href="{{ route('front.categories.products', ['slug' => $sub->slug]) }}">{{ $sub->name }}</a>
                                                     </li>
                                                 @endforeach
                                             </ul>
                                         @endif
                                     </div>
                                     @php
-                                        $products = App\Models\Item::with( 'itemVariants.variant.color', 'itemVariants.variant.size')
+                                        $products = App\Models\Item::with(
+                                            'itemVariants.variant.color',
+                                            'itemVariants.variant.size',
+                                        )
                                             ->where('category_id', $category->id)
                                             ->where('status', 1)
                                             ->orderBy('id', 'DESC')
                                             ->get();
 
-                                        $colors = $products->flatMap(function ($product) {
+                                        $colors = $products
+                                            ->flatMap(function ($product) {
                                                 return $product->itemVariants->pluck('variant.color.name')->filter();
-                                            })->unique()->values();
+                                            })
+                                            ->unique()
+                                            ->values();
 
-                                        $sizes = $products->flatMap(function ($product) {
+                                        $sizes = $products
+                                            ->flatMap(function ($product) {
                                                 return $product->itemVariants->pluck('variant.size.name')->filter();
-                                            })->unique()->values();
+                                            })
+                                            ->unique()
+                                            ->values();
 
                                         $prices = $products
                                             ->flatMap(function ($product) {
                                                 return $product->itemVariants->map(function ($variant) use ($product) {
                                                     return $product->discount_price + ($variant->additional_price ?? 0);
                                                 });
-                                            })->filter()->unique()->values();
+                                            })
+                                            ->filter()
+                                            ->unique()
+                                            ->values();
 
-                                            
                                     @endphp
                                     @php
                                         $selected = strtolower(request()->get('constraint'));
@@ -160,11 +171,12 @@
                                         </h4>
                                         <ul class="mega-item">
                                             @foreach ($colors as $color)
-                                               @php
+                                                @php
                                                     $isSelected = strtolower($color) === $selected;
                                                 @endphp
                                                 <li class="{{ $isSelected ? 'selected' : '' }}">
-                                                    <a href="{{ route('front.categories.products', ['slug' => $category->slug]) }}?constraint={{ strtolower($color) }}">
+                                                    <a
+                                                        href="{{ route('front.categories.products', ['slug' => $category->slug]) }}?constraint={{ strtolower($color) }}">
                                                         {{ $color }}
                                                     </a>
                                                 </li>
@@ -178,11 +190,12 @@
                                         <ul class="mega-item">
 
                                             @foreach ($prices as $price)
-                                             @php
+                                                @php
                                                     $isSelected = strtolower($price) === $selected;
                                                 @endphp
                                                 <li class="{{ $isSelected ? 'selected' : '' }}">
-                                                     <a href="{{ route('front.categories.products', ['slug' => $category->slug]) }}?constraint={{ strtolower($price) }}">
+                                                    <a
+                                                        href="{{ route('front.categories.products', ['slug' => $category->slug]) }}?constraint={{ strtolower($price) }}">
                                                         Tk {{ $price }}
                                                     </a>
                                                 </li>
@@ -193,12 +206,13 @@
                                         <h4 class="mega-heading">By Size</h4>
                                         <ul class="mega-item">
                                             @foreach ($sizes as $size)
-                                              @php
+                                                @php
                                                     $isSelected = strtolower($size) === $selected;
                                                 @endphp
                                                 <li class="{{ $isSelected ? 'selected' : '' }}">
-                                                   <a href="{{ route('front.categories.products', ['slug' => $category->slug]) }}?constraint={{ strtolower($size) }}">
-                                                       👞 {{ $size }}
+                                                    <a
+                                                        href="{{ route('front.categories.products', ['slug' => $category->slug]) }}?constraint={{ strtolower($size) }}">
+                                                        👞 {{ $size }}
                                                     </a>
                                                 </li>
                                             @endforeach
@@ -221,7 +235,6 @@
                 </ul>
             </div>
             <div class="search-fixed" id="show_hide_cart">
-
                 <button type="button" id="openSearchBtn" class="ps-user__toggle sticky_search-toggle-btn">
                     <i class="fa fa-search"></i>
                 </button>
@@ -252,8 +265,8 @@
                 <div class="ps-user">
                     <button type="button" class="ps-user__toggle search-toggle-btn">
                         {{-- <i class="fa fa-search"></i> --}}
-                           <img src="{{ asset('assets/frontend/images/icon/icons8-search-50.png') }}"
-                            height="30" alt="">
+                        <img src="{{ asset('assets/frontend/images/icon/icons8-search-50.png') }}" height="30"
+                            alt="">
                     </button>
 
                     <div class="search-box_small">
@@ -285,19 +298,21 @@
                 {{-- start cart  --}}
                 <div class="cart-container">
                     <a class="ps-cart__toggle cart-icon" href="{{ route('front.cart') }}">
-                            <span><i class="cart_count">{{ PriceHelper::totalCartQuantity() }}</i></span><i class="ps-icon-shopping-cart"></i>
-                        
+                        <span><i class="cart_count">{{ PriceHelper::totalCartQuantity() }}</i></span><i
+                            class="ps-icon-shopping-cart"></i>
+
                     </a>
                     <div class="cart-dropdown">
 
                         <div class="cart-item">
-                         @include('includes.cart-items-dropdown')
-                         </div>
+                            @include('includes.cart-items-dropdown')
+                        </div>
 
                         <div class="cart-actions">
-                            <a href="{{ route('front.checkout.payment') }}" class="btn btn-checkout">CHECK OUT NOW</a>
+                            <a href="{{ route('front.checkout.payment') }}" class="btn btn-checkout">CHECK OUT
+                                NOW</a>
                             <a href="{{ route('front.cart') }}" class="btn btn-view">VIEW CART</a>
-                              
+
                         </div>
                     </div>
                 </div>
@@ -423,17 +438,6 @@
                 }, 200);
             });
         });
-
-        // Remove cart item
-        // document.addEventListener('click', function(e) {
-        //     if (e.target.classList.contains('cart-item-remove')) {
-        //         const item = e.target.closest('.cart-item');
-        //         console.log(item);
-        //         item.remove();
-        //         updateCartTotal();
-        //     }
-        // });
-
         function updateCartTotal() {
             document.querySelectorAll('.cart-container').forEach(container => {
                 const prices = container.querySelectorAll('.cart-item-price');
@@ -457,8 +461,6 @@
         menuToggle.addEventListener('click', function() {
             body.classList.toggle('sidebar-open');
         });
-
-
         // ==click to search input field & show the modal dektop device
         // ==click to search input field & show the modal dektop device
         document.addEventListener('DOMContentLoaded', function() {
@@ -979,9 +981,9 @@
             });
         });
     </script>
-       <script>
+    <script>
         window.addEventListener("load", function() {
             document.body.classList.add("nav-loaded");
         });
-        </script>
+    </script>
 @endpush

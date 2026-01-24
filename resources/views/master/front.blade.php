@@ -19,17 +19,11 @@
     <link rel="apple-touch-icon" sizes="167x167" href="{{ url('/storage/generalSettings/' . $setting->favicon) }}">
     <meta name="keywords" content="Default Description" />
     <title> {{ $setting->title }} </title>
-
-
     @stack('css')
-    <!-- Fonts-->
-
     <link
         href="https://fonts.googleapis.com/css?family=Archivo+Narrow:300,400,700%7CMontserrat:300,400,500,600,700,800,900"
         rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    {{-- <link href="{{ asset('assets/frontend/plugins/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" /> --}}
     <link href="{{ asset('assets/frontend/plugins/ps-icon/style.css') }}" rel="stylesheet" />
     <!-- CSS Library-->
     <link href="{{ asset('assets/frontend/plugins/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet" />
@@ -51,26 +45,21 @@
     <style>
         {{ $setting->custom_css }}
     </style>
-
     {{-- Google AdSense Start --}}
     @if ($setting->is_google_adsense == '1')
         {!! $setting->google_adsense !!}
     @endif
     {{-- Google AdSense End --}}
-
     {{-- Google AnalyTics Start --}}
     @if ($setting->is_google_analytics == '1')
         {!! $setting->google_analytics !!}
     @endif
     {{-- Google AnalyTics End --}}
-
     {{-- Facebook pixel  Start --}}
     @if ($setting->is_facebook_pixel == '1')
         {!! $setting->facebook_pixel !!}
     @endif
     {{-- Facebook pixel End --}}
-
-
     <script>
         window.APEX_HEADERS = {
             'Content-Type': 'application/json',
@@ -78,7 +67,6 @@
         };
     </script>
 </head>
-
 <body>
     <div class="header--sidebar"></div>
     @include('front.inc.header')
@@ -88,27 +76,8 @@
         <button id="scrollTopBtn">⬆</button>
         @include('front.inc.chatbar')
     </main>
-    <script src="https://js.pusher.com/8.4.0/pusher.min.js"></script>
-    <script src="{{ asset('assets/frontend/js/chat.js') }}" defer></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const btn = document.getElementById("scrollTopBtn");
-            if (!btn) return;
-            window.addEventListener("scroll", () => {
-                btn.style.display = window.scrollY > 300 ? "block" : "none";
-            });
-            btn.addEventListener("click", () => {
-                window.scrollTo({
-                    top: 0,
-                    behavior: "smooth"
-                });
-            });
-        });
-    </script>
-    <!-- JS Library-->
     <!-- jQuery -->
     <script src="{{ asset('assets/frontend/plugins/jquery/dist/jquery.min.js') }}"></script>
-
     <!-- Bootstrap -->
     <script src="{{ asset('assets/frontend/plugins/bootstrap/dist/js/bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/back/js/plugin/bootstrap-notify/bootstrap-notify.min.js') }}">
@@ -128,7 +97,6 @@
     <!-- Revolution Slider Core -->
     <script src="{{ asset('assets/frontend/plugins/revolution/js/jquery.themepunch.tools.min.js') }}"></script>
     <script src="{{ asset('assets/frontend/plugins/revolution/js/jquery.themepunch.revolution.min.js') }}"></script>
-
     <!-- Revolution Slider Extensions -->
     <script src="{{ asset('assets/frontend/plugins/revolution/js/extensions/revolution.extension.video.min.js') }}">
     </script>
@@ -147,8 +115,9 @@
     </script>
     <script src="{{ asset('assets/frontend/plugins/revolution/js/extensions/revolution.extension.migration.min.js') }}">
     </script>
-
     <!-- Custom JS -->
+    <script src="https://js.pusher.com/8.4.0/pusher.min.js"></script>
+    <script src="{{ asset('assets/frontend/js/chat.js') }}" defer></script>
     <script src="{{ asset('assets/frontend/js/main.js') }}"></script>
     <script>
         jQuery(document).ready(function() {
@@ -171,7 +140,6 @@
             }
         });
     </script>
-
     @stack('js')
 </body>
 

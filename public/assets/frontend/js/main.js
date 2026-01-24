@@ -989,4 +989,25 @@
 
 
 
+document.addEventListener("DOMContentLoaded", function() {
+    const btn = document.getElementById("scrollTopBtn");
+    
+    if (!btn) return;
+
+    // স্ক্রল ৩০px নিচে নামলে বাটনটি দেখাবে
+    window.addEventListener("scroll", () => {
+        btn.style.display = window.scrollY > 300 ? "block" : "none";
+    });
+
+    // বাটনে ক্লিক করলে স্মুথলি উপরে চলে যাবে
+    btn.addEventListener("click", () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    });
+});
+
+
+
 //# sourceMappingURL=main.js.map

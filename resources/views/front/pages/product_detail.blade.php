@@ -1,53 +1,16 @@
 @extends('master.front')
 
 @section('meta')
-    <meta name="keywords" content="{{ $item_details->meta_keywords }}">
-    <meta name="description" content="{{ $item_details->meta_description }}">
+    <meta name="keywords" content="{{ $item->meta_keywords }}">
+    <meta name="description" content="{{ $item->meta_description }}">
 @endsection
 @push('css')
-    <style>
-        .add-to-wishlist {
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background-color: #f1f1f1;
-            transition: all 0.3s ease;
-        }
-
-        .add-to-wishlist i {
-            font-size: 20px;
-            color: #555;
-            transition: color 0.3s ease;
-        }
-
-        /* ✅ Active (Wishlisted) */
-        .add-to-wishlist.active {
-            background-color: rgba(231, 76, 60, 0.15);
-            /* light red bg */
-        }
-
-        .add-to-wishlist.active i {
-            color: #ffff;
-            /* red heart */
-            background: #f5c518;
-            border-color: #ffff;
-
-        }
-
-        /* Optional hover effect */
-        .add-to-wishlist:hover {
-            background-color: rgba(231, 76, 60, 0.1);
-        }
-    </style>
+    <link href="{{ asset('assets/frontend/css/chatbox.css') }}" rel="stylesheet" />
 @endpush
 
 @section('content')
     @php
-        $itemGalleries = App\Models\Gallery::where('item_id', $item_details->id)->get();
+        $itemGalleries = App\Models\Gallery::where('item_id', $item->id)->get();
     @endphp
     <div class="test">
         <div class="container">
@@ -61,10 +24,10 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12">
                     <div class="col-md-6">
-                        <img src="{{ asset('storage/items/' . $item_details->photo ?? '') }}"
+                        <img src="{{ asset('storage/items/' . $item->photo ?? '') }}"
                             class="img-fluid border mb-3 image-detail-main-image popup-image" alt="Product" />
-                        @if (!empty($item_details->video))
-                            <a href="{{ $item_details->video }}" class="video-play-icon popup-video" target="_blank">
+                        @if (!empty($item->video))
+                            <a href="{{ $item->video }}" class="video-play-icon popup-video" target="_blank">
                                 ▶
                             </a>
                         @endif
@@ -88,28 +51,28 @@
                     </div>
                     <!-- Product Details -->
                     <div class="col-md-6">
-                        <h4 class="item-name"><strong>{{ $item_details->name ?? '' }}</strong></h4>
-                        @if ($item_details->code)
-                            <p><strong>Product Code:</strong> {{ $item_details->code ?? '' }}</p>
+                        <h4 class="item-name"><strong>{{ $item->name ?? '' }}</strong></h4>
+                        @if ($item->code)
+                            <p><strong>Product Code:</strong> {{ $item->code ?? '' }}</p>
                         @endif
                         <p><strong>Availability:</strong>
-                            @if ($item_details->is_stock())
+                            @if ($item->is_stock())
                                 <span class="text-success  d-inline-block">{{ __('In Stock') }}</span>
                             @else
                                 <span class="text-danger  d-inline-block">{{ __('Out of stock') }}</span>
                             @endif
                         </p>
-                        <h3><span class="previous-price">Tk {{ $item_details->previous_price ?? '' }}</span><span
-                                class="text-danger">Tk {{ $item_details->discount_price ?? '' }}</span></h3>
+                        <h3><span class="previous-price">Tk {{ $item->previous_price ?? '' }}</span><span
+                                class="text-danger">Tk {{ $item->discount_price ?? '' }}</span></h3>
                         <p class="text-danger fw-bold">
-                            @foreach (json_decode($item_details->specification_description) ?? [] as $spe)
+                            @foreach (json_decode($item->specification_description) ?? [] as $spe)
                                 * {{ $spe }} <br />
                             @endforeach
                         </p>
-                        <p>{{ $item_details->sort_details ?? '' }}</p>
+                        <p>{{ $item->sort_details ?? '' }}</p>
                         <!-- Size -->
                         @php
-                            $variantsIds = $item_details->iteamVariant->pluck('variant_id')->values()->all();
+                            $variantsIds = $item->iteamVariant->pluck('variant_id')->values()->all();
                             $variants = App\Models\Variant::whereIn('id', $variantsIds)
                                 ->pluck('size_id')
                                 ->unique()
@@ -145,7 +108,7 @@
                         <!-- Color -->
 
                         @php
-                            $variantsIds = $item_details->iteamVariant->pluck('variant_id')->values()->all();
+                            $variantsIds = $item->iteamVariant->pluck('variant_id')->values()->all();
                             $variants = App\Models\Variant::whereIn('id', $variantsIds)
                                 ->pluck('color_id')
                                 ->unique()
@@ -178,7 +141,7 @@
                         <!-- Quantity -->
                         <div class="mb-3 d-flex align-items-center">
                             <input type="hidden" id="itemPrice"
-                                value="{{ $item_details->discount_price ?? $item_details->regular_price }}">
+                                value="{{ $item->discount_price ?? $item->regular_price }}">
                             <label class="me-3"><strong>Quantity</strong></label>
                             <input type="number" id="qtyInput" class="form-control w-25 qtyValue" value="1"
                                 min="1" />
@@ -186,14 +149,14 @@
                         <p><strong>Subtotal:</strong> ৳ <span id="subtotalDisplay"></span>
                         </p>
                         {{-- hidden inputs  --}}
-                        <input type="hidden" value="{{ $item_details->id ?? '' }}" id="item_id">
+                        <input type="hidden" value="{{ $item->id ?? '' }}" id="item_id">
                         <input type="hidden" id="demo_price" value="200">
 
 
                         <div class="d-flex">
                             <button class="btn btn-dark me-2  add_to_cartbtn" id="add_to_cart">ADD TO CART</button>
-                            <a class="add-to-wishlist {{ isset($wishlists[$item_details->id]) ? 'active' : '' }}"
-                                data-id="{{ $item_details->id }}">
+                            <a class="add-to-wishlist {{ isset($wishlists[$item->id]) ? 'active' : '' }}"
+                                data-id="{{ $item->id }}">
                                 <i class="ps-icon-heart love_icon"></i>
                             </a>
 
@@ -223,7 +186,7 @@
                             </div>
                             <div class="tab-content mb-60">
                                 <div class="tab-pane active" role="tabpanel" id="tab_01">
-                                    {!! $item_details->details !!}
+                                    {!! $item->details !!}
                                     </p>
                                 </div>
                                 <div class="tab-pane" role="tabpanel" id="tab_03">
@@ -416,7 +379,7 @@
                         <div class="modal-body">
                             <div class="size-chart-img">
 
-                                <img src="//www.Avijatry.com/cdn/shop/files/size-chart-new_ca42ba2e-41a3-4df9-9c1a-ddfa2e4114e6_1024x1024.jpg?v=1745834022"
+                                <img src=""
                                     alt="Size Chart" />
 
                             </div>
@@ -428,24 +391,22 @@
         </div>
     </div>
 @endsection
-
 @push('js')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function() {
-            // Initialize zoom-gallery normally
+            const csrfToken = $('meta[name="csrf-token"]').attr('content');
             $('.zoom-gallery').magnificPopup({
                 delegate: 'a',
                 type: 'image',
                 closeOnContentClick: false,
                 closeBtnInside: false,
                 mainClass: 'mfp-with-zoom mfp-img-mobile',
-                allowHTMLInTemplate: true,
                 image: {
                     verticalFit: true,
-                    titleSrc: function(item) {
-                        return item.el.attr('title') + ' &middot; <a class="image-source-link" href="' +
-                            item.el.attr('data-source') + '" >image source</a>';
-                    }
+                    titleSrc: (item) => item.el.attr('title') +
+                        ' &middot; <a class="image-source-link" href="' + item.el.attr('data-source') +
+                        '">source</a>'
                 },
                 gallery: {
                     enabled: true
@@ -453,14 +414,11 @@
                 zoom: {
                     enabled: true,
                     duration: 300,
-                    opener: function(element) {
-                        return element.find('img');
-                    }
+                    opener: (element) => element.find('img')
                 }
             });
-
             $('.image-detail-main-image').on('click', function() {
-                var items = [{
+                let items = [{
                     src: $(this).attr('src'),
                     title: 'Main Image',
                     type: 'image'
@@ -480,34 +438,22 @@
                         enabled: true
                     },
                     type: 'image',
-                    closeOnContentClick: false,
-                    closeBtnInside: false,
                     mainClass: 'mfp-with-zoom mfp-img-mobile',
                     zoom: {
                         enabled: true,
                         duration: 300,
-                        opener: function(element) {
-                            return element;
-                        }
+                        opener: (element) => element
                     }
                 });
             });
-        });
-    </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        $(document).ready(function() {
-
-            const csrfToken = $('meta[name="csrf-token"]').attr('content');
-
-            // Add / Remove Wishlist
+            // --- ২. Wishlist Operations ---
             $(document).on('click', '.add-to-wishlist', function(e) {
                 e.preventDefault();
-                let $this = $(this);
-                let itemId = $this.data('id');
-                let url = '{{ route('user.wishlist.store', ['id' => 'ITEM_ID']) }}';
-                url = url.replace('ITEM_ID', itemId);
+                const $this = $(this);
+                const itemId = $this.data('id');
+                let url = "{{ route('user.wishlist.store', ['id' => 'ITEM_ID']) }}".replace('ITEM_ID',
+                    itemId);
+
                 $.ajax({
                     url: url,
                     type: 'GET',
@@ -517,116 +463,71 @@
                         id: itemId
                     },
                     success: function(response) {
-
-                        // Login required
                         if (response.status === 0 && response.link) {
                             Swal.fire({
                                 icon: 'warning',
                                 title: 'Login Required',
                                 text: "Wishlist-এ যোগ করার জন্য আপনাকে লগইন করতে হবে।",
                                 confirmButtonText: 'Login'
-                            }).then(() => {
-                                window.location.href = response.link;
-                            });
-                        }
+                            }).then(() => window.location.href = response.link);
+                        } else {
+                            if (response.status === 1) $this.addClass('active');
+                            else if (response.status === 2) $this.removeClass('active');
 
-                        // Added to wishlist
-                        else if (response.status === 1) {
-                            $this.addClass('active');
-                            Swal.fire({
-                                icon: 'success',
-                                title: response.message,
-                                // text: response.message,
-                                timer: 3000,
-                                showConfirmButton: false
-                            });
-                            updateWishlistCount();
-                        }
-
-                        // Removed from wishlist
-                        else if (response.status === 2) {
-                            $this.removeClass('active');
-                            Swal.fire({
-                                icon: 'success',
-                                title: response.message,
-                                // text: response.message,
-                                timer: 3000,
-                                showConfirmButton: false
-                            });
+                            showToast(response.message, 'success');
                             updateWishlistCount();
                         }
                     },
-                    error: function(xhr) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: 'Something went wrong. Please try again.'
-                        });
-                    }
+                    error: () => showToast('Something went wrong. Please try again.', 'error')
                 });
             });
 
-            // Load wishlist count on page load
+            // ইনিশিয়াল কাউন্ট লোড
             updateWishlistCount();
+
+
+            // --- ৩. Subtotal Calculation ---
+            const qtyInput = document.getElementById('qtyInput');
+            if (qtyInput) {
+                qtyInput.addEventListener('input', updateSubtotal);
+                updateSubtotal(); // ইনিশিয়াল ক্যালকুলেশন
+            }
         });
 
+        // --- ৪. Helper Functions (Global Scope) ---
 
-        // Wishlist Count
         function updateWishlistCount() {
-            let url = '{{ route('user.wishlist.count') }}';
-
             $.ajax({
-                url: url,
+                url: "{{ route('user.wishlist.count') }}",
                 type: 'GET',
                 dataType: 'json',
                 success: function(response) {
-                    let count = response.count ?? 0;
-                    $('#wishlist-count-header i').text(count);
-                    $('#wishlist-count-mobile i').text(count);
+                    const count = response.count ?? 0;
+                    $('#wishlist-count-header i, #wishlist-count-mobile i').text(count);
                 },
-                error: function() {
-                    $('#wishlist-count-header i').text(0);
-                    $('#wishlist-count-mobile i').text(0);
-                }
+                error: () => $('#wishlist-count-header i, #wishlist-count-mobile i').text(0)
             });
         }
 
-
-        // SweetAlert Toast (Reusable)
-        function showToast(message) {
-            Swal.fire({
-                icon: 'success',
-                title: message,
-                timer: 2000,
-                showConfirmButton: false
-            });
-        }
-    </script>
-
-
-
-
-
-    <script>
         function updateSubtotal() {
             const price = parseFloat(document.getElementById('itemPrice')?.value || 0);
             const qty = parseInt(document.getElementById('qtyInput')?.value || 0);
             const display = document.getElementById('subtotalDisplay');
 
-            if (!display || qty < 1) {
-                display.textContent = '0.00';
-                return;
+            if (display) {
+                display.textContent = (qty < 1) ? '0.00' : (price * qty).toFixed(2);
             }
-
-            display.textContent = (price * qty).toFixed(2);
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const qtyInput = document.getElementById('qtyInput');
-            if (qtyInput) {
-                qtyInput.addEventListener('input', updateSubtotal);
-                updateSubtotal();
-            }
-        });
+        function showToast(message, icon = 'success') {
+            Swal.fire({
+                icon: icon,
+                title: message,
+                timer: 2000,
+                showConfirmButton: false,
+                toast: (icon === 'success'), // সাকসেস হলে টোস্ট মোড দেখাবে
+                position: 'top-end'
+            });
+        }
     </script>
 @endpush

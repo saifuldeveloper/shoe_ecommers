@@ -323,7 +323,7 @@ class FrontendController extends Controller
 
     public function product(Request $request, $slug)
     {
-        $item_details = Item::with('brand')->where('slug', $slug)->first();
+        $item_details = Item::where('slug', $slug)->first();
         $related_products = Item::where('status', 1)
             ->where('id', '!=', $item_details->id)
             ->where(function ($query) use ($item_details) {
