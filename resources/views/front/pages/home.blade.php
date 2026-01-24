@@ -442,6 +442,29 @@
 @push('js')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+        // for slider js 
+        document.addEventListener("DOMContentLoaded", function() {
+            new Swiper(".homeSwiper", {
+                loop: true,
+                speed: 500,
+                effect: "fade",
+                autoplay: {
+                    delay: 4000,
+                    disableOnInteraction: false,
+                },
+                pagination: {
+                    el: ".swiper-pagination",
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                },
+                preloadImages: true,
+                lazy: true,
+            });
+        });
+
         $(document).ready(function() {
             const csrfToken = $('meta[name="csrf-token"]').attr('content');
             $(document).on('click', '.add-to-wishlist', function(e) {

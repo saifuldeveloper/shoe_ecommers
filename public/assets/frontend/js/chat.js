@@ -12,17 +12,46 @@ let pusherInitialized = false;
 /* ================== HELPERS ================== */
 const qs = (id) => document.getElementById(id);
 /* ================== CHAT TOGGLE ================== */
+// window.toggleChat = function () {
+//     const box = qs("chatBox");
+//     if (!box) return;
+//     // const isOpen = box.style.display === "block";
+//     // box.style.display = isOpen ? "none" : "block";
+
+//     // if (!isOpen) {
+//     //     openApexChat();
+//     // }
+
+//     box.style.display = box.style.display === "block" ? "none" : "block";
+// };
+
+/* ================== CHAT TOGGLE (DYNAMIC LOADING) ================== */
+/* ================== 1. MAIN TOGGLE (প্রথমেই এটি কল হবে) ================== */
+/* ================== STEP 1: toggleChat ================== */
+// এই ফাংশনটি শুধু চ্যাট বক্সের কন্টেইনার দেখাবে এবং Pusher লোড করবে
 window.toggleChat = function () {
     const box = qs("chatBox");
     if (!box) return;
-    const isOpen = box.style.display === "block";
-    box.style.display = isOpen ? "none" : "block";
 
-    if (!isOpen) {
-        openApexChat();
+    if (box.style.display !== "block") {
+        // Pusher লোড করা না থাকলে লোড করো
+        if (typeof Pusher === 'undefined') {
+            console.log("⏳ Loading Pusher Resources...");
+            const script = document.createElement('script');
+            script.src = "https://js.pusher.com/8.4.0/pusher.min.js";
+            script.onload = () => {
+                console.log("✅ Pusher Ready.");
+                box.style.display = "block"; 
+                // নোট: এখানে openApexChat অটো কল হচ্ছে না, ইউজার ক্লিক করলে হবে।
+            };
+            document.head.appendChild(script);
+        } else {
+            box.style.display = "block";
+        }
+    } else {
+        box.style.display = "none";
     }
 };
-
 /* ================== CLOSE CHAT UI ================== */
 
 function closeAvijatryChat() {

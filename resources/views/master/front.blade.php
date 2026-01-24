@@ -20,7 +20,7 @@
     <meta name="keywords" content="Default Description" />
     <title> {{ $setting->title }} </title>
     @stack('css')
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     <link
         href="https://fonts.googleapis.com/css?family=Archivo+Narrow:300,400,700%7CMontserrat:300,400,500,600,700,800,900"
         rel="stylesheet" />
@@ -70,6 +70,7 @@
         };
     </script>
 </head>
+
 <body>
     <div class="header--sidebar"></div>
     @include('front.inc.header')
@@ -82,7 +83,7 @@
     <!-- jQuery -->
     <script src="{{ asset('assets/frontend/plugins/jquery/dist/jquery.min.js') }}"></script>
 
-       <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
     <!-- Bootstrap -->
     <script src="{{ asset('assets/frontend/plugins/bootstrap/dist/js/bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/back/js/plugin/bootstrap-notify/bootstrap-notify.min.js') }}">
@@ -100,8 +101,8 @@
     <script src="{{ asset('assets/frontend/plugins/Magnific-Popup/dist/jquery.magnific-popup.min.js') }}"></script>
     <script src="{{ asset('assets/frontend/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
     <!-- Revolution Slider Core -->
-    <script src="{{ asset('assets/frontend/plugins/revolution/js/jquery.themepunch.tools.min.js') }}"></script>
-    <script src="{{ asset('assets/frontend/plugins/revolution/js/jquery.themepunch.revolution.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/frontend/plugins/revolution/js/jquery.themepunch.tools.min.js') }}"></script>
+    <script src="{{ asset('assets/frontend/plugins/revolution/js/jquery.themepunch.revolution.min.js') }}"></script> --}}
     <!-- Revolution Slider Extensions -->
     {{-- <script src="{{ asset('assets/frontend/plugins/revolution/js/extensions/revolution.extension.video.min.js') }}">
     </script>
@@ -121,54 +122,9 @@
     <script src="{{ asset('assets/frontend/plugins/revolution/js/extensions/revolution.extension.migration.min.js') }}">
     </script> --}}
     <!-- Custom JS -->
-    <script src="https://js.pusher.com/8.4.0/pusher.min.js"></script>
+    {{-- <script src="https://js.pusher.com/8.4.0/pusher.min.js"></script> --}}
     <script src="{{ asset('assets/frontend/js/chat.js') }}" defer></script>
     <script src="{{ asset('assets/frontend/js/main.js') }}"></script>
-    {{-- <script>
-        jQuery(document).ready(function() {
-            if (jQuery("#rev_slider_1").revolution === undefined) {
-                console.error("Revolution Slider not initialized!");
-            } else {
-                jQuery("#rev_slider_1").show().revolution({
-                    sliderType: "standard",
-                    jsFileLocation: "{{ asset('assets/frontend/plugins/revolution/js/') }}",
-                    sliderLayout: "auto",
-                    delay: 9000,
-                    navigation: {
-                        arrows: {
-                            enable: true
-                        }
-                    },
-                    gridwidth: 1170,
-                    gridheight: 600
-                });
-            }
-        });
-    </script> --}}
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            new Swiper(".homeSwiper", {
-                loop: true,
-                speed: 500,
-                effect: "fade",
-                autoplay: {
-                    delay: 4000,
-                    disableOnInteraction: false,
-                },
-                pagination: {
-                    el: ".swiper-pagination",
-                    clickable: true,
-                },
-                navigation: {
-                    nextEl: ".swiper-button-next",
-                    prevEl: ".swiper-button-prev",
-                },
-                preloadImages: true,
-                lazy: true,
-            });
-        });
-    </script>
     @stack('js')
 </body>
 

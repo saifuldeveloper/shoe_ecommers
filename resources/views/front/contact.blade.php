@@ -197,6 +197,8 @@
 @endsection
 
 @push('js')
+    <script src="{{ asset('assets/frontend/plugins/revolution/js/jquery.themepunch.tools.min.js') }}"></script>
+    <script src="{{ asset('assets/frontend/plugins/revolution/js/jquery.themepunch.revolution.min.js') }}"></script>
     <script>
         function initMap() {
             const loc = {
@@ -210,8 +212,8 @@
         }
     </script>
 
-    <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDC9UyRrFn8cIqD5cAtLYg3aVSNREWuaQQ&callback=initMap"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDC9UyRrFn8cIqD5cAtLYg3aVSNREWuaQQ&callback=initMap">
+    </script>
     <script>
         $(document).ready(function() {
             $('#contactForm').on('submit', function(e) {

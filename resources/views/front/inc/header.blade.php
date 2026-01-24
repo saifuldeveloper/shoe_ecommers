@@ -6,7 +6,7 @@
                     <p style="padding-top: 40px;">
                         <img src="{{ asset('assets/frontend/images/icon/free-location-icon-2952-thumb.png') }}"
                             height="30" alt="">
-                        <a href="{{ route('front.findStore') }}" class="storLocator"> Find A Store</a> | Customer care:
+                        <a href="{{ route('front.contact') }}" class="storLocator"> Find A Store</a> | Customer care:
                         {{ $setting->customer_care_number }}
                     </p>
                 </div>
