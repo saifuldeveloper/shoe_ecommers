@@ -120,10 +120,12 @@
                                         <div class="ps-shoe mb-30">
                                             <a target="__blank" href="{{ route('front.product', $item->slug) }}">
                                                 <div class="ps-shoe__thumbnail">
-                                                    <img alt=""
+                                                    <img alt="{{ $item->photo }}" class="ps-product-image" loading="lazy"
+                                                        width="400" height="400"
                                                         src="{{ asset('storage/items/' . $item->photo ?? '') }}" />
-                                                    <img class="hover-img"
-                                                        src="{{ asset('storage/items/' . $item->photo ?? '') }}"alt="">
+                                                    <img class="hover-img" loading="lazy" width="400" height="400"
+                                                        class="ps-product-image"
+                                                        src="{{ asset('storage/items/' . $item->photo ?? '') }}"alt="{{ $item->photo }}">
                                                     <a class="ps-shoe__favorite add-to-wishlist {{ isset($wishlists[$item->id]) ? 'active' : '' }}"
                                                         data-id="{{ $item->id }}"><i class="ps-icon-heart"></i>
                                                     </a>
@@ -159,7 +161,6 @@
                                 </div>
                             </div>
                         @endforeach
-
                     </div>
                 </div>
             </div>
@@ -234,9 +235,12 @@
                                 <a target="__blank" href="{{ route('front.product', ['slug' => $item->slug]) }}">
                                     <div class="ps-shoe__thumbnail">
                                         {{-- <div class="ps-badge"><span>New</span></div> --}}
-                                        <img alt="" src="{{ asset('storage/items/' . $item->photo) }}" />
+                                        <img alt="{{ $item->photo }}"
+                                            src="{{ asset('storage/items/' . $item->photo) }}" class="ps-product-image"
+                                            loading="lazy" width="400" height="400" />
                                         <img class="hover-img" src="{{ asset('storage/items/' . $item->photo) }}"
-                                            alt="">
+                                            class="ps-product-image" loading="lazy" width="400" height="400"
+                                            alt="{{ $item->photo }}">
                                         <a class="ps-shoe__favorite add-to-wishlist {{ isset($wishlists[$item->id]) ? 'active' : '' }}"
                                             data-id="{{ $item->id }}">
                                             <i class="ps-icon-heart"></i>
@@ -311,50 +315,53 @@
                                 <a target="__blank" href="{{ route('front.product', ['slug' => $item->slug]) }}">
                                     <div class="ps-shoe__thumbnail">
                                         {{-- <div class="ps-badge"><span>New</span></div> --}}
-                                        <img alt="" src="{{ asset('storage/items/' . $item->photo) }}" />
+                                        <img alt="{{ $item->photo }}"
+                                            src="{{ asset('storage/items/' . $item->photo) }}" class="ps-product-image"
+                                            loading="lazy" width="400" height="400" />
                                         <img class="hover-img" src="{{ asset('storage/items/' . $item->photo) }}"
-                                            alt="">
-                                        <a class="ps-shoe__favorite add-to-wishlist {{ isset($wishlists[$item->id]) ? 'active' : '' }}"
-                                            data-id="{{ $item->id }}">
-                                            <i class="ps-icon-heart"></i>
-                                        </a>
-                                    </div>
-                                    <div class="ps-shoe__content">
-                                        <div class="ps-shoe__detail">
-                                            <a class="ps-shoe__name" href="#">{{ $item->name }}</a>
-                                            <div> <span class="ps-shoe__price"> &#2547; {{ $item->discount_price }}</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="ps-shoe__variants">
-
-                                            <div class="text-center pb-10">
-                                                <p class="ps-shoe__categories pb-5">
-
-                                                    @foreach ($item->unique_sizes as $size)
-                                                        <a target="__blank"
-                                                            href="{{ route('front.product', ['slug' => $item->slug]) }}?size={{ $size }}"
-                                                            class="#">{{ $size }}</a>
-                                                    @endforeach
-                                                </p>
-                                            </div>
-                                            <div>
-
-                                                <a href="{{ route('front.product', $item->slug) }}" target="__blank">
-                                                    <span class="btn btn-dark shop-now-button">Shop now</span>
+                                            class="ps-product-image" loading="lazy" width="400" height="400"
+                                                    alt="{{ $item->photo }}">
+                                                <a class="ps-shoe__favorite add-to-wishlist {{ isset($wishlists[$item->id]) ? 'active' : '' }}"
+                                                    data-id="{{ $item->id }}">
+                                                    <i class="ps-icon-heart"></i>
                                                 </a>
                                             </div>
+                                            <div class="ps-shoe__content">
+                                                <div class="ps-shoe__detail">
+                                                    <a class="ps-shoe__name" href="#">{{ $item->name }}</a>
+                                                    <div> <span class="ps-shoe__price"> &#2547; {{ $item->discount_price }}</span>
+                                                    </div>
+                                                </div>
 
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
+                                                <div class="ps-shoe__variants">
+
+                                                    <div class="text-center pb-10">
+                                                        <p class="ps-shoe__categories pb-5">
+
+                                                              @foreach ($item->unique_sizes as $size)
+                                        <a target="__blank"
+                                            href="{{ route('front.product', ['slug' => $item->slug]) }}?size={{ $size }}"
+                                            class="#">{{ $size }}</a>
                     @endforeach
-
+                    </p>
                 </div>
+                <div>
+
+                    <a href="{{ route('front.product', $item->slug) }}" target="__blank">
+                        <span class="btn btn-dark shop-now-button">Shop now</span>
+                    </a>
+                </div>
+
             </div>
         </div>
+        </a>
+    </div>
+    </div>
+    @endforeach
+
+    </div>
+    </div>
+    </div>
     </div>
 
     {{-- //blog section --}}

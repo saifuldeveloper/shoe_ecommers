@@ -24,12 +24,12 @@ class Category extends Model
 
     public function items()
     {
-        return $this->hasMany('App\Models\Item');
+        return $this->hasMany(Item::class,'category_id');
     }
 
     public function subcategory()
     {
-        return $this->hasMany('App\Models\Subcategory');
+        return $this->hasMany(SubCategory::class, 'category_id');
     }
     public function deletedBy()
     {

@@ -105,13 +105,16 @@
                     </li> --}}
 
                     @foreach ($categories as $category)
+                        @php $selected = strtolower(request('constraint')); @endphp
+
                         <li class="menu-item menu-item-has-children has-mega-menu">
                             <a href="#">{{ $category->name }}</a>
                             <div class="mega-menu">
                                 <div class="mega-wrap">
-                                    <div class="mega-column">
-                                        @if ($category->subcategory->count())
-                                            <ul class="mega-item mega-features">
+                                    {{-- Sub Category --}}
+                                    @if ($category->subcategory->count())
+                                        <div class="mega-column">
+                                            <ul class="mega-item">
                                                 <li>
                                                     <a
                                                         href="{{ route('front.categories.products', $category->slug) }}">
@@ -120,108 +123,62 @@
                                                 </li>
                                                 @foreach ($category->subcategory as $sub)
                                                     <li>
-                                                        <a
-                                                            href="{{ route('front.categories.products', ['slug' => $sub->slug]) }}">{{ $sub->name }}</a>
+                                                        <a href="{{ route('front.categories.products', $sub->slug) }}">
+                                                            {{ $sub->name }}
+                                                        </a>
                                                     </li>
                                                 @endforeach
                                             </ul>
-                                        @endif
-                                    </div>
-                                    @php
-                                        $products = App\Models\Item::with(
-                                            'itemVariants.variant.color',
-                                            'itemVariants.variant.size',
-                                        )
-                                            ->where('category_id', $category->id)
-                                            ->where('status', 1)
-                                            ->orderBy('id', 'DESC')
-                                            ->get();
-
-                                        $colors = $products
-                                            ->flatMap(function ($product) {
-                                                return $product->itemVariants->pluck('variant.color.name')->filter();
-                                            })
-                                            ->unique()
-                                            ->values();
-
-                                        $sizes = $products
-                                            ->flatMap(function ($product) {
-                                                return $product->itemVariants->pluck('variant.size.name')->filter();
-                                            })
-                                            ->unique()
-                                            ->values();
-
-                                        $prices = $products
-                                            ->flatMap(function ($product) {
-                                                return $product->itemVariants->map(function ($variant) use ($product) {
-                                                    return $product->discount_price + ($variant->additional_price ?? 0);
-                                                });
-                                            })
-                                            ->filter()
-                                            ->unique()
-                                            ->values();
-
-                                    @endphp
-                                    @php
-                                        $selected = strtolower(request()->get('constraint'));
-                                    @endphp
+                                        </div>
+                                    @endif
+                                    {{-- Colors --}}
                                     <div class="mega-column">
-                                        <h4 class="mega-heading">
-                                            By Color
-                                        </h4>
+                                        <h4 class="mega-heading">By Color</h4>
                                         <ul class="mega-item">
-                                            @foreach ($colors as $color)
-                                                @php
-                                                    $isSelected = strtolower($color) === $selected;
-                                                @endphp
-                                                <li class="{{ $isSelected ? 'selected' : '' }}">
+                                            @foreach ($category->colors as $color)
+                                                <li class="{{ strtolower($color) === $selected ? 'selected' : '' }}">
                                                     <a
-                                                        href="{{ route('front.categories.products', ['slug' => $category->slug]) }}?constraint={{ strtolower($color) }}">
+                                                        href="{{ route('front.categories.products', $category->slug) }}?constraint={{ strtolower($color) }}">
                                                         {{ $color }}
                                                     </a>
                                                 </li>
                                             @endforeach
                                         </ul>
                                     </div>
+                                    {{-- Price --}}
                                     <div class="mega-column">
-                                        <h4 class="mega-heading">
-                                            By Price
-                                        </h4>
+                                        <h4 class="mega-heading">By Price</h4>
                                         <ul class="mega-item">
-
-                                            @foreach ($prices as $price)
-                                                @php
-                                                    $isSelected = strtolower($price) === $selected;
-                                                @endphp
-                                                <li class="{{ $isSelected ? 'selected' : '' }}">
+                                            @foreach ($category->prices as $price)
+                                                <li class="{{ $price == $selected ? 'selected' : '' }}">
                                                     <a
-                                                        href="{{ route('front.categories.products', ['slug' => $category->slug]) }}?constraint={{ strtolower($price) }}">
+                                                        href="{{ route('front.categories.products', $category->slug) }}?constraint={{ $price }}">
                                                         Tk {{ $price }}
                                                     </a>
                                                 </li>
-                                            @endforeach>
+                                            @endforeach
                                         </ul>
                                     </div>
+                                    {{-- Size --}}
                                     <div class="mega-column">
                                         <h4 class="mega-heading">By Size</h4>
                                         <ul class="mega-item">
-                                            @foreach ($sizes as $size)
-                                                @php
-                                                    $isSelected = strtolower($size) === $selected;
-                                                @endphp
-                                                <li class="{{ $isSelected ? 'selected' : '' }}">
+                                            @foreach ($category->sizes as $size)
+                                                <li class="{{ strtolower($size) === $selected ? 'selected' : '' }}">
                                                     <a
-                                                        href="{{ route('front.categories.products', ['slug' => $category->slug]) }}?constraint={{ strtolower($size) }}">
+                                                        href="{{ route('front.categories.products', $category->slug) }}?constraint={{ strtolower($size) }}">
                                                         👞 {{ $size }}
                                                     </a>
                                                 </li>
                                             @endforeach
                                         </ul>
                                     </div>
+
                                 </div>
                             </div>
                         </li>
                     @endforeach
+
                     <li class="menu-item  ">
                         <a href="{{ route('front.blog') }}">News</a>
                     </li>
@@ -261,14 +218,11 @@
             </div>
 
             <div class="navigation__column right">
-                <!-- USER + SEARCH ICON AREA -->
                 <div class="ps-user">
                     <button type="button" class="ps-user__toggle search-toggle-btn">
-                        {{-- <i class="fa fa-search"></i> --}}
                         <img src="{{ asset('assets/frontend/images/icon/icons8-search-50.png') }}" height="30"
                             alt="">
                     </button>
-
                     <div class="search-box_small">
                         <div id="smallsearchModal" class="search-modal-container_small hidden">
                             <div class="trending-section">
@@ -316,10 +270,8 @@
                         </div>
                     </div>
                 </div>
-                {{-- end cart  --}}
-
                 <div class="ps-user">
-                    <a class="ps-user__toggle" href="#">
+                    <a class="ps-user__toggle" href="{{ route('user.login') }}">
                         <img src="{{ asset('assets/frontend/images/icon/user-icon.png') }}" height="30"
                             alt=""></a>
                 </div>
@@ -344,7 +296,6 @@
                 @endforeach
             </div>
         </div>
-
         <div class="popular-products-section">
             <h3 class="section-title">POPULAR PRODUCTS</h3>
             <p>Products would be listed here...</p>
@@ -422,6 +373,18 @@
 
 
 @push('js')
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const menu = document.querySelector('.main-menu');
+    const toggle = document.querySelector('.menu-toggle');
+
+    if (!menu || !toggle) return;
+
+    toggle.addEventListener('click', () => {
+        menu.classList.toggle('active');
+    });
+});
+</script>
     <script>
         document.querySelectorAll('.cart-container').forEach(container => {
             const cartDropdown = container.querySelector('.cart-dropdown');
@@ -438,6 +401,7 @@
                 }, 200);
             });
         });
+
         function updateCartTotal() {
             document.querySelectorAll('.cart-container').forEach(container => {
                 const prices = container.querySelectorAll('.cart-item-price');
@@ -982,7 +946,11 @@
         });
     </script>
     <script>
-        window.addEventListener("load", function() {
+        // window.addEventListener("load", function() {
+        //     document.body.classList.add("nav-loaded");
+        // });
+
+        document.addEventListener("DOMContentLoaded", function() {
             document.body.classList.add("nav-loaded");
         });
     </script>

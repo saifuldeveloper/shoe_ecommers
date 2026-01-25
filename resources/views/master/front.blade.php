@@ -18,12 +18,18 @@
     <link rel="apple-touch-icon" sizes="180x180" href="{{ url('/storage/generalSettings/' . $setting->favicon) }}">
     <link rel="apple-touch-icon" sizes="167x167" href="{{ url('/storage/generalSettings/' . $setting->favicon) }}">
     <meta name="keywords" content="Default Description" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
     <title> {{ $setting->title }} </title>
     @stack('css')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     <link
-        href="https://fonts.googleapis.com/css?family=Archivo+Narrow:300,400,700%7CMontserrat:300,400,500,600,700,800,900"
+        href="https://fonts.googleapis.com/css?family=Archivo+Narrow:300,400,700%7CMontserrat:300,400,500,600,700,800,900&display=swap"
         rel="stylesheet" />
+    {{-- <link
+        href="https://fonts.googleapis.com/css?family=Archivo+Narrow:300,400,700%7CMontserrat:300,400,500,600,700,800,900"
+        rel="stylesheet" /> --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="{{ asset('assets/frontend/plugins/ps-icon/style.css') }}" rel="stylesheet" />
     <!-- CSS Library-->
@@ -69,6 +75,34 @@
             'X-CSRF-TOKEN': '{{ csrf_token() }}'
         };
     </script>
+    <style>
+        @media (max-width: 991px) {
+            .navigation__column.center {
+                display: none !important;
+            }
+
+            .navigation__column.center.active {
+                display: block !important;
+                background: #fff;
+                position: absolute;
+                top: 60px;
+                width: 100%;
+                left: 0;
+                z-index: 9999;
+            }
+
+            /* লোগো এবং আইকন যেন দ্রুত দেখা যায় */
+            .navigation__column.left,
+            .navigation__column.right {
+                visibility: visible !important;
+            }
+
+            .header__logo img {
+                height: 60px;
+                width: auto;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -81,9 +115,26 @@
         @include('front.inc.chatbar')
     </main>
     <!-- jQuery -->
+    <script>
+        (function() {
+            // পেজ পুরোপুরি লোড হওয়ার আগেই ক্লিক ইভেন্ট সেট করা
+            var toggle = document.querySelector('.menu-toggle');
+            var nav = document.querySelector('.navigation__column.center');
+
+            if (toggle) {
+                toggle.onclick = function(e) {
+                    e.preventDefault();
+                    nav.classList.toggle('active');
+                };
+            }
+        })();
+    </script>
+
     <script src="{{ asset('assets/frontend/plugins/jquery/dist/jquery.min.js') }}"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+
     <!-- Bootstrap -->
     <script src="{{ asset('assets/frontend/plugins/bootstrap/dist/js/bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/back/js/plugin/bootstrap-notify/bootstrap-notify.min.js') }}">
@@ -124,7 +175,7 @@
     <!-- Custom JS -->
     {{-- <script src="https://js.pusher.com/8.4.0/pusher.min.js"></script> --}}
     <script src="{{ asset('assets/frontend/js/chat.js') }}" defer></script>
-    <script src="{{ asset('assets/frontend/js/main.js') }}"></script>
+    <script src="{{ asset('assets/frontend/js/main.js') }}" defer></script>
     @stack('js')
 </body>
 

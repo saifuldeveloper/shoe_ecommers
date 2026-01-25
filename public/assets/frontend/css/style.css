@@ -5428,7 +5428,13 @@ button.ps-btn--gray:before {
     padding-left: 30px;
   }
 }
-
+.ps-product-image {
+    width: 100%;           
+    height: auto;          
+    aspect-ratio: 1 / 1;   
+    object-fit: cover;     
+    background-color: #fff; 
+}
 .navigation {
   position: relative;
   color: #fff;
@@ -8474,13 +8480,13 @@ html .bg--parallax {
   display: block;
 }
 
-body {
+/* body {
   opacity: 0;
   transition: opacity 0.1s ease;
 }
 body.nav-loaded {
   opacity: 1;
-}
+} */
 
 .swiper-pagination {
   position: absolute !important; /* overlay */
