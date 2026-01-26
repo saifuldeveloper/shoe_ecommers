@@ -373,18 +373,18 @@
 
 
 @push('js')
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const menu = document.querySelector('.main-menu');
-    const toggle = document.querySelector('.menu-toggle');
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menu = document.querySelector('.main-menu');
+            const toggle = document.querySelector('.menu-toggle');
 
-    if (!menu || !toggle) return;
+            if (!menu || !toggle) return;
 
-    toggle.addEventListener('click', () => {
-        menu.classList.toggle('active');
-    });
-});
-</script>
+            toggle.addEventListener('click', () => {
+                menu.classList.toggle('active');
+            });
+        });
+    </script>
     <script>
         document.querySelectorAll('.cart-container').forEach(container => {
             const cartDropdown = container.querySelector('.cart-dropdown');
@@ -484,7 +484,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     type: 'GET',
                     dataType: 'json',
                     success: function(response) {
-                        console.log(response)
+                        // console.log(response)
                         if (response.count !== undefined) {
                             $('#wishlist-count-header i').text(response.count);
 
@@ -492,7 +492,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     },
                     error: function(xhr) {
-                        console.error("Failed to fetch wishlist count:", xhr);
+                        // console.log("Error status:", xhr.status);
                         $('#wishlist-count-header i').text(0);
                         $('#wishlist-count-mobile i').text(0);
                     }

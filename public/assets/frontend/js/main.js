@@ -60,7 +60,7 @@
                     }
                     el.css(
                         "backgroundPosition",
-                        xpos + " " + Math.round((top - current) * 0.2) + "px"
+                        xpos + " " + Math.round((top - current) * 0.2) + "px",
                     );
                 });
             }
@@ -90,7 +90,7 @@
                 current.children(".mega-menu").slideToggle(350);
                 current.siblings().find(".sub-menu").slideUp(350);
                 current.siblings().find(".mega-menu").slideUp(350);
-            }
+            },
         );
     }
 
@@ -136,7 +136,7 @@
                 // On top
                 if (currentPosition == 0) {
                     header.removeClass(
-                        "navigation--sticky navigation--unpin navigation--pin"
+                        "navigation--sticky navigation--unpin navigation--pin",
                     );
                     header.css("margin-top", 0);
                     cartIcon.css("display", "none");
@@ -261,10 +261,10 @@
                     distance = countDownDate - now;
                 var days = Math.floor(distance / (1000 * 60 * 60 * 24)),
                     hours = Math.floor(
-                        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+                        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
                     ),
                     minutes = Math.floor(
-                        (distance % (1000 * 60 * 60)) / (1000 * 60)
+                        (distance % (1000 * 60 * 60)) / (1000 * 60),
                     ),
                     seconds = Math.floor((distance % (1000 * 60)) / 1000);
                 // el.find('.days').html(days);
@@ -279,31 +279,65 @@
         });
     }
 
+    // function masonry() {
+    //     var masonryTrigger = $(".ps-masonry");
+    //     if (masonryTrigger.length > 0) {
+    //         masonryTrigger.imagesLoaded(function () {
+    //             masonryTrigger.isotope({
+    //                 columnWidth: ".grid-sizer",
+    //                 itemSelector: ".grid-item",
+    //             });
+    //         });
+    //         var filters = masonryTrigger
+    //             .closest(".masonry-root")
+    //             .find(".ps-masonry__filter > li > a");
+    //         filters.on("click", function () {
+    //             var selector = $(this).attr("data-filter");
+    //             filters.find("a").removeClass("current");
+    //             $(this).parent("li").addClass("current");
+    //             $(this).parent("li").siblings("li").removeClass("current");
+    //             console.log($(this));
+    //             masonryTrigger.isotope({
+    //                 itemSelector: ".grid-item",
+    //                 isotope: {
+    //                     columnWidth: ".grid-sizer",
+    //                 },
+    //                 filter: selector,
+    //             });
+    //             return false;
+    //         });
+    //     }
+    // }
     function masonry() {
         var masonryTrigger = $(".ps-masonry");
         if (masonryTrigger.length > 0) {
-            masonryTrigger.imagesLoaded(function () {
-                masonryTrigger.isotope({
-                    columnWidth: ".grid-sizer",
-                    itemSelector: ".grid-item",
-                });
+            // ১. সাথে সাথে ইনিশিয়ালাইজ করুন (যাতে ভেঙে না থাকে)
+            var $grid = masonryTrigger.isotope({
+                columnWidth: ".grid-sizer",
+                itemSelector: ".grid-item",
+                percentPosition: true, // এটি যোগ করুন
             });
+
+            // ২. ইমেজ লোড হওয়ার পর লেআউট ঠিক করুন
+            $grid.imagesLoaded().progress(function () {
+                $grid.isotope("layout");
+            });
+
+            // ফিল্টারিং অংশ আগের মতোই থাকবে...
             var filters = masonryTrigger
                 .closest(".masonry-root")
                 .find(".ps-masonry__filter > li > a");
-            filters.on("click", function () {
+
+            filters.on("click", function (e) {
+                e.preventDefault();
                 var selector = $(this).attr("data-filter");
-                filters.find("a").removeClass("current");
-                $(this).parent("li").addClass("current");
-                $(this).parent("li").siblings("li").removeClass("current");
-                console.log($(this));
-                masonryTrigger.isotope({
-                    itemSelector: ".grid-item",
-                    isotope: {
-                        columnWidth: ".grid-sizer",
-                    },
-                    filter: selector,
-                });
+                $(this)
+                    .parent("li")
+                    .addClass("current")
+                    .siblings()
+                    .removeClass("current");
+
+                $grid.isotope({ filter: selector });
                 return false;
             });
         }
@@ -345,7 +379,7 @@
                             var images = JSON.parse(data);
                             for (var i in images) {
                                 $("<img src=" + images[i] + ">").appendTo(
-                                    variants
+                                    variants,
                                 );
                             }
                             variants.owlCarousel({
@@ -558,89 +592,89 @@
         }
     }
 
-    function revolution() {
-        if ($("#home-banner").revolution == undefined) {
-            revslider_showDoubleJqueryError("#rev_slider_1059_1");
-        } else {
-            $("#home-banner")
-                .show()
-                .revolution({
-                    sliderType: "standard",
-                    jsFileLocation: "plugins/revolution/js/",
-                    dottedOverlay: "none",
-                    delay: 5000,
-                    navigation: {
-                        keyboardNavigation: "on",
-                        keyboard_direction: "horizontal",
-                        mouseScrollNavigation: "off",
-                        mouseScrollReverse: "default",
-                        onHoverStop: "on",
-                        bullets: {
-                            enable: true,
-                            style: "hermes",
-                            tmp: "",
-                            direction: "horizontal",
-                            rtl: false,
-                            container: "slider",
-                            h_align: "center",
-                            v_align: "bottom",
-                            h_offset: 0,
-                            v_offset: 20,
-                            space: 5,
+    // function revolution() {
+    //     if ($("#home-banner").revolution == undefined) {
+    //         revslider_showDoubleJqueryError("#rev_slider_1059_1");
+    //     } else {
+    //         $("#home-banner")
+    //             .show()
+    //             .revolution({
+    //                 sliderType: "standard",
+    //                 jsFileLocation: "plugins/revolution/js/",
+    //                 dottedOverlay: "none",
+    //                 delay: 5000,
+    //                 navigation: {
+    //                     keyboardNavigation: "on",
+    //                     keyboard_direction: "horizontal",
+    //                     mouseScrollNavigation: "off",
+    //                     mouseScrollReverse: "default",
+    //                     onHoverStop: "on",
+    //                     bullets: {
+    //                         enable: true,
+    //                         style: "hermes",
+    //                         tmp: "",
+    //                         direction: "horizontal",
+    //                         rtl: false,
+    //                         container: "slider",
+    //                         h_align: "center",
+    //                         v_align: "bottom",
+    //                         h_offset: 0,
+    //                         v_offset: 20,
+    //                         space: 5,
 
-                            hide_onleave: false,
-                            hide_onmobile: false,
-                            hide_under: 0,
-                            hide_over: 9999,
-                            hide_delay: 200,
-                            hide_delay_mobile: 1200,
-                        },
-                        touch: {
-                            touchenabled: "on",
-                            swipe_threshold: 75,
-                            swipe_min_touches: 50,
-                            swipe_direction: "horizontal",
-                            drag_block_vertical: false,
-                        },
-                    },
-                    responsiveLevels: [1440, 1170, 992, 768],
-                    visibilityLevels: [1440, 1170, 992, 768],
-                    gridWidth: [1440, 1170, 992, 768],
-                    gridheight: [750, 700, 650, 600],
-                    lazyType: "none",
-                    parallax: {
-                        type: "scroll",
-                        origo: "slidercenter",
-                        speed: 1000,
-                        levels: [
-                            5, 10, 15, 20, 25, 30, 35, 40, 45, 46, 47, 48, 49,
-                            50, 100, 55,
-                        ],
-                        type: "scroll",
-                    },
-                    shadow: 0,
-                    spinner: "off",
-                    stopLoop: "off",
-                    shuffle: "off",
-                    autoHeight: "off",
-                    fullScreenAutoWidth: "off",
-                    fullScreenAlignForce: "off",
-                    fullScreenOffsetContainer: "",
-                    fullScreenOffset: "60px",
-                    disableProgressBar: "on",
-                    hideThumbsOnMobile: "off",
-                    hideSliderAtLimit: 0,
-                    hideCaptionAtLimit: 0,
-                    hideAllCaptionAtLilmit: 0,
-                    debugMode: false,
-                    fallbacks: {
-                        simplifyAll: "off",
-                        nextSlideOnWindowFocus: "off",
-                        disableFocusListener: false,
-                    },
-                });
-        }
-    }
+    //                         hide_onleave: false,
+    //                         hide_onmobile: false,
+    //                         hide_under: 0,
+    //                         hide_over: 9999,
+    //                         hide_delay: 200,
+    //                         hide_delay_mobile: 1200,
+    //                     },
+    //                     touch: {
+    //                         touchenabled: "on",
+    //                         swipe_threshold: 75,
+    //                         swipe_min_touches: 50,
+    //                         swipe_direction: "horizontal",
+    //                         drag_block_vertical: false,
+    //                     },
+    //                 },
+    //                 responsiveLevels: [1440, 1170, 992, 768],
+    //                 visibilityLevels: [1440, 1170, 992, 768],
+    //                 gridWidth: [1440, 1170, 992, 768],
+    //                 gridheight: [750, 700, 650, 600],
+    //                 lazyType: "none",
+    //                 parallax: {
+    //                     type: "scroll",
+    //                     origo: "slidercenter",
+    //                     speed: 1000,
+    //                     levels: [
+    //                         5, 10, 15, 20, 25, 30, 35, 40, 45, 46, 47, 48, 49,
+    //                         50, 100, 55,
+    //                     ],
+    //                     type: "scroll",
+    //                 },
+    //                 shadow: 0,
+    //                 spinner: "off",
+    //                 stopLoop: "off",
+    //                 shuffle: "off",
+    //                 autoHeight: "off",
+    //                 fullScreenAutoWidth: "off",
+    //                 fullScreenAlignForce: "off",
+    //                 fullScreenOffsetContainer: "",
+    //                 fullScreenOffset: "60px",
+    //                 disableProgressBar: "on",
+    //                 hideThumbsOnMobile: "off",
+    //                 hideSliderAtLimit: 0,
+    //                 hideCaptionAtLimit: 0,
+    //                 hideAllCaptionAtLilmit: 0,
+    //                 debugMode: false,
+    //                 fallbacks: {
+    //                     simplifyAll: "off",
+    //                     nextSlideOnWindowFocus: "off",
+    //                     disableFocusListener: false,
+    //                 },
+    //             });
+    //     }
+    // }
 
     function stickyWidget() {
         // on scroll move the sidebar
@@ -688,7 +722,7 @@
         magnificPopup();
         productVaritantsNormal();
         // stickyWidget();
-        revolution();
+        // revolution();
         filterSlider();
     });
 
@@ -740,7 +774,7 @@
                     exit: "animated fadeOutUp",
                 },
                 icon_type: "class",
-            }
+            },
         );
     }
 
@@ -780,7 +814,7 @@
                 onClose: null,
                 onClosed: null,
                 icon_type: "class",
-            }
+            },
         );
     }
     // Notifications Ends
@@ -801,7 +835,7 @@
         item_key = 0,
         qty = 0,
         add_type = 0,
-        optionIds = null
+        optionIds = null,
     ) {
         let itemId;
         let type;
@@ -885,7 +919,7 @@
                         $(".dropdown-cart-items").html(data.cart_items_html);
                         if (qty) {
                             $("#view_cart_load").load(
-                                $("#cart_view_load").attr("data-target")
+                                $("#cart_view_load").attr("data-target"),
                             );
                         }
                         if (add_type == 1) {
@@ -966,13 +1000,13 @@
 
                     // Update total in dropdown
                     $(".cart-total span:last-child").text(
-                        "Tk " + data.cart_total.toFixed(2)
+                        "Tk " + data.cart_total.toFixed(2),
                     );
 
                     // If no items left, show translated empty message
                     if (data.cart_count === 0) {
                         $(".cart-items-dropdown").html(
-                            '<p class="text-center">' + cartEmptyText + "</p>"
+                            '<p class="text-center">' + cartEmptyText + "</p>",
                         );
                     }
                 } else {
@@ -987,11 +1021,9 @@
     });
 })(jQuery);
 
-
-
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const btn = document.getElementById("scrollTopBtn");
-    
+
     if (!btn) return;
 
     // স্ক্রল ৩০px নিচে নামলে বাটনটি দেখাবে
@@ -1003,11 +1035,9 @@ document.addEventListener("DOMContentLoaded", function() {
     btn.addEventListener("click", () => {
         window.scrollTo({
             top: 0,
-            behavior: "smooth"
+            behavior: "smooth",
         });
     });
 });
-
-
 
 //# sourceMappingURL=main.js.map

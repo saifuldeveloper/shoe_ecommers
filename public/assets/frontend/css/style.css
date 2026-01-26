@@ -53,6 +53,32 @@
            5.2 margin
            5.3 padding
 */
+
+/* গ্রিড কন্টেইনার যেন আগে থেকেই প্রস্তুত থাকে */
+.ps-masonry {
+    display: block;
+    width: 100%;
+}
+
+/* গ্রিড আইটেমগুলোকে আগে থেকেই ভাসিয়ে রাখা */
+.grid-item {
+    float: left;
+    width: 25%; /* ৪ কলামের জন্য */
+    padding: 10px; /* আপনার ডিজাইনের প্যাডিং */
+    min-height: 100px; /* যাতে একেবারে জিরো না হয়ে যায় */
+}
+
+/* মোবাইল রেসপন্সিভনেস (আপনার ডাটা-কল অনুযায়ী) */
+@media (max-width: 991px) { .grid-item { width: 50%; } }
+@media (max-width: 480px) { .grid-item { width: 100%; } }
+
+/* ইমেজগুলো যেন কন্টেইনারের বাইরে না যায় */
+.grid-item img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
 .masonry-wrapper .grid-item .grid-item__inner,
 .setting .grid-item .grid-item__inner {
   position: relative;

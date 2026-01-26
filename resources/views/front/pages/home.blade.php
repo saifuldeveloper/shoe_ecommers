@@ -111,7 +111,7 @@
             <div class="ps-section__content">
                 <div class="masonry-wrapper" data-col-md="4" data-col-sm="2" data-col-xs="1" data-gap="30"
                     data-radio="100%">
-                    <div class="ps-masonry">
+                    <div class="ps-masonry" style="display: flex; flex-wrap: wrap;">
                         <div class="grid-sizer"></div>
                         @foreach ($featured_items as $item)
                             <div class="grid-item {{ Str::slug($item->category->slug ?? '') }}">
@@ -320,48 +320,48 @@
                                             loading="lazy" width="400" height="400" />
                                         <img class="hover-img" src="{{ asset('storage/items/' . $item->photo) }}"
                                             class="ps-product-image" loading="lazy" width="400" height="400"
-                                                    alt="{{ $item->photo }}">
-                                                <a class="ps-shoe__favorite add-to-wishlist {{ isset($wishlists[$item->id]) ? 'active' : '' }}"
-                                                    data-id="{{ $item->id }}">
-                                                    <i class="ps-icon-heart"></i>
+                                            alt="{{ $item->photo }}">
+                                        <a class="ps-shoe__favorite add-to-wishlist {{ isset($wishlists[$item->id]) ? 'active' : '' }}"
+                                            data-id="{{ $item->id }}">
+                                            <i class="ps-icon-heart"></i>
+                                        </a>
+                                    </div>
+                                    <div class="ps-shoe__content">
+                                        <div class="ps-shoe__detail">
+                                            <a class="ps-shoe__name" href="#">{{ $item->name }}</a>
+                                            <div> <span class="ps-shoe__price"> &#2547; {{ $item->discount_price }}</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="ps-shoe__variants">
+
+                                            <div class="text-center pb-10">
+                                                <p class="ps-shoe__categories pb-5">
+
+                                                    @foreach ($item->unique_sizes as $size)
+                                                        <a target="__blank"
+                                                            href="{{ route('front.product', ['slug' => $item->slug]) }}?size={{ $size }}"
+                                                            class="#">{{ $size }}</a>
+                                                    @endforeach
+                                                </p>
+                                            </div>
+                                            <div>
+
+                                                <a href="{{ route('front.product', $item->slug) }}" target="__blank">
+                                                    <span class="btn btn-dark shop-now-button">Shop now</span>
                                                 </a>
                                             </div>
-                                            <div class="ps-shoe__content">
-                                                <div class="ps-shoe__detail">
-                                                    <a class="ps-shoe__name" href="#">{{ $item->name }}</a>
-                                                    <div> <span class="ps-shoe__price"> &#2547; {{ $item->discount_price }}</span>
-                                                    </div>
-                                                </div>
 
-                                                <div class="ps-shoe__variants">
-
-                                                    <div class="text-center pb-10">
-                                                        <p class="ps-shoe__categories pb-5">
-
-                                                              @foreach ($item->unique_sizes as $size)
-                                        <a target="__blank"
-                                            href="{{ route('front.product', ['slug' => $item->slug]) }}?size={{ $size }}"
-                                            class="#">{{ $size }}</a>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
                     @endforeach
-                    </p>
-                </div>
-                <div>
 
-                    <a href="{{ route('front.product', $item->slug) }}" target="__blank">
-                        <span class="btn btn-dark shop-now-button">Shop now</span>
-                    </a>
                 </div>
-
             </div>
         </div>
-        </a>
-    </div>
-    </div>
-    @endforeach
-
-    </div>
-    </div>
-    </div>
     </div>
 
     {{-- //blog section --}}
@@ -539,25 +539,54 @@
             });
         });
 
-        function updateWishlistCount() {
-            let url = '{{ route('user.wishlist.count') }}';
+        // function updateWishlistCount() {
+        //     let url = '{{ route('user.wishlist.count') }}';
 
-            $.ajax({
-                url: url,
-                type: 'GET',
-                dataType: 'json',
-                success: function(response) {
-                    const count = response.count || 0;
-                    $('#wishlist-count-header i').text(count);
-                    $('#wishlist-count-mobile i').text(count);
-                },
-                error: function(xhr) {
-                    console.error("Failed to fetch wishlist count:", xhr);
-                    $('#wishlist-count-header i').text(0);
-                    $('#wishlist-count-mobile i').text(0);
-                }
-            });
+        //     $.ajax({
+        //         url: url,
+        //         type: 'GET',
+        //         dataType: 'json',
+        //         success: function(response) {
+        //             const count = response.count || 0;
+        //             $('#wishlist-count-header i').text(count);
+        //             $('#wishlist-count-mobile i').text(count);
+        //         },
+        //         error: function(xhr) {
+        //             console.error("Failed to fetch wishlist count:", xhr);
+        //             $('#wishlist-count-header i').text(0);
+        //             $('#wishlist-count-mobile i').text(0);
+        //         }
+        //     });
+        // }
+
+        function updateWishlistCount() {
+            try {
+                let url = '{{ route('user.wishlist.count') }}';
+
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                        // console.log(response)
+                        if (response.count !== undefined) {
+                            $('#wishlist-count-header i').text(response.count);
+
+                            $('#wishlist-count-mobile i').text(response.count);
+                        }
+                    },
+                    error: function(xhr) {
+                        // console.log("Error status:", xhr.status);
+                        $('#wishlist-count-header i').text(0);
+                        $('#wishlist-count-mobile i').text(0);
+                    }
+                });
+            } catch (e) {
+                console.warn("Wishlist count route not found or error in script:", e);
+            }
         }
+
+
 
         // Optional: Load count on page load
         updateWishlistCount();

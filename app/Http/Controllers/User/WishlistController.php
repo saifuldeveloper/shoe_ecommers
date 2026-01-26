@@ -10,7 +10,7 @@ use App\{
     Http\Controllers\Controller
 };
 
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class WishlistController extends Controller
@@ -24,34 +24,33 @@ class WishlistController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth',['except' => ['store']]);
+        $this->middleware('auth', ['except' => ['store']]);
         $this->middleware('localize');
     }
 
     public function index()
     {
         $wishlists = Wishlist::whereUserId(Auth::user()->id)->pluck('item_id')->toArray();
-        $wishlist_items = Item::where('status','=',1)->whereIn('id',$wishlists)->latest('id')->get();
-        return view('user.wishlist.index',compact('wishlist_items'));
+        $wishlist_items = Item::where('status', '=', 1)->whereIn('id', $wishlists)->latest('id')->get();
+        return view('user.wishlist.index', compact('wishlist_items'));
     }
 
     public function store($id)
     {
         $user = Auth::user();
 
-        if($user){
-            if(Wishlist::where('user_id','=',$user->id)->where('item_id','=',$id)->exists())
-            {
-                return response()->json(['status'=>2,'message'=>__('Already Added To Wishlist.')]);
+        if ($user) {
+            if (Wishlist::where('user_id', '=', $user->id)->where('item_id', '=', $id)->exists()) {
+                return response()->json(['status' => 2, 'message' => __('Already Added To Wishlist.')]);
             }
-    
+
             $user->wishlists()->create([
                 'item_id' => $id
             ]);
-        }else{
-            return response()->json(['status'=> 0,'link'=> route('user.login')]);
+        } else {
+            return response()->json(['status' => 0, 'link' => route('user.login')]);
         }
-        return response()->json(['count' => Wishlist::where('user_id','=',$user->id)->count() ,'status'=>1,'message'=>__('Successfully Added To The Wishlist.')]);
+        return response()->json(['count' => Wishlist::where('user_id', '=', $user->id)->count(), 'status' => 1, 'message' => __('Successfully Added To The Wishlist.')]);
 
     }
 
@@ -60,15 +59,15 @@ class WishlistController extends Controller
         $user = Auth::user();
         $wish = Wishlist::findOrFail($id);
         $wish->delete();
-        Session::flash('success',__('Successfully Removed From Wishlist.'));
+        Session::flash('success', __('Successfully Removed From Wishlist.'));
         return back();
     }
 
     public function alldelete()
     {
         $user = Auth::user();
-        Wishlist::where('user_id',$user->id)->delete();
-        Session::flash('success',__('Successfully Removed From Wishlist.'));
+        Wishlist::where('user_id', $user->id)->delete();
+        Session::flash('success', __('Successfully Removed From Wishlist.'));
         return back();
     }
 
@@ -77,11 +76,24 @@ class WishlistController extends Controller
      */
     public function getCount()
     {
-        if (Auth::check()) {
-            $count = Wishlist::where('user_id', Auth::id())->count();
-        } else {
-            $count = 0; 
+        // if (Auth::check()) {
+        //     $count = Wishlist::where('user_id', Auth::id())->count();
+        // } else {
+        //     $count = 0; 
+        // }
+        // return response()->json(['count' => $count]);
+
+        try {
+            if (Auth::check()) {
+                // নিশ্চিত হয়ে নিন টেবিলের নাম 'wishlists' এবং কলাম 'user_id'
+                $count = Wishlist::where('user_id', Auth::id())->count();
+            } else {
+                $count = 0;
+            }
+            return response()->json(['count' => $count]);
+        } catch (\Exception $e) {
+            // এই লাইনটি আসল এররটি কনসোলে পাঠিয়ে দিবে
+            return response()->json(['message' => $e->getMessage()], 500);
         }
-        return response()->json(['count' => $count]);
     }
 }
