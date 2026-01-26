@@ -39,7 +39,7 @@ use App\Models\Size;
 use App\Models\Color;
 use App\Models\Service;
 use App\Models\Slider;
-use App\Models\Subcategory;
+use App\Models\SubCategory;
 use App\Models\Wishlist;
 use App\Models\TrackOrder;
 use Illuminate\Support\Facades\Config;
@@ -83,7 +83,7 @@ class FrontendController extends Controller
 
     public function collectionAll()
     {
-        $subCategories = Subcategory::where('status', 1)->latest()->get();
+        $subCategories = SubCategory::where('status', 1)->latest()->get();
         $brands = Brand::where('status', 1)->latest()->get();
         $products = Item::with('iteamVariant')->where('status', 1)->latest()->paginate(20);
         $allSize = Size::where('status', 1)->latest()->get();
@@ -405,7 +405,7 @@ class FrontendController extends Controller
         $products = $query->paginate(20);
 
         //sub categorys and brands
-        $subCategories = Subcategory::where('status', 1)->latest()->get();
+        $subCategories = SubCategory::where('status', 1)->latest()->get();
         $brands = Brand::where('status', 1)->latest()->get();
         $allSize = Size::where('status', 1)->latest()->get();
         $allColor = Color::where('status', 1)->latest()->get();
@@ -537,7 +537,7 @@ class FrontendController extends Controller
         // $compaign_items = CampaignItem::whereStatus(1)->orderby('id', 'desc')->with('item')->paginate(10);
 
         // //sub categorys and brands
-        // $subCategories = Subcategory::where('status',1)->latest()->get();
+        // $subCategories = SubCategory::where('status',1)->latest()->get();
         // $brands = Brand::where('status',1)->latest()->get();
         // $allSize = Size::where('status',1)->latest()->get();
         // $allColor  = Color::where('status',1)->latest()->get();
@@ -863,7 +863,7 @@ class FrontendController extends Controller
             ->where('status', 1)->where('is_type', 'new')
             ->paginate(20);
 
-        $subCategories = Subcategory::where('status', 1)->latest()->get();
+        $subCategories = SubCategory::where('status', 1)->latest()->get();
         $brands = Brand::where('status', 1)->latest()->get();
         $allSize = Size::where('status', 1)->latest()->get();
         $allColor = Color::where('status', 1)->latest()->get();
@@ -877,7 +877,7 @@ class FrontendController extends Controller
             ->where('status', 1)->where('is_type', 'top')
             ->paginate(20);
 
-        $subCategories = Subcategory::where('status', 1)->latest()->get();
+        $subCategories = SubCategory::where('status', 1)->latest()->get();
         $brands = Brand::where('status', 1)->latest()->get();
         $allSize = Size::where('status', 1)->latest()->get();
         $allColor = Color::where('status', 1)->latest()->get();
@@ -897,7 +897,7 @@ class FrontendController extends Controller
             ->paginate(12);
 
         //sub categorys and brands
-        $subCategories = Subcategory::where('status', 1)->latest()->get();
+        $subCategories = SubCategory::where('status', 1)->latest()->get();
         $brands = Brand::where('status', 1)->latest()->get();
         $allSize = Size::where('status', 1)->latest()->get();
         $allColor = Color::where('status', 1)->latest()->get();

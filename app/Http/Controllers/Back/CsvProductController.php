@@ -9,7 +9,7 @@ use App\Models\Category;
 use App\Models\ChieldCategory;
 use App\Models\Item;
 use App\Models\Order;
-use App\Models\Subcategory;
+use App\Models\SubCategory;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -39,7 +39,7 @@ class CsvProductController extends Controller
             $list['photo'] = url('/core/public/storage/images/' . $list['photo']);
             $list['slug'] = Str::random(3) . $list['slug'] . Str::random(2);
             $list['category'] = Category::findOrFail($list['category_id'])->name;
-            $list['subcategory'] = $list['subcategory_id'] ? Subcategory::findOrFail($list['subcategory_id'])->name : '';
+            $list['subcategory'] = $list['subcategory_id'] ? SubCategory::findOrFail($list['subcategory_id'])->name : '';
             $list['childcategory'] = $list['childcategory_id'] ? ChieldCategory::findOrFail($list['childcategory_id'])->name : '';
             $list['brand'] = $list['brand_id'] ? Brand::findOrFail($list['brand_id'])->name : '';
             unset($list['category_id']);

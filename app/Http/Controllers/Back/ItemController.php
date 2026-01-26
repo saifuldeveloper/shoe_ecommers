@@ -17,7 +17,7 @@ use App\Models\ChieldCategory;
 use App\Models\Color;
 use App\Models\Currency;
 use App\Models\Size;
-use App\Models\Subcategory;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -120,7 +120,7 @@ class ItemController extends Controller
     {
 
         if ($request->subcategory_id) {
-            $data = Subcategory::findOrFail($request->subcategory_id);
+            $data = SubCategory::findOrFail($request->subcategory_id);
             $data = $data->childcategory;
         } else {
             $data = [];

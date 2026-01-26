@@ -5,12 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Subcategory extends Model
+class SubCategory extends Model
 {
 
     use SoftDeletes;
     protected $fillable = ['name', 'slug', 'category_id', 'status'];
     public $timestamps = false;
+    protected $table = 'subcategories';
 
 
     public function category()

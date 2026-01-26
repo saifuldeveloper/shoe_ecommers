@@ -12,7 +12,7 @@ use App\{
 };
 use App\Models\Category;
 use App\Models\Currency;
-use App\Models\Subcategory;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
 
 class AffiliateController extends Controller
@@ -61,7 +61,7 @@ class AffiliateController extends Controller
     {
 
         if($request->subcategory_id){
-            $data = Subcategory::findOrFail($request->subcategory_id);
+            $data = SubCategory::findOrFail($request->subcategory_id);
             $data = $data->childcategory;
         }else{
             $data = [];

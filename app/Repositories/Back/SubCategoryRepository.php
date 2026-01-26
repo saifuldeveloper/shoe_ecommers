@@ -3,7 +3,7 @@
 namespace App\Repositories\Back;
 
 
-use App\Models\Subcategory;
+use App\Models\SubCategory;
 
 class SubCategoryRepository
 {
@@ -18,7 +18,7 @@ class SubCategoryRepository
     public function store($request)
     {
         $input = $request->all();
-        Subcategory::create($input);
+        SubCategory::create($input);
     }
 
     /**
@@ -49,7 +49,7 @@ class SubCategoryRepository
 
     public function restore($id)
     {
-        $category = Subcategory::onlyTrashed()->find($id);
+        $category = SubCategory::onlyTrashed()->find($id);
         if ($category) {
             $category->restore();
             return ['message' => __('Subcategory Restored Successfully.'), 'status' => 1];
@@ -60,7 +60,7 @@ class SubCategoryRepository
 
     public function forceDelete($id)
     {
-        $category = Subcategory::onlyTrashed()->find($id);
+        $category = SubCategory::onlyTrashed()->find($id);
         if ($category) {
             $category->forceDelete();
             return ['message' => __('Subcategory Permanently Deleted Successfully.'), 'status' => 1];

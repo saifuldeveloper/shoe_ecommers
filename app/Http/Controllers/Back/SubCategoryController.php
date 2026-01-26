@@ -8,7 +8,7 @@ use App\{
     Http\Requests\SubCategoryRequest,
     Http\Controllers\Controller
 };
-use App\Models\Subcategory;
+use App\Models\SubCategory;
 
 class SubCategoryController extends Controller
 {
@@ -35,8 +35,8 @@ class SubCategoryController extends Controller
     public function index()
     {
         return view('back.subcategory.index',[
-            'datas' => Subcategory::with('category')->orderBy('id','desc')->get()
-            ,'softdeletes' => Subcategory::onlyTrashed()->with('category')->orderBy('id','desc')->get()
+            'datas' => SubCategory::with('category')->orderBy('id','desc')->get()
+            ,'softdeletes' => SubCategory::onlyTrashed()->with('category')->orderBy('id','desc')->get()
         ]);
     }
 
@@ -71,7 +71,7 @@ class SubCategoryController extends Controller
      */
     public function status($id,$status)
     {
-        Subcategory::find($id)->update(['status' => $status]);
+        SubCategory::find($id)->update(['status' => $status]);
         return redirect()->route('back.subcategory.index')->withSuccess(__('Status Updated Successfully.'));
     }
 

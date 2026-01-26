@@ -9,7 +9,7 @@ use App\{
     Http\Controllers\Controller
 };
 use App\Models\ChieldCategory;
-use App\Models\Subcategory;
+use App\Models\SubCategory;
 
 class ChieldCategoryController extends Controller
 {

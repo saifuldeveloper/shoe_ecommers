@@ -17,7 +17,7 @@ use App\Models\AttributeOption;
 use App\Models\Brand;
 use App\Models\ChieldCategory;
 use App\Models\Setting;
-use App\Models\Subcategory;
+use App\Models\SubCategory;
 use Illuminate\Support\Facades\Session;
 
 class CatalogController extends Controller
@@ -65,7 +65,7 @@ class CatalogController extends Controller
         $search = $request->has('search') ?  ( !empty($request->search) ? $request->search : null ) : null;
 
         $category = $request->has('category') ? ( !empty($request->category) ? Category::whereSlug($request->category)->firstOrFail() : null ) : null;
-        $subcategory = $request->has('subcategory') ? ( !empty($request->subcategory) ? Subcategory::whereSlug($request->subcategory)->firstOrFail() : null ) : null;
+        $subcategory = $request->has('subcategory') ? ( !empty($request->subcategory) ? SubCategory::whereSlug($request->subcategory)->firstOrFail() : null ) : null;
         $childcategory = $request->has('childcategory') ? ( !empty($request->childcategory) ? ChieldCategory::where('slug',$request->childcategory)->first() : null ) : null;
         $minPrice = $request->has('minPrice') ?  ( !empty($request->minPrice) ? PriceHelper::convertPrice($request->minPrice) : null ) : null;
         $maxPrice = $request->has('maxPrice') ?  ( !empty($request->maxPrice) ? PriceHelper::convertPrice($request->maxPrice) : null ) : null;
