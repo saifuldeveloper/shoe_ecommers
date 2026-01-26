@@ -14,18 +14,19 @@ class RetailerOrderSendService
 {
     public function handle(Request $request): array
     {
+
         DB::beginTransaction();
         try {
             $prepared = $this->prepareProducts($request);
             $store = $this->validateStore($request->store_id);
             $productInfo = $this->fetchProductInfo($prepared['products'], $store);
             $payload = $this->buildPayload($request, $productInfo);
-
             // API call with dynamic base URL
             $this->sendOrder($payload, $store->api_base_url);
 
             // ONLY THIS FIELD UPDATE on success
-            // Order::update('sale_note', $request->sale_note);
+            Order::where('id', $request->order_id)
+                ->update(['sale_note' => $request->sale_note]);
             OrderDetails::whereIn('id', $prepared['detail_ids'])->update(['send_retailer' => 1]);
 
             DB::commit();
@@ -145,7 +146,7 @@ class RetailerOrderSendService
                 "city" => $request->city,
             ],
             "created_at" => now()->format('d-m-Y'),
-            "reference_no" => null,
+            "reference_no" => $request->order_ref,
             "warehouse_id_hidden" => "1",
             "warehouse_id" => "1",
             "biller_id_hidden" => "2",
@@ -185,7 +186,7 @@ class RetailerOrderSendService
             "gift_card_id" => null,
             "cheque_no" => null,
             "payment_note" => null,
-            "sale_note" => null,
+            "sale_note" => $request->sale_note,
             "staff_note" => null,
             "order_discount_type" => "Flat",
             "order_discount_value" => null,

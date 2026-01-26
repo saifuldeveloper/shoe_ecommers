@@ -71,7 +71,7 @@ trait SslCommerzPayment
         try {
             $order = Order::create($orderData);
 
-            $order->transaction_number = 'ORD-' . str_pad(Carbon::now()->format('Ymd'), 4, '0000', STR_PAD_LEFT) . '-' . $order->id;
+            $order->transaction_number = 'ecom-' . str_pad(Carbon::now()->format('Ymd'), 4, '0000', STR_PAD_LEFT) . '-' . $order->id;
             $order->save();
 
             // Order details

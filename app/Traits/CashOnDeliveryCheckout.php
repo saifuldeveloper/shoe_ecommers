@@ -81,7 +81,7 @@ trait CashOnDeliveryCheckout
         $orderData['user_id'] = 1;
         try {
             $order = Order::create($orderData);
-            $new_txn = $new_txn = 'ORD-' . str_pad(Carbon::now()->format('Ymd'), 4, '0000', STR_PAD_LEFT) . '-' . $order->id;
+            $new_txn = $new_txn = 'ecom-' . str_pad(Carbon::now()->format('Ymd'), 4, '0000', STR_PAD_LEFT) . '-' . $order->id;
             $order->transaction_number = $new_txn;
             $order->save();
             //order details entry

@@ -111,6 +111,9 @@
                                                 $customer = json_decode($order->billing_info);
                                             @endphp
 
+                                            <input type="hidden" name="order_ref"value="{{ $order->transaction_number }}">
+                                            <input type="hidden" name="order_id"value="{{ $order->id }}">
+                                            <input type="hidden" name="txnid" value="{{ $order->txnid }}">
                                             <input type="hidden" name="customer_name" value="{{ $customer->ship_name }}">
                                             <input type="hidden" name="phone_number" value="{{ $customer->ship_phone }}">
                                             <input type="hidden" name="email" value="{{ $customer->ship_email }}">
@@ -138,8 +141,7 @@
                                                             <td>
                                                                 <input type="checkbox" class="send_retailer_checkbox"
                                                                     data-detail-id="{{ $detail->id }}"
-                                                                      {{ $detail->send_retailer == 1 ? 'disabled' : '' }}
-                                                                    >
+                                                                    {{ $detail->send_retailer == 1 ? 'disabled' : '' }}>
                                                             </td>
 
                                                             {{-- PRODUCT --}}
@@ -190,7 +192,7 @@
                                                             </td>
                                                             <td class="text-right">
                                                                 <button type="button"
-                                                                 {{ $detail->send_retailer == 1 ? 'disabled' : '' }}
+                                                                    {{ $detail->send_retailer == 1 ? 'disabled' : '' }}
                                                                     class="btn btn-sm btn-danger removeRow"
                                                                     data-url="{{ route('order.item.delete', $detail->id) }}"
                                                                     data-id="{{ $detail->id }}">
@@ -220,7 +222,8 @@
                                                         </tr>
                                                     @endif
                                                     <tr>
-                                                        <td colspan="7" class="px-0 border-top border-top-2 text-right">
+                                                        <td colspan="7"
+                                                            class="px-0 border-top border-top-2 text-right">
                                                             <strong>
                                                                 <span class="text-muted">{{ __('Total') }}</span>
                                                             </strong>
@@ -229,17 +232,18 @@
                                                             <span><strong>{{ $order->TotalOrderPrice }}</span> </strong>
                                                         </td>
                                                     </tr>
-                                                    {{-- <tr>
+                                                    <tr>
                                                         <td colspan="5" class="px-0 border-top border-top-2 text-right">
                                                             <strong>
                                                                 <span class="text-muted">{{ __('Order Note') }}</span>
                                                             </strong>
                                                         </td>
-                                                        <td colspan="3" class="px-0 text-right border-top border-top-2">
+                                                        <td colspan="3"
+                                                            class="px-0 text-right border-top border-top-2">
                                                             <input type="text" class="form-control" name="sale_note"
                                                                 value="{{ $order->sale_note }}">
                                                         </td>
-                                                    </tr> --}}
+                                                    </tr>
                                                     <tr>
                                                         <td colspan="7" class="text-right"><strong>Select Shop</strong>
                                                         </td>

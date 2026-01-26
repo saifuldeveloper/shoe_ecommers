@@ -98,8 +98,7 @@ trait RewardPointPayment
 
         $order = Order::create($orderData);
 
-        $order->transaction_number =
-            'ORD-' . Carbon::now()->format('Ymd') . '-' . $order->id;
+        $order->transaction_number ='ecom-' . Carbon::now()->format('Ymd') . '-' . $order->id;
         $order->save();
 
         /** ================= ORDER DETAILS ================= */
