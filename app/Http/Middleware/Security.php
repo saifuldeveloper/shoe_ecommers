@@ -20,37 +20,37 @@ class Security
             return redirect()->route('back.dashboard');
         }  
             
-        if ($request->is('admin')) {
+        // if ($request->is('admin')) {
             
-            $route = Route::getRoutes()->match($request);
+        //     $route = Route::getRoutes()->match($request);
               
-            if($route && $route->getName()){
+        //     if($route && $route->getName()){
 
-                $domain = request()->getHost();
+        //         $domain = request()->getHost();
                 
-                $client = new Client();
-                $response = $client->post('https://support.geniusdevs.com/api/clients/verify', [
-                    'form_params' => [
-                        'domin_url' => $domain,
-                    ]
-                ]);
+        //         $client = new Client();
+        //         $response = $client->post('https://support.geniusdevs.com/api/clients/verify', [
+        //             'form_params' => [
+        //                 'domin_url' => $domain,
+        //             ]
+        //         ]);
                 
-                $responseBody = json_decode($response->getBody(), true);
+        //         $responseBody = json_decode($response->getBody(), true);
   
-                if($responseBody && $responseBody['status']){
-                    Session::put('securityData', $responseBody);
-                }
-            }
+        //         if($responseBody && $responseBody['status']){
+        //             Session::put('securityData', $responseBody);
+        //         }
+        //     }
             
-            $securityDataSession2 = Session::get('securityData');
+        //     $securityDataSession2 = Session::get('securityData');
 
-            if($securityDataSession2 && ($securityDataSession2['status'] == 'not_verified' || $securityDataSession2['status'] == 'multiple_domain')){
-                if ($request->is('admin')) {
-                    return $next($request); 
-                }
-                return redirect()->route('back.dashboard');
-            }
-        }
+        //     if($securityDataSession2 && ($securityDataSession2['status'] == 'not_verified' || $securityDataSession2['status'] == 'multiple_domain')){
+        //         if ($request->is('admin')) {
+        //             return $next($request); 
+        //         }
+        //         return redirect()->route('back.dashboard');
+        //     }
+        // }
         
         return $next($request); 
     }
