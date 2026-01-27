@@ -674,7 +674,8 @@ h3.comon_serviceTitle{
 }
 .buy_now_btn{
   padding: 13px 15px;
-  width: 225px;
+  /* width: 225px; */
+  width: 100% !important;
   text-align: center;
   margin-right: 10px;
   color: #000;
@@ -684,7 +685,7 @@ h3.comon_serviceTitle{
   text-align: center;
   margin-right: 10px;
   border: 1px solid #000;
-  min-width: 550px;
+  /* min-width: 550px; */
   padding: 13px 15px 12px;
   line-height: 23px;
   margin-bottom: 16px;
@@ -699,12 +700,13 @@ h3.comon_serviceTitle{
   background: #f57224;
   color: white;
  padding: 13px 15px;
-  width: 225px;
+  /* width: 225px; */
   text-align: center;
   margin-right: 10px;
   /* margin-top: 7px; */
   border: 0;
-  min-width: 475px;
+  /* min-width: 475px; */
+  width: 80%;
   background: #000;
   color: #fff;
   border-color: #000;
@@ -853,7 +855,7 @@ h5.modal_h5_title span{
   }
   .add_to_cartbtn{
     min-width: 0px;
-    width: 83% !important;
+    width: 75% !important;
   } 
   .login_small_device {
     flex-direction: column;

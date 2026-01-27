@@ -328,4 +328,30 @@ class OrderController extends Controller
         }
         return back()->with('error', $response['message']);
     }
+
+    public function shippingUpdate(Request $request, $id)
+    {
+
+
+
+        $order = Order::findOrFail($id);
+        $billingInfo = json_decode($order->billing_info, true);
+        $shippingData = $request->only([
+            'ship_name',
+            'ship_phone',
+            'ship_email',
+            'ship_city',
+            'ship_zip',
+            'ship_address1',
+        ]);
+
+        $updatedBillingInfo = array_merge($billingInfo ?? [], $shippingData);
+
+        // save back
+        $order->billing_info = json_encode($updatedBillingInfo);
+        $order->save();
+         return back()->withSuccess(__('Shipping information updated successfully.'));
+
+
+    }
 }

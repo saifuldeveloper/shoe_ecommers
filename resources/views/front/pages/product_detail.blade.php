@@ -157,8 +157,7 @@
                             <div class="ps-product__content mt-100">
                                 <ul class="tab-list" role="tablist">
                                     <li class="active">
-                                        <a href="#tab_01" aria-controls="tab_01" role="tab" data-toggle="tab">r
-                                            Description</a>
+                                        <a href="#tab_01" aria-controls="tab_01" role="tab" data-toggle="tab"> Description</a>
                                     </li>
                                     <li>
                                         <a href="#tab_03" aria-controls="tab_03" role="tab" data-toggle="tab">Terms

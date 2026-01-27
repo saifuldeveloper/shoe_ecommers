@@ -123,6 +123,9 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
             // order item delete
             Route::delete('/order/item/delete/{itemId}', [OrderController::class, 'orderItemDelete'])->name('order.item.delete');
 
+            //  order shipping info update
+            Route::post('/order/shipping/update{id}/', [OrderController::class, 'shippingUpdate'])->name('order.shiping.update');
+
 
             // send order to retailer software
             Route::post('/order/send/retailer', [OrderController::class, 'sendRetailerOrder'])->name('send.retailer.order');

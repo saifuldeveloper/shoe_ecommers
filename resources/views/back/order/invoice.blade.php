@@ -1,6 +1,29 @@
 @extends('master.back')
 @section('content')
-    <!-- Start of Main Content -->
+    <style>
+        .select2-container .select2-selection--single {
+            /* height: 38px;
+            /* Bootstrap input height */
+            padding: 6px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 0.375rem; */
+        }
+
+        .select2-container--default .select2-selection--single {
+            background-color: #fff;
+            border: 1px solid #dddd !important;
+            border-radius: 4px;
+            height: 43px !important;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: 24px;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 38px;
+        }
+    </style>
     <div class="container-fluid">
         <div class="card mb-4">
             <div class="card-body">
@@ -49,7 +72,6 @@
                                     <br>
                                     <span
                                         class="text-muted">{{ __('Payment Method :') }}</span>{{ $order->payment_method }}<br>
-
                                     <br>
                                     <br>
                                 </div>
@@ -61,6 +83,10 @@
 
                                 </div>
                                 <div class="col-4 text-right">
+                                    <span class="btn btn-primary" data-id="{{ $order->id }}" data-toggle="modal"
+                                        data-target="#editAddressModal">
+                                        <i class="fas fa-pen"></i>
+                                    </span>
                                     <h5>{{ __('Shipping Address :') }}</h5>
                                     @php
                                         $ship = json_decode($order->billing_info, true);
@@ -233,7 +259,8 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td colspan="5" class="px-0 border-top border-top-2 text-right">
+                                                        <td colspan="5"
+                                                            class="px-0 border-top border-top-2 text-right">
                                                             <strong>
                                                                 <span class="text-muted">{{ __('Order Note') }}</span>
                                                             </strong>
@@ -278,6 +305,101 @@
         </div>
 
 
+        <!-- Edit Address Modal -->
+
+        <div class="modal fade" id="editAddressModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Delivery Address</h5>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+                    <form id="updateAddressForm" method="post"
+                        action="{{ route('order.shiping.update', $order->id) }}">
+                        @csrf
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label>Name</label>
+                                    <input type="text" name="ship_name" class="form-control"
+                                        value="{{ $ship['ship_name'] }}">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Phone</label>
+                                    <input type="text" name="ship_phone" class="form-control"
+                                        value="{{ $ship['ship_phone'] }}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label>Email</label>
+                                    <input type="email" name="ship_email" class="form-control"
+                                        value="{{ $ship['ship_email'] }}">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>City</label>
+                                    @php
+                                        $cities = DB::table('districts')->get();
+                                    @endphp
+
+                                    <select name="ship_city" class="form-control select2">
+                                        <option value="">Select City</option>
+
+                                        @foreach ($cities as $city)
+                                            <option value="{{ $city->name }}"
+                                                {{ ($ship['ship_city'] ?? '') == $city->name ? 'selected' : '' }}>
+                                                {{ $city->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            {{-- <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label>Area</label>
+                                    <input type="text" name="area" class="form-control">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Zone</label>
+                                    <input type="text" name="zone" class="form-control">
+                                </div>
+                            </div> --}}
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label>Zip Code</label>
+                                    <input type="text" name="ship_zip" class="form-control"
+                                        value="{{ $ship['ship_zip'] }}">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <div class="form-group">
+                                        <label>Full Address</label>
+                                        <textarea name="ship_address1" class="form-control" rows="3" required>{{ $ship['ship_address1'] ?? '' }}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Save Address</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+        <script>
+            $('.select2').select2({
+                dropdownParent: $('#editAddressModal'),
+                minimumResultsForSearch: 0,
+                width: '100%'
+            });
+        </script>
         <script>
             // ✅ Unchecked items input disable, checked items enabled
             document.querySelectorAll('.send_retailer_checkbox').forEach(checkbox => {
