@@ -161,7 +161,6 @@
                                                 </thead>
                                                 <tbody>
                                                     {{-- ================= EXISTING ORDER ITEMS ================= --}}
-
                                                     @foreach ($order->orderDetails as $detail)
                                                         <tr>
                                                             <td>
@@ -191,7 +190,7 @@
                                                                     <option value="">Select Variant</option>
                                                                     @foreach ($variants as $variant)
                                                                         <option value="{{ $variant->id }}"
-                                                                            {{ $detail->item_variant_id == $variant->id ? 'selected' : '' }}>
+                                                                            {{ $detail->item_variant_id == $variant->variant_id ? 'selected' : '' }}>
                                                                             {{ $variant->variant_sku }}
                                                                         </option>
                                                                     @endforeach

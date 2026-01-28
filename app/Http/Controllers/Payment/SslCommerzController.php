@@ -51,12 +51,19 @@ class SslCommerzController extends Controller
         ]);
 
         // Send transaction email/notification
-        PriceHelper::Transaction(
+         PriceHelper::Transaction(
             $order->id,
             $order->transaction_number,
             EmailHelper::getEmail(),
             PriceHelper::OrderTotal($order, 'trns')
         );
+
+        $user = Auth::user();
+        $cart = auth()->check()
+            ? Cart::where('user_id', $user->id)->get()
+            : Cart::where('session_id', session()->get('cartSession'))->get();
+
+        SmsHelper::sendPurchaseSms($order, $cart, PriceHelper::OrderTotal($order, 'trns') ,PriceHelper::OrderTotal($order, 'trns'));
 
         Notification::create([
             'order_id' => $order->id

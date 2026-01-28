@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Order;
 use App\Models\Store;
+use App\Helpers\SmsHelper;
 use App\Models\ItemVariant;
 use App\Models\OrderDetails;
 use Illuminate\Http\Request;
@@ -26,10 +27,20 @@ class RetailerOrderSendService
 
             // ONLY THIS FIELD UPDATE on success
             Order::where('id', $request->order_id)
-                ->update(['sale_note' => $request->sale_note]);
+                ->update(
+                    [
+                        'sale_note' => $request->sale_note,
+                        'status' => 'In progress'
+                    ]
+                );
             OrderDetails::whereIn('id', $prepared['detail_ids'])->update(['send_retailer' => 1]);
-
+            $order = Order::find($request->order_id);
             DB::commit();
+            SmsHelper::sendOrderStatusSms(
+                $order,
+                'In Progress',
+                $order->paid_amount ?? 0
+            );
 
             return [
                 'status' => true,

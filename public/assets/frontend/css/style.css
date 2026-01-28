@@ -56,27 +56,35 @@
 
 /* গ্রিড কন্টেইনার যেন আগে থেকেই প্রস্তুত থাকে */
 .ps-masonry {
-    display: block;
-    width: 100%;
+  display: block;
+  width: 100%;
 }
 
 /* গ্রিড আইটেমগুলোকে আগে থেকেই ভাসিয়ে রাখা */
 .grid-item {
-    float: left;
-    width: 25%; /* ৪ কলামের জন্য */
-    padding: 10px; /* আপনার ডিজাইনের প্যাডিং */
-    min-height: 100px; /* যাতে একেবারে জিরো না হয়ে যায় */
+  float: left;
+  width: 25%; /* ৪ কলামের জন্য */
+  padding: 10px; /* আপনার ডিজাইনের প্যাডিং */
+  min-height: 100px; /* যাতে একেবারে জিরো না হয়ে যায় */
 }
 
 /* মোবাইল রেসপন্সিভনেস (আপনার ডাটা-কল অনুযায়ী) */
-@media (max-width: 991px) { .grid-item { width: 50%; } }
-@media (max-width: 480px) { .grid-item { width: 100%; } }
+@media (max-width: 991px) {
+  .grid-item {
+    width: 50%;
+  }
+}
+@media (max-width: 480px) {
+  .grid-item {
+    width: 100%;
+  }
+}
 
 /* ইমেজগুলো যেন কন্টেইনারের বাইরে না যায় */
 .grid-item img {
-    max-width: 100%;
-    height: auto;
-    display: block;
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
 .masonry-wrapper .grid-item .grid-item__inner,
@@ -3170,9 +3178,12 @@ button.ps-btn--gray:before {
   text-align: center;
   padding-bottom: 20px;
 }
+.mobile-only-wa {
+  display: none !important;
+}
 .ps-shoe .ps-shoe__name {
   font-family: "Archivo Narrow", sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   color: #5b5b5b;
 }
 .ps-shoe .ps-shoe__name:hover {
@@ -5455,11 +5466,11 @@ button.ps-btn--gray:before {
   }
 }
 .ps-product-image {
-    width: 100%;           
-    height: auto;          
-    aspect-ratio: 1 / 1;   
-    object-fit: cover;     
-    background-color: #fff; 
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  background-color: #fff;
 }
 .navigation {
   position: relative;
@@ -8516,12 +8527,12 @@ body.nav-loaded {
 
 .swiper-pagination {
   position: absolute !important; /* overlay */
-  bottom: 20px; 
-  z-index: 10; 
+  bottom: 20px;
+  z-index: 10;
   bottom: 80px !important;
 }
 .swiper-pagination-bullet-active {
-  background: #f59b34 !important; 
+  background: #f59b34 !important;
   opacity: 1 !important;
 }
 /* Desktop/Laptop (992px এর বেশি হলে hide করবে) */

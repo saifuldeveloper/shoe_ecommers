@@ -142,17 +142,19 @@ class OrderController extends Controller
         }
         if ($field == 'order_status') {
 
-            //    dd($value);
-
             // if ($order['order_status'] == 'Delivered') {
             //     return redirect()->route('back.order.index')->withErrors(__('Order is already Delivered.'));
             // }
-
-
             // dd($order_status);
             // 🔹 Order status update
             $order->order_status = $value;
             $order->save();
+
+            SmsHelper::sendOrderStatusSms(
+                $order,
+                $value,
+                $order->paid_amount ?? 0
+            );
 
             // 🔹 Related order details গুলোর status update
             // if ($hasDetails) {
@@ -167,11 +169,17 @@ class OrderController extends Controller
         }
         $this->setTrackOrder($order);
 
-        $sms = new SmsHelper();
-        $user_number = $order->user->phone;
-        if ($user_number) {
-            $sms->SendSms($user_number, "'order_status'", $order->transaction_number);
-        }
+
+
+
+
+
+
+        // $sms = new SmsHelper();
+        // $user_number = $order->user->phone;
+        // if ($user_number) {
+        //     $sms->SendSms($user_number, "'order_status'", $order->transaction_number);
+        // }
 
         return redirect()->route('back.order.index')->withSuccess(__('Status Updated Successfully.'));
     }
@@ -350,7 +358,7 @@ class OrderController extends Controller
         // save back
         $order->billing_info = json_encode($updatedBillingInfo);
         $order->save();
-         return back()->withSuccess(__('Shipping information updated successfully.'));
+        return back()->withSuccess(__('Shipping information updated successfully.'));
 
 
     }

@@ -92,7 +92,6 @@ trait SslCommerzPayment
                 'title' => 'Pending',
                 'order_id' => $order->id,
             ]);
-
         } catch (\Throwable $th) {
             throw $th;
         }

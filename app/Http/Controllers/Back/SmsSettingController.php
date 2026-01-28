@@ -8,6 +8,7 @@ use App\{
 };
 use App\Models\Setting;
 use Illuminate\Http\Request;
+use App\Helpers\SmsHelper;
 
 class SMSSettingController extends Controller
 {
@@ -39,29 +40,30 @@ class SMSSettingController extends Controller
      */
     public function edit(EmailTemplate $template)
     {
-        return view('back.email_template.edit',compact('template'));
+        return view('back.email_template.edit', compact('template'));
     }
+
 
     public function smsUpdate(Request $request)
     {
-       
-        $request->validate([
-            "twilio_sid" => "required:max:200",
-            "twilio_token" => "required|max:100",
-            "twilio_form_number" => "required|max:100",
-            "twilio_country_code" => "required|max:100",
-        ]);
-        $input = $request->all();
-        if(isset($request['is_twilio'])){
-            $input['is_twilio'] = 1;
-        }else{
-            $input['is_twilio'] = 0;
-        }
 
-        Setting::first()->update($input);
-        return redirect()->back()->withSuccess(__('Data Updated Successfully.'));
+
+        //  Update .env safely
+        SmsHelper::overWriteEnvFile('SMS_PROVIDER_URL', $request->sms_provider);
+        SmsHelper::overWriteEnvFile('SMS_API_KEY', $request->sms_key);
+
+        //  Prepare data (checkbox fix)
+        $data = $request->all();
+        $data['sms_active'] = $request->has('sms_active') ? 1 : 0;
+
+        $data['sms_section'] = json_encode($request->sms_section);
+
+
+        //  Update DB
+        Setting::first()->update($data);
+
+        return redirect()->back()->withSuccess('Data Updated Successfully.');
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -69,7 +71,7 @@ class SMSSettingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,EmailTemplate $template)
+    public function update(Request $request, EmailTemplate $template)
     {
         $template->update($request->all());
         return redirect()->route('back.setting.email')->withSuccess(__('Email Template Updated Successfully.'));

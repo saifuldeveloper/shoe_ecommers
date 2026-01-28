@@ -8,8 +8,10 @@
         position: relative;
     }
 
+    .mobile-only-wa {
+        display: inline-block !important;
+    }
 
-    
     * {
         box-sizing: border-box;
     }
@@ -157,7 +159,6 @@
     body {
         font-size: 15px;
     }
-    
 }
 
 /* ===============================
@@ -171,7 +172,6 @@
    =============================== */
 @media only screen and (min-width: 1200px) {
 }
-
 
 /* 
 @media (min-width: 992px) {
@@ -193,4 +193,3 @@
     }
 }
  */
-

@@ -381,28 +381,60 @@ class FrontendController extends Controller
     }
     public function categoryProduct($slug)
     {
-        $category = Category::where('slug', $slug)->first();
+        // $category = Category::where('slug', $slug)->first();
+        // $constraint = request()->get('constraint');
+
+        // dd($constraint);
+
+        // $query = Item::with('itemVariants.variant.color', 'itemVariants.variant.size')
+        //     ->where('category_id', $category->id)
+        //     ->where('status', 1)
+        //     ->orderBy('id', 'DESC');
+
+
+        // if ($constraint) {
+        //     $query->where(function ($q) use ($constraint) {
+        //         $q->where('discount_price', 'LIKE', "%{$constraint}%")
+        //             ->orWhere('discount_price', 'LIKE', "%{$constraint}%")
+        //             ->orWhereHas('itemVariants.variant.color', function ($color) use ($constraint) {
+        //                 $color->where('name', 'LIKE', "%{$constraint}%");
+        //             })
+        //             ->orWhereHas('itemVariants.variant.size', function ($size) use ($constraint) {
+        //                 $size->where('name', 'LIKE', "%{$constraint}%");
+        //             });
+        //     });
+        // }
+        // $products = $query->paginate(20);
+
+        $category = Category::where('slug', $slug)->select('id', 'slug', 'name')->firstOrFail();
         $constraint = request()->get('constraint');
 
-        $query = Item::with('itemVariants.variant.color', 'itemVariants.variant.size')
+        // ১. অপ্রয়োজনীয় কলাম বাদ দিয়ে শুধু নির্দিষ্ট কলাম select করুন
+        // ২. with() এর ভেতর নির্দিষ্ট কলাম বলে দিলে মেমোরি কম খরচ হবে
+        $query = Item::with([
+            'itemVariants.variant.color:id,name',
+            'itemVariants.variant.size:id,name'
+        ])
             ->where('category_id', $category->id)
             ->where('status', 1)
+            ->select('id', 'category_id', 'name', 'slug', 'discount_price', 'thumbnail') // আপনার প্রয়োজনীয় কলাম দিন
             ->orderBy('id', 'DESC');
 
-
         if ($constraint) {
-            $query->where(function ($q) use ($constraint) {
-                $q->where('discount_price', 'LIKE', "%{$constraint}%")
-                    ->orWhere('discount_price', 'LIKE', "%{$constraint}%")
-                    ->orWhereHas('itemVariants.variant.color', function ($color) use ($constraint) {
-                        $color->where('name', 'LIKE', "%{$constraint}%");
-                    })
-                    ->orWhereHas('itemVariants.variant.size', function ($size) use ($constraint) {
-                        $size->where('name', 'LIKE', "%{$constraint}%");
-                    });
-            });
+            if (str_contains($constraint, '-')) {
+                $range = explode('-', $constraint);
+                // সরাসরি numeric comparison indexing সুবিধা পায়
+                $query->whereBetween('discount_price', [(int) $range[0], (int) $range[1]]);
+            } else {
+                $query->where(function ($q) use ($constraint) {
+                    $q->where('name', 'LIKE', "%{$constraint}%") // নামের ওপর সার্চ
+                        ->orWhereHas('itemVariants.variant.color', function ($color) use ($constraint) {
+                            $color->where('name', $constraint); // কালারের ক্ষেত্রে সরাসরি match দ্রুত
+                        });
+                });
+            }
         }
-        $products = $query->paginate(20);
+         $products = $query->paginate(20);
 
         //sub categorys and brands
         $subCategories = SubCategory::where('status', 1)->latest()->get();

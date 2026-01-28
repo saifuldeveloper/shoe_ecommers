@@ -26,6 +26,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Http;
 
 trait CashOnDeliveryCheckout
 {
@@ -57,13 +58,15 @@ trait CashOnDeliveryCheckout
         }
 
         $grand_total = $cart_total + $total_tax + $data['shipping_charge'];
-        $grand_total = $grand_total - ($discount ? $discount['discount'] : 0);
+        $grand_total = $grand_total - ($discount ? $discount['discount'] : 0) - PriceHelper::specialOfferDiscount($cart_total);
+
+
         $total_amount = PriceHelper::setConvertPrice($grand_total);
 
         $specialOfferDiscount = PriceHelper::specialOfferDiscount($cart_total);
-       
+
         $orderData['cart'] = json_encode($cart, true);
-        $orderData['discount'] = $specialOfferDiscount; 
+        $orderData['discount'] = $specialOfferDiscount;
         $orderData['shipping'] = $data['shipping_charge'];
         $orderData['tax'] = $total_tax;
         $orderData['state_price'] = $cart_total;
@@ -95,21 +98,19 @@ trait CashOnDeliveryCheckout
                 $orderDetailsData['variant_price'] = $item_variant ? $item_variant->additional_price : 0;
                 $orderDetailsData['item_variant_id'] = $item->item_variant_id;
                 $orderDetailsData['total_price'] = ($item->item->discount_price + ($item_variant ? $item_variant->additional_price : 0)) * $item->quantity;
-
                 OrderDetails::create($orderDetailsData);
-
             }
-
             TrackOrder::create([
                 'title' => 'Pending',
                 'order_id' => $order->id,
             ]);
+            SmsHelper::sendPurchaseSms($order, $cart, $grand_total);
         } catch (\Throwable $th) {
             throw $th;
         }
 
 
-        $setting = Setting::first();
+        // $setting = Setting::first();
         if ($discount) {
             $coupon_id = $discount['code']['id'];
             $get_coupon = PromoCode::findOrFail($coupon_id);
