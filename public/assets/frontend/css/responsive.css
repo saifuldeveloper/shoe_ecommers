@@ -11,6 +11,11 @@
     .mobile-only-wa {
         display: inline-block !important;
     }
+    .product-gallery {
+    }
+    .product-gallery img {
+                width: 25%;
+    }
 
     * {
         box-sizing: border-box;
