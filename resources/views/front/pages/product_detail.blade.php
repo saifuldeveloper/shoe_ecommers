@@ -6,6 +6,8 @@
 @endsection
 @push('css')
     <link href="{{ asset('assets/frontend/css/chatbox.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
     <style>
         .zoom-wrapper {
             position: relative;
@@ -38,21 +40,67 @@
             display: none;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
+
+
+
+        .product-gallery-container {
+            padding: 0 0px;
+            margin-top: 15px;
+        }
+
+        /* অ্যারো ডিজাইন */
+        .slick-prev:before,
+        .slick-next:before {
+            color: #F8B610 !important;
+            /* কালো অ্যারো */
+            font-size: 24px !important;
+        }
+
+        .slick-prev {
+            left: -25px !important;
+            z-index: 10;
+        }
+
+        .slick-next {
+            right: -25px !important;
+            z-index: 10;
+        }
+
+        /* ইমেজের সাইজ ঠিক রাখা */
+        .gallery-thumb img {
+            width: 100%;
+            height: auto;
+            cursor: pointer;
+            display: block;
+            border: none;
+        }
+
+        .gallery-thumb {
+            margin: 0 5px;
+            /* ইমেজের মাঝে গ্যাপ */
+            outline: none;
+
+        }
     </style>
 @endpush
 
 @section('content')
-    <div class="test">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
-            </div>
-        </div>
-    </div>
-    <div class="ps-product--detail pt-60">
+    <div class="ps-product--detail">
         <div class="ps-container">
             <div class="row">
                 <div class="col-lg-12 col-md-12">
+                    <h5 style="color: #666; font-size: 14px;padding-top: 15px">
+                        <a href="{{ url('/') }}" style="text-decoration: none; color: #666;">Home</a>
+                        <span style="margin: 0 0px;"><i class="fa fa-angle-right"></i></span>
+                        <a href="" style="text-decoration: none; color: #666;">
+                            {{ $item->category->name }}
+                        </a>
+                        <span style="margin: 0 0px;"><i class="fa fa-angle-right"></i></span>
+
+                        <span style="">{{ $item->name }}</span>
+                    </h5>
+                </div>
+                <div class="col-lg-12 col-md-12 pt-20">
                     <div class="col-md-6">
                         <!-- MAIN IMAGE + ZOOM -->
                         <div class="zoom-wrapper position-relative mb-3">
@@ -67,7 +115,7 @@
                         </div>
 
                         <!-- GALLERY THUMBNAILS -->
-                        <div class="product-gallery d-flex flex-wrap gap-2">
+                        {{-- <div class="product-gallery d-flex flex-wrap gap-2">
                             @foreach ($itemGalleries ?? [] as $gallery)
                                 <a href="{{ asset('storage/items/' . $gallery->photo) }}" class="gallery-thumb"
                                     title="Into The Blue">
@@ -75,6 +123,17 @@
                                         width="193" height="125" alt="Gallery Image">
                                 </a>
                             @endforeach
+                        </div> --}}
+                        <div class="product-gallery-container position-relative">
+                            <div class="product-gallery">
+                                @foreach ($itemGalleries ?? [] as $gallery)
+                                    <a href="{{ asset('storage/items/' . $gallery->photo) }}" class="gallery-thumb"
+                                        title="Into The Blue">
+                                        <img src="{{ asset('storage/items/' . $gallery->photo) }}" class="img-thumbnail"
+                                            alt="Gallery Image">
+                                    </a>
+                                @endforeach
+                            </div>
                         </div>
 
                     </div>
@@ -409,6 +468,7 @@
 @endsection
 @push('js')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-zoom/1.12.1/jquery.zoom.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function() {
@@ -544,187 +604,45 @@
         }
     </script>
 
-    {{-- <script>
-        document.querySelectorAll('.zoom-wrapper').forEach(wrapper => {
-            const img = wrapper.querySelector('.zoom-image');
-
-            wrapper.addEventListener('mousemove', (e) => {
-                const rect = wrapper.getBoundingClientRect();
-                const x = ((e.clientX - rect.left) / rect.width) * 100;
-                const y = ((e.clientY - rect.top) / rect.height) * 100;
-
-                img.style.transformOrigin = `${x}% ${y}%`;
-                img.style.transform = 'scale(2.5)';
-            });
-
-            wrapper.addEventListener('mouseleave', () => {
-                img.style.transformOrigin = 'center center';
-                img.style.transform = 'scale(1)';
-            });
-        });
-    </script> --}}
-
-
-    {{-- <script>
-        $(document).ready(function() {
-
-            // 1️⃣ Hover zoom
-            $('.zoom-wrapper').on('mousemove', function(e) {
-                const wrapper = $(this);
-                const img = wrapper.find('.zoom-image');
-
-                const offset = wrapper.offset();
-                const x = ((e.pageX - offset.left) / wrapper.width()) * 100;
-                const y = ((e.pageY - offset.top) / wrapper.height()) * 100;
-
-                img.css({
-                    'transform-origin': `${x}% ${y}%`,
-                    'transform': 'scale(2)' // Zoom level
-                });
-            }).on('mouseleave', function() {
-                $(this).find('.zoom-image').css({
-                    'transform-origin': 'center center',
-                    'transform': 'scale(1)'
-                });
-            });
-
-            // 2️⃣ Gallery thumbnail click (update main image)
-            $('.gallery-thumb').on('click', function(e) {
-                e.preventDefault(); // Prevent new tab
-                const newSrc = $(this).attr('href');
-                $('.image-detail-main-image').attr('src', newSrc);
-            });
-
-            // 3️⃣ Main image click → Magnific Popup
-            $('.image-detail-main-image').on('click', function(e) {
-                const mainSrc = $(this).attr('src');
-
-                let items = [{
-                    src: mainSrc,
-                    title: 'Main Image',
-                    type: 'image'
-                }];
-
-                // Add gallery images
-                $('.gallery-thumb').each(function() {
-                    const thumbSrc = $(this).attr('href');
-                    if (thumbSrc !== mainSrc) {
-                        items.push({
-                            src: thumbSrc,
-                            title: $(this).attr('title') || '',
-                            type: 'image'
-                        });
-                    }
-                });
-
-                $.magnificPopup.open({
-                    items: items,
-                    gallery: {
-                        enabled: true
-                    },
-                    type: 'image',
-                    mainClass: 'mfp-with-zoom mfp-img-mobile',
-                    zoom: {
-                        enabled: true,
-                        duration: 300
-                    }
-                });
-            });
-
-        });
-    </script> --}}
-
-    {{-- <script>
-        $(document).ready(function() {
-
-            const isMobile = /Android|iPhone|iPad|iPod|Windows Phone/i.test(navigator.userAgent);
-
-            // 1️⃣ Hover zoom only for desktop
-            if (!isMobile) {
-                $(document).on('mousemove', '.zoom-wrapper', function(e) {
-                    const wrapper = $(this);
-                    const img = wrapper.find('.zoom-image');
-
-                    const offset = wrapper.offset();
-                    const x = ((e.pageX - offset.left) / wrapper.width()) * 100;
-                    const y = ((e.pageY - offset.top) / wrapper.height()) * 100;
-
-                    img.css({
-                        'transform-origin': `${x}% ${y}%`,
-                        'transform': 'scale(2)' // Zoom level
-                    });
-                });
-
-                $(document).on('mouseleave', '.zoom-wrapper', function() {
-                    $(this).find('.zoom-image').css({
-                        'transform-origin': 'center center',
-                        'transform': 'scale(1)'
-                    });
-                });
-            }
-
-            // 2️⃣ Gallery thumbnail click → update main image
-            $(document).on('click', '.gallery-thumb', function(e) {
-                e.preventDefault();
-                const newSrc = $(this).attr('href');
-                $('.image-detail-main-image').attr('src', newSrc);
-            });
-
-            // 3️⃣ Main image click → Magnific Popup
-            $(document).on('click', '.image-detail-main-image', function(e) {
-                const mainSrc = $(this).attr('src');
-
-                let items = [{
-                    src: mainSrc,
-                    title: 'Main Image',
-                    type: 'image'
-                }];
-
-                $('.gallery-thumb').each(function() {
-                    const thumbSrc = $(this).attr('href');
-                    if (thumbSrc !== mainSrc) {
-                        items.push({
-                            src: thumbSrc,
-                            title: $(this).attr('title') || '',
-                            type: 'image'
-                        });
-                    }
-                });
-
-                $.magnificPopup.open({
-                    items: items,
-                    gallery: {
-                        enabled: true
-                    },
-                    type: 'image',
-                    mainClass: 'mfp-with-zoom mfp-img-mobile',
-                    zoom: {
-                        enabled: true,
-                        duration: 300
-                    }
-                });
-            });
-
-        });
-    </script> --}}
-
-
     <script>
         $(document).ready(function() {
             const isMobile = /Android|iPhone|iPad|iPod|Windows Phone/i.test(navigator.userAgent);
-            // 1️⃣ Desktop Hover Zoom only
+
+            // ১. স্লাইডার চালু করা
+            $('.product-gallery').slick({
+                infinite: false,
+                slidesToShow: 5,
+                slidesToScroll: 1,
+                arrows: true,
+                dots: false,
+                responsive: [{
+                        breakpoint: 768,
+                        settings: {
+                            slidesToShow: 3,
+                            arrows: true
+                        }
+                    },
+                    {
+                        breakpoint: 480,
+                        settings: {
+                            slidesToShow: 3,
+                            arrows: true
+                        }
+                    }
+                ]
+            });
+
+            // ২. ডেস্কটপ জুম (আগের মতো)
             if (!isMobile) {
                 $(document).on('mousemove', '.zoom-wrapper', function(e) {
                     const wrapper = $(this);
                     const img = wrapper.find('.zoom-image');
-
                     const offset = wrapper.offset();
                     const x = ((e.pageX - offset.left) / wrapper.width()) * 100;
                     const y = ((e.pageY - offset.top) / wrapper.height()) * 100;
-
                     img.css({
                         'transform-origin': `${x}% ${y}%`,
-                        'transform': 'scale(2)' // Zoom level
+                        'transform': 'scale(1.3)'
                     });
                 });
 
@@ -736,63 +654,19 @@
                 });
             }
 
-            // 2️⃣ Gallery thumbnail click → update main image
-            // 2️⃣ Gallery thumbnail click → update main image
+            // ৩. থাম্বনেইল ক্লিক করলে মেইন ইমেজ চেঞ্জ (Ajax/Slider Friendly)
             $(document).on('click', '.gallery-thumb', function(e) {
                 e.preventDefault();
                 const newSrc = $(this).attr('href');
                 $('.image-detail-main-image').attr('src', newSrc);
             });
 
-            // 3️⃣ Main image click → Magnific Popup
-            // $(document).on('click touchend', '.image-detail-main-image', function(e) {
-            //     // Prevent double trigger on mobile
-            //     if (isMobile && e.type === 'click') return;
-            //     e.preventDefault();
-
-            //     const mainSrc = $(this).attr('src');
-
-            //     let items = [{
-            //         src: mainSrc,
-            //         title: 'Main Image',
-            //         type: 'image'
-            //     }];
-
-            //     $('.gallery-thumb').each(function() {
-            //         const thumbSrc = $(this).attr('href');
-            //         if (thumbSrc !== mainSrc) {
-            //             items.push({
-            //                 src: thumbSrc,
-            //                 title: $(this).attr('title') || '',
-            //                 type: 'image'
-            //             });
-            //         }
-            //     });
-
-            //     $.magnificPopup.open({
-            //         items: items,
-            //         gallery: {
-            //             enabled: true
-            //         },
-            //         type: 'image',
-            //         mainClass: 'mfp-with-zoom mfp-img-mobile',
-            //         zoom: {
-            //             enabled: true,
-            //             duration: 300
-            //         }
-            //     });
-            // });
-
-            // 3️⃣ Main image click → Magnific Popup
+            // ৪. মেইন ইমেজে ক্লিক করলে Magnific Popup (মোবাইল ফিক্সড)
             $(document).on('click', '.image-detail-main-image', function(e) {
                 e.preventDefault();
-                e.stopPropagation(); // অন্য কোনো ইভেন্টকে বাধা দিবে
-
                 const mainSrc = $(this).attr('src');
-
                 let items = [{
                     src: mainSrc,
-                    title: 'Main Image',
                     type: 'image'
                 }];
 
@@ -801,7 +675,6 @@
                     if (thumbSrc !== mainSrc) {
                         items.push({
                             src: thumbSrc,
-                            title: $(this).attr('title') || '',
                             type: 'image'
                         });
                     }
@@ -813,19 +686,9 @@
                         enabled: true
                     },
                     type: 'image',
-                    mainClass: 'mfp-with-zoom mfp-img-mobile',
-                    // মোবাইলে ফোকাস ইস্যু ঠিক করতে নিচের লাইনটি যোগ করুন
-                    callbacks: {
-                        open: function() {
-                            $('body').addClass('noscroll');
-                        },
-                        close: function() {
-                            $('body').removeClass('noscroll');
-                        }
-                    }
+                    mainClass: 'mfp-with-zoom mfp-img-mobile'
                 });
             });
-
         });
     </script>
 @endpush
