@@ -35,8 +35,8 @@ class CategoriesTableSeeder extends Seeder
                 'status' => 1,
                 'deleted_at' => NULL,
                 'deleted_by' => NULL,
-                'created_at' => '2025-09-24 00:39:39',
-                'updated_at' => '2026-01-07 03:13:15',
+                'created_at' => '2025-09-24 06:39:39',
+                'updated_at' => '2026-01-07 09:13:15',
             ),
             1 => 
             array (
@@ -54,8 +54,8 @@ class CategoriesTableSeeder extends Seeder
                 'status' => 1,
                 'deleted_at' => NULL,
                 'deleted_by' => NULL,
-                'created_at' => '2025-09-24 00:40:01',
-                'updated_at' => '2026-01-07 03:18:31',
+                'created_at' => '2025-09-24 06:40:01',
+                'updated_at' => '2026-01-07 09:18:31',
             ),
             2 => 
             array (
@@ -73,8 +73,8 @@ class CategoriesTableSeeder extends Seeder
                 'status' => 1,
                 'deleted_at' => NULL,
                 'deleted_by' => NULL,
-                'created_at' => '2025-09-24 00:41:13',
-                'updated_at' => '2026-01-07 03:13:34',
+                'created_at' => '2025-09-24 06:41:13',
+                'updated_at' => '2026-01-07 09:13:34',
             ),
             3 => 
             array (
@@ -92,8 +92,8 @@ class CategoriesTableSeeder extends Seeder
                 'status' => 1,
                 'deleted_at' => NULL,
                 'deleted_by' => NULL,
-                'created_at' => '2025-09-24 00:41:40',
-                'updated_at' => '2026-01-07 08:04:08',
+                'created_at' => '2025-09-24 06:41:40',
+                'updated_at' => '2026-01-07 14:04:08',
             ),
         ));
         

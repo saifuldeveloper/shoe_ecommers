@@ -328,20 +328,15 @@ class FrontendController extends Controller
             ->firstOrFail();
         $related_products = Item::where('status', 1)
             ->where('id', '!=', $item->id)
-            ->where(function ($query) use ($item) {
-                $query->where('category_id', $item->category_id)
-                    ->orWhere('subcategory_id', $item->subcategory_id)
-                    ->orWhere('childcategory_id', $item->childcategory_id)
-                    ->orWhere('brand_id', $item->brand_id);
+            ->where('category_id', $item->category_id) // category lock (men/women fix)
+            ->when($item->subcategory_id, function ($q) use ($item) {
+                $q->where('subcategory_id', $item->subcategory_id);
             })
             ->inRandomOrder()
-            ->take(8)
+            ->limit(24)
             ->get();
-
-        //recently viewed products
         $viewed = session()->get('viewed_products', []);
 
-        // Add this product ID if not already there
         if (!in_array($item->id, $viewed)) {
             $viewed[] = $item->id;
             session()->put('viewed_products', $viewed);
@@ -381,72 +376,61 @@ class FrontendController extends Controller
     }
     public function categoryProduct($slug)
     {
-        // $category = Category::where('slug', $slug)->first();
-        // $constraint = request()->get('constraint');
-
-        // dd($constraint);
-
-        // $query = Item::with('itemVariants.variant.color', 'itemVariants.variant.size')
-        //     ->where('category_id', $category->id)
-        //     ->where('status', 1)
-        //     ->orderBy('id', 'DESC');
-
-
-        // if ($constraint) {
-        //     $query->where(function ($q) use ($constraint) {
-        //         $q->where('discount_price', 'LIKE', "%{$constraint}%")
-        //             ->orWhere('discount_price', 'LIKE', "%{$constraint}%")
-        //             ->orWhereHas('itemVariants.variant.color', function ($color) use ($constraint) {
-        //                 $color->where('name', 'LIKE', "%{$constraint}%");
-        //             })
-        //             ->orWhereHas('itemVariants.variant.size', function ($size) use ($constraint) {
-        //                 $size->where('name', 'LIKE', "%{$constraint}%");
-        //             });
-        //     });
-        // }
-        // $products = $query->paginate(20);
-
         $category = Category::where('slug', $slug)->select('id', 'slug', 'name')->firstOrFail();
         $constraint = request()->get('constraint');
-
-        // ১. অপ্রয়োজনীয় কলাম বাদ দিয়ে শুধু নির্দিষ্ট কলাম select করুন
-        // ২. with() এর ভেতর নির্দিষ্ট কলাম বলে দিলে মেমোরি কম খরচ হবে
         $query = Item::with([
             'itemVariants.variant.color:id,name',
             'itemVariants.variant.size:id,name'
         ])
             ->where('category_id', $category->id)
             ->where('status', 1)
-            ->select('id', 'category_id', 'name', 'slug', 'discount_price', 'thumbnail') // আপনার প্রয়োজনীয় কলাম দিন
+            ->select('id', 'category_id', 'name', 'slug', 'discount_price', 'thumbnail')
             ->orderBy('id', 'DESC');
-
         if ($constraint) {
             if (str_contains($constraint, '-')) {
                 $range = explode('-', $constraint);
-                // সরাসরি numeric comparison indexing সুবিধা পায়
                 $query->whereBetween('discount_price', [(int) $range[0], (int) $range[1]]);
             } else {
                 $query->where(function ($q) use ($constraint) {
-                    $q->where('name', 'LIKE', "%{$constraint}%") // নামের ওপর সার্চ
+                    $q->where('name', 'LIKE', "%{$constraint}%")
                         ->orWhereHas('itemVariants.variant.color', function ($color) use ($constraint) {
-                            $color->where('name', $constraint); // কালারের ক্ষেত্রে সরাসরি match দ্রুত
+                            $color->where('name', $constraint);
                         });
                 });
             }
         }
-         $products = $query->paginate(20);
-
-        //sub categorys and brands
+        $products = $query->paginate(20);
         $subCategories = SubCategory::where('status', 1)->latest()->get();
         $brands = Brand::where('status', 1)->latest()->get();
         $allSize = Size::where('status', 1)->latest()->get();
         $allColor = Color::where('status', 1)->latest()->get();
-
         return view('front.pages.products', compact('subCategories', 'brands', 'products', 'allSize', 'allColor'));
 
     }
 
-    //products filter 
+
+    public function subCategoryProduct($slug)
+    {
+        $subcategory = SubCategory::where('slug', $slug)
+            ->select('id', 'name', 'category_id', 'slug')
+            ->firstOrFail();
+        $query = Item::where('subcategory_id', $subcategory->id)->where('status', 1)
+            ->select('id', 'category_id', 'name', 'slug', 'discount_price', 'thumbnail')
+            ->orderBy('id', 'DESC');
+        $products = $query->paginate(20);
+        $subCategories = SubCategory::where('status', 1)->select('id', 'name', 'slug')->latest()->get();
+        $brands = Brand::where('status', 1)->select('id', 'name', 'slug')->latest()->get();
+        $allSize = Size::where('status', 1)->select('id', 'name')->latest()->get();
+        $allColor = Color::where('status', 1)->select('id', 'name')->latest()->get();
+        return view('front.pages.products', compact(
+            'subCategories',
+            'brands',
+            'products',
+            'allSize',
+            'allColor',
+            'subcategory'
+        ));
+    }
     public function filterProducts(Request $request)
     {
         $query = Item::query()->where('status', 1);
@@ -889,6 +873,21 @@ class FrontendController extends Controller
      * Summary of showSearchProducts
      * @return void
      */
+
+
+     public function featuredProduct()
+    {
+        $products = Item::with('itemVariants.variant.color', 'itemVariants.variant.size')
+            ->where('status', 1)->where('is_type', 'feature')
+            ->paginate(20);
+
+        $subCategories = SubCategory::where('status', 1)->latest()->get();
+        $brands = Brand::where('status', 1)->latest()->get();
+        $allSize = Size::where('status', 1)->latest()->get();
+        $allColor = Color::where('status', 1)->latest()->get();
+
+        return view('front.pages.featured_product', compact('products', 'subCategories', 'brands', 'allSize', 'allColor'));
+    }
     public function newArrivalProduct()
     {
         $products = Item::with('itemVariants.variant.color', 'itemVariants.variant.size')

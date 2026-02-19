@@ -21,47 +21,14 @@ class CartsTableSeeder extends Seeder
         \DB::table('carts')->insert(array (
             0 => 
             array (
-                'id' => 6,
+                'id' => 11,
                 'user_id' => NULL,
-                'session_id' => 'b75a808fd596e16eddf19c21b48b67d1',
-                'item_id' => 17,
-                'quantity' => 1,
-                'item_variant_id' => NULL,
-                'created_at' => '2026-01-07 08:09:25',
-                'updated_at' => '2026-01-07 08:09:25',
-            ),
-            1 => 
-            array (
-                'id' => 7,
-                'user_id' => NULL,
-                'session_id' => 'c941534681248494b4b48e38f3e1dcf9',
-                'item_id' => 18,
-                'quantity' => 1,
-                'item_variant_id' => NULL,
-                'created_at' => '2026-01-17 04:06:32',
-                'updated_at' => '2026-01-17 04:06:32',
-            ),
-            2 => 
-            array (
-                'id' => 8,
-                'user_id' => NULL,
-                'session_id' => '292ef1a12a81ee5a693e6ff174988090',
-                'item_id' => 21,
-                'quantity' => 2,
-                'item_variant_id' => 56,
-                'created_at' => '2026-01-22 09:13:17',
-                'updated_at' => '2026-01-22 09:13:28',
-            ),
-            3 => 
-            array (
-                'id' => 9,
-                'user_id' => NULL,
-                'session_id' => '292ef1a12a81ee5a693e6ff174988090',
-                'item_id' => 18,
+                'session_id' => '7206bc69f7db2c3d9f7f629c0ac117fd',
+                'item_id' => 28,
                 'quantity' => 1,
                 'item_variant_id' => 42,
-                'created_at' => '2026-01-22 09:13:44',
-                'updated_at' => '2026-01-22 09:13:44',
+                'created_at' => '2026-02-01 22:12:52',
+                'updated_at' => '2026-02-01 22:12:52',
             ),
         ));
         

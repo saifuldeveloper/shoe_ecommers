@@ -22,6 +22,9 @@
 
         </td>
         <td>
+            {{ $data->subcategory ? $data->subcategory->name : __('No Subcategory') }}
+        </td>
+        <td>
             {{ PriceHelper::adminCurrencyPrice($data->discount_price) }}
         </td>
         @if (!$isSoftDelete)

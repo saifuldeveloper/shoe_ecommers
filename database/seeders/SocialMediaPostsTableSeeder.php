@@ -29,8 +29,8 @@ class SocialMediaPostsTableSeeder extends Seeder
                 'status' => 1,
                 'deleted_at' => NULL,
                 'deleted_by' => NULL,
-                'created_at' => '2025-10-14 11:54:53',
-                'updated_at' => '2025-10-14 11:54:53',
+                'created_at' => '2025-10-14 17:54:53',
+                'updated_at' => '2025-10-14 17:54:53',
             ),
             1 => 
             array (
@@ -42,8 +42,8 @@ class SocialMediaPostsTableSeeder extends Seeder
                 'status' => 1,
                 'deleted_at' => NULL,
                 'deleted_by' => NULL,
-                'created_at' => '2025-10-14 11:54:53',
-                'updated_at' => '2025-10-14 11:54:53',
+                'created_at' => '2025-10-14 17:54:53',
+                'updated_at' => '2025-10-14 17:54:53',
             ),
             2 => 
             array (
@@ -55,8 +55,8 @@ class SocialMediaPostsTableSeeder extends Seeder
                 'status' => 1,
                 'deleted_at' => NULL,
                 'deleted_by' => NULL,
-                'created_at' => '2025-10-14 11:54:53',
-                'updated_at' => '2025-10-14 11:54:53',
+                'created_at' => '2025-10-14 17:54:53',
+                'updated_at' => '2025-10-14 17:54:53',
             ),
             3 => 
             array (
@@ -68,8 +68,8 @@ class SocialMediaPostsTableSeeder extends Seeder
                 'status' => 1,
                 'deleted_at' => NULL,
                 'deleted_by' => NULL,
-                'created_at' => '2025-10-14 11:54:53',
-                'updated_at' => '2025-10-14 11:54:53',
+                'created_at' => '2025-10-14 17:54:53',
+                'updated_at' => '2025-10-14 17:54:53',
             ),
             4 => 
             array (
@@ -81,8 +81,8 @@ class SocialMediaPostsTableSeeder extends Seeder
                 'status' => 1,
                 'deleted_at' => NULL,
                 'deleted_by' => NULL,
-                'created_at' => '2025-10-14 11:54:53',
-                'updated_at' => '2025-10-14 11:59:34',
+                'created_at' => '2025-10-14 17:54:53',
+                'updated_at' => '2025-10-14 17:59:34',
             ),
             5 => 
             array (
@@ -94,8 +94,8 @@ class SocialMediaPostsTableSeeder extends Seeder
                 'status' => 1,
                 'deleted_at' => NULL,
                 'deleted_by' => NULL,
-                'created_at' => '2025-10-14 11:54:53',
-                'updated_at' => '2025-10-14 11:54:53',
+                'created_at' => '2025-10-14 17:54:53',
+                'updated_at' => '2025-10-14 17:54:53',
             ),
             6 => 
             array (
@@ -107,8 +107,8 @@ class SocialMediaPostsTableSeeder extends Seeder
                 'status' => 1,
                 'deleted_at' => NULL,
                 'deleted_by' => NULL,
-                'created_at' => '2025-10-14 11:54:53',
-                'updated_at' => '2025-10-14 11:54:53',
+                'created_at' => '2025-10-14 17:54:53',
+                'updated_at' => '2025-10-14 17:54:53',
             ),
             7 => 
             array (
@@ -120,8 +120,8 @@ class SocialMediaPostsTableSeeder extends Seeder
                 'status' => 1,
                 'deleted_at' => NULL,
                 'deleted_by' => NULL,
-                'created_at' => '2025-10-14 11:54:53',
-                'updated_at' => '2025-10-14 11:59:27',
+                'created_at' => '2025-10-14 17:54:53',
+                'updated_at' => '2025-10-14 17:59:27',
             ),
             8 => 
             array (
@@ -133,8 +133,8 @@ class SocialMediaPostsTableSeeder extends Seeder
                 'status' => 1,
                 'deleted_at' => NULL,
                 'deleted_by' => NULL,
-                'created_at' => '2025-10-14 11:54:53',
-                'updated_at' => '2025-10-14 11:54:53',
+                'created_at' => '2025-10-14 17:54:53',
+                'updated_at' => '2025-10-14 17:54:53',
             ),
             9 => 
             array (
@@ -146,8 +146,8 @@ class SocialMediaPostsTableSeeder extends Seeder
                 'status' => 1,
                 'deleted_at' => NULL,
                 'deleted_by' => NULL,
-                'created_at' => '2025-10-14 11:54:53',
-                'updated_at' => '2025-10-14 11:54:53',
+                'created_at' => '2025-10-14 17:54:53',
+                'updated_at' => '2025-10-14 17:54:53',
             ),
             10 => 
             array (
@@ -159,8 +159,8 @@ class SocialMediaPostsTableSeeder extends Seeder
                 'status' => 1,
                 'deleted_at' => NULL,
                 'deleted_by' => NULL,
-                'created_at' => '2025-10-14 11:54:53',
-                'updated_at' => '2025-10-14 11:54:53',
+                'created_at' => '2025-10-14 17:54:53',
+                'updated_at' => '2025-10-14 17:54:53',
             ),
             11 => 
             array (
@@ -172,8 +172,8 @@ class SocialMediaPostsTableSeeder extends Seeder
                 'status' => 1,
                 'deleted_at' => NULL,
                 'deleted_by' => NULL,
-                'created_at' => '2025-10-14 11:54:53',
-                'updated_at' => '2025-10-14 11:59:12',
+                'created_at' => '2025-10-14 17:54:53',
+                'updated_at' => '2025-10-14 17:59:12',
             ),
             12 => 
             array (
@@ -185,8 +185,8 @@ class SocialMediaPostsTableSeeder extends Seeder
                 'status' => 1,
                 'deleted_at' => NULL,
                 'deleted_by' => NULL,
-                'created_at' => '2025-10-14 11:54:53',
-                'updated_at' => '2025-10-14 11:54:53',
+                'created_at' => '2025-10-14 17:54:53',
+                'updated_at' => '2025-10-14 17:54:53',
             ),
             13 => 
             array (
@@ -198,8 +198,8 @@ class SocialMediaPostsTableSeeder extends Seeder
                 'status' => 1,
                 'deleted_at' => NULL,
                 'deleted_by' => NULL,
-                'created_at' => '2025-10-14 11:54:53',
-                'updated_at' => '2025-10-14 11:54:53',
+                'created_at' => '2025-10-14 17:54:53',
+                'updated_at' => '2025-10-14 17:54:53',
             ),
         ));
         

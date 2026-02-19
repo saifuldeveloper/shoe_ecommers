@@ -119,9 +119,9 @@
                                             class="form-control bulk_all_delete"> </th>
                                     <th>{{ __('Image') }}</th>
                                     <th>{{ __('Sku') }}</th>
-
                                     <th width="10%">{{ __('Name') }}</th>
                                     <th>{{ __('category') }}</th>
+                                    <th>{{ __('subcategory') }}</th>
                                     <th>{{ __('Price') }}</th>
                                     
                                     <th>{{ __('Live Stock') }}</th>

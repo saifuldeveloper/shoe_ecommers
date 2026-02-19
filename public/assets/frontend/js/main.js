@@ -1,6 +1,5 @@
 (function ($) {
     "use strict";
-
     var isMobile = {
         Android: function () {
             return navigator.userAgent.match(/Android/i);
@@ -163,6 +162,93 @@
         });
     }
 
+    // function owlCarousel(target) {
+    //     if (target.length > 0) {
+    //         target.each(function () {
+    //             var el = $(this),
+    //                 dataAuto = el.data("owl-auto"),
+    //                 dataLoop = el.data("owl-loop"),
+    //                 dataSpeed = el.data("owl-speed"),
+    //                 dataGap = el.data("owl-gap"),
+    //                 dataNav = el.data("owl-nav"),
+    //                 dataDots = el.data("owl-dots"),
+    //                 dataAnimateIn = el.data("owl-animate-in")
+    //                     ? el.data("owl-animate-in")
+    //                     : "",
+    //                 dataAnimateOut = el.data("owl-animate-out")
+    //                     ? el.data("owl-animate-out")
+    //                     : "",
+    //                 dataDefaultItem = el.data("owl-item"),
+    //                 dataItemXS = el.data("owl-item-xs"),
+    //                 dataItemSM = el.data("owl-item-sm"),
+    //                 dataItemMD = el.data("owl-item-md"),
+    //                 dataItemLG = el.data("owl-item-lg"),
+    //                 dataNavLeft = el.data("owl-nav-left")
+    //                     ? el.data("owl-nav-left")
+    //                     : "<i class='ps-icon-back'></i>",
+    //                 dataNavRight = el.data("owl-nav-right")
+    //                     ? el.data("owl-nav-right")
+    //                     : "<i class='ps-icon-next'></i>",
+    //                 duration = el.data("owl-duration"),
+    //                 datamouseDrag =
+    //                     el.data("owl-mousedrag") == "on" ? true : false;
+    //             el.owlCarousel({
+    //                 animateIn: dataAnimateIn,
+    //                 animateOut: dataAnimateOut,
+    //                 margin: dataGap,
+    //                 autoplay: dataAuto,
+    //                 autoplayTimeout: dataSpeed,
+    //                 autoplayHoverPause: true,
+    //                 loop: dataLoop,
+    //                 nav: dataNav,
+    //                 mouseDrag: datamouseDrag,
+    //                 touchDrag: true,
+    //                 autoplaySpeed: duration,
+    //                 navSpeed: duration,
+    //                 dotsSpeed: duration,
+    //                 dragEndSpeed: duration,
+    //                 navText: [dataNavLeft, dataNavRight],
+    //                 dots: dataDots,
+    //                 items: dataDefaultItem,
+    //                 responsive: {
+    //                     0: {
+    //                         items: dataItemXS,
+    //                     },
+    //                     480: {
+    //                         items: dataItemSM,
+    //                     },
+    //                     768: {
+    //                         items: dataItemMD,
+    //                     },
+    //                     992: {
+    //                         items: dataItemLG,
+    //                     },
+    //                     1200: {
+    //                         items: dataDefaultItem,
+    //                     },
+    //                 },
+    //             });
+    //         });
+    //     }
+    // }
+
+    // function navigateOwlCarousel() {
+    //     var container = $(".ps-owl-root"),
+    //         owl = $(".ps-owl--colection"),
+    //         prev = container.find(".ps-owl-actions .ps-prev"),
+    //         next = container.find(".ps-owl-actions .ps-next");
+    //     if (container.length > 0) {
+    //         prev.on("click", function (e) {
+    //             e.preventDefault();
+    //             owl.trigger("prev.owl.carousel", [300]);
+    //         });
+    //         next.on("click", function (e) {
+    //             e.preventDefault();
+    //             owl.trigger("next.owl.carousel");
+    //         });
+    //     }
+    // }
+
     function owlCarousel(target) {
         if (target.length > 0) {
             target.each(function () {
@@ -173,29 +259,16 @@
                     dataGap = el.data("owl-gap"),
                     dataNav = el.data("owl-nav"),
                     dataDots = el.data("owl-dots"),
-                    dataAnimateIn = el.data("owl-animate-in")
-                        ? el.data("owl-animate-in")
-                        : "",
-                    dataAnimateOut = el.data("owl-animate-out")
-                        ? el.data("owl-animate-out")
-                        : "",
                     dataDefaultItem = el.data("owl-item"),
                     dataItemXS = el.data("owl-item-xs"),
                     dataItemSM = el.data("owl-item-sm"),
                     dataItemMD = el.data("owl-item-md"),
                     dataItemLG = el.data("owl-item-lg"),
-                    dataNavLeft = el.data("owl-nav-left")
-                        ? el.data("owl-nav-left")
-                        : "<i class='ps-icon-back'></i>",
-                    dataNavRight = el.data("owl-nav-right")
-                        ? el.data("owl-nav-right")
-                        : "<i class='ps-icon-next'></i>",
                     duration = el.data("owl-duration"),
                     datamouseDrag =
                         el.data("owl-mousedrag") == "on" ? true : false;
+
                 el.owlCarousel({
-                    animateIn: dataAnimateIn,
-                    animateOut: dataAnimateOut,
                     margin: dataGap,
                     autoplay: dataAuto,
                     autoplayTimeout: dataSpeed,
@@ -208,25 +281,20 @@
                     navSpeed: duration,
                     dotsSpeed: duration,
                     dragEndSpeed: duration,
-                    navText: [dataNavLeft, dataNavRight],
+                    navText: [
+                        "<i class='ps-icon-back'></i>",
+                        "<i class='ps-icon-next'></i>",
+                    ],
                     dots: dataDots,
                     items: dataDefaultItem,
+                    // দুই পাশ কেটে যাওয়া রোধ করতে stagePadding যোগ করা হলো
+                    stagePadding: 5,
                     responsive: {
-                        0: {
-                            items: dataItemXS,
-                        },
-                        480: {
-                            items: dataItemSM,
-                        },
-                        768: {
-                            items: dataItemMD,
-                        },
-                        992: {
-                            items: dataItemLG,
-                        },
-                        1200: {
-                            items: dataDefaultItem,
-                        },
+                        0: { items: dataItemXS, stagePadding: 0 },
+                        480: { items: dataItemSM, stagePadding: 0 },
+                        768: { items: dataItemMD, stagePadding: 5 },
+                        992: { items: dataItemLG, stagePadding: 10 },
+                        1200: { items: dataDefaultItem, stagePadding: 10 },
                     },
                 });
             });
@@ -234,20 +302,20 @@
     }
 
     function navigateOwlCarousel() {
-        var container = $(".ps-owl-root"),
-            owl = $(".ps-owl--colection"),
-            prev = container.find(".ps-owl-actions .ps-prev"),
-            next = container.find(".ps-owl-actions .ps-next");
-        if (container.length > 0) {
-            prev.on("click", function (e) {
-                e.preventDefault();
-                owl.trigger("prev.owl.carousel", [300]);
-            });
-            next.on("click", function (e) {
-                e.preventDefault();
-                owl.trigger("next.owl.carousel");
-            });
-        }
+        $(document).on("click", ".ps-owl-actions .ps-prev", function (e) {
+            e.preventDefault();
+            var $section = $(this).closest(".ps-owl-root");
+            $section
+                .find(".ps-owl--colection")
+                .trigger("prev.owl.carousel", [300]);
+        });
+        $(document).on("click", ".ps-owl-actions .ps-next", function (e) {
+            e.preventDefault();
+            var $section = $(this).closest(".ps-owl-root");
+            $section
+                .find(".ps-owl--colection")
+                .trigger("next.owl.carousel", [300]);
+        });
     }
 
     function countDown() {

@@ -24,16 +24,16 @@ class FirstHeroSectionsTableSeeder extends Seeder
                 'id' => 1,
                 'banner_first' => 'banners/0hOopGzHuBQ1t51Zke5Fg8z5V5O4BxQPUrWds8hV.jpg',
                 'url_first' => '#',
-                'created_at' => '2026-01-06 05:46:04',
-                'updated_at' => '2026-01-22 09:58:21',
+                'created_at' => '2026-01-06 11:46:04',
+                'updated_at' => '2026-01-22 15:58:21',
             ),
             1 => 
             array (
                 'id' => 2,
                 'banner_first' => 'banners/GPNoQYYFz6aztWvsoi8OQkimhGKntLrPJzPVbLfq.jpg',
                 'url_first' => '#',
-                'created_at' => '2026-01-06 05:46:19',
-                'updated_at' => '2026-01-22 09:58:13',
+                'created_at' => '2026-01-06 11:46:19',
+                'updated_at' => '2026-01-22 15:58:13',
             ),
         ));
         

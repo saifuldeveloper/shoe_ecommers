@@ -26,8 +26,8 @@ class MemberShipsTableSeeder extends Seeder
                 'total_purchase' => '0.00',
                 'membership_level' => 'Normal',
                 'discount_percent' => 0,
-                'created_at' => '2026-01-07 04:00:40',
-                'updated_at' => '2026-01-07 04:00:40',
+                'created_at' => '2026-01-07 10:00:40',
+                'updated_at' => '2026-01-07 10:00:40',
             ),
         ));
         

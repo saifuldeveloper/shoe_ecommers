@@ -377,7 +377,7 @@ class StoresTableSeeder extends Seeder
                 'deleted_at' => NULL,
                 'deleted_by' => NULL,
                 'created_at' => NULL,
-                'updated_at' => '2026-01-17 00:33:41',
+                'updated_at' => '2026-01-17 06:33:41',
             ),
             20 => 
             array (
@@ -394,8 +394,8 @@ class StoresTableSeeder extends Seeder
                 'secret_key' => 'BJ6r5a3c1Vjz3e7exKHU5B8p5JcflsrD',
                 'deleted_at' => NULL,
                 'deleted_by' => NULL,
-                'created_at' => '2026-01-17 00:34:37',
-                'updated_at' => '2026-01-17 00:34:37',
+                'created_at' => '2026-01-17 06:34:37',
+                'updated_at' => '2026-01-17 06:34:37',
             ),
         ));
         

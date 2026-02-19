@@ -9,6 +9,15 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
     <style>
+         .tab-pane ul {
+            list-style: disc !important;
+            margin-left: 15px;
+        }
+
+        .tab-pane li {
+            display: list-item !important;
+            list-style-type: disc !important;
+        }
         .zoom-wrapper {
             position: relative;
             overflow: hidden;
@@ -113,17 +122,6 @@
                                 </a>
                             @endif
                         </div>
-
-                        <!-- GALLERY THUMBNAILS -->
-                        {{-- <div class="product-gallery d-flex flex-wrap gap-2">
-                            @foreach ($itemGalleries ?? [] as $gallery)
-                                <a href="{{ asset('storage/items/' . $gallery->photo) }}" class="gallery-thumb"
-                                    title="Into The Blue">
-                                    <img src="{{ asset('storage/items/' . $gallery->photo) }}" class="img-thumbnail"
-                                        width="193" height="125" alt="Gallery Image">
-                                </a>
-                            @endforeach
-                        </div> --}}
                         <div class="product-gallery-container position-relative">
                             <div class="product-gallery">
                                 @foreach ($itemGalleries ?? [] as $gallery)
@@ -135,9 +133,7 @@
                                 @endforeach
                             </div>
                         </div>
-
                     </div>
-
                     <!-- Product Details -->
                     <div class="col-md-6">
                         <h4 class="item-name"><strong>{{ $item->name ?? '' }}</strong></h4>
@@ -145,11 +141,7 @@
                             <p><strong>Product Code:</strong> {{ $item->code ?? '' }}</p>
                         @endif
                         <p><strong>Availability:</strong>
-                            {{-- @if ($item->is_stock()) --}}
                             <span class="text-success  d-inline-block">{{ __('In Stock') }}</span>
-                            {{-- @else
-                                <span class="text-danger  d-inline-block">{{ __('Out of stock') }}</span>
-                            @endif --}}
                         </p>
                         <h3><span class="previous-price">Tk {{ $item->previous_price ?? '' }}</span><span
                                 class="text-danger">Tk {{ $item->discount_price ?? '' }}</span></h3>
@@ -186,7 +178,6 @@
                             </div>
                         @endif
                         <!-- Color -->
-
                         @php
                             $variantsIds = $item->iteamVariant->pluck('variant_id')->values()->all();
                             $variants = App\Models\Variant::whereIn('id', $variantsIds)
@@ -267,7 +258,7 @@
                             <div class="tab-content mb-60">
                                 <div class="tab-pane active" role="tabpanel" id="tab_01">
                                     {!! $item->details !!}
-                                    </p>
+                                 
                                 </div>
                                 <div class="tab-pane" role="tabpanel" id="tab_03">
                                     <p>
@@ -396,7 +387,6 @@
                     </div>
                 </div>
             </div>
-
 
             {{-- might like image  --}}
             @if ($recently_viewed->count() > 0)

@@ -611,6 +611,7 @@ Route::group(['middleware' => 'maintainance'], function () {
         Route::get('/product/details/{slug}', [FrontendController::class, 'product'])->name('front.product');
 
         Route::get('/collections/{slug}', [FrontendController::class, 'categoryProduct'])->name('front.categories.products');
+        Route::get('/subcategory/{slug}', [FrontendController::class, 'subCategoryProduct'])->name('front.subcategory.products');
         Route::get('/campaign/products', [FrontendController::class, 'compaignProduct'])->name('front.campaign');
         Route::get('/products/filter', [FrontendController::class, 'filterProducts'])->name('products.filter');
 
@@ -643,6 +644,8 @@ Route::group(['middleware' => 'maintainance'], function () {
 
 
         //new reoutes
+                //new reoutes
+        Route::get('products/featured', [FrontendController::class, 'featuredProduct'])->name('front.featured.products');
         Route::get('products/newarrival', [FrontendController::class, 'newArrivalProduct'])->name('front.new.products');
         Route::get('products/top-sell', [FrontendController::class, 'topSellProduct'])->name('front.top-sell.products');
 

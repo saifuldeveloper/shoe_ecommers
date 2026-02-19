@@ -13,7 +13,6 @@
                                     loading="{{ $loop->first ? 'eager' : 'lazy' }}">
                             </picture>
                         </a>
-
                         <div class="banner-content">
                             <h2>{{ $slider->title }}</h2>
                             <p>{{ $slider->description }}</p>
@@ -27,7 +26,6 @@
             <div class="swiper-pagination"></div>
         </div>
     </div>
-
     <div class="ps-section pt-35">
         <div class="ps-container">
             <div class="ps-section__content">
@@ -45,7 +43,6 @@
             </div>
         </div>
     </div>
-
     <div class="ps-section">
         <div class="ps-container">
             <div class="ps-section__content">
@@ -69,7 +66,7 @@
             </div>
         </div>
     </div>
-    @php
+    {{-- @php
         $products = App\Models\Item::with('itemVariants.variant.color', 'itemVariants.variant.size')
             ->where('status', 1)
             ->orderBy('id', 'DESC')
@@ -81,8 +78,8 @@
             })
             ->unique()
             ->values();
-    @endphp
-    <div class="ps-section--features-product ps-section masonry-root pb-30">
+    @endphp --}}
+    {{-- <div class="ps-section--features-product ps-section masonry-root pb-30">
         <div class="ps-container">
             <div class="ps-section__header pb-40">
                 <div class="row">
@@ -90,7 +87,7 @@
                         <h3 class="ps-section__title">- Features Products</h3>
                         <ul class="ps-masonry__filter">
                             <li class="current">
-                                <a data-filter="*" href="#">All <sup>{{ $featured_items->count() }}</sup></a>
+                                <a data-filter="*" href="javascript:void(0)">All <sup>{{ $featured_items->count() }}</sup></a>
                             </li>
                             @foreach ($featuredCategories as $cat)
                                 @php
@@ -98,7 +95,7 @@
                                 @endphp
                                 @if ($count > 0)
                                     <li>
-                                        <a data-filter=".{{ Str::slug($cat->slug) }}" href="#">
+                                        <a data-filter=".{{ Str::slug($cat->slug) }}" href="javascript:void(0)">
                                             {{ $cat->name }} <sup>{{ $count }}</sup>
                                         </a>
                                     </li>
@@ -165,7 +162,102 @@
                 </div>
             </div>
         </div>
+    </div> --}}
+
+    <div class="ps-section--features-product ps-section ps-owl-root pb-30">
+        <div class="ps-container">
+            <div class="ps-section__header pb-40">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="ps-section__title">- Featured Products</h3>
+                        <ul class="ps-masonry__filter" id="bata-filter">
+                            @foreach ($featuredCategories as $cat)
+                                @php
+                                    $count = $featured_items->where('category_id', $cat->id)->count();
+                                @endphp
+                                @if ($count > 0)
+                                    <li>
+                                        <a data-filter=".{{ Str::slug($cat->slug) }}" href="javascript:void(0)">
+                                            {{ $cat->name }} <sup>{{ $count }}</sup>
+                                        </a>
+                                    </li>
+                                @endif
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preloader -->
+            <div id="featured-preloader" style="text-align:center; display:none; padding:50px;">
+                <i class="fas fa-spinner fa-spin" style="font-size:30px; color:#f59b34;"></i>
+            </div>
+            
+            <div class="ps-section__content">
+                <div id="featured-product-owl" class="owl-carousel ps-owl--colection processing-mode" data-owl-auto="true"
+                    data-owl-dots="false" data-owl-duration="1000" data-owl-item="4" data-owl-item-lg="4"
+                    data-owl-item-md="3" data-owl-item-sm="2" data-owl-item-xs="2" data-owl-loop="true"
+                    data-owl-mousedrag="on" data-owl-nav="false" data-owl-speed="5000" style="transition: opacity 0.3s ease;">
+                    @foreach ($featured_items as $item)
+                        <div class="ps-shoes--carousel featured-item-slide {{ Str::slug($item->category->slug ?? '') }}">
+                            <div class="ps-shoe">
+                                <a target="__blank" href="{{ route('front.product', ['slug' => $item->slug]) }}">
+                                    <div class="ps-shoe__thumbnail">
+                                        <img alt="{{ $item->photo }}" src="{{ asset('storage/items/' . $item->photo) }}"
+                                            class="ps-product-image" loading="lazy" width="400" height="400" />
+                                        <img class="hover-img" src="{{ asset('storage/items/' . $item->photo) }}"
+                                            class="ps-product-image" loading="lazy" width="400" height="400"
+                                            alt="{{ $item->photo }}">
+                                        <a class="ps-shoe__favorite add-to-wishlist {{ isset($wishlists[$item->id]) ? 'active' : '' }}"
+                                            data-id="{{ $item->id }}">
+                                            <i class="ps-icon-heart"></i>
+                                        </a>
+                                    </div>
+                                    <div class="ps-shoe__content">
+                                        <div class="ps-shoe__detail">
+                                            <a class="ps-shoe__name" href="javascript:void(0)">{{ $item->name }}</a>
+                                            <div> <span class="ps-shoe__price"> &#2547; {{ $item->discount_price }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="ps-shoe__variants text-center pb-10">
+                                            <p class="ps-shoe__categories pb-5">
+                                                @foreach ($item->unique_sizes as $size)
+                                                    <a target="__blank"
+                                                        href="{{ route('front.product', ['slug' => $item->slug]) }}?size={{ $size }}"
+                                                        class="#">{{ $size }}</a>
+                                                @endforeach
+                                            </p>
+                                            <div>
+                                                <a href="{{ route('front.product', $item->slug) }}" target="__blank">
+                                                    <span class="btn btn-dark shop-now-button">Shop now</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-6"></div>
+                <div class="col-6 text-right">
+                    <div class="ps-owl-actions">
+                        <a target="__blank" style="color:#f59b34;padding-right:15px;"
+                            href="{{ route('front.featured.products') }}">
+                            View All
+                        </a>
+                        <a class="ps-prev" href="javascript:void(0)">&#10094;</a><a class="ps-next"
+                            href="javascript:void(0)">&#10095;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+
     <div class="ps-section pt-35">
         <div class="ps-container">
             <div class="ps-section__content pb-35">
@@ -191,20 +283,6 @@
             </div>
         </div>
     </div>
-    @php
-        $products = App\Models\Item::with('itemVariants.variant.color', 'itemVariants.variant.size')
-            ->where('status', 1)
-            ->orderBy('id', 'DESC')
-            ->get();
-
-        $sizes = $products
-            ->flatMap(function ($product) {
-                return $product->itemVariants->pluck('variant.size.name')->filter();
-            })
-            ->unique()
-            ->values();
-    @endphp
-
     <div class="ps-section ps-section--top-sales ps-owl-root">
         <div class="ps-container">
             <div class="ps-section__header">
@@ -218,7 +296,8 @@
                                 href="{{ route('front.new.products') }}">
                                 View All
                             </a>
-                            <a class="ps-prev" href="#">&#10094;</a><a class="ps-next" href="#">&#10095;</a>
+                            <a class="ps-prev" href="javascript:void(0)">&#10094;</a><a class="ps-next"
+                                href="javascript:void(0)">&#10095;</a>
                         </div>
                     </div>
                 </div>
@@ -248,7 +327,7 @@
                                     </div>
                                     <div class="ps-shoe__content">
                                         <div class="ps-shoe__detail">
-                                            <a class="ps-shoe__name" href="#">{{ $item->name }}</a>
+                                            <a class="ps-shoe__name" href="javascript:void(0)">{{ $item->name }}</a>
                                             <div> <span class="ps-shoe__price"> &#2547; {{ $item->discount_price }}</span>
                                             </div>
                                         </div>
@@ -296,8 +375,9 @@
                             {{-- <a target="__blank"  style="color:#f59b34;padding-right:15px;" href="{{ route('front.top-sell.products') }}">
                                 View All
                             </a> --}}
-                            {{-- <a class="ps-prev" href="#">Prev</a><a class="ps-next" href="#">Next</a> --}}
-                            <a class="ps-prev" href="#">&#10094;</a><a class="ps-next" href="#">&#10095;</a>
+                            {{-- <a class="ps-prev" href="javascript:void(0)">Prev</a><a class="ps-next" href="javascript:void(0)">Next</a> --}}
+                            <a class="ps-prev" href="javascript:void(0)">&#10094;</a><a class="ps-next"
+                                href="javascript:void(0)">&#10095;</a>
                         </div>
                     </div>
                 </div>
@@ -328,7 +408,7 @@
                                     </div>
                                     <div class="ps-shoe__content">
                                         <div class="ps-shoe__detail">
-                                            <a class="ps-shoe__name" href="#">{{ $item->name }}</a>
+                                            <a class="ps-shoe__name" href="javascript:void(0)">{{ $item->name }}</a>
                                             <div> <span class="ps-shoe__price"> &#2547; {{ $item->discount_price }}</span>
                                             </div>
                                         </div>
@@ -400,7 +480,7 @@
 
 
                                     <p class="ps-post__meta">
-                                        <span>By:<a class="mr-5" href="#">Avijatry</a></span>
+                                        <span>By:<a class="mr-5" href="javascript:void(0)">Avijatry</a></span>
                                         -<span class="ml-5">{{ $post->created_at->format('M d, Y') }}</span>
                                     </p>
 
@@ -539,25 +619,6 @@
             });
         });
 
-        // function updateWishlistCount() {
-        //     let url = '{{ route('user.wishlist.count') }}';
-
-        //     $.ajax({
-        //         url: url,
-        //         type: 'GET',
-        //         dataType: 'json',
-        //         success: function(response) {
-        //             const count = response.count || 0;
-        //             $('#wishlist-count-header i').text(count);
-        //             $('#wishlist-count-mobile i').text(count);
-        //         },
-        //         error: function(xhr) {
-        //             console.error("Failed to fetch wishlist count:", xhr);
-        //             $('#wishlist-count-header i').text(0);
-        //             $('#wishlist-count-mobile i').text(0);
-        //         }
-        //     });
-        // }
 
         function updateWishlistCount() {
             try {
@@ -590,5 +651,144 @@
 
         // Optional: Load count on page load
         updateWishlistCount();
+    </script>
+
+
+
+    {{-- <script>
+        $(document).ready(function() {
+            const $owlContainer = $('#featured-product-owl');
+            const allItemsHtml = $owlContainer.html(); // Save original items
+            function initFeaturedSlider() {
+                $owlContainer.owlCarousel({
+                    loop: false, // Bata style usually uses false for filtered lists
+                    margin: 20,
+                    nav: false, // Custom nav used below
+                    dots: false,
+                    autoplay: true,
+                    stagePadding: 5,
+                    autoplayTimeout: 5000,
+                    responsive: {
+                        0: {
+                            items: 2,
+                            stagePadding: 10
+                        },
+                        480: {
+                            items: 2,
+                            stagePadding: 10
+                        },
+                        768: {
+                            items: 3,
+                            stagePadding: 15
+                        },
+                        992: {
+                            items: 4,
+                            stagePadding: 15
+                        }
+                    }
+                });
+            }
+
+            // Initialize on load
+            initFeaturedSlider();
+
+            // Custom Navigation
+            $('.featured-owl-next').click(function(e) {
+                e.preventDefault();
+                $owlContainer.trigger('next.owl.carousel');
+            });
+            $('.featured-owl-prev').click(function(e) {
+                e.preventDefault();
+                $owlContainer.trigger('prev.owl.carousel');
+            });
+
+            // Bata-style Smooth Filtering
+            $('#bata-filter a').on('click', function(e) {
+                e.preventDefault();
+                const $this = $(this);
+                const filterValue = $this.attr('data-filter');
+
+                // Update UI
+                $('#bata-filter li').removeClass('current');
+                $this.parent().addClass('current');
+
+                // Destroy and Re-build
+                $owlContainer.trigger('destroy.owl.carousel').removeClass('owl-loaded owl-drag');
+                $owlContainer.html(allItemsHtml);
+
+                if (filterValue !== '*') {
+                    $owlContainer.find('.featured-item-slide').not(filterValue).remove();
+                }
+
+                initFeaturedSlider();
+            });
+        });
+    </script> --}}
+
+
+    <script>
+      $(document).ready(function() {
+    const $owlContainer = $('#featured-product-owl');
+    const $preloader = $('#featured-preloader');
+    const allItemsHtml = $owlContainer.html();
+
+    function initFeaturedSlider() {
+        $owlContainer.owlCarousel({
+            loop: false,
+            margin: 20,
+            nav: false,
+            dots: false,
+            autoplay: true,
+            autoplayTimeout: 5000,
+            responsive: {
+                0: { items: 2, stagePadding: 10 },
+                768: { items: 3, stagePadding: 15 },
+                992: { items: 4, stagePadding: 15 }
+            },
+            onInitialized: function() {
+                // স্লাইডার তৈরি হয়ে গেলে প্রি-লোডার হাইড হবে এবং স্লাইডার শো করবে
+                $preloader.hide(); 
+                $owlContainer.css('opacity', '1'); 
+                $owlContainer.removeClass('processing-mode');
+            }
+        });
+    }
+
+    // Start initially
+    $owlContainer.css('opacity', '0'); // শুরুতে হাইড করে রাখা
+    $preloader.show();
+    initFeaturedSlider();
+
+    // Filter button click
+    $('#bata-filter a').on('click', function(e) {
+        e.preventDefault();
+        const $this = $(this);
+        const filterValue = $this.attr('data-filter');
+
+        // ফিল্টার ক্লিকের সাথে সাথে কন্টেন্ট হাইড এবং প্রি-লোডার শো
+        $owlContainer.css('opacity', '0');
+        $preloader.show();
+        $owlContainer.addClass('processing-mode');
+
+        setTimeout(function() {
+            $owlContainer.trigger('destroy.owl.carousel').removeClass('owl-loaded owl-drag');
+            $owlContainer.html(allItemsHtml);
+
+            if (filterValue !== '*') {
+                $owlContainer.find('.featured-item-slide').not(filterValue).remove();
+            }
+
+            initFeaturedSlider();
+        }, 400); // সামান্য সময় দেওয়া যাতে স্মুথ মনে হয়
+
+        // Active class
+        $('#bata-filter li').removeClass('current');
+        $this.parent().addClass('current');
+    });
+
+    // Custom nav
+    $('.ps-next').click(function() { $owlContainer.trigger('next.owl.carousel'); });
+    $('.ps-prev').click(function() { $owlContainer.trigger('prev.owl.carousel'); });
+});
     </script>
 @endpush

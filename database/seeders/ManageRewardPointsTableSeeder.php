@@ -24,8 +24,8 @@ class ManageRewardPointsTableSeeder extends Seeder
                 'id' => 1,
                 'reward_point' => '10.00',
                 'status' => '0',
-                'created_at' => '2026-01-22 05:47:23',
-                'updated_at' => '2026-01-22 05:47:23',
+                'created_at' => '2026-01-22 11:47:23',
+                'updated_at' => '2026-01-22 11:47:23',
             ),
         ));
         

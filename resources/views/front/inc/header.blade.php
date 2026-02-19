@@ -121,7 +121,7 @@
                                                 </li>
                                                 @foreach ($category->subcategory as $sub)
                                                     <li>
-                                                        <a href="{{ route('front.categories.products', $sub->slug) }}">
+                                                        <a href="{{ route('front.subcategory.products', $sub->slug) }}">
                                                             {{ $sub->name }}
                                                         </a>
                                                     </li>

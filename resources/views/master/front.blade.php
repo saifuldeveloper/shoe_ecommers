@@ -151,29 +151,7 @@
     <script src="{{ asset('assets/frontend/plugins/elevatezoom/jquery.elevatezoom.js') }}"></script>
     <script src="{{ asset('assets/frontend/plugins/Magnific-Popup/dist/jquery.magnific-popup.min.js') }}"></script>
     <script src="{{ asset('assets/frontend/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
-    <!-- Revolution Slider Core -->
-    {{-- <script src="{{ asset('assets/frontend/plugins/revolution/js/jquery.themepunch.tools.min.js') }}"></script>
-    <script src="{{ asset('assets/frontend/plugins/revolution/js/jquery.themepunch.revolution.min.js') }}"></script> --}}
-    <!-- Revolution Slider Extensions -->
-    {{-- <script src="{{ asset('assets/frontend/plugins/revolution/js/extensions/revolution.extension.video.min.js') }}">
-    </script>
-    <script src="{{ asset('assets/frontend/plugins/revolution/js/extensions/revolution.extension.slideanims.min.js') }}">
-    </script>
-    <script
-        src="{{ asset('assets/frontend/plugins/revolution/js/extensions/revolution.extension.layeranimation.min.js') }}">
-    </script>
-    <script src="{{ asset('assets/frontend/plugins/revolution/js/extensions/revolution.extension.navigation.min.js') }}">
-    </script>
-    <script src="{{ asset('assets/frontend/plugins/revolution/js/extensions/revolution.extension.parallax.min.js') }}">
-    </script>
-    <script src="{{ asset('assets/frontend/plugins/revolution/js/extensions/revolution.extension.actions.min.js') }}">
-    </script>
-    <script src="{{ asset('assets/frontend/plugins/revolution/js/extensions/revolution.extension.kenburn.min.js') }}">
-    </script>
-    <script src="{{ asset('assets/frontend/plugins/revolution/js/extensions/revolution.extension.migration.min.js') }}">
-    </script> --}}
-    <!-- Custom JS -->
-    {{-- <script src="https://js.pusher.com/8.4.0/pusher.min.js"></script> --}}
+
     <script src="{{ asset('assets/frontend/js/chat.js') }}" defer></script>
     <script src="{{ asset('assets/frontend/js/main.js') }}" defer></script>
     @stack('js')

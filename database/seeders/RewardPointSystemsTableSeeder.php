@@ -28,8 +28,8 @@ class RewardPointSystemsTableSeeder extends Seeder
                 'min_order_total_to_redeem_points' => '5000.00',
                 'max_redeem_point_per_order' => '0.00',
                 'min_redeem_point' => '0.00',
-                'created_at' => '2026-01-22 05:47:07',
-                'updated_at' => '2026-01-22 05:47:07',
+                'created_at' => '2026-01-22 11:47:07',
+                'updated_at' => '2026-01-22 11:47:07',
             ),
         ));
         
