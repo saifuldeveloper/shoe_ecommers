@@ -21,16 +21,15 @@ class RetailerOrderSendService
             $prepared = $this->prepareProducts($request);
             $store = $this->validateStore($request->store_id);
             $productInfo = $this->fetchProductInfo($prepared['products'], $store);
-            $payload = $this->buildPayload($request, $productInfo);
+            $payload = $this->buildPayload($request, $productInfo , $store);
             // API call with dynamic base URL
             $this->sendOrder($payload, $store->api_base_url);
-
             // ONLY THIS FIELD UPDATE on success
             Order::where('id', $request->order_id)
                 ->update(
                     [
                         'sale_note' => $request->sale_note,
-                        'status' => 'In progress'
+                        'order_status' => 'In progress'
                     ]
                 );
             OrderDetails::whereIn('id', $prepared['detail_ids'])->update(['send_retailer' => 1]);
@@ -120,7 +119,7 @@ class RetailerOrderSendService
         return $result;
     }
 
-    private function buildPayload(Request $request, array $items): array
+    private function buildPayload(Request $request, array $items, Store $store): array
     {
         $productIds = $productCodes = $qty = [];
         $sale_unit = $net_unit_price = $unit_price = [];
@@ -146,7 +145,7 @@ class RetailerOrderSendService
         $totalPrice = array_sum($subtotal);
 
         return [
-            "secret_key" => "BJ6r5a3c1Vjz3e7exKHU5B8p5JcflsrD",
+            "secret_key" => $store->secret_key,
             "sale_type" => "website",
             "customer_info" => [
                 "customer_group_id" => "1",
