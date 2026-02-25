@@ -767,44 +767,44 @@
     })
 
 
-    let storedFiles = [];
-    const $hiddenInput = $('#gallery_files_hidden');
+//     let storedFiles = [];
+//     const $hiddenInput = $('#gallery_files_hidden');
 
-    // function to sync storedFiles -> hidden input
-    function updateHiddenFiles() {
-        const dt = new DataTransfer();
-        storedFiles.forEach(obj => dt.items.add(obj.file));
-        $hiddenInput[0].files = dt.files;
-    }   
+//     // function to sync storedFiles -> hidden input
+//     function updateHiddenFiles() {
+//         const dt = new DataTransfer();
+//         storedFiles.forEach(obj => dt.items.add(obj.file));
+//         $hiddenInput[0].files = dt.files;
+//     }   
 
-   // handle file select
-    $(document).on('change', '#gallery_file', function () {
-        const files = Array.from(this.files);
+//    // handle file select
+//     $(document).on('change', '#gallery_file', function () {
+//         const files = Array.from(this.files);
 
-        files.forEach(file => {
-            const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
-            storedFiles.push({ id, file });
+//         files.forEach(file => {
+//             const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+//             storedFiles.push({ id, file });
 
-            const reader = new FileReader();
-            reader.onload = function (e) {
-             const html = `
-                <div class="single-g-item d-inline-block m-2 position-relative" data-id="${id}">
-                    <span class="remove-gallery-img">
-                        <i class="fas fa-trash reader_file_remove"></i>
-                    </span>
-                    <a class="popup-link" href="${e.target.result}">
-                        <img class="admin-gallery-img" src="${e.target.result}" alt="No Image Found">
-                    </a>
-                </div>`;
-                $(".gallery_image_view").append(html);
-            };
-            reader.readAsDataURL(file);
-        });
+//             const reader = new FileReader();
+//             reader.onload = function (e) {
+//              const html = `
+//                 <div class="single-g-item d-inline-block m-2 position-relative" data-id="${id}">
+//                     <span class="remove-gallery-img">
+//                         <i class="fas fa-trash reader_file_remove"></i>
+//                     </span>
+//                     <a class="popup-link" href="${e.target.result}">
+//                         <img class="admin-gallery-img" src="${e.target.result}" alt="No Image Found">
+//                     </a>
+//                 </div>`;
+//                 $(".gallery_image_view").append(html);
+//             };
+//             reader.readAsDataURL(file);
+//         });
 
-        // Reset file input so user can select again
-        $(this).val('');
-        updateHiddenFiles();
-    });
+//         // Reset file input so user can select again
+//         $(this).val('');
+//         updateHiddenFiles();
+//     });
 
     // handle remove
     $(document).on('click', '.reader_file_remove', function () {

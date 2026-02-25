@@ -2,93 +2,79 @@
 
 @section('content')
     <style>
+        .gallery-input {
+        display: none;
+    }
         .drop-area {
             border: 2px dashed #ccc;
-            border-radius: 8px;
-            padding: 25px;
+            padding: 20px;
             text-align: center;
             cursor: pointer;
-            transition: 0.3s;
-            background: #fff;
+            position: relative;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .drop-area.dragover {
-            border-color: #0d6efd;
-            background: #f8f9fa;
+            background-color: #f0f8ff;
+            border-color: #007bff;
         }
 
-        /* Featured Image Preview */
-        .preview-img {
-            width: 100%;
-            height: 250px;
-            object-fit: contain;
-            margin-top: 15px;
-            border-radius: 6px;
-            border: 1px solid #ddd;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .drop-area p {
-            margin: 0;
-            color: #666;
-        }
-
-        .drop-area span {
-            color: #0d6efd;
-            font-weight: 600;
-        }
-
-        /* =========================
-                           GALLERY PREVIEW
-                    ========================= */
         .gallery-preview {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
-            margin-top: 15px;
-            justify-content: center;
+            margin-top: 10px;
         }
 
         .gallery-item {
             position: relative;
+            width: 80px;
+            height: 80px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: visible;
+            /* ডিলিট বাটন দেখানোর জন্য */
         }
 
         .gallery-item img {
-            width: 120px;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 6px;
-            border: 1px solid #ddd;
-        }
-
-        /* Remove Button */
-        .gallery-item button {
-            position: absolute;
-            top: -6px;
-            right: -6px;
-            width: 22px;
-            height: 22px;
-            border: none;
-            border-radius: 50%;
-            background: #dc3545;
-            color: #fff;
-            font-size: 14px;
-            cursor: pointer;
-            line-height: 1;
-        }
-
-        /* Gallery input overlay */
-        .gallery-input {
-            position: absolute;
-            inset: 0;
             width: 100%;
             height: 100%;
-            opacity: 0;
-            /* invisible but clickable */
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .remove-btn {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #ff3e3e;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
             cursor: pointer;
+            font-size: 16px;
+            line-height: 1;
             z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .remove-btn:hover {
+            background: #d60000;
+        }
+
+        .preview-img {
+            max-width: 150px;
+            max-height: 150px;
+            object-fit: contain;
         }
     </style>
     <div class="container-fluid">
@@ -736,7 +722,7 @@
         });
     </script>
 
-    <script>
+    {{-- <script>
         $(function() {
             // -----------------------------
             // Featured Image
@@ -846,6 +832,119 @@
                 updateGalleryInput();
             });
 
+        });
+    </script> --}}
+
+    <script>
+        $(function() {
+            // -----------------------------
+            // Featured Image
+            // -----------------------------
+            const dropArea = document.getElementById('drop-area');
+            const fileInput = document.getElementById('fileInput');
+            const previewImage = document.getElementById('previewImage');
+
+            dropArea.addEventListener('click', () => fileInput.click());
+
+            fileInput.addEventListener('change', () => showFeaturedPreview(fileInput.files[0]));
+
+            dropArea.addEventListener('dragover', e => {
+                e.preventDefault();
+                dropArea.classList.add('dragover');
+            });
+            dropArea.addEventListener('dragleave', () => dropArea.classList.remove('dragover'));
+
+            dropArea.addEventListener('drop', e => {
+                e.preventDefault();
+                dropArea.classList.remove('dragover');
+                const file = e.dataTransfer.files[0];
+                const dt = new DataTransfer();
+                dt.items.add(file);
+                fileInput.files = dt.files;
+                showFeaturedPreview(file);
+            });
+
+            function showFeaturedPreview(file) {
+                if (!file || !file.type.startsWith('image/')) return;
+                const reader = new FileReader();
+                reader.onload = () => {
+                    previewImage.src = reader.result;
+                    previewImage.classList.remove('d-none');
+                    dropArea.querySelector('p').style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            }
+
+            // -----------------------------
+            // Gallery Images (MULTIPLE)
+            // -----------------------------
+            const galleryDrop = document.getElementById('gallery-drop-area');
+            const galleryInput = document.getElementById('gallery_file');
+            const galleryPreview = document.getElementById('galleryPreview');
+            let galleryFiles = [];
+
+            // ক্লিক ইভেন্ট সংশোধন
+            galleryDrop.addEventListener('click', (e) => {
+                // যদি ইমেজের ডিলিট বাটনে ক্লিক করা হয়, তবে ফাইল ম্যানেজার খুলবে না
+                if (e.target.closest('.remove-btn')) return;
+                galleryInput.click();
+            });
+
+            galleryInput.addEventListener('change', () => {
+                handleGalleryFiles(galleryInput.files);
+            });
+
+            galleryDrop.addEventListener('dragover', e => {
+                e.preventDefault();
+                galleryDrop.classList.add('dragover');
+            });
+
+            galleryDrop.addEventListener('dragleave', () => {
+                galleryDrop.classList.remove('dragover');
+            });
+
+            galleryDrop.addEventListener('drop', e => {
+                e.preventDefault();
+                galleryDrop.classList.remove('dragover');
+                handleGalleryFiles(e.dataTransfer.files);
+            });
+
+            function handleGalleryFiles(files) {
+                [...files].forEach(file => {
+                    if (!file.type.startsWith('image/')) return;
+                    galleryFiles.push(file);
+                    previewGalleryImage(file);
+                });
+                updateGalleryInput();
+            }
+
+            function previewGalleryImage(file) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const div = document.createElement('div');
+                    div.className = 'gallery-item';
+                    div.innerHTML = `
+                <img src="${reader.result}">
+                <button type="button" class="remove-btn">&times;</button>
+            `;
+
+                    // ⚡ FIX: Stop Propagation ব্যবহার করে বাবলিং থামানো হয়েছে
+                    div.querySelector('.remove-btn').onclick = (e) => {
+                        e.stopPropagation(); // এটি প্যারেন্ট ক্লিক ইভেন্টকে থামিয়ে দিবে
+                        galleryFiles = galleryFiles.filter(f => f !== file);
+                        div.remove();
+                        updateGalleryInput();
+                    };
+                    galleryPreview.appendChild(div);
+                };
+                reader.readAsDataURL(file);
+            }
+
+            function updateGalleryInput() {
+                const dt = new DataTransfer();
+                galleryFiles.forEach(file => dt.items.add(file));
+                galleryInput.files = dt.files;
+            }
         });
     </script>
 @endsection

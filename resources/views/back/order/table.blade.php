@@ -49,7 +49,7 @@
                     <a class="dropdown-item" data-toggle="modal" data-target="#statusModal" href="javascript:;"
                         data-href="{{ route('back.order.status', [$data->id, 'order_status', 'Pending']) }}">{{ __('Pending') }}</a>
                     <a class="dropdown-item" data-toggle="modal" data-target="#statusModal" href="javascript:;"
-                        data-href="{{ route('back.order.status', [$data->id, 'order_status', 'In Progress']) }}">{{ __('In Progress') }}</a>
+                        data-href="{{ route('back.order.status', [$data->id, 'order_status', 'InProgress']) }}">{{ __('In Progress') }}</a>
                     <a class="dropdown-item" data-toggle="modal" data-target="#statusModal" href="javascript:;"
                         data-href="{{ route('back.order.status', [$data->id, 'order_status', 'Delivered']) }}">{{ __('Delivered') }}</a>
                     <a class="dropdown-item" data-toggle="modal" data-target="#statusModal" href="javascript:;"

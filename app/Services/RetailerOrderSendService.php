@@ -29,7 +29,7 @@ class RetailerOrderSendService
                 ->update(
                     [
                         'sale_note' => $request->sale_note,
-                        'order_status' => 'In progress'
+                        'order_status' => 'InProgress'
                     ]
                 );
             OrderDetails::whereIn('id', $prepared['detail_ids'])->update(['send_retailer' => 1]);
