@@ -31,8 +31,8 @@
             <div class="ps-section__content">
                 <div class="row g-4">
                     @foreach ($bannerCategories as $category)
-                        <div class="col-sm-6 col-xs-6 col-lg-3 col-xs-6">
-                            <a class="ps-offer d-block"
+                        <div class="col-sm-6 col-xs-6 col-lg-3 col-xs-6 home home-category-banner">
+                            <a class="ps-offer d-block home_category" 
                                 href="{{ route('front.categories.products', ['slug' => $category->slug]) }}">
                                 <img src="{{ asset('storage/category/' . $category->photo) }}" alt="{{ $category->name }}"
                                     class="img-fluid" />
@@ -244,7 +244,7 @@
             <div class="row">
                 <div class="col-6"></div>
                 <div class="col-6 text-right">
-                    <div class="ps-owl-actions">
+                    <div class="ps-owl-actions" style="padding-right: 16px;">
                         <a target="__blank" style="color:#f59b34;padding-right:15px;"
                             href="{{ route('front.featured.products') }}">
                             View All

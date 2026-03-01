@@ -9092,7 +9092,17 @@ body.nav-loaded {
 #featured-product-owl {
     min-height: 400px; 
 } */
+ .home-category-banner{
+  position: relative;
+  min-height: 1px;
+  padding-right: 8px !important;
+  padding-left: 7px !important;
+ }
 
+.home_category{
+  padding-bottom: 15px;
+
+}
 
 
 .featured-preloader {

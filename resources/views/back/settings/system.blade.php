@@ -92,7 +92,7 @@
                                                                 <input type="text" name="customer_care_number"
                                                                     class="form-control" id="customer_care_number"
                                                                     placeholder="{{ __('Enter Customer Care Number') }}"
-                                                                    value="{{ @$setting->home }}">
+                                                                    value="{{ @$setting->customer_care_number }}">
                                                             </div>
                                                         </div>
 
