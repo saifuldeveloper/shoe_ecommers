@@ -47,8 +47,8 @@
     <link href="{{ asset('assets/frontend/plugins/revolution/css/navigation.css') }}" rel="stylesheet" /> --}}
 
 
-    <link href="{{ asset('assets/frontend/css/style.css') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/frontend/css/responsive.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/frontend/css/style.css?v=' . time()) }}" rel="stylesheet" />
+    <link href="{{ asset('assets/frontend/css/responsive.css?v=' . time()) }}" rel="stylesheet" />
     <link href="{{ asset('assets/frontend/css/custom_style.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/frontend/css/chatbox.css') }}" rel="stylesheet" />
     <style>
@@ -153,7 +153,7 @@
     <script src="{{ asset('assets/frontend/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
 
     <script src="{{ asset('assets/frontend/js/chat.js') }}" defer></script>
-    <script src="{{ asset('assets/frontend/js/main.js') }}" defer></script>
+    <script src="{{ asset('assets/frontend/js/main.js?v=' . time()) }}" defer></script>
     @stack('js')
 </body>
 

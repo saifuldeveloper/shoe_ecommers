@@ -35,14 +35,79 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        
+        $query = User::latest();
+
+        if ($request->start_date && $request->end_date) {
+            $query->whereBetween('created_at', [$request->start_date . ' 00:00:00', $request->end_date . ' 23:59:59']);
+        } elseif ($request->start_date) {
+            $query->where('created_at', '>=', $request->start_date . ' 00:00:00');
+        } elseif ($request->end_date) {
+            $query->where('created_at', '<=', $request->end_date . ' 23:59:59');
+        }
+
         return view('back.user.index',[
-            'datas' => User::latest()->get()
+            'datas' => $query->get()
         ]);
+    }
+
+    /**
+     * Export the resource to CSV.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     */
+    public function export(Request $request)
+    {
+        $query = User::latest();
+
+        if ($request->start_date && $request->end_date) {
+            $query->whereBetween('created_at', [$request->start_date . ' 00:00:00', $request->end_date . ' 23:59:59']);
+        } elseif ($request->start_date) {
+            $query->where('created_at', '>=', $request->start_date . ' 00:00:00');
+        } elseif ($request->end_date) {
+            $query->where('created_at', '<=', $request->end_date . ' 23:59:59');
+        }
+
+        $users = $query->get();
+
+        $headers = [
+            "Content-type"        => "text/csv",
+            "Content-Disposition" => "attachment; filename=customers_" . date('Y-m-d_H-i-s') . ".csv",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0"
+        ];
+
+        $columns = [
+            'Name', 'Email', 'Phone', 'Total Reward Point', 'Discount', 'Total Purchase', 'Joined At'
+        ];
+
+        $callback = function() use($users, $columns) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, $columns);
+
+            foreach ($users as $user) {
+                $row = [
+                    $user->first_name . ' ' . $user->last_name,
+                    $user->email,
+                    $user->phone ? '="' . $user->phone . '"' : '',
+                    $user->reward_point ?? 0,
+                    ($user->membership->discount_percent ?? 0) . '%',
+                    $user->membership->total_purchase ?? 0,
+                    $user->created_at ? $user->created_at->format('Y-m-d H:i:s') : ''
+                ];
+                fputcsv($file, $row);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 
     /**

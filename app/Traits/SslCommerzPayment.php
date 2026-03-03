@@ -2,19 +2,20 @@
 
 namespace App\Traits;
 
-use Carbon\Carbon;
-use App\Models\Cart;
-use App\Models\Order;
-use App\Models\Setting;
-use App\Models\Currency;
-use App\Models\TrackOrder;
-use App\Models\ItemVariant;
-use Illuminate\Support\Str;
 use App\Helpers\PriceHelper;
+use App\Models\Cart;
+use App\Models\Currency;
+use App\Models\ItemVariant;
+use App\Models\Notification;
+use App\Models\Order;
 use App\Models\OrderDetails;
+use App\Models\Setting;
+use App\Models\TrackOrder;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 
 
 trait SslCommerzPayment
@@ -48,7 +49,7 @@ trait SslCommerzPayment
         // Generate txn id
         $txnid = "SSLCZ_TXN_" . uniqid();
 
-         $specialOfferDiscount = PriceHelper::specialOfferDiscount($total);
+        $specialOfferDiscount = PriceHelper::specialOfferDiscount($total);
 
         // Create order
         $orderData = [
@@ -92,14 +93,25 @@ trait SslCommerzPayment
                 'title' => 'Pending',
                 'order_id' => $order->id,
             ]);
+
+            if ($user) {
+                Notification::create([
+                    'user_id' => $user->id,
+                    'order_id' => $order->id,
+                ]);
+            } else {
+                Notification::create([
+                    'order_id' => $order->id,
+                ]);
+            }
         } catch (\Throwable $th) {
             throw $th;
         }
 
         $point = PriceHelper::rewardPointGet($total);
         if ($point > 0 && isset($user)) {
-           $user->increment('reward_point', $point);
-           
+            $user->increment('reward_point', $point);
+
         }
 
 

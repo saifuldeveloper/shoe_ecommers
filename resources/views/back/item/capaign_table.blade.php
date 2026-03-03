@@ -5,14 +5,12 @@
         </td>
         <td>
             <span id="url-{{ $data->id }}">
-                {{ url('/campaign/' . $data->campaign_slug) }}
+                {{ url('/campaign/products/' . $data->campaign_slug) }}
             </span>
 
-            {{-- <button type="button"
-            class="btn btn-sm btn-outline-primary"
-            onclick="copyUrl('{{ $data->id }}')">
-        Copy
-    </button> --}}
+            {{-- <button type="button" class="btn btn-sm btn-outline-primary" onclick="copyUrl('{{ $data->id }}')">
+                Copy
+            </button> --}}
             <button type="button" class="btn btn-sm btn-outline-primary" onclick="copyUrl('{{ $data->id }}', this)">
                 Copy
             </button>
@@ -67,7 +65,7 @@
     function copyUrl(id, btn) {
         const text = document.getElementById('url-' + id).innerText;
 
-        navigator.clipboard.writeText(text).then(function() {
+        navigator.clipboard.writeText(text).then(function () {
             btn.innerText = 'Copied';
             btn.classList.remove('btn-outline-primary');
             btn.classList.add('btn-success');
@@ -79,7 +77,7 @@
                 btn.classList.add('btn-outline-primary');
             }, 2000);
 
-        }).catch(function() {
+        }).catch(function () {
             alert('Failed to copy');
         });
     }

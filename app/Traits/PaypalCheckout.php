@@ -76,7 +76,7 @@ trait PaypalCheckout
         if (Session::has('coupon')) {
             $discount = Session::get('coupon');
         }
-        $orderData['state'] =  $data['state_id'] ? json_encode(State::findOrFail($data['state_id']), true) : null;
+        $orderData['state'] = $data['state_id'] ? json_encode(State::findOrFail($data['state_id']), true) : null;
         $grand_total = ($cart_total + ($shipping ? $shipping->price : 0)) + $total_tax;
         $grand_total = $grand_total - ($discount ? $discount['discount'] : 0);
         $grand_total += PriceHelper::StatePrce($data['state_id'], $cart_total);
@@ -92,7 +92,7 @@ trait PaypalCheckout
         $orderData['user_id'] = isset($user) ? $user->id : 0;
 
         $paypal_item_name = 'Payment via paypal from' . ' ' . $setting->title;
-        $paypal_item_amount =  $total_amount;
+        $paypal_item_amount = $total_amount;
 
         $payment_cancel_url = route('front.checkout.cancle');
         $payment_notify_url = route('front.checkout.redirect');
@@ -194,7 +194,7 @@ trait PaypalCheckout
             $orderData['currency_value'] = PriceHelper::setCurrencyValue();
             $orderData['order_status'] = 'Pending';
             $order = Order::create($orderData);
-            $new_txn =  $new_txn = 'ORD-' . str_pad(Carbon::now()->format('Ymd'), 4, '0000', STR_PAD_LEFT) . '-' . $order->id;
+            $new_txn = $new_txn = 'ORD-' . str_pad(Carbon::now()->format('Ymd'), 4, '0000', STR_PAD_LEFT) . '-' . $order->id;
             $order->transaction_number = $new_txn;
             $order->save();
 
@@ -221,8 +221,11 @@ trait PaypalCheckout
             ]);
 
             Notification::create([
-                'order_id' => $order->id
+                'order_id' => $order->id,
+                'user_id' => $user->id,
             ]);
+
+
 
             $setting = Setting::first();
             if ($setting->is_twilio == 1) {

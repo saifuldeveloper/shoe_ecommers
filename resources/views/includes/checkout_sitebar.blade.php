@@ -62,7 +62,6 @@
                 </tr>
                 @if ($specialOfferDiscount > 0)
                     <tr>
-                        {{-- Display the offer name as a superscript --}}
                         <td>{{ __('Special Offer') }}: <sup>{{ $specialOffer->name }}</sup></td>
                         <td class="text-gray-dark ">
                             <span class="special">
@@ -77,7 +76,6 @@
                 @endif
                 <tr>
                     <td class="text-lg text-primary">{{ __('Order total') }}</td>
-                    {{-- <td class="text-lg text-primary grand_total_set">{{PriceHelper::setCurrencyPrice($initial_grand_total)}}</td> --}}
                     <td class="text-lg text-primary grand_total_set" data-base-total="{{ $initial_grand_total }}">
                         {{ PriceHelper::setCurrencyPrice($initial_grand_total) }}
                     </td>

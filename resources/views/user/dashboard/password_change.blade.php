@@ -11,24 +11,37 @@
                 <hr>
              
             <div class="form-wrapper">
-            <form>
+                @if (session('success'))
+                    <div class="alert alert-success">{{ session('success') }}</div>
+                @endif
+                @if (session('error'))
+                    <div class="alert alert-danger">{{ session('error') }}</div>
+                @endif
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+            <form action="{{ route('custom.change-password.update') }}" method="POST">
+                @csrf
                 <div class="field">
-                <label for="firstName">Old Password*</label>
-                <input type="text" id="firstName"  placeholder="Enter your old password" />
+                <label for="old_password">Old Password*</label>
+                <input type="password" name="old_password" id="old_password" placeholder="Enter your old password" required />
                 </div>
                 <div class="field">
-                <label for="lastName">New Password *</label>
-                <input type="text" id="lastName" value="" placeholder="Enter your mew password"/>
+                <label for="password">New Password *</label>
+                <input type="password" name="password" id="password" value="" placeholder="Enter your new password" required />
                 </div>
             <div class="field">
-                <label for="email">Confirm New Password *</label>
-                <input type="email" id="email" value="" placeholder="Enter your confirm new  password"/>
+                <label for="password_confirmation">Confirm New Password *</label>
+                <input type="password" name="password_confirmation" id="password_confirmation" value="" placeholder="Enter your confirm new  password" required />
             </div>
             <div  class="password-tips"><h4 class="tips-title">Password Requirements</h4>
                 <ul  class="tips-list"><li >At least 8 characters long</li>
-                    <li>Include uppercase and lowercase letters</li>
-                    <li>Include at least one number</li>
-                    <li>Include at least one special character</li>
                 </ul>
             </div>
             <div class="footer">

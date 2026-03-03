@@ -4,6 +4,7 @@ namespace App\Traits;
 use Carbon\Carbon;
 use App\Models\Cart;
 use App\Models\Order;
+use App\Models\Notification;
 use App\Models\Setting;
 use App\Models\PromoCode;
 use App\Models\TrackOrder;
@@ -98,7 +99,7 @@ trait RewardPointPayment
 
         $order = Order::create($orderData);
 
-        $order->transaction_number ='ecom-' . Carbon::now()->format('Ymd') . '-' . $order->id;
+        $order->transaction_number = 'ecom-' . Carbon::now()->format('Ymd') . '-' . $order->id;
         $order->save();
 
         /** ================= ORDER DETAILS ================= */
@@ -123,6 +124,17 @@ trait RewardPointPayment
             'title' => 'Pending',
             'order_id' => $order->id,
         ]);
+      
+        if ($user) {
+                Notification::create([
+                    'user_id' => $user->id,
+                    'order_id' => $order->id,
+                ]);
+            } else {
+                Notification::create([
+                    'order_id' => $order->id,
+                ]);
+            }
 
         /** ================= COUPON ================= */
         if ($discount) {

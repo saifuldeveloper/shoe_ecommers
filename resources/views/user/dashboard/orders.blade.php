@@ -31,54 +31,38 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                        <tr>
-                                        <td class="text-center">10001</td>  
-                                        <td class="text-center">Sudhir Kumar</td>
-                                        <td class="text-center">1234567891</td>
-                                        <td class="text-center">$172.00</td>
-                                        <td class="text-center">$36.12</td>
-                                        <td class="text-center">$208.12</td>
-                                        
-                                        <td class="text-center">
-                                        <span class="custom_badge bg-danger_custom">Canceled</span>
-                                        </td>
-                                        <td class="text-center">2024-07-11 00:54:14</td>
-                                        <td class="text-center">2</td>
-                                        <td>2024-07-07</td>
-                                        <td class="text-center">
-                                            <a href="{{ route('custom.order-details') }}">
-                                            <div class="list-icon-function view-icon">
-                                                <div class="item eye">
-                                                    <i class="fa fa-eye"></i>
-                                                </div>                                        
-                                            </div>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                    @foreach($orders as $order)
                                     <tr>
-                                        <td class="text-center">10001</td>  
-                                        <td class="text-center">Sudhir Kumar</td>
-                                        <td class="text-center">1234567891</td>
-                                        <td class="text-center">$172.00</td>
-                                        <td class="text-center">$36.12</td>
-                                        <td class="text-center">$208.12</td>
+                                        <td class="text-center">{{$order->transaction_number}}</td>  
+                                        <td class="text-center">{{$order->billing_name}}</td>
+                                        <td class="text-center">{{$order->billing_phone}}</td>
+                                        <td class="text-center">{{ \PriceHelper::setCurrencyPrice($order->cart_total) }}</td>
+                                        <td class="text-center">{{ \PriceHelper::setCurrencyPrice($order->tax) }}</td>
+                                        <td class="text-center">{{ \PriceHelper::setCurrencyPrice($order->cart_total + $order->tax) }}</td>
                                         
                                         <td class="text-center">
-                                            <span class="custom_badge bg-warning_custom">Orders</span>
-                                    </td>
-                                        <td class="text-center">2024-07-11 00:54:14</td>
-                                        <td class="text-center">2</td>
-                                        <td>2024-07-07</td>
+                                            @if($order->order_status == 'Canceled')
+                                                <span class="custom_badge bg-danger_custom">{{$order->order_status}}</span>
+                                            @elseif($order->order_status == 'Delivered')
+                                                <span class="custom_badge bg-success_custom">{{$order->order_status}}</span>
+                                            @else
+                                                <span class="custom_badge bg-warning_custom">{{$order->order_status}}</span>
+                                            @endif
+                                        </td>
+                                        <td class="text-center">{{$order->created_at->format('Y-m-d H:i:s')}}</td>
+                                        <td class="text-center">{{$order->qty}}</td>
+                                        <td class="text-center">{{ $order->order_status == 'Delivered' ? $order->updated_at->format('Y-m-d') : '' }}</td>
                                         <td class="text-center">
-                                            <a href="{{ route('custom.order-details') }}">
-                                            <div class="list-icon-function view-icon">
-                                                <div class="item eye">
-                                                    <i class="fa fa-eye"></i>
-                                                </div>                                        
-                                            </div>
+                                            <a href="{{ route('custom.order-details', $order->id) }}">
+                                                <div class="list-icon-function view-icon">
+                                                    <div class="item eye">
+                                                        <i class="fa fa-eye"></i>
+                                                    </div>                                        
+                                                </div>
                                             </a>
                                         </td>
                                     </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

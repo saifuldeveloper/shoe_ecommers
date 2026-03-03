@@ -19,24 +19,30 @@
                 <tbody>
                 <tr>
                     <th>Order No</th>
-                    <td>10001</td>
+                    <td>{{$order->transaction_number}}</td>
                     <th>Mobile</th>
-                    <td>1234567891</td>
+                    <td>{{$billing['bill_phone'] ?? ''}}</td>
                     <th>Pin/Zip Code</th>
-                    <td>804401</td>
+                    <td>{{$billing['bill_zip'] ?? ''}}</td>
                 </tr>
                 <tr>
                     <th>Order Date</th>
-                    <td>2024-07-11 00:54:14</td>
+                    <td>{{$order->created_at->format('Y-m-d H:i:s')}}</td>
                     <th>Delivered Date</th>
-                    <td>2024-07-07</td>
+                    <td>{{ $order->order_status == 'Delivered' ? $order->updated_at->format('Y-m-d') : '' }}</td>
                     <th>Canceled Date</th>
-                    <td>2024-07-07</td>
+                    <td>{{ $order->order_status == 'Canceled' ? $order->updated_at->format('Y-m-d') : '' }}</td>
                 </tr>
                 <tr>
                     <th>Order Status</th>
                     <td colspan="5">
-                    <span class="custom_badge bg-danger_custom ">Canceled</span>
+                        @if($order->order_status == 'Canceled')
+                            <span class="custom_badge bg-danger_custom">{{$order->order_status}}</span>
+                        @elseif($order->order_status == 'Delivered')
+                            <span class="custom_badge bg-success_custom">{{$order->order_status}}</span>
+                        @else
+                            <span class="custom_badge bg-warning_custom">{{$order->order_status}}</span>
+                        @endif
                     </td>
                 </tr>
                 </tbody>
@@ -63,68 +69,61 @@
                     <th class="text-center">Quantity</th>
                     <th class="text-center">SKU</th>
                     <th class="text-center">Category</th>
-                    <th class="text-center">Brand</th>
-                    <th class="text-center">Options</th>
+                    <!-- <th class="text-center">Brand</th> -->
+                    <!-- <th class="text-center">Options</th> -->
                     <th class="text-center">Return Status</th>
                     <th class="text-center">Action</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-
-                    <td class="pname">
-                    <div class="image">
-                        <img src="http://localhost:8000/uploads/products/thumbnails/1718066538.jpg" alt="" class="image">
-                    </div>
-                    <div class="name">
-                        <a href="http://localhost:8000/shop/product1" target="_blank" class="body-title-2">Product1</a>
-                    </div>
-                    </td>
-                    <td class="text-center">$71.00</td>
-                    <td class="text-center">1</td>
-                    <td class="text-center">SHT01245</td>
-                    <td class="text-center">Category1</td>
-                    <td class="text-center">Brand1</td>
-                    <td class="text-center"></td>
-                    <td class="text-center">No</td>
-                    <td class="text-center">
-                    <a href="http://localhost:8000/shop/product1" target="_blank">
-                        <div class="list-icon-function view-icon">
-                        <div class="item eye">
-                            <i class="fa fa-eye"></i>
+                    @foreach($cart as $key => $item)
+                    @php
+                        $productId = isset($item['item_id']) ? $item['item_id'] : (isset($item['id']) ? $item['id'] : 0);
+                        $product = App\Models\Item::withTrashed()->find($productId);
+                        $photoFallback = isset($item['photo']) ? $item['photo'] : ($product ? $product->photo : 'placeholder.png');
+                        $nameFallback = isset($item['name']) ? $item['name'] : ($product ? $product->name : 'Unknown Item');
+                        $priceFallback = isset($item['price']) ? $item['price'] : (isset($item['main_price']) ? $item['main_price'] : ($product ? $product->discount_price : 0));
+                        $qtyFallback = isset($item['qty']) ? $item['qty'] : (isset($item['quantity']) ? $item['quantity'] : 1);
+                    @endphp
+                    <tr>
+                        <td class="pname">
+                        <div class="image">
+                            <img src="{{ asset('assets/images/items/'.$photoFallback) }}" alt="{{$nameFallback}}" class="image">
                         </div>
+                        <div class="name">
+                            @if($product)
+                                <a href="{{ route('front.product',$product->slug) }}" target="_blank" class="body-title-2">{{$nameFallback}}</a>
+                            @else
+                                <span class="body-title-2 text-muted">{{$nameFallback}} (Item Unavailable)</span>
+                            @endif
                         </div>
-                    </a>
-                    </td>
-                </tr>
-                <tr>
-
-                    <td class="pname">
-                    <div class="image">
-                        <img src="http://localhost:8000/uploads/products/thumbnails/1718066673.jpg" alt="" class="image">
-                    </div>
-                    <div class="name">
-                        <a href="http://localhost:8000/shop/product2" target="_blank" class="body-title-2">Product2</a>
-                    </div>
-                    </td>
-                    <td class="text-center">$101.00</td>
-                    <td class="text-center">1</td>
-                    <td class="text-center">SHT99890</td>
-                    <td class="text-center">Category2</td>
-                    <td class="text-center">Brand1</td>
-                    <td class="text-center"></td>
-                    <td class="text-center">No</td>
-                    <td class="text-center">
-                    <a href="http://localhost:8000/shop/product2" target="_blank">
-                        <div class="list-icon-function view-icon">
-                        <div class="item eye">
-                            <i class="fa fa-eye"></i>
-                        </div>
-                        </div>
-                    </a>
-                    </td>
-                </tr>
-
+                        </td>
+                        <td class="text-center">{{ \PriceHelper::setCurrencyPrice($priceFallback) }}</td>
+                        <td class="text-center">{{$qtyFallback}}</td>
+                        <td class="text-center">{{$product ? $product->sku : 'N/A'}}</td>
+                        <td class="text-center">{{$product && $product->category ? $product->category->name : ''}}</td>
+                        <!-- <td class="text-center">{{$product && $product->brand ? $product->brand->name : ''}}</td>
+                        <td class="text-center">
+                            @if(isset($item['attribute']['option_name']) && is_array($item['attribute']['option_name']))
+                            @foreach($item['attribute']['option_name'] as $optionkey => $option_name)
+                            <span class="fas fa-check"></span> <b>{{ isset($item['attribute']['name'][$optionkey]) ? $item['attribute']['name'][$optionkey] : '' }}</b> : {{$option_name}} <br>
+                            @endforeach
+                            @endif
+                        </td> -->
+                        <td class="text-center">No</td>
+                        <td class="text-center">
+                        @if($product)
+                        <a href="{{ route('front.product',$product->slug) }}" target="_blank">
+                            <div class="list-icon-function view-icon">
+                            <div class="item eye">
+                                <i class="fa fa-eye"></i>
+                            </div>
+                            </div>
+                        </a>
+                        @endif
+                        </td>
+                    </tr>
+                    @endforeach
                 </tbody>
             </table>
             </div>
@@ -134,21 +133,20 @@
 
         </div>
 
-        <div class="wg-box mt-5">
+        <!-- <div class="wg-box mt-5">
             <h5>Shipping Address</h5>
             <div class="my-account__address-item col-md-6">
             <div class="my-account__address-item__detail">
-                    <p>Divyansh Kumar</p>
-                    <p>Flat No - 13, R. K. Wing - B</p>
-                    <p>ABC, DEF</p>
-                    <p>GHT, </p>
-                    <p>AAA</p>
-                    <p>000000</p>
+                    <p>{{$shipping['ship_first_name'] ?? $billing['bill_first_name'] ?? ''}} {{$shipping['ship_last_name'] ?? $billing['bill_last_name'] ?? ''}}</p>
+                    <p>{{$shipping['ship_address1'] ?? $billing['bill_address1'] ?? ''}}</p>
+                    <p>{{$shipping['ship_city'] ?? $billing['bill_city'] ?? ''}}</p>
+                    <p>{{$shipping['ship_zip'] ?? $billing['bill_zip'] ?? ''}}</p>
+                    <p>{{$shipping['ship_country'] ?? $billing['bill_country'] ?? ''}}</p>
                     <br>
-                    <p>Mobile : 1234567891</p>
+                    <p>Mobile : {{$shipping['ship_phone'] ?? $billing['bill_phone'] ?? ''}}</p>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <div class="wg-box mt-5">
             <h5>Transactions</h5>
@@ -157,20 +155,24 @@
                 <tbody>
                 <tr>
                     <th>Subtotal</th>
-                    <td>$172.00</td>
+                    <td>{{ \PriceHelper::setCurrencyPrice($order->state_price) }}</td>
                     <th>Tax</th>
-                    <td>$36.12</td>
+                    <td>{{ \PriceHelper::setCurrencyPrice($order->tax) }}</td>
                     <th>Discount</th>
-                    <td>$0.00</td>
+                    <td>{{ \PriceHelper::setCurrencyPrice($order->discount) }}</td>
                 </tr>
                 <tr>
                     <th>Total</th>
-                    <td>$208.12</td>
+                    <td>{{ \PriceHelper::setCurrencyPrice($order->state_price + $order->tax + $order->shipping - $order->discount) }}</td>
                     <th>Payment Mode</th>
-                    <td>cod</td>
+                    <td>{{$order->payment_method}}</td>
                     <th>Status</th>
                     <td>
-                    <span class="custom_badge bg_custom_success">Approved</span>
+                        @if($order->payment_status == 'Paid')
+                            <span class="custom_badge bg_custom_success">{{$order->payment_status}}</span>
+                        @else
+                            <span class="custom_badge bg-danger_custom">{{$order->payment_status}}</span>
+                        @endif
                     </td>
                 </tr>
                 </tbody>
@@ -178,13 +180,14 @@
             </div>
         </div>
 
+        @if($order->order_status != 'Canceled' && $order->order_status != 'Delivered')
         <div class="wg-box custom_cancelOrder mt-5 text-right">
-            <form action="http://localhost:8000/account-order/cancel-order" method="POST">
-            <input type="hidden" name="_token" value="3v611ELheIo6fqsgspMOk0eiSZjncEeubOwUa6YT" autocomplete="off">
-            <input type="hidden" name="_method" value="PUT"> <input type="hidden" name="order_id" value="1">
-            <button type="submit" class="btnCancleOrder">Cancel Order</button>
+            <form action="{{route('user.order.index')}}" method="GET">
+                <!-- A proper cancel route might be needed, falling back to orders page -->
+                <button type="button" class="btnCancleOrder" onclick="alert('Cancel order not fully implemented backend yet.')">Cancel Order</button>
             </form>
         </div>
+        @endif
             </div>
         </div>
     </div>

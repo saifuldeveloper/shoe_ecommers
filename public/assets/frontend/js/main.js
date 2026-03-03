@@ -1089,22 +1089,29 @@
     });
 })(jQuery);
 
-document.addEventListener("DOMContentLoaded", function () {
-    const btn = document.getElementById("scrollTopBtn");
+$(document).ready(function () {
+    var $btn = $('#scrollTopBtn');
+    
+    if ($btn.length === 0) return;
 
-    if (!btn) return;
+    function checkScroll() {
+        var scrollPos = $(window).scrollTop() || $(document).scrollTop() || document.documentElement.scrollTop || document.body.scrollTop || 0;
+        if (scrollPos > 150) {
+            $btn.css('display', 'block');
+        } else {
+            $btn.css('display', 'none');
+        }
+    }
 
-    // স্ক্রল ৩০px নিচে নামলে বাটনটি দেখাবে
-    window.addEventListener("scroll", () => {
-        btn.style.display = window.scrollY > 300 ? "block" : "none";
-    });
+    $(window).on('scroll touchmove', checkScroll);
+    
+    // Fallback for some stubborn mobile browsers that ignore scroll events due to wrapper issues
+    setInterval(checkScroll, 1000);
 
-    // বাটনে ক্লিক করলে স্মুথলি উপরে চলে যাবে
-    btn.addEventListener("click", () => {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth",
-        });
+    $btn.on('click', function (e) {
+        e.preventDefault();
+        $('html, body').animate({ scrollTop: 0 }, { duration: 600, queue: false });
+        return false;
     });
 });
 

@@ -92,398 +92,107 @@ class FrontendController extends Controller
         return view('front.pages.collecton_all_products', compact('subCategories', 'brands', 'products', 'allSize', 'allColor'));
     }
 
-
-    // public function index()
-    // {
-    //     $menuCategories = Category::where('is_in_menu', 1)
-    //         ->where('status', 1)
-    //         ->orderBy('menu_serial', 'asc')
-    //         ->get();
-
-
-    //     $menuCategoryIds = $menuCategories->pluck('id');
-
-    //     $featuredCategories = Category::where('is_featured', 1)
-    //         ->where('status', 1)
-    //         ->orderBy('featured_serial', 'asc')
-    //         ->get();
-
-    //     $featured_ids = $featuredCategories->pluck('id');
-    //     $featured_items = Item::where('status', 1)
-    //         ->where('is_type', 'feature')
-    //         ->whereIn('category_id', $featured_ids)
-    //         ->latest()
-    //         ->get();
-
-    //     $posts = Post::latest('id')->take(3)->get();
-
-    //     $bannerCategories = Category::where('is_banner', 1)
-    //         ->where('status', 1)
-    //         ->orderBy('banner_serial', 'asc')
-    //         ->get();
-
-    //     $homeCustomize = HomeCutomize::first();
-    //     $heroBanner = json_decode($homeCustomize->hero_banner, true);
-    //     $thirdBanner = json_decode($homeCustomize->banner_third, true);
-    //     $socialPosts = SocialMediaPost::where('status', 1)->latest()->get();
-    //     $newArrivalItems = Item::with('itemVariants.variant.color', 'itemVariants.variant.size')->where('status', 1)->where('is_type', 'new')->latest()->get();
-
-    //     //top selling products
-    //     $topSellingItems = Item::with('itemVariants.variant.color', 'itemVariants.variant.size')
-    //         ->join('order_details', 'items.id', '=', 'order_details.item_id')
-    //         ->join('orders', 'order_details.order_id', '=', 'orders.id')
-    //         ->select(
-    //             'items.*',
-    //             DB::raw('SUM(order_details.qty) as total_sold')
-    //         )
-    //         ->where('items.status', 1)
-    //         ->groupBy('items.id')
-    //         ->orderByDesc('total_sold')
-    //         ->limit(10)
-    //         ->get();
-
-    //     $manulTopItems = Item::with('itemVariants.variant.color', 'itemVariants.variant.size')
-    //         ->where('status', 1)->where('is_type', 'top')
-    //         ->paginate(20);
-    //     $sliders = Slider::get();
-    //      $firstBanners = FirstHeroSection::all();
-
-    //     return view('front.pages.home', compact(
-    //         'posts',
-    //         'featured_items',
-    //         'bannerCategories',
-    //         'featuredCategories',
-    //         'heroBanner',
-    //         'thirdBanner',
-    //         'socialPosts',
-    //         'newArrivalItems',
-    //         'menuCategories',
-    //         'topSellingItems',
-    //         'manulTopItems',
-    //         'sliders',
-    //         'firstBanners'
-
-    //     ));
-
-    // }
-
-
-
-
-    // public function index()
-    // {
-    //     /* =========================
-    //      | Menu Categories
-    //      ========================= */
-    //     $menuCategories = Category::where([
-    //         'is_in_menu' => 1,
-    //         'status' => 1,
-    //     ])
-    //         ->orderBy('menu_serial')
-    //         ->get();
-
-    //     /* =========================
-    //      | Featured Categories
-    //      ========================= */
-    //     $featuredCategories = Category::where([
-    //         'is_featured' => 1,
-    //         'status' => 1,
-    //     ])
-    //         ->orderBy('featured_serial')
-    //         ->get();
-
-    //     $featuredCategoryIds = $featuredCategories->pluck('id');
-
-    //     /* =========================
-    //      | Featured Products
-    //      ========================= */
-    //     $featured_items = Item::with([
-    //         'category',
-    //         'itemVariants.variant.color',
-    //         'itemVariants.variant.size',
-    //     ])
-    //         ->where('status', 1)
-    //         ->where('is_type', 'feature')
-    //         ->whereIn('category_id', $featuredCategoryIds)
-    //         ->latest()
-    //         ->get();
-
-    //     /* =========================
-    //      | Banner Categories
-    //      ========================= */
-    //     $bannerCategories = Category::where([
-    //         'is_banner' => 1,
-    //         'status' => 1,
-    //     ])
-    //         ->orderBy('banner_serial')
-    //         ->get();
-
-    //     /* =========================
-    //      | Home Customize
-    //      ========================= */
-    //     $homeCustomize = HomeCutomize::first();
-    //     $heroBanner = $homeCustomize ? json_decode($homeCustomize->hero_banner, true) : [];
-    //     $thirdBanner = $homeCustomize ? json_decode($homeCustomize->banner_third, true) : [];
-
-    //     /* =========================
-    //      | Blog Posts
-    //      ========================= */
-    //     $posts = Post::latest('id')->limit(3)->get();
-
-    //     /* =========================
-    //      | Social Media
-    //      ========================= */
-    //     $socialPosts = SocialMediaPost::where('status', 1)
-    //         ->latest()
-    //         ->get();
-
-    //     /* =========================
-    //      | New Arrival Products
-    //      ========================= */
-    //     $newArrivalItems = Item::with([
-    //         'itemVariants.variant.color',
-    //         'itemVariants.variant.size',
-    //     ])
-    //         ->where('status', 1)
-    //         ->where('is_type', 'new')
-    //         ->latest()
-    //         ->get();
-
-    //     /* =========================
-    //      | Top Selling Products (Optimized)
-    //      ========================= */
-    //     $topSellingItems = Item::with([
-    //         'itemVariants.variant.color',
-    //         'itemVariants.variant.size',
-    //     ])
-    //         ->select('items.*', DB::raw('SUM(order_details.qty) as total_sold'))
-    //         ->join('order_details', 'items.id', '=', 'order_details.item_id')
-    //         ->join('orders', 'orders.id', '=', 'order_details.order_id')
-    //         ->where('items.status', 1)
-    //         ->groupBy('items.id')
-    //         ->orderByDesc('total_sold')
-    //         ->limit(10)
-    //         ->get();
-
-    //     /* =========================
-    //      | Manual Top Products
-    //      ========================= */
-    //     $manulTopItems = Item::with([
-    //         'itemVariants.variant.color',
-    //         'itemVariants.variant.size',
-    //     ])
-    //         ->where('status', 1)
-    //         ->where('is_type', 'top')
-    //         ->latest()
-    //         ->paginate(20);
-
-    //     /* =========================
-    //      | Sliders & Banners
-    //      ========================= */
-    //     $sliders = Slider::all();
-    //     $firstBanners = FirstHeroSection::all();
-    //     $secondBanners = SecondHeroSection::all();
-
-    //     /* =========================
-    //      | Return View
-    //      ========================= */
-    //     return view('front.pages.home', compact(
-    //         'menuCategories',
-    //         'featuredCategories',
-    //         'featured_items',
-    //         'bannerCategories',
-    //         'heroBanner',
-    //         'thirdBanner',
-    //         'posts',
-    //         'socialPosts',
-    //         'newArrivalItems',
-    //         'topSellingItems',
-    //         'manulTopItems',
-    //         'sliders',
-    //         'firstBanners',
-    //         'secondBanners'
-    //     ));
-    // }
-
-
-
-    // public function index()
-    // {
-    //     $allCategories = Category::where('status', 1)->get();
-    //     $menuCategories = $allCategories->where('is_in_menu', 1)->sortBy('menu_serial');
-    //     $featuredCategories = $allCategories->where('is_featured', 1)->sortBy('featured_serial');
-    //     $bannerCategories = $allCategories->where('is_banner', 1)->sortBy('banner_serial');
-
-    //     $featuredCategoryIds = $featuredCategories->pluck('id');
-
-    //     // ২. (Eager Loading)
-    //     $productRelations = [
-    //         'category:id,name,slug',
-    //         'itemVariants.variant.color',
-    //         'itemVariants.variant.size',
-    //     ];
-
-    //     // ৩. Featured Items (Optimized)
-    //     $featured_items = Item::with($productRelations)
-    //         ->where('status', 1)
-    //         ->where('is_type', 'feature')
-    //         ->whereIn('category_id', $featuredCategoryIds)
-    //         ->latest()
-    //         ->take(60)
-    //         ->get();
-
-    //     // ৪. New Arrival Products
-    //     $newArrivalItems = Item::with($productRelations)
-    //         ->where('status', 1)
-    //         ->where('is_type', 'new')
-    //         ->latest()
-    //         ->take(48)
-    //         ->get();
-
-    //     // ৫. Top Selling Products (Join কমিয়ে শুধু order_details ব্যবহার)
-    //     $topSellingItems = Item::with($productRelations)
-    //         ->select('items.*', DB::raw('SUM(order_details.qty) as total_sold'))
-    //         ->join('order_details', 'items.id', '=', 'order_details.item_id')
-    //         // orders টেবিলের জয়েন বাদ দেওয়া হয়েছে যদি সেখানে ফিল্টারিং না লাগে
-    //         ->where('items.status', 1)
-    //         ->groupBy('items.id')
-    //         ->orderByDesc('total_sold')
-    //         ->limit(48)
-    //         ->get();
-
-    //     // ৬. Manual Top Products (Pagination)
-    //     $manulTopItems = Item::with($productRelations)
-    //         ->where('status', 1)
-    //         ->where('is_type', 'top')
-    //         ->latest()
-    //         ->paginate(20);
-
-    //     // ৭. অন্যান্য ছোট ছোট ডাটা
-    //     $homeCustomize = HomeCutomize::first();
-    //     $heroBanner = $homeCustomize ? json_decode($homeCustomize->hero_banner, true) : [];
-    //     $thirdBanner = $homeCustomize ? json_decode($homeCustomize->banner_third, true) : [];
-
-    //     $posts = Post::latest('id')->limit(3)->get();
-    //     $socialPosts = SocialMediaPost::where('status', 1)->latest()->get();
-
-    //     // Sliders & Banners
-    //     $sliders = Slider::all();
-    //     $firstBanners = FirstHeroSection::all();
-    //     $secondBanners = SecondHeroSection::all();
-
-    //     return view('front.pages.home', compact(
-    //         'menuCategories',
-    //         'featuredCategories',
-    //         'featured_items',
-    //         'bannerCategories',
-    //         'heroBanner',
-    //         'thirdBanner',
-    //         'posts',
-    //         'socialPosts',
-    //         'newArrivalItems',
-    //         'topSellingItems',
-    //         'manulTopItems',
-    //         'sliders',
-    //         'firstBanners',
-    //         'secondBanners'
-    //     ));
-    // }
-
-
     public function index()
     {
-        // ১ ঘণ্টা (৩৬০০ সেকেন্ড) এর জন্য ডাটা ক্যাশ করা হবে
-        // আপনি চাইলে সময় কমিয়ে ৬০*১০ (১০ মিনিট) দিতে পারেন
-        $cachedData = Cache::remember('homepage_data_cache', 3600, function () {
+        $allCategories = Category::select('id', 'name', 'slug', 'photo', 'is_in_menu', 'is_featured', 'is_banner', 'menu_serial', 'featured_serial', 'banner_serial')
+            ->where('status', 1)
+            ->get();
 
-            // ১. সব ক্যাটাগরি একবারে নিয়ে আসা
-            $allCategories = Category::where('status', 1)->get();
+        $menuCategories = $allCategories->where('is_in_menu', 1)->sortBy('menu_serial');
+        $featuredCategories = $allCategories->where('is_featured', 1)->sortBy('featured_serial');
+        $bannerCategories = $allCategories->where('is_banner', 1)->sortBy('banner_serial');
 
-            $menuCategories = $allCategories->where('is_in_menu', 1)->sortBy('menu_serial');
-            $featuredCategories = $allCategories->where('is_featured', 1)->sortBy('featured_serial');
-            $bannerCategories = $allCategories->where('is_banner', 1)->sortBy('banner_serial');
-
-            $featuredCategoryIds = $featuredCategories->pluck('id');
-
-            // ২. রিলেশনশিপ (Eager Loading)
-            $productRelations = [
-                'category:id,name,slug',
-                'itemVariants.variant.color',
-                'itemVariants.variant.size',
-            ];
-
-            // ৩. Featured Items
-            $featured_items = Item::with($productRelations)
-                ->where('status', 1)
-                ->where('is_type', 'feature')
-                ->whereIn('category_id', $featuredCategoryIds)
-                ->latest()
-                ->take(60)
-                ->get();
-
-            // ৪. New Arrival Products
-            $newArrivalItems = Item::with($productRelations)
-                ->where('status', 1)
-                ->where('is_type', 'new')
-                ->latest()
-                ->take(48)
-                ->get();
-
-            // ৫. Top Selling Products
-            $topSellingItems = Item::with($productRelations)
-                ->select('items.*', DB::raw('SUM(order_details.qty) as total_sold'))
-                ->join('order_details', 'items.id', '=', 'order_details.item_id')
-                ->where('items.status', 1)
-                ->groupBy('items.id')
-                ->orderByDesc('total_sold')
-                ->limit(48)
-                ->get();
-
-            // ৬. অন্যান্য ডাটা
-            $homeCustomize = HomeCutomize::first();
-            $heroBanner = $homeCustomize ? json_decode($homeCustomize->hero_banner, true) : [];
-            $thirdBanner = $homeCustomize ? json_decode($homeCustomize->banner_third, true) : [];
-
-            $posts = Post::latest('id')->limit(3)->get();
-            $socialPosts = SocialMediaPost::where('status', 1)->latest()->get();
-
-            $sliders = Slider::all();
-            $firstBanners = FirstHeroSection::all();
-            $secondBanners = SecondHeroSection::all();
-
-            return compact(
-                'menuCategories',
-                'featuredCategories',
-                'featured_items',
-                'bannerCategories',
-                'heroBanner',
-                'thirdBanner',
-                'posts',
-                'socialPosts',
-                'newArrivalItems',
-                'topSellingItems',
-                'sliders',
-                'firstBanners',
-                'secondBanners'
-            );
-        });
-
-        // ৭. Manual Top Products (প্যাজিনেশন ক্যাশ করা হয় না যাতে পেজ পরিবর্তন ঠিক থাকে)
-        $manulTopItems = Item::with([
+        $productRelations = [
             'category:id,name,slug',
-            'itemVariants.variant.color',
-            'itemVariants.variant.size',
-        ])
+            'itemVariants:id,item_id',
+            'itemVariants.variant:id,color_id,size_id',
+            'itemVariants.variant.color:id,name,code',
+            'itemVariants.variant.size:id,name',
+        ];
+
+        $itemColumns = [
+            'items.id',
+            'items.category_id',
+            'items.name',
+            'items.slug',
+            'items.thumbnail',
+            'items.photo',
+            'items.previous_price',
+            'items.discount_price',
+            'items.status',
+            'items.is_type'
+        ];
+        $featured_items = Item::select($itemColumns)
+            ->with($productRelations)
+            ->where('status', 1)
+            ->where('is_type', 'feature')
+            ->whereIn('category_id', $featuredCategories->pluck('id'))
+            ->latest('id')
+            ->limit(60)
+            ->get();
+
+        // ৪. New Arrival Products
+        $newArrivalItems = Item::select($itemColumns)
+            ->with($productRelations)
+            ->where('status', 1)
+            ->where('is_type', 'new')
+            ->latest('id')
+            ->limit(48)
+            ->get();
+
+
+        //     // ৫. Top Selling Products (সবচেয়ে ভারি কোয়েরি)
+        //     // $topSellingItems = Item::select($itemColumns) // এখানে এখন items.id যাচ্ছে
+        //     //     ->addSelect(DB::raw('SUM(order_details.qty) as total_sold'))
+        //     //     ->join('order_details', 'items.id', '=', 'order_details.item_id')
+        //     //     ->with($productRelations)
+        //     //     ->where('items.status', 1)
+        //     //    ->groupBy($itemColumns) // এখানেও items.id ব্যবহার নিশ্চিত করুন
+        //     //     ->orderByDesc('total_sold')
+        //     //     ->limit(48)
+        //     //     ->get();
+        $topSellingItems = Item::select($itemColumns)
+            ->with($productRelations)
             ->where('status', 1)
             ->where('is_type', 'top')
-            ->latest()
+            ->latest('id')
+            ->limit(20)
+            ->get();
+        $sliders = Slider::select('id', 'photo', 'mobile_photo', 'link', 'title')->get();
+        $firstBanners = FirstHeroSection::select('id', 'banner_first', 'url_first')->get();
+        $secondBanners = SecondHeroSection::select('id', 'banner_second', 'url_second')->get();
+        $homeCustomize = HomeCutomize::select('hero_banner', 'banner_third')->first();
+        $heroBanner = $homeCustomize ? json_decode($homeCustomize->hero_banner, true) : [];
+        $thirdBanner = $homeCustomize ? json_decode($homeCustomize->banner_third, true) : [];
+
+        $posts = Post::select('id', 'title', 'slug', 'photo', 'created_at')->latest('id')->limit(3)->get();
+        $socialPosts = SocialMediaPost::select('id', 'url', 'photo')->where('status', 1)->latest('id')->get();
+
+        $manulTopItems = Item::select($itemColumns)
+            ->with($productRelations)
+            ->where('status', 1)
+            ->where('is_type', 'top')
+            ->latest('id')
             ->paginate(20);
 
-        // সব ডাটা একসাথে ভিউতে পাঠানো
-        return view('front.pages.home', array_merge($cachedData, [
-            'manulTopItems' => $manulTopItems
-        ]));
+        return view('front.pages.home', compact(
+            'menuCategories',
+            'featuredCategories',
+            'featured_items',
+            'bannerCategories',
+            'heroBanner',
+            'thirdBanner',
+            'posts',
+            'socialPosts',
+            'newArrivalItems',
+            'topSellingItems',
+            'sliders',
+            'firstBanners',
+            'secondBanners',
+            'manulTopItems'
+        ));
     }
+
     public function review_submit()
     {
         return view('back.overlay.index');

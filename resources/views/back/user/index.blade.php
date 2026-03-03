@@ -10,7 +10,17 @@
         <div class="card-body">
             <div class="d-sm-flex align-items-center justify-content-between">
                 <h3 class=" mb-0 "><b>{{ __('Customers List') }}</b></h3>
-                </div>
+                <form action="{{ route('back.user.index') }}" method="GET" class="d-flex align-items-center">
+                    <label for="start_date" class="mr-2 mb-0"><small>{{ __('From') }}:</small></label>
+                    <input type="date" name="start_date" id="start_date" class="form-control form-control-sm mr-2" value="{{ request('start_date') }}">
+                    
+                    <label for="end_date" class="mr-2 mb-0"><small>{{ __('To') }}:</small></label>
+                    <input type="date" name="end_date" id="end_date" class="form-control form-control-sm mr-3" value="{{ request('end_date') }}">
+                    
+                    <button type="submit" class="btn btn-info btn-sm mr-2"><i class="fas fa-filter"></i> {{ __('Filter') }}</button>
+                    <a href="{{ route('back.user.export', ['start_date' => request('start_date'), 'end_date' => request('end_date')]) }}" class="btn btn-primary btn-sm"><i class="fas fa-file-export"></i> {{ __('Export CSV') }}</a>
+                </form>
+            </div>
         </div>
     </div>
 

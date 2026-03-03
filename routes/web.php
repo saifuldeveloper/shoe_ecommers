@@ -229,7 +229,8 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
         Route::get('/notifications', [NotificationController::class, 'notifications'])->name('back.notifications');
         Route::get('/notifications/view', [NotificationController::class, 'view_notification'])->name('back.view.notification');
         Route::get('/notification/delete/{id}', [NotificationController::class, 'delete'])->name('back.notification.delete');
-        Route::get('/notifications/clear', [NotificationController::class, 'clear_notf'])->name('back.notifications.clear');
+        Route::get('/notifications/clear', [NotificationController::class, 'clearNotification'])->name('back.notifications.clear');
+  
 
         //------------ SocialMediaPost ------------
         Route::get('socialmediapost/status/{id}/{status}', [SocialMediaPostController::class, 'status'])->name('back.socialmediapost.status');
@@ -267,6 +268,7 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
 
         Route::group(['middleware' => 'permissions:Customer List'], function () {
             //------------ USER ------------
+            Route::get('user/export', [UserController::class, 'export'])->name('back.user.export');
             Route::resource('user', UserController::class)
                 ->except(['create', 'store', 'edit'])
                 ->names('back.user');
@@ -558,9 +560,10 @@ Route::group(['middleware' => 'maintainance'], function () {
             Route::controller(UserDashboardController::class)->group(function () {
                 Route::get('account/profile', 'userProfile')->name('custom.profile');
                 Route::get('account/orders', 'orders')->name('custom.orders');
-                Route::get('account/order/details', 'orderDetails')->name('custom.order-details');
+                Route::get('account/order/details/{id}', 'orderDetails')->name('custom.order-details');
                 Route::get('account/edit/profile', 'editProfile')->name('custom.edit-profile');
                 Route::get('account/change/password', 'passwordChange')->name('custom.change-password');
+                Route::post('account/change/password', 'updatePassword')->name('custom.change-password.update');
             });
             //------------ SETTING ------------
             Route::post('/profile/update', [UserAccountController::class, 'profileUpdate'])->name('user.profile.update');
@@ -616,7 +619,7 @@ Route::group(['middleware' => 'maintainance'], function () {
         Route::get('/products/filter', [FrontendController::class, 'filterProducts'])->name('products.filter');
 
         //unique campaign products
-        Route::get('/campaign/unique/products/{slug}', [FrontendController::class, 'uniqueCampaign'])->name('products.campaign.unique');
+        Route::get('/campaign/products/{slug}', [FrontendController::class, 'uniqueCampaign'])->name('products.campaign.unique');
 
 
         //wishlist products

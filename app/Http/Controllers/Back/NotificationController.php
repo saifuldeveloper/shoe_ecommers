@@ -26,15 +26,16 @@ class NotificationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function notifications(){
+    public function notifications()
+    {
         return view('back.notification.index');
     }
 
 
     public function view_notification()
     {
-        return view('back.notification.notification',[
-            'data'=>Notification::orderby('id','desc')
+        return view('back.notification.notification', [
+            'data' => Notification::orderby('id', 'desc')
         ]);
 
     }
@@ -51,7 +52,9 @@ class NotificationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function clear_notf(){
+    public function clearNotification()
+    {
+
         Notification::truncate();
     }
 

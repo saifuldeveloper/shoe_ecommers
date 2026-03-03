@@ -28,7 +28,7 @@ class Order extends Model
         'tax',
         'state_price',
         'state',
-        'sale_note',    
+        'sale_note',
         'is_reward_point_used'
     ];
 

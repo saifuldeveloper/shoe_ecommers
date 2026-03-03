@@ -5,18 +5,20 @@
                 <a href="{{ route('front.product', $product->slug) }}">
                     <div class="ps-shoe__thumbnail">
                         <img src="{{ $product->thumbnail ? (file_exists(public_path('storage/items/' . $product->thumbnail)) ? url('storage/items/' . $product->thumbnail) : url('assets/images/' . $product->thumbnail)) : url('assets/images/default.jpg') }}"
-                            alt="Image Not Found">
+                            alt="Image Not Found"  >
+
 
                         <img class="hover-img"
                             src="{{ $product->photo ? (file_exists(public_path('storage/items/' . $product->photo)) ? url('storage/items/' . $product->photo) : url('assets/images/' . $product->photo)) : url('assets/images/default.jpg') }}"
                             alt="Image Not Found">
-                        <a href="#" class="ps-shoe__favorite add-to-wishlist {{ isset($wishlists[$product->id]) ? 'active' : '' }}" data-id="{{ $product->id }}">
+                        <a href="#"
+                            class="ps-shoe__favorite add-to-wishlist {{ isset($wishlists[$product->id]) ? 'active' : '' }}"
+                            data-id="{{ $product->id }}">
                             <i class="ps-icon-heart"></i>
                         </a>
                         <a class="compare-button add-to-compare" href="javascript:void(0)" data-id="{{ $product->id }}"
                             title="Add to Compare">
-                            <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
-                                xmlns="http://www.w3.org/2000/svg">
+                            <svg class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="M815.415 818.951c-15.614 0-28.278-12.667-28.278-28.278v-489.739c0-43.452-35.349-78.8-78.8-78.8h-145.669c-15.614 0-28.278-12.667-28.278-28.278s12.667-28.278 28.278-28.278h145.669c74.676 0 135.36 60.684 135.36 135.36v489.739c0 15.614-12.667 28.278-28.278 28.278z">
                                 </path>
@@ -127,9 +129,9 @@
 @push('js')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             const csrfToken = $('meta[name="csrf-token"]').attr('content');
-            $(document).on('click', '.add-to-wishlist', function(e) {
+            $(document).on('click', '.add-to-wishlist', function (e) {
                 e.preventDefault();
                 let $this = $(this);
                 let itemId = $this.data('id');
@@ -143,7 +145,7 @@
                         _token: csrfToken,
                         id: itemId
                     },
-                    success: function(response) {
+                    success: function (response) {
 
                         // Login required
                         if (response.status === 0 && response.link) {
@@ -183,7 +185,7 @@
                             updateWishlistCount();
                         }
                     },
-                    error: function(xhr) {
+                    error: function (xhr) {
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',
@@ -200,12 +202,12 @@
                 url: url,
                 type: 'GET',
                 dataType: 'json',
-                success: function(response) {
+                success: function (response) {
                     const count = response.count || 0;
                     $('#wishlist-count-header i').text(count);
                     $('#wishlist-count-mobile i').text(count);
                 },
-                error: function(xhr) {
+                error: function (xhr) {
                     console.error("Failed to fetch wishlist count:", xhr);
                     $('#wishlist-count-header i').text(0);
                     $('#wishlist-count-mobile i').text(0);
@@ -251,33 +253,33 @@
 
             // Structure for attributes/rows - **MUST MATCH Controller's returned data structure**
             const attributes = [{
-                    key: 'description',
-                    label: 'DESCRIPTION'
-                },
-                {
-                    key: 'availability',
-                    label: 'AVAILABILITY'
-                },
-                {
-                    key: 'product_type',
-                    label: 'PRODUCT TYPE'
-                },
-                {
-                    key: 'sku',
-                    label: 'SKU'
-                },
-                {
-                    key: 'size',
-                    label: 'SIZE'
-                },
-                {
-                    key: 'color',
-                    label: 'COLOR'
-                },
-                {
-                    key: 'option',
-                    label: 'OPTION'
-                }
+                key: 'description',
+                label: 'DESCRIPTION'
+            },
+            {
+                key: 'availability',
+                label: 'AVAILABILITY'
+            },
+            {
+                key: 'product_type',
+                label: 'PRODUCT TYPE'
+            },
+            {
+                key: 'sku',
+                label: 'SKU'
+            },
+            {
+                key: 'size',
+                label: 'SIZE'
+            },
+            {
+                key: 'color',
+                label: 'COLOR'
+            },
+            {
+                key: 'option',
+                label: 'OPTION'
+            }
             ];
 
             // 1. Create the Products header row
@@ -287,21 +289,21 @@
                 const oldPrice = product.old_price ? `<span class="old-price">৳ ${product.old_price}</span>` : '';
 
                 headerRow += `
-                <th class="product-col" data-product-id="${product.id}">
-                    <div class="product-info">
-                        <div class="product-image-box">
-                             <img src="${product.thumbnail_url}" alt="${product.name}" />
+                    <th class="product-col" data-product-id="${product.id}">
+                        <div class="product-info">
+                            <div class="product-image-box">
+                                 <img src="${product.thumbnail_url}" alt="${product.name}" />
+                            </div>
+                            <span class="product-name">${product.name}</span>
+                            <div class="price-box">
+                                ${oldPrice}
+                                <span class="current-price">৳ ${product.current_price}</span>
+                            </div>
+                            <a href="${product.url}" class="shop-now-btn btn btn-dark my-2">SHOP NOW</a>
+                            <a href="javascript:void(0)" class="remove-product-btn compare-remove-single" data-id="${product.id}">Remove</a>
                         </div>
-                        <span class="product-name">${product.name}</span>
-                        <div class="price-box">
-                            ${oldPrice}
-                            <span class="current-price">৳ ${product.current_price}</span>
-                        </div>
-                        <a href="${product.url}" class="shop-now-btn btn btn-dark my-2">SHOP NOW</a>
-                        <a href="javascript:void(0)" class="remove-product-btn compare-remove-single" data-id="${product.id}">Remove</a>
-                    </div>
-                </th>
-            `;
+                    </th>
+                `;
             });
             headerRow += '</tr>';
             body.append(headerRow);
@@ -322,7 +324,7 @@
             updateCompareButton(products.length);
 
             // Re-bind click handlers for dynamically added 'Remove' buttons
-            $('.compare-remove-single').off('click').on('click', function() {
+            $('.compare-remove-single').off('click').on('click', function () {
                 const productId = $(this).data('id');
                 removeProductFromCompare(productId);
             });
@@ -338,10 +340,10 @@
                 url: url,
                 type: 'GET',
                 dataType: 'json',
-                success: function(response) {
+                success: function (response) {
                     renderCompareModal(response.products || []);
                 },
-                error: function() {
+                error: function () {
                     console.error('Failed to load comparison products.');
                     renderCompareModal([]);
                 }
@@ -361,7 +363,7 @@
                     _token: csrfToken,
                     product_id: itemId
                 },
-                success: function(response) {
+                success: function (response) {
                     console.log(response)
                     if (response.status === 'success') {
                         alert('Product added to compare! Total: ' + response.count);
@@ -372,7 +374,7 @@
                         alert(' ' + response.message);
                     }
                 },
-                error: function() {
+                error: function () {
 
                 }
             });
@@ -391,7 +393,7 @@
                     _token: csrfToken,
                     product_id: itemId
                 },
-                success: function(response) {
+                success: function (response) {
                     if (response.status === 'success') {
                         // alert('Product removed from compare.');
                         renderCompareModal(response.products);
@@ -399,7 +401,7 @@
                         alert('Failed to remove product from compare.');
                     }
                 },
-                error: function() {
+                error: function () {
                     alert('An error occurred while removing the product.');
                 }
             });
@@ -417,7 +419,7 @@
                 data: {
                     _token: csrfToken
                 },
-                success: function(response) {
+                success: function (response) {
                     if (response.status === 'success') {
                         alert(' All products removed from compare.');
                         renderCompareModal([]);
@@ -427,7 +429,7 @@
                         alert('Failed to clear comparison list.');
                     }
                 },
-                error: function() {
+                error: function () {
                     alert('An error occurred while clearing the comparison list.');
                 }
             });
@@ -436,36 +438,36 @@
 
         // --- Event Listeners ---
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             // 1. "Add to Compare" Button Click Handler (Icon on product hover)
-            $('.add-to-compare').on('click', function(e) {
+            $('.add-to-compare').on('click', function (e) {
                 e.preventDefault();
                 let itemId = $(this).data('id');
                 addProductToCompare(itemId);
             });
 
             // 2. "Open Compare Modal" Click Handler
-            $('#open-compare-modal').on('click', function() {
+            $('#open-compare-modal').on('click', function () {
                 fetchAndRenderCompareList(); // Load data before opening
                 $('#product-compare-modal').addClass('is-visible');
                 document.body.style.overflow = 'hidden';
             });
 
             // 3. "Close Compare Modal" Click Handler
-            $('#close-compare-modal').on('click', function() {
+            $('#close-compare-modal').on('click', function () {
                 $('#product-compare-modal').removeClass('is-visible');
                 document.body.style.overflow = '';
             });
 
             // 4. "Remove All" Click Handler
-            $('#remove-all-compare-products').on('click', function() {
+            $('#remove-all-compare-products').on('click', function () {
                 if (confirm("Are you sure you want to remove all products from the comparison list?")) {
                     removeAllProductsFromCompare();
                 }
             });
 
             // 5. Close modal if user clicks outside the content (Modal Overlay)
-            $('#product-compare-modal').on('click', function(e) {
+            $('#product-compare-modal').on('click', function (e) {
                 if (e.target.id === 'product-compare-modal') {
                     $('#product-compare-modal').removeClass('is-visible');
                     document.body.style.overflow = '';

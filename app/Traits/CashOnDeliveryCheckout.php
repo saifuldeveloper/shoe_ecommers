@@ -73,7 +73,7 @@ trait CashOnDeliveryCheckout
         $orderData['shipping_info'] = json_encode(Session::get('shipping_address'), true);
         $orderData['billing_info'] = json_encode(Session::get('billing_address'), true);
         $orderData['payment_method'] = 'Cash On Delivery';
-        $orderData['user_id'] = isset($user) ? $user->id : 0;
+        $orderData['user_id'] = auth()->check() ? auth()->user()->id : null;
         $orderData['transaction_number'] = Str::random(10);
         $orderData['currency_sign'] = PriceHelper::setCurrencySign();
         $orderData['currency_value'] = PriceHelper::setCurrencyValue();
@@ -81,7 +81,6 @@ trait CashOnDeliveryCheckout
         $orderData['order_status'] = 'Pending';
         // $orderData['variant_id'] = $variant ? $variant->id : null;
 
-        $orderData['user_id'] = 1;
         try {
             $order = Order::create($orderData);
             $new_txn = $new_txn = 'ecom-' . str_pad(Carbon::now()->format('Ymd'), 4, '0000', STR_PAD_LEFT) . '-' . $order->id;
@@ -105,6 +104,19 @@ trait CashOnDeliveryCheckout
                 'order_id' => $order->id,
             ]);
             SmsHelper::sendPurchaseSms($order, $cart, $grand_total);
+
+            // Notification entry
+            if ($user) {
+                Notification::create([
+                    'user_id' => $user->id,
+                    'order_id' => $order->id,
+                ]);
+            } else {
+                Notification::create([
+                    'order_id' => $order->id,
+                ]);
+            }
+
         } catch (\Throwable $th) {
             throw $th;
         }
