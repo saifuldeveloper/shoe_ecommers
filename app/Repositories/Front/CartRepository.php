@@ -2,16 +2,12 @@
 
 namespace App\Repositories\Front;
 
-use App\{
-    Models\Cart,
-    Models\Item,
-    Models\PromoCode,
-    Helpers\PriceHelper
-};
-use App\Models\AttributeOption;
+use App\{Models\Cart, Models\Item, Models\PromoCode, Helpers\PriceHelper};
 use App\Models\Attribute;
+use App\Models\AttributeOption;
 use App\Models\ItemVariant;
 use App\Models\Variant;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
 class CartRepository
@@ -65,7 +61,7 @@ class CartRepository
         }
 
         $itemVariant = $item->variants->where('color_id', $input['color'] !== 'undefined' ? $input['color'] : null)
-                 ->where('size_id', $input['size'] !== 'undefined' ? $input['size'] : null)->first();
+            ->where('size_id', $input['size'] !== 'undefined' ? $input['size'] : null)->first();
 
         // if ($input['color'] != 'undefined' && $input['size'] != 'undefined') {
         //     $variant = Variant::where('color_id', $input['color'])->where('size_id', $input['size'])->first();
@@ -91,35 +87,55 @@ class CartRepository
 
     }
 
-    public function promoStore($request)
+
+    public function promoStore(Request $request)
     {
+        $code = $request->input('code');
+        $coupon = PromoCode::where('code_name', $code)->where('status', 'active')->first();
 
-        $input = $request->all();
-        $promo_code = PromoCode::where('status', 1)->whereCodeName($input['code'])->where('no_of_times', '>', 0)->first();
+        if ($coupon) {
+            // কার্ট ডাটা গেট করা
+            $userId = auth()->id();
+            $sessionId = session()->get('cartSession');
 
-        if ($promo_code) {
-            $cart = Session::get('cart');
-            $cartTotal = PriceHelper::cartTotal($cart, 2);
-            $discount = $this->getDiscount($promo_code->discount, $promo_code->type, $cartTotal);
+            $cart = Cart::when($userId, function ($q) use ($userId) {
+                return $q->where('user_id', $userId);
+            })->when(!$userId, function ($q) use ($sessionId) {
+                return $q->where('session_id', $sessionId);
+            })->get();
 
-            $coupon = [
-                'discount' => $discount['sub'],
-                'code' => $promo_code
+            $cartTotal = 0;
+            foreach ($cart as $items) {
+                $item_variant = ItemVariant::find($items->item_variant_id);
+                $price = $items->item->discount_price ?? 0;
+                $extra = $item_variant ? $item_variant->additional_price : 0;
+                $cartTotal += ($price + $extra) * $items->quantity;
+            }
+
+            // ডিসকাউন্ট ক্যালকুলেশন
+            $discountData = $this->getDiscount($coupon->discount, $coupon->type, $cartTotal);
+
+            $discountValue = isset($discountData['sub']) ? $discountData['sub'] : 0;
+
+            $sessionData = [
+                'discount' => $discountValue,
+                'code' => $coupon->code_name,
             ];
-            Session::put('coupon', $coupon);
+            Session::put('coupon', $sessionData);
 
-            return [
+            return response()->json([
                 'status' => true,
-                'message' => __('Promo code found!')
-            ];
+                'message' => __('Promo code applied!'),
+                'discount' => $discountValue
+            ]);
         } else {
-            return [
+            return response()->json([
                 'status' => false,
                 'message' => __('No coupon code found')
-            ];
+            ]);
+
         }
     }
-
 
 
     public function getCart()

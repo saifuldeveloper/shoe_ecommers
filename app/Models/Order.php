@@ -29,6 +29,8 @@ class Order extends Model
         'state_price',
         'state',
         'sale_note',
+        'coupon_code',
+        'coupon_discount',
         'is_reward_point_used'
     ];
 
@@ -73,7 +75,7 @@ class Order extends Model
         $tax = $this->tax ?? 0;
         $discount = $this->discount ? json_decode($this->discount, true)['discount'] ?? 0 : 0;
 
-        return $detailsTotal + $shipping + $tax - $discount;
+        return $detailsTotal + $shipping + $tax - $discount - $this->coupon_discount;
     }
     public function getTotalItemCountAttribute()
     {

@@ -3,10 +3,11 @@
     <style>
         .select2-container .select2-selection--single {
             /* height: 38px;
-            /* Bootstrap input height */
+                /* Bootstrap input height */
             padding: 6px 12px;
             border: 1px solid #ced4da;
-            border-radius: 0.375rem; */
+            border-radius: 0.375rem;
+            */
         }
 
         .select2-container--default .select2-selection--single {
@@ -146,6 +147,8 @@
                                             <input type="hidden" name="address" value="{{ $customer->ship_address1 }}">
                                             <input type="hidden" name="city" value="{{ $customer->ship_city }}">
                                             <input type="hidden" name="shipping_cost" value="{{ $order->shipping }}">
+                                            <input type="hidden" name="coupon_code" value="{{ $order->coupon_code }}">
+                                            <input type="hidden" name="coupon_discount" value="{{ $order->coupon_discount }}">
                                             <table class="table my-4">
                                                 <thead>
                                                     <tr>
@@ -243,6 +246,17 @@
                                                                 </strong></td>
                                                             <td class="px-0 text-right border-top border-top-2">
                                                                 <span><strong>{{ $order->shipping }}</span> </strong>
+                                                            </td>
+                                                        </tr>
+                                                    @endif
+                                                    @if ($order->coupon_code != null)
+                                                        <tr>
+                                                            <td colspan="7"
+                                                                class="px-0 border-top border-top-2 text-right"><strong>
+                                                                    <span class="text-muted">{{ __('Coupon Discount')}}
+                                                                </strong></td>
+                                                            <td class="px-0 text-right border-top border-top-2">
+                                                                <span><strong>{{ $order->coupon_discount }}</span> </strong>
                                                             </td>
                                                         </tr>
                                                     @endif

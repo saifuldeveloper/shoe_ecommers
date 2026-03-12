@@ -195,7 +195,8 @@
                     {{-- =================================================== --}}
                     <div class="checkout-form-card">
                         <h2 class="section-title">Payment</h2>
-                        <p style="font-size: 14px; color: #555; margin-bottom: 20px;">All transactions are secure and encrypted.</p>
+                        <p style="font-size: 14px; color: #555; margin-bottom: 20px;">All transactions are secure and
+                            encrypted.</p>
                         @php
                             $paymentMethods = DB::table('payment_settings')->where('status', 1)->get();
                             $rewardSetting = DB::table('reward_point_systems')->first();
@@ -358,6 +359,7 @@
             const shippingSelect = document.getElementById('shipping-charge');
             const shippingPriceEl = document.querySelector('.shipping_price_set');
             const grandTotalEl = document.querySelector('.grand_total_set');
+            const couponDiscountEl = document.querySelector('.coupon-discount-value');
 
             // Base total (shipping 
             const baseTotal = parseFloat(grandTotalEl.dataset.baseTotal);
@@ -369,8 +371,18 @@
                 }
                 // Shipping show
                 shippingPriceEl.innerText = shippingCharge.toFixed(2);
+
+                // ✅ Get coupon discount number
+                let couponDiscount = 0;
+
+                if (couponDiscountEl) {
+                    couponDiscount = parseFloat(
+                        couponDiscountEl.innerText.replace(/[^\d.]/g, '')
+                    ) || 0;
+                }
+
                 // FINAL calculation  base + shipping
-                let finalTotal = baseTotal + shippingCharge;
+                let finalTotal = baseTotal + shippingCharge - couponDiscount;
                 grandTotalEl.innerText = finalTotal.toFixed(2);
             });
         });
@@ -433,8 +445,6 @@
             }
         });
     </script>
-
-
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const input = document.getElementById("ship_city");
@@ -471,4 +481,172 @@
     </script>
 
 
+
+
+    {{-- <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.addEventListener('click', function(e) {
+                let applyBtn = e.target.closest('#apply_coupon');
+                if (!applyBtn) return;
+
+                e.preventDefault();
+
+                let codeInput = document.getElementById('coupon_code');
+                let code = codeInput ? codeInput.value.trim() : '';
+
+                if (code === "") {
+                    alert("Please enter a coupon code.");
+                    return;
+                }
+
+                // বাটনটি ডিসেবল করুন যাতে ডাবল ক্লিক না হয়
+                applyBtn.disabled = true;
+
+                fetch("{{ route('front.promo.submit') }}", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': "{{ csrf_token() }}",
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: JSON.stringify({
+                            code: code
+                        })
+                    })
+                    .then(res => res.json()) 
+                    .then(data => {
+                        let responseData = data.original ? data.original : data;
+
+                        if (responseData.status === true) {
+                            // alert(responseData.message || "Promo code applied!");
+                            // location.reload();
+                        } else {
+                            alert(responseData.message || "Invalid coupon");
+                            applyBtn.disabled = false;
+                        }
+                    })
+                    .catch(err => {
+                        console.error("Fetch Error:", err);
+                        alert("Something went wrong!");
+                        applyBtn.disabled = false;
+                    });
+            });
+        });
+    </script> --}}
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.addEventListener('click', function(e) {
+                let applyBtn = e.target.closest('#apply_coupon');
+                if (!applyBtn) return;
+
+                e.preventDefault();
+
+                let codeInput = document.getElementById('coupon_code');
+                let code = codeInput ? codeInput.value.trim() : '';
+
+                if (code === "") {
+                    alert("Please enter a coupon code.");
+                    return;
+                }
+                // বাটন অ্যানিমেশন (Loading State)
+                let originalBtnText = applyBtn.innerHTML;
+                applyBtn.disabled = true;
+                applyBtn.innerHTML =
+                    '<span class="spinner-border spinner-border-sm" role="status"></span>...';
+
+                fetch("{{ route('front.promo.submit') }}", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': "{{ csrf_token() }}",
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: JSON.stringify({
+                            code: code
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        let responseData = data.original ? data.original : data;
+
+                        if (responseData.status === true) {
+                            // ১. কুপন রো আপডেট বা তৈরি করা (Animation)
+                            updateCouponRow(responseData.discount);
+
+                            // ২. গ্র্যান্ড টোটাল আপডেট করা
+                            updateGrandTotal(responseData.discount);
+
+                            // ৩. বাটনের লুক পরিবর্তন
+                            applyBtn.innerHTML = "{{ __('Coupon Applied') }}";
+                            applyBtn.style.background = "#F8B611";
+                            applyBtn.style.borderColor = "#F8B611";
+                        } else {
+                            alert(responseData.message || "Invalid coupon");
+                            applyBtn.disabled = false;
+                            applyBtn.innerHTML = originalBtnText;
+                        }
+                    })
+                    .catch(err => {
+                        console.error("Fetch Error:", err);
+                        applyBtn.disabled = false;
+                        applyBtn.innerHTML = originalBtnText;
+                    });
+            });
+
+            // ডিসকাউন্ট রো আপডেট করার ফাংশন
+            function updateCouponRow(discountAmount) {
+                let couponValueCell = document.querySelector('.coupon-discount-value');
+
+                if (couponValueCell) {
+                    // যদি রো আগে থেকেই থাকে
+                    flashElement(couponValueCell, discountAmount);
+                } else {
+                    // যদি রো না থাকে, তবে কুপন সেকশনের ঠিক নিচে নতুন রো ইনসার্ট করা
+                    let couponSectionRow = document.querySelector('#apply_coupon').closest('tr');
+                    let newRow = document.createElement('tr');
+                    newRow.style.opacity = '0';
+                    newRow.style.transition = 'all 0.5s ease';
+                    newRow.innerHTML = `
+                <td>Coupon Discount</td>
+                <td class="coupon-discount-value" style="color:#F9B711; font-weight:bold;">${discountAmount}</td>
+            `;
+                    couponSectionRow.parentNode.insertBefore(newRow, couponSectionRow.nextSibling);
+
+                    setTimeout(() => {
+                        newRow.style.opacity = '1';
+                    }, 10);
+                }
+            }
+
+            // গ্র্যান্ড টোটাল আপডেট করার ফাংশন
+            function updateGrandTotal(discount) {
+                let grandTotalElement = document.querySelector('.grand_total_set');
+                let baseTotal = parseFloat(grandTotalElement.getAttribute('data-base-total'));
+
+                // ডিসকাউন্ট স্ট্রিং থেকে শুধু নাম্বার বের করা (যদি কারেন্সি সিম্বল থাকে)
+                let discountValue = parseFloat(discount.toString().replace(/[^\d.-]/g, '')) || 0;
+                let newGrandTotal = baseTotal - discountValue;
+
+                // এখানে আমরা শুধু নাম্বার আপডেট করছি, সিম্বল হ্যান্ডেল করার জন্য 
+                // আপনার PriceHelper এর মত ফরম্যাট জাভাস্ক্রিপ্টে করা ভালো।
+                // আপাতত সরাসরি ভ্যালু বসানো হচ্ছে:
+                flashElement(grandTotalElement, newGrandTotal.toFixed(2));
+            }
+
+            // ভ্যালু পরিবর্তনের সময় কালার ফ্ল্যাশ অ্যানিমেশন
+            function flashElement(el, newValue) {
+                el.style.transition = 'color 0.3s ease';
+                el.style.color = '#F9B711'; // হাইলাইট কালার
+                el.innerText = newValue;
+
+                setTimeout(() => {
+                    el.style.color = ''; // আগের কালারে ফিরে যাওয়া
+                }, 500);
+            }
+        });
+    </script>
 @endsection

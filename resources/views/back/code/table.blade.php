@@ -19,22 +19,34 @@
 
         </td>
         <td>
-
             <div class="dropdown">
-                <button class="btn btn-{{ $data->status == 1 ? 'success' : 'danger' }} btn-sm dropdown-toggle"
-                    type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ $data->status == 1 ? __('Enabled') : __('Disabled') }}
+                <button class="btn btn-{{ $data->status == 'active' ? 'success' : 'danger' }} btn-sm dropdown-toggle"
+                    type="button" data-toggle="dropdown">
+                    {{ $data->status == 'active' ? __('Active') : __('Inactive') }}
                 </button>
-                <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item"
-                        href="{{ route('back.code.status', [$data->id, 1]) }}">{{ __('Enable') }}</a>
-                    <a class="dropdown-item"
-                        href="{{ route('back.code.status', [$data->id, 0]) }}">{{ __('Disable') }}</a>
+
+                <div class="dropdown-menu animated--fade-in">
+
+                    {{-- Activate --}}
+                    <form action="{{ route('back.code.status', $data->id) }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="status" value="active">
+                        <button type="submit" class="dropdown-item">
+                            {{ __('Activate') }}
+                        </button>
+                    </form>
+
+                    {{-- Inactivate --}}
+                    <form action="{{ route('back.code.status', $data->id) }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="status" value="inactive">
+                        <button type="submit" class="dropdown-item">
+                            {{ __('Inactivate') }}
+                        </button>
+                    </form>
+
                 </div>
             </div>
-
-            </div>
-
         </td>
         <td>
             <div class="action-list">

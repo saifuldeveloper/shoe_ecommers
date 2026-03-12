@@ -48,7 +48,7 @@
                     <td>{{ __('Cart Subtotal') }}:</td>
                     <td class="text-gray-dark grand_total_get">{{ PriceHelper::setCurrencyPrice($cart_total) }}</td>
                 </tr>
-               @if (Auth::check() && $rewardPoint > 0)
+                @if (Auth::check() && $rewardPoint > 0)
                     <tr>
                         <td>{{ __('Reward Point Earn') }}:</td>
                         <td class="text-success fw-bold">
@@ -74,6 +74,40 @@
                         </td>
                     </tr>
                 @endif
+
+                <tr>
+                    <td colspan="2" class="border-0 pb-0">
+                        <div class="coupon-section">
+                            <div class="row">
+                                <div style="float: left; width: 60%;">
+                                    <input class="form-control form-control-sm" type="text" id="coupon_code"
+                                        placeholder="{{ __('Coupon Code') }}" value="{{ @$discount['code'] }}"
+                                        style="height: 40px; border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                                </div>
+                                <div>
+                                    <button class="btn btn-primary btn-sm" id="apply_coupon" type="button"
+                                        style="height: 40px; white-space: nowrap; border-top-left-radius: 0; border-bottom-left-radius: 0;background:#F9B711;border: 1px solid #F9B711">
+                                        @if(isset($discount['code']))
+                                            {{ __('Applied Coupom') }}
+                                        @else
+                                            {{ __('Apply') }}
+                                        @endif
+
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                @if (isset($discount['code']) > 0)
+                    <tr>
+                        <td>Coupon Discount</td>
+                        <td class="coupon-discount-value">{{ $discount['discount'] }}</td>
+
+                    </tr>
+                @endif
+
+
                 <tr>
                     <td class="text-lg text-primary">{{ __('Order total') }}</td>
                     <td class="text-lg text-primary grand_total_set" data-base-total="{{ $initial_grand_total }}">
@@ -135,7 +169,8 @@
                     </div>
 
                     {{-- RIGHT COLUMN: Price --}}
-                    <div class="entry-price"  style="font-size: 14px; font-weight: 600; color: #333; margin-left: 10px; flex-shrink: 0;margin-bottom: 25px;">
+                    <div class="entry-price"
+                        style="font-size: 14px; font-weight: 600; color: #333; margin-left: 10px; flex-shrink: 0;margin-bottom: 25px;">
                         {{ $item->quantity }} x {{ PriceHelper::setCurrencyPrice($item_price) }}
                     </div>
                 </div>

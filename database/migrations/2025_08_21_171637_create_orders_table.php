@@ -29,6 +29,8 @@ return new class extends Migration {
             $table->text('billing_info'); // JSON data
             $table->string('payment_status')->default('pending');
             $table->decimal('state_price', 10, 2)->default(0);
+            $table->string('coupon_code')->nullable()->index();
+            $table->decimal('coupon_discount')->nullable();
             $table->string('state')->nullable();
             $table->timestamps();
             // Indexes for better performance

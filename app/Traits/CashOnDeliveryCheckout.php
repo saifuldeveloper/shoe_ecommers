@@ -57,6 +57,7 @@ trait CashOnDeliveryCheckout
             $discount = Session::get('coupon');
         }
 
+
         $grand_total = $cart_total + $total_tax + $data['shipping_charge'];
         $grand_total = $grand_total - ($discount ? $discount['discount'] : 0) - PriceHelper::specialOfferDiscount($cart_total);
 
@@ -79,6 +80,8 @@ trait CashOnDeliveryCheckout
         $orderData['currency_value'] = PriceHelper::setCurrencyValue();
         $orderData['payment_status'] = 'Unpaid';
         $orderData['order_status'] = 'Pending';
+        $orderData['coupon_code']= $discount['code'];
+        $orderData['coupon_discount']= $discount['discount'];
         // $orderData['variant_id'] = $variant ? $variant->id : null;
 
         try {
@@ -124,8 +127,7 @@ trait CashOnDeliveryCheckout
 
         // $setting = Setting::first();
         if ($discount) {
-            $coupon_id = $discount['code']['id'];
-            $get_coupon = PromoCode::findOrFail($coupon_id);
+            $get_coupon = PromoCode::where('code_name',$discount['code'])->first();
             $get_coupon->no_of_times -= 1;
             $get_coupon->update();
         }

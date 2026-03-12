@@ -64,15 +64,15 @@ class SocialLoginController extends Controller
             ]);
 
             // Create membership
-            if($user){
+            if ($user) {
                 MemberShip::create([
-                        'user_id' => $user->id,
-                        'total_purchase' => 0,
-                        'membership_level' => 'Normal',
-                        'discount_percent' => 0,
+                    'user_id' => $user->id,
+                    'total_purchase' => 0,
+                    'membership_level' => 'Normal',
+                    'discount_percent' => 0,
                 ]);
             }
-      
+
 
             $emailData = [
                 'to' => $user->email,

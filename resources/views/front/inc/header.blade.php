@@ -121,7 +121,8 @@
                                                 </li>
                                                 @foreach ($category->subcategory as $sub)
                                                     <li>
-                                                        <a href="{{ route('front.subcategory.products', $sub->slug) }}">
+                                                        <a
+                                                            href="{{ route('front.subcategory.products', $sub->slug) }}">
                                                             {{ $sub->name }}
                                                         </a>
                                                     </li>
@@ -491,49 +492,93 @@
         });
         // ==click to search input field & show the modal dektop device
         // ==click to search input field & show the modal dektop device
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     const searchInput = document.getElementById('searchInput');
+        //     const searchModal = document.getElementById('searchModal');
+        //     const searchWrapper = document.querySelector('.search-dropdown-wrapper');
+
+        //     // Function to open the modal
+        //     function openModal() {
+        //         searchModal.classList.remove('hidden');
+        //     }
+        //     // Function to close the modal
+        //     function closeModal() {
+        //         searchModal.classList.add('hidden');
+        //     }
+        //     // 1. Open modal when the input is clicked/focused
+        //     searchInput.addEventListener('focus', openModal);
+
+        //     // Check if the current value of the input has 3 or more characters
+        //     searchInput.addEventListener('input', function() {
+
+        //         if (searchInput.value.length >= 3) {
+        //             closeModal();
+        //         } else {
+        //             if (searchModal.classList.contains('hidden')) {
+        //                 openModal();
+        //             }
+        //         }
+        //     });
+
+        //     // 2. Hide modal when clicking anywhere OUTSIDE the search wrapper
+        //     document.addEventListener('click', function(event) {
+        //         if (!searchWrapper.contains(event.target)) {
+        //             closeModal();
+        //         }
+        //         searchInput.addEventListener('input', closeModal);
+        //     });
+
+        //     document.addEventListener('click', function(event) {
+        //         const isClickOnInput = searchInput && searchInput.contains(event.target);
+        //         const isClickInsideModal = searchModal.contains(event.target);
+        //         if (!searchModal.classList.contains('hidden') && !isClickOnInput && !isClickInsideModal) {
+        //             closeModal();
+        //         }
+        //     });
+        // });
+
+
         document.addEventListener('DOMContentLoaded', function() {
+
             const searchInput = document.getElementById('searchInput');
             const searchModal = document.getElementById('searchModal');
             const searchWrapper = document.querySelector('.search-dropdown-wrapper');
 
-            // Function to open the modal
+            // Safety check: elements exist
+            if (!searchInput || !searchModal || !searchWrapper) return;
+
+            // Functions to open/close modal
             function openModal() {
                 searchModal.classList.remove('hidden');
             }
-            // Function to close the modal
+
             function closeModal() {
                 searchModal.classList.add('hidden');
             }
-            // 1. Open modal when the input is clicked/focused
+
+            // 1️⃣ Open modal when input is focused
             searchInput.addEventListener('focus', openModal);
 
-            // Check if the current value of the input has 3 or more characters
+            // 2️⃣ Close/open modal depending on input length
             searchInput.addEventListener('input', function() {
-
                 if (searchInput.value.length >= 3) {
                     closeModal();
                 } else {
-                    if (searchModal.classList.contains('hidden')) {
-                        openModal();
-                    }
+                    openModal();
                 }
             });
 
-            // 2. Hide modal when clicking anywhere OUTSIDE the search wrapper
+            // 3️⃣ Click outside modal closes it
             document.addEventListener('click', function(event) {
-                if (!searchWrapper.contains(event.target)) {
-                    closeModal();
-                }
-                searchInput.addEventListener('input', closeModal);
-            });
-
-            document.addEventListener('click', function(event) {
-                const isClickOnInput = searchInput && searchInput.contains(event.target);
+                const isClickInsideWrapper = searchWrapper.contains(event.target);
                 const isClickInsideModal = searchModal.contains(event.target);
-                if (!searchModal.classList.contains('hidden') && !isClickOnInput && !isClickInsideModal) {
+                const isClickOnInput = searchInput.contains(event.target);
+
+                if (!isClickInsideWrapper && !isClickInsideModal && !isClickOnInput) {
                     closeModal();
                 }
             });
+
         });
 
 

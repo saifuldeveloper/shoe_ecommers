@@ -230,7 +230,7 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
         Route::get('/notifications/view', [NotificationController::class, 'view_notification'])->name('back.view.notification');
         Route::get('/notification/delete/{id}', [NotificationController::class, 'delete'])->name('back.notification.delete');
         Route::get('/notifications/clear', [NotificationController::class, 'clearNotification'])->name('back.notifications.clear');
-  
+
 
         //------------ SocialMediaPost ------------
         Route::get('socialmediapost/status/{id}/{status}', [SocialMediaPostController::class, 'status'])->name('back.socialmediapost.status');
@@ -279,7 +279,8 @@ Route::group(['middleware' => ['adminlocalize', 'demo']], function () {
 
         Route::group(['middleware' => 'permissions:Ecommerce'], function () {
             //------------ PROMO CODE ------------
-            Route::get('code/status/{id}/{status}', [PromoCodeController::class, 'status'])->name('back.code.status');
+            // Route::get('code/status/{id}/{status}', [PromoCodeController::class, 'status'])->name('back.code.status');
+            Route::post('code/status/{id}', [PromoCodeController::class, 'status'])->name('back.code.status');
             Route::resource('code', PromoCodeController::class)->except(['show'])->names('back.code');
 
             Route::get('code/restore/{id}', [PromoCodeController::class, 'restore'])->name('back.code.restore');
@@ -647,7 +648,7 @@ Route::group(['middleware' => 'maintainance'], function () {
 
 
         //new reoutes
-                //new reoutes
+        //new reoutes
         Route::get('products/featured', [FrontendController::class, 'featuredProduct'])->name('front.featured.products');
         Route::get('products/newarrival', [FrontendController::class, 'newArrivalProduct'])->name('front.new.products');
         Route::get('products/top-sell', [FrontendController::class, 'topSellProduct'])->name('front.top-sell.products');

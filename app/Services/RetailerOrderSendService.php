@@ -182,7 +182,7 @@ class RetailerOrderSendService
             "order_tax" => "0.00",
             "grand_total" => $totalPrice + $request->shipping_cost,
             "used_points" => null,
-            "coupon_discount" => null,
+            "coupon_discount" => $request->coupon_discount,
             "sale_status" => "2",
             "coupon_active" => null,
             "coupon_id" => null,

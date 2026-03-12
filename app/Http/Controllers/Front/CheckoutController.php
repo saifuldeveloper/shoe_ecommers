@@ -319,9 +319,10 @@ class CheckoutController extends Controller
         $discount = [];
         if (Session::has('coupon')) {
             $discount = Session::get('coupon');
+
         }
 
-
+    
 
         $grand_total = ($cart_total + $total_tax);
         $grand_total = $grand_total - ($discount ? $discount['discount'] : 0);

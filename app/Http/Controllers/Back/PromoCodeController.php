@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\Back;
 
-use App\{
-    Models\PromoCode,
-    Http\Requests\PromoCodeRequest,
-    Http\Controllers\Controller
-};
+use App\{Models\PromoCode, Http\Requests\PromoCodeRequest, Http\Controllers\Controller};
 use App\Models\Currency;
+use Illuminate\Http\Request;
+
 
 class PromoCodeController extends Controller
 {
@@ -82,12 +80,18 @@ class PromoCodeController extends Controller
      * @param  int  $pos
      * @return \Illuminate\Http\Response
      */
-    public function status($id, $status)
+    public function status(Request $request, $id)
     {
-        PromoCode::find($id)->update(['status' => $status]);
-        return redirect()->route('back.code.index')->withSuccess(__('Status Updated Successfully.'));
-    }
 
+        $request->validate([
+            'status' => 'required|in:active,inactive'
+        ]);
+        $promo = PromoCode::findOrFail($id);
+        $promo->update([
+            'status' => $request->status
+        ]);
+        return back()->withSuccess(__('Status Updated Successfully.'));
+    }
     /**
      * Update the specified resource in storage.
      *

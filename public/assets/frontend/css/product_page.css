@@ -1,0 +1,136 @@
+/* Drawer Base Styles */
+.filter-drawer {
+    position: fixed;
+    top: 0;
+    left: -300px;
+    /* শুরুতে বামে লুকিয়ে থাকবে */
+    width: 300px;
+    height: 100%;
+    background: #fff;
+    z-index: 1050;
+    transition: 0.3s ease-in-out;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    padding: 20px;
+}
+
+/* যখন মেনু ওপেন হবে */
+.filter-drawer.active {
+    left: 0;
+}
+
+/* Drawer Header */
+.drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.close-drawer {
+    font-size: 30px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* Overlay */
+.drawer-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 1040;
+}
+
+.drawer-overlay.active {
+    display: block;
+}
+
+@media (min-width: 768px) {
+    .filter-drawer,
+    .drawer-overlay,
+    #openFilterBtn {
+        display: none !important;
+    }
+}
+
+.filter-left-sidebar {
+    float: left;
+    width: 40%;
+    margin-right: 7px;
+}
+
+.ps-pagination .pagination li.disabled span {
+    display: inline-block;
+    padding: 10px 15px; /* Adjust to match your theme */
+    color: #ccc; /* Grey out the icon */
+    cursor: not-allowed;
+    border: 1px solid #ddd; /* Match your existing border */
+    background-color: #f9f9f9;
+}
+
+/* Optional: Keep the icon centered */
+.ps-pagination .pagination li.disabled span i {
+    line-height: 1;
+}
+
+/* Selected item highlight */
+.sub-category-item.current a,
+.brand-item.current a {
+    color: #f59b34 !important;
+    font-weight: bold;
+}
+
+.size-item {
+    cursor: pointer;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-align: center;
+    transition: all 0.2s;
+}
+
+.size-item:hover {
+    background-color: #f0f0f0;
+}
+
+.size-item.current {
+    background-color: #f59b34;
+    color: #fff;
+    border-color: #f59b34;
+}
+
+/* Color selection */
+.ps-list--color li {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    margin: 3px;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.ps-list--color li a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.color-item.current {
+    border-color: #f59b34;
+    /* Highlight border for selected color */
+}
+
+.color-item.current {
+    border-color: #f59b34;
+    box-shadow: 3px 2px 1px 7px #f59b34;
+}
