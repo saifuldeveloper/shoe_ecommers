@@ -274,6 +274,14 @@
                         box.innerHTML = '';
                         messages.forEach(m => appendAdminMessage(m));
                     });
+// Badge reset logic
+        const badge = document.getElementById('chat-badge');
+        if (badge) {
+            badge.innerText = 0;
+            badge.style.display = 'none';
+        }
+
+
             });
         }
 

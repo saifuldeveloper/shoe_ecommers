@@ -11,64 +11,22 @@ let pusherInitialized = false;
 
 /* ================== HELPERS ================== */
 const qs = (id) => document.getElementById(id);
-/* ================== CHAT TOGGLE ================== */
-// window.toggleChat = function () {
-//     const box = qs("chatBox");
-//     if (!box) return;
-//     // const isOpen = box.style.display === "block";
-//     // box.style.display = isOpen ? "none" : "block";
+let pusherScriptLoaded = false;
 
-//     // if (!isOpen) {
-//     //     openApexChat();
-//     // }
-
-//     box.style.display = box.style.display === "block" ? "none" : "block";
-// };
-
-/* ================== CHAT TOGGLE (DYNAMIC LOADING) ================== */
-/* ================== STEP 1: toggleChat ================== */
-// এই ফাংশনটি শুধু চ্যাট বক্সের কন্টেইনার দেখাবে এবং Pusher লোড করবে
-// window.toggleChat = function () {
-//     const box = qs("chatBox");
-//     if (!box) return;
-
-//     if (box.style.display !== "block") {
-//         // Pusher লোড করা না থাকলে লোড করো
-//         if (typeof Pusher === 'undefined') {
-//             const script = document.createElement('script');
-//             script.src = "https://js.pusher.com/8.4.0/pusher.min.js";
-//             script.onload = () => {
-//                 console.log("✅ Pusher Ready.");
-//                 box.style.display = "block";
-//             };
-//             document.head.appendChild(script);
-//         } else {
-//             box.style.display = "block";
-//         }
-//     } else {
-//         box.style.display = "none";
-//     }
-// };
-
+/* ================== HELPERS ================== */
 window.toggleChat = function () {
     const box = qs("chatBox");
-    const form = qs("apexUserForm");
-
     if (!box) return;
-
-    // always hide apex form when toggling chat box
-    if (form) form.style.display = "none";
-
-    // toggle chat box only
     box.style.display = box.style.display === "block" ? "none" : "block";
-
-    // load pusher once (optional)
-    if (!pusherInitialized && typeof Pusher === "undefined") {
+    // script load check
+    if (!pusherScriptLoaded && typeof Pusher === "undefined") {
         const script = document.createElement("script");
         script.src = "https://js.pusher.com/8.4.0/pusher.min.js";
         script.onload = () => {
-            console.log("✅ Pusher Ready");
-            pusherInitialized = true;
+            console.log("✅ Pusher Library Loaded");
+            pusherScriptLoaded = true;
+            // There is already a session, but connect immediately.
+            if (apexUser.session_id) initUserPusher(apexUser.session_id);
         };
         document.head.appendChild(script);
     }
@@ -173,12 +131,13 @@ window.sendApexMessage = function () {
 
     input.value = "";
 };
-
 /* ================== PUSHER INIT ================== */
 function initUserPusher(sessionId) {
-    if (!sessionId || pusherInitialized) return;
+    // Remove or separate the pusherInitialized check here
+    if (!sessionId || typeof Pusher === "undefined") return;
 
-    pusherInitialized = true;
+    // If already connected, no need to reconnect.
+    if (pusher) return;
 
     pusher = new Pusher("ded5c592779f6c1c07f2", {
         cluster: "ap2",
@@ -186,12 +145,19 @@ function initUserPusher(sessionId) {
     });
 
     const channelName = "chat-session-" + sessionId;
-
     chatChannel = pusher.subscribe(channelName);
-    console.log("📡 Subscribed:", channelName);
 
-    chatChannel.bind("message.sent", handleIncoming);
-    chatChannel.bind(".message.sent", handleIncoming);
+    console.log("📡 Subscribing to:", channelName);
+
+    // this if or debug log
+    chatChannel.bind("subscription_succeeded", () => {
+        console.log("⚡ Connection Established Successfully!");
+    });
+
+    chatChannel.bind("message.sent", (data) => {
+        console.log("📩 New Event Received:", data);
+        handleIncoming(data);
+    });
 }
 
 /* ================== HANDLE INCOMING ================== */

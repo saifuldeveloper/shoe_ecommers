@@ -224,12 +224,27 @@
 
 
 
-    <li class="nav-item">
+    {{-- <li class="nav-item">
         <a href="{{ route('back.sessions') }}">
             <i class="fas fa-comments"></i>
             <p>{{ __('Chat') }}</p>
+            <span id="chat-badge" class="badge badge-danger" style="display: none; position: absolute; top: 0; right: 10px; border-radius: 50%; font-size: 10px;">
+            0
+        </span>
         </a>
-    </li>
+    </li> --}}
+
+    <li class="nav-item">
+    <a href="{{ route('back.sessions') }}" style="position: relative;">
+        <i class="fas fa-comments"></i>
+        <p>{{ __('Chat') }}</p>
+        
+        <span id="chat-badge" class="badge badge-danger" 
+              style="display: none; position: absolute; top: 5px; right: 20px; border-radius: 50%; background: red; color: white; padding: 2px 6px; font-size: 10px;">
+            0
+        </span>
+    </a>
+</li>
 
 
 

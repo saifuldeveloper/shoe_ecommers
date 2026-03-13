@@ -90,8 +90,6 @@
                 left: 0;
                 z-index: 9999;
             }
-
-            /* লোগো এবং আইকন যেন দ্রুত দেখা যায় */
             .navigation__column.left,
             .navigation__column.right {
                 visibility: visible !important;
@@ -117,7 +115,6 @@
     <!-- jQuery -->
     <script>
         (function() {
-            // পেজ পুরোপুরি লোড হওয়ার আগেই ক্লিক ইভেন্ট সেট করা
             var toggle = document.querySelector('.menu-toggle');
             var nav = document.querySelector('.navigation__column.center');
 

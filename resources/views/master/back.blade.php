@@ -242,6 +242,36 @@
     @yield('scripts')
     <script src="{{ asset('assets/back/js/custom.js') }}"></script>
 
+    <script src="https://js.pusher.com/8.4.0/pusher.min.js"></script>
+    <script>
+        const pusher = new Pusher('ded5c592779f6c1c07f2', {
+            cluster: 'ap2',
+            forceTLS: true
+        });
+        // 2. Subscribe to the channel now
+        const adminGlobalChannel = pusher.subscribe('admin-chat-channel');
+
+       // 3. Listen to events
+        adminGlobalChannel.bind('message.sent', function(data) {
+            console.log("📩 গ্লোবাল ইভেন্ট রিসিভ হয়েছে:", data);
+
+            const badge = document.getElementById('chat-badge');
+            if (badge) {
+             // Count update
+                let currentCount = parseInt(badge.innerText) || 0;
+                badge.innerText = currentCount + 1;
+                badge.style.display = 'inline-block';
+               // Visual indicator in the sidebar (if that session is in the list)
+                const sessionItem = document.querySelector(`.session-item[data-id="${data.session_id}"]`);
+                if (sessionItem) {
+                    sessionItem.classList.add('border-warning');
+                    const dot = sessionItem.querySelector('.active-dot');
+                    if (dot) dot.classList.remove('d-none');
+                }
+            }
+        });
+    </script>
+
 </body>
 
 </html>
